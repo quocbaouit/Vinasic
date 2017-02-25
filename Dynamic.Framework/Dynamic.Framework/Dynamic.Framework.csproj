@@ -31,20 +31,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac">
-      <HintPath>D:\QuocBao\VINASIC\VINASIC.Framework\bin\Debug\Autofac.dll</HintPath>
+      <HintPath>..\..\lib\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Configuration">
-      <HintPath>D:\QuocBao\VINASIC\VINASIC.Framework\bin\Debug\Autofac.Configuration.dll</HintPath>
+      <HintPath>..\..\lib\Autofac.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Integration.Mvc">
-      <HintPath>D:\QuocBao\VINASIC\VINASIC.Framework\bin\Debug\Autofac.Integration.Mvc.dll</HintPath>
+      <HintPath>..\..\lib\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
-      <HintPath>D:\QuocBao\VINASIC\VINASIC.Framework\bin\Debug\EntityFramework.dll</HintPath>
+      <HintPath>..\..\lib\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="LinqKit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
-      <HintPath>..\..\Dynamic.Account\packages\LinqKit.1.0\lib\35\LinqKit.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="LinqKit">
+      <HintPath>..\..\lib\LinqKit.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -52,8 +51,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\..\lib\System.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />

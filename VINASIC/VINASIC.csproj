@@ -78,9 +78,8 @@
     <Reference Include="EPPlus">
       <HintPath>..\packages\EPPlus.dll</HintPath>
     </Reference>
-    <Reference Include="GPRO.Ultilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\ABao\VINASIC\VINASIC\bin\GPRO.Ultilities.dll</HintPath>
+    <Reference Include="GPRO.Ultilities">
+      <HintPath>..\lib\GPRO.Ultilities.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -116,7 +115,7 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="PagedList">
-      <HintPath>E:\GPRO\IEDNew\trunk\SourceCode\IED\Library\PagedList.dll</HintPath>
+      <HintPath>..\lib\PagedList.dll</HintPath>
     </Reference>
     <Reference Include="Quartz, Version=2.4.1.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
       <HintPath>..\packages\Quartz.2.4.1\lib\net40\Quartz.dll</HintPath>
