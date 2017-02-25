@@ -1,0 +1,171 @@
+﻿.col_left, .col-right {
+    float: left;
+    width: 49%;
+}
+
+.col-right {
+    float: right;
+}
+
+    .col_left label,
+    .col-right label,
+    .col_left input,
+    .col-right input,
+    .col_left textarea,
+    .col-right textarea {
+        width: 90%;
+    }
+
+    .col_left select,
+    .col-right select {
+        width: auto;
+    }
+
+    .col_left input[type="checkbox"],
+    .col-right input[type="checkbox"],
+    .col_left input[type="radio"],
+    .col-right input[type="radio"] {
+        width: 20px;
+    }
+
+    .col_left input[type="radio"],
+    .col-right input[type="radio"] {
+        margin: 0 !important;
+    }
+
+#picture {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    float: left;
+    margin-right: 10px;
+    text-align: center;
+}
+
+#uploadFile {
+    padding-top: 11px;
+}
+
+.image-upload {
+    float: left;
+    margin: 95px 0 10px -110px;
+    padding: 0;
+}
+
+#uploadFile button {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    padding: 4px;
+    border-radius: 5px;
+    min-width: 170px;
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #006dcc;
+    background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0044cc));
+    background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
+    background-image: -o-linear-gradient(top, #0088cc, #0044cc);
+    background-image: linear-gradient(to bottom, #0088cc, #0044cc);
+    background-repeat: repeat-x;
+    border-color: #0044cc #0044cc #002a80;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    padding: 4px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    outline: none;
+}
+
+.upload {
+    width: 80%;
+    float: right;
+    margin-top: 12px;
+}
+
+#dropDownButton {
+    background-color: #fff !important;
+    border-color: #ccc !important;
+    color: blue;
+}
+
+@media (max-width:605px) {
+    .rows {
+        margin: 0 !important;
+    }
+
+    .col_left,
+    .col-right {
+        float: none;
+        width: 100%;
+    }
+
+        .col_left label,
+        .col-right label {
+            width: 35%;
+            text-align: right;
+            float: left;
+            padding-right: 10px;
+            line-height: 30px;
+        }
+
+        .col_left input,
+        .col-right input,
+        .col_left textarea,
+        .col-right textarea {
+            width: 49%;
+            text-align: left;
+        }
+
+
+        .col_left select,
+        .col-right select {
+            width: auto;
+        }
+
+    .upload {
+        width: 50%;
+    }
+
+    .col_left input[type="checkbox"],
+    .col-right input[type="checkbox"],
+    .col_left input[type="radio"],
+    .col-right input[type="radio"] {
+        width: 30px;
+    } 
+
+    .col_left .checkbox-text,
+    .col-right .checkbox-text {
+        line-height: 30px;
+    }
+}
+
+
+@media (max-width: 605px) {
+    .container-fluid .rows label,
+    .container-fluid .col-left label {
+        text-align: left;
+        float: none;
+        width: 100%;
+    }
+
+    .container-fluid .rows select,
+    .container-fluid .rows select {
+        width: auto !important;
+    }
+
+    .container-fluid .rows textarea,
+    .container-fluid .rows input[type="text"],
+    .container-fluid .rows input[type="password"],
+    .container-fluid .rows .chosen-container {
+        width: 95% !important;
+    }
+
+    .upload {
+        width: 80%;
+    }
+}

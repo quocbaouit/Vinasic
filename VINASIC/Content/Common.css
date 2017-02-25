@@ -1,0 +1,74 @@
+.required-class {
+    color: red !important;
+    font-size: 18px !important;
+    font-weight: bold !important;
+}
+
+.itemicon {
+    width: 24px !important;
+    height: 24px !important;
+}
+
+.bold {
+    font-weight: bold !important;
+}
+
+.blue {
+    color: blue !important;
+    text-transform:capitalize !important;
+}
+
+.red {
+    color: red !important;
+    text-transform:capitalize !important;
+}
+
+/*jtable-css*/
+.Jtable-css table tr td table thead,
+.Jtable-css table tr td .jtable-bottom-panel,
+.Jtable-css table tr td .jtable-page-list .jtable-page-number,
+.Jtable-css table tr td .jtable-page-list .jtable-page-number-space,
+.Jtable-css table tr td .jtable-page-list .jtable-page-number-first,
+.Jtable-css table tr td .jtable-page-list .jtable-page-number-last,
+.Jtable-css table tr td .jtable-page-list .jtable-page-number-previous,
+.Jtable-css table tr td .jtable-page-list .jtable-page-number-next,
+.Jtable-css table tr td .jtable-page-list .jtable-page-number-active {
+    background-color: darkblue !important;
+}
+
+.Jtable-css table tr td .jtable-toolbar-item {
+background-color:navy  !important;
+}
+.align-center table tr td   {
+text-align: center !important; 
+}
+
+/*td - textalign =-> center*/
+
+.Jtable-css table tr td .jtable-toolbar-item {
+background-color:navy  !important;
+}
+
+
+/*scollbar css*/
+::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: rgba(255,0,0,0.8); 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+::-webkit-scrollbar-thumb:window-inactive {
+	background: rgba(255,0,0,0.4); 
+}  

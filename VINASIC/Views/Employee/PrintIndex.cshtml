@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/VINASIC/Employee/Print_Index.js"></script>
+<div class="row">
+    <div class="col-lg-12">
+        <h3 style="background-color: #faf9f8" class="page-header">
+            <img style="width: 200px" src="~/Files/logovinasic.png" />
+        </h3>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="/DashBoard/Index">Home</a></li>
+            <li><i class="fa fa-laptop"></i>In Ấn</li>
+        </ol>
+    </div>
+</div>
+<div style="margin-bottom: 15px;" class="row">
+    <div class="form-group">
+        <div class="col-md-2 col-sm-4 col-xs-12">
+            <label for="datefrom">Từ Ngày</label>
+            <input type="date" class="form-control" name="datefrom" value="" id="datefrom" />
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-12">
+            <label for="dateto">Đến Ngày</label>
+            <input type="date" class="form-control" name="dateto" value="" id="dateto" />
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-12">
+            <label for="cemployee1">Nhân Viên Kinh Doanh</label>
+            <select id="cemployee1" class="form-control">
+                <option value="0">Nhân Viên Kinh Doanh </option>
+            </select>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-12">
+            <label for="keyword">Từ Khóa</label>
+            <input type="text" class="form-control" id="keyword" placeholder="">
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-12">
+            <a id="search" style="margin-top: 25px" class="btn btn-primary" href="javascript:void(0)" title="Bootstrap 3 themes generator"><span class="icon_lightbulb_alt"></span>Tìm Kiếm</a>
+        </div>
+    </div>
+</div>
+<div id="jtablePrint"></div>
+<!-- Modal -->

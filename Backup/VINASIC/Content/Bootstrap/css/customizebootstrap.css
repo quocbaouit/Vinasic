@@ -1,0 +1,60 @@
+﻿.modalsmall {
+    width:270px;
+    left:60%;
+}
+
+select, 
+textarea, 
+input[type="text"], 
+input[type="password"], 
+input[type="datetime"], 
+input[type="datetime-local"], 
+input[type="date"], 
+input[type="month"], 
+input[type="time"], 
+input[type="week"], 
+input[type="number"], 
+input[type="email"], 
+input[type="url"], 
+input[type="search"], 
+input[type="tel"], 
+input[type="color"], 
+.uneditable-input {
+    color:blue;
+}
+
+
+
+
+@media (max-width: 767px) {
+    .modalsmall {
+    width:270px;
+    left: 34%;
+    }
+}
+
+@media (max-width: 600px) {    
+    .modalsmall {
+    width:300px;
+    left: 20%;
+    }
+}
+
+@media (max-width: 480px) {    
+    .modalsmall {
+    width:300px;
+    left: 10%;
+    }
+}
+
+@media (max-width: 350px) {    
+    .modalsmall {
+    width:auto;
+    left: 10px;
+    }
+}
+
+input[type="number"] {
+    width:50px
+}
+

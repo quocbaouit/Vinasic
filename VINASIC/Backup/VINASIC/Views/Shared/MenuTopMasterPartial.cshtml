@@ -1,0 +1,83 @@
+﻿@*@model List<SystemAccount.Bussiness.Interface.Model.ModelMenuCategory>
+@using SystemAccount.Bussiness.Interface.Model;
+@{
+    string checkCategoryName = string.Empty ;
+    string[] arrClass = { "", "sub-nav-1", "sub-nav-2", "sub-nav-3" };
+    string[] width = { "", "suv-nav-width-1", "suv-nav-width-2", "suv-nav-width-3" };
+    float sodong = 5;
+    float column = 0;
+    List<ModelMenuCategory> listMenuCategory = Model;    
+  }*@
+
+<div class="navbar " style="margin:0">
+    <div class="navbar-inner custom-inner" style="min-height:35px ; height:35px">
+        <div class="container">
+            <div id="button-menu-left" btn="close-left"   title="Ẩn Menu Trái." data-toggle="tooltip" data-placement="bottom"></div>
+                        
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".RightMenu">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>  
+                        
+            <div class="nav-collapse collapse RightMenu">
+                @*<ul class="nav navbar-nav navigation">*@
+                  @*  @if (Model != null)
+                    {
+                        for (int ngang = 0; ngang < listMenuCategory.Count; ngang++)
+                        {                             
+                            <li>
+                                <a href="@listMenuCategory[ngang].Link">@listMenuCategory[ngang].Category</a>
+                               @{ 
+                                    var menus = listMenuCategory[ngang].listMenu;
+                                    if (menus!=null &&  menus.Count > 0)
+                                    {
+                                        int kt = (menus.Count / (int)sodong);
+                                        column = ((float)menus.Count / sodong);
+                                        column = (menus.Count > sodong ? ((float)kt == column ? kt : (kt + 1)) : 1);
+                                        int index = column > 3 ? 3 : (int)column;
+                                        if (menus.Count <= sodong)
+                                        {
+                                            <ul class="sub-nav @( ngang > 3 ? @arrClass[index]:"") @width[index]">
+                                                <li>
+                                                    <ul>
+                                                        @for (int doc = 0; doc < menus.Count; doc++)
+                                                        {
+                                                            <li style="float:none"><a href="@menus[doc].Link">@menus[doc].MenuName</a></li>
+                                                        }
+                                                    </ul>
+                                                </li>                              
+                                            </ul>
+                                        }
+                                        else{
+                                            <ul class="sub-nav @( ngang > 2 ? @arrClass[index]:"") @width[index]">
+                                                @for (int ngangS = 0; ngangS < column; ngangS++)
+                                                {                                                    
+                                                    <li style="@(ngangS == 2?"border-right:none":"")">
+                                                        <ul>
+                                                            @for (int doc = 0; doc < menus.Count; doc++)
+                                                            {
+                                                                int vt =((ngangS * (int)sodong) + doc);
+                                                                if (menus.Count > vt && doc < (int)sodong)
+                                                                {
+                                                                    <li style="float:none"><a href="@menus[vt].Link">@menus[vt].MenuName</a></li>
+                                                                }
+                                                                else{
+                                                                    break;
+                                                                }                                                                
+                                                            }
+                                                        </ul>
+                                                    </li>
+                                                }                                                                              
+                                            </ul>
+                                        } 
+                                    }  
+                                }  *@
+       @*                    </li>
+                        }                     
+                    }                            
+              </ul>*@
+            </div>  
+        </div>
+    </div>
+</div>

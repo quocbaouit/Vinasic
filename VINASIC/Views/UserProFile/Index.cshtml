@@ -1,0 +1,236 @@
+﻿@using VINASIC.App_Global;
+@{
+    ViewBag.Title = "Index";
+}
+@using VINASIC.Object;
+@using VINASIC.App_Global
+@using VINASIC.Business.Interface.Model
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ModelUser User = null;
+    if (ViewData["User"] != null && (ViewData["User"] as ModelUser) != null)
+    {
+        User = ViewData["User"] as ModelUser;
+    }
+}
+<script src="~/Scripts/VINASIC/User/UserInfo.js"></script>
+<input type="hidden" id="userId" value="@User.Id"/>
+<div class="row">
+    <div class="col-lg-12">
+        <h3 style="background-color: #faf9f8" class="page-header">
+            <img style="width: 200px" src="~/Files/logovinasic.png" />
+        </h3>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="Dashboard/index">Home</a></li>
+            <li><i class="fa fa-user-md"></i>Profile</li>
+        </ol>
+    </div>
+</div>
+<!-- page start-->
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading tab-bg-info">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a data-toggle="tab" href="#profile">
+                            <i class="icon-user"></i>
+                            Thông Tin Cá Nhân
+                        </a>
+                    </li>
+                    <li class="">
+                        <a data-toggle="tab" href="#edit-profile">
+                            <i class="icon-envelope"></i>
+                            Chỉnh Sửa Thông Tin Cá Nhân
+                        </a>
+                    </li>
+                    <li class="">
+                        <a data-toggle="tab" href="#edit-profile1">
+                            <i class="icon-envelope"></i>
+                            Đổi Tên Đang Nhập
+                        </a>
+                    </li>
+                    <li class="">
+                        <a data-toggle="tab" href="#edit-profile2">
+                            <i class="icon-envelope"></i>
+                            Đổi mật Khẩu
+                        </a>
+                    </li>
+                </ul>
+            </header>
+            <div class="panel-body">
+                <div class="tab-content">
+
+                    <!-- profile -->
+                    <div id="profile" class="tab-pane active">
+                        <section class="panel">
+                            <div class="bio-graph-heading">
+                                Xin chào @User.LastName, Bạn Có Thể xem lại thông tin cá nhân tại mục thông tin cá nhân và thay đổi thông tin tài khoản tại chỉnh sửa tài khoản.
+                            </div>
+                            <div class="panel-body bio-graph-info">
+                                <h1>Thông tin cá nhân</h1>
+                                <div class="row">
+                                    <div class="bio-row">
+                                        <p>
+                                            <span>Họ </span>: @User.FisrtName
+                                        </p>
+                                    </div>
+                                    <div class="bio-row">
+                                        <p><span>Tên </span>: @User.LastName</p>
+                                    </div>
+                                    <div class="bio-row">
+                                        <p><span>Ngày Vào Làm</span>: @User.HireDate</p>
+                                    </div>
+                                    <div class="bio-row">
+                                        <p>
+                                            <span>Country </span>: Việt Nam
+                                        </p>
+                                    </div>
+                                    <div class="bio-row">
+                                        <p><span>Địa Chỉ </span>: @User.Address</p>
+                                    </div>
+                                    <div class="bio-row">
+                                        <p><span>Email </span>:@User.Email</p>
+                                    </div>
+                                    <div class="bio-row">
+                                        <p><span>Số Điện Thoại </span>: @User.Mobile</p>
+                                    </div>
+                                    <div class="bio-row">
+                                        <p><span>Chức Vụ </span>: @User.Position</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <!-- edit-profile -->
+                    <div id="edit-profile" class="tab-pane">
+                        <section class="panel">
+                            <div class="panel-body bio-graph-info">
+                                <h1>Profile Info</h1>
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Họ</label>
+                                        <div class="col-lg-6">
+                                            <input type="text" value="@User.FisrtName" class="form-control" id="f-name" placeholder=" ">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Tên</label>
+                                        <div class="col-lg-6">
+                                            <input type="text" value="@User.LastName" class="form-control" id="l-name" placeholder=" ">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Email</label>
+                                        <div class="col-lg-6">
+                                            <input type="text"value="@User.Email" class="form-control" id="email" placeholder=" ">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Số Điện Thoại</label>
+                                        <div class="col-lg-6">
+                                            <input type="text" value="@User.Mobile" class="form-control" id="mobile" placeholder=" ">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-offset-2 col-lg-10">
+                                            <button type="button" savegernaral  class="btn btn-primary">Save</button>
+                                            <button type="button" class="btn btn-danger">Cancel</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+                    </div>
+                    <!-- edit-profile -->
+                    <div id="edit-profile1" class="tab-pane">
+                        <section class="panel">
+                            <div class="panel-body bio-graph-info">
+                                <h1>Đổi Tên Đăng Nhập</h1>
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Tên Đăng Nhập Cũ</label>
+                                        <div class="col-lg-6">
+                                            <input type="text" class="form-control" id="f-olduser" placeholder=" ">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Tên Đăng Nhập Mới</label>
+                                        <div class="col-lg-6">
+                                            <input type="text"  class="form-control" id="l-newname" placeholder=" ">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Xác Nhận Tên Mới</label>
+                                        <div class="col-lg-6">
+                                            <input type="text"  class="form-control" id="l-comfirmname" placeholder=" ">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Mật Khẩu</label>
+                                        <div class="col-lg-6">
+                                            <input type="password"  class="form-control" id="l-password" placeholder=" ">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-offset-2 col-lg-10">
+                                            <button type="button" saveusername  class="btn btn-primary">Save</button>
+                                            <button type="button" class="btn btn-danger">Cancel</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+                    </div>
+                    <div id="edit-profile2" class="tab-pane">
+                        <section class="panel">
+                            <div class="panel-body bio-graph-info">
+                                <h1>Đổi Mật Khẩu</h1>
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Mật Khẩu Cũ</label>
+                                        <div class="col-lg-6">
+                                            <input type="password"  class="form-control" id="f-oldpassword" placeholder=" ">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Mật Khẩu Mới</label>
+                                        <div class="col-lg-6">
+                                            <input type="password"  class="form-control" id="l-newpassword" placeholder=" ">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-lg-2 control-label">Xác Nhận Mật Khẩu Mới</label>
+                                        <div class="col-lg-6">
+                                            <input type="password" class="form-control" id="c-comfirmpassword" placeholder=" ">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-offset-2 col-lg-10">
+                                            <button type="button" savepassword  class="btn btn-primary">Save</button>
+                                            <button type="button" class="btn btn-danger">Cancel</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!-- javascripts -->
+<script src="~/js/jquery.js"></script>
+<script src="~/js/bootstrap.min.js"></script>
+<!-- nice scroll -->
+<script src="~/js/jquery.scrollTo.min.js"></script>
+<script src="~/js/jquery.nicescroll.js" type="text/javascript"></script>
+<!-- gritter -->
+
+<!-- custom gritter script for this page only-->
+<script src="~/js/gritter.js" type="text/javascript"></script>
+<!--custome script for all page-->
+@*<script src="~/js/scripts.js"></script>*@
+
+

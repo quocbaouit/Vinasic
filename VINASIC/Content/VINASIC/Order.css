@@ -1,0 +1,41 @@
+﻿.float-ck {
+    position: fixed;
+    bottom: 0px;
+    z-index: 9000;
+}
+
+* html .float-ck {
+    position: absolute;
+    bottom: auto;
+    top: expression(eval (document.documentElement.scrollTop+document.docum entElement.clientHeight-this.offsetHeight-(parseInt(this.currentStyle.marginTop,10)||0)-(parseInt(this.currentStyle.marginBottom,10)||0)));
+}
+
+#float_content_right {
+    border: 1px solid #01AEF0;
+}
+
+#hide_float_right {
+    text-align: right;
+    font-size: 11px;
+}
+
+    #hide_float_right a {
+        background: blue;
+        padding: 5px 4px;
+        color: #FFF;
+        font-size: 15px;
+    }
+
+#float_content_right table, th, td {
+    border: 1px solid darkgray;
+    border-collapse: collapse;
+}
+
+#float_content_right th, td {
+    padding: 5px;
+}
+
+.tinput {
+    margin-bottom: 0px;
+    height: 10px;
+}

@@ -1,0 +1,1301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="VINASICModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="VINASICEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="T__Remind" EntityType="VINASICModel.T__Remind" />
+    <EntitySet Name="T_CommodityDictionary" EntityType="VINASICModel.T_CommodityDictionary" />
+    <EntitySet Name="T_Customer" EntityType="VINASICModel.T_Customer" />
+    <EntitySet Name="T_ErrorLog" EntityType="VINASICModel.T_ErrorLog" />
+    <EntitySet Name="T_Feature" EntityType="VINASICModel.T_Feature" />
+    <EntitySet Name="T_Machine" EntityType="VINASICModel.T_Machine" />
+    <EntitySet Name="T_Material" EntityType="VINASICModel.T_Material" />
+    <EntitySet Name="T_MaterialType" EntityType="VINASICModel.T_MaterialType" />
+    <EntitySet Name="T_Menu" EntityType="VINASICModel.T_Menu" />
+    <EntitySet Name="T_MenuCategory" EntityType="VINASICModel.T_MenuCategory" />
+    <EntitySet Name="T_Notification" EntityType="VINASICModel.T_Notification" />
+    <EntitySet Name="T_Order" EntityType="VINASICModel.T_Order" />
+    <EntitySet Name="T_Organization" EntityType="VINASICModel.T_Organization" />
+    <EntitySet Name="T_Partner" EntityType="VINASICModel.T_Partner" />
+    <EntitySet Name="T_PaymentVoucher" EntityType="VINASICModel.T_PaymentVoucher" />
+    <EntitySet Name="T_Permission" EntityType="VINASICModel.T_Permission" />
+    <EntitySet Name="T_Position" EntityType="VINASICModel.T_Position" />
+    <EntitySet Name="T_Product" EntityType="VINASICModel.T_Product" />
+    <EntitySet Name="T_ProductType" EntityType="VINASICModel.T_ProductType" />
+    <EntitySet Name="T_Quittance" EntityType="VINASICModel.T_Quittance" />
+    <EntitySet Name="T_ReceiptVoucher" EntityType="VINASICModel.T_ReceiptVoucher" />
+    <EntitySet Name="T_RoLe" EntityType="VINASICModel.T_RoLe" />
+    <EntitySet Name="T_RolePermission" EntityType="VINASICModel.T_RolePermission" />
+    <EntitySet Name="T_Staff" EntityType="VINASICModel.T_Staff" />
+    <EntitySet Name="T_StockIn" EntityType="VINASICModel.T_StockIn" />
+    <EntitySet Name="T_StockInDetail" EntityType="VINASICModel.T_StockInDetail" />
+    <EntitySet Name="T_User" EntityType="VINASICModel.T_User" />
+    <EntitySet Name="T_UserRole" EntityType="VINASICModel.T_UserRole" />
+    <AssociationSet Name="FK__T_Order__Custome__2A164134" Association="VINASICModel.FK__T_Order__Custome__2A164134">
+      <End Role="T_Customer" EntitySet="T_Customer" />
+      <End Role="T_Order" EntitySet="T_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_Quittan__Custo__395884C4" Association="VINASICModel.FK__T_Quittan__Custo__395884C4">
+      <End Role="T_Customer" EntitySet="T_Customer" />
+      <End Role="T_Quittance" EntitySet="T_Quittance" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_Receipt__Custo__3D2915A8" Association="VINASICModel.FK__T_Receipt__Custo__3D2915A8">
+      <End Role="T_Customer" EntitySet="T_Customer" />
+      <End Role="T_ReceiptVoucher" EntitySet="T_ReceiptVoucher" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_Permiss__Featu__339FAB6E" Association="VINASICModel.FK__T_Permiss__Featu__339FAB6E">
+      <End Role="T_Feature" EntitySet="T_Feature" />
+      <End Role="T_Permission" EntitySet="T_Permission" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_RolePer__Featu__40F9A68C" Association="VINASICModel.FK__T_RolePer__Featu__40F9A68C">
+      <End Role="T_Feature" EntitySet="T_Feature" />
+      <End Role="T_RolePermission" EntitySet="T_RolePermission" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_Materia__Mater__245D67DE" Association="VINASICModel.FK__T_Materia__Mater__245D67DE">
+      <End Role="T_MaterialType" EntitySet="T_MaterialType" />
+      <End Role="T_Material" EntitySet="T_Material" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_StockIn__Mater__4E53A1AA" Association="VINASICModel.FK__T_StockIn__Mater__4E53A1AA">
+      <End Role="T_Material" EntitySet="T_Material" />
+      <End Role="T_StockInDetail" EntitySet="T_StockInDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_Menu__MenuCate__2645B050" Association="VINASICModel.FK__T_Menu__MenuCate__2645B050">
+      <End Role="T_MenuCategory" EntitySet="T_MenuCategory" />
+      <End Role="T_Menu" EntitySet="T_Menu" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_Order__Created__282DF8C2" Association="VINASICModel.FK__T_Order__Created__282DF8C2">
+      <End Role="T_User" EntitySet="T_User" />
+      <End Role="T_Order" EntitySet="T_Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_Quittan__Order__3B40CD36" Association="VINASICModel.FK__T_Quittan__Order__3B40CD36">
+      <End Role="T_Order" EntitySet="T_Order" />
+      <End Role="T_Quittance" EntitySet="T_Quittance" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_Receipt__Order__3F115E1A" Association="VINASICModel.FK__T_Receipt__Order__3F115E1A">
+      <End Role="T_Order" EntitySet="T_Order" />
+      <End Role="T_ReceiptVoucher" EntitySet="T_ReceiptVoucher" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_Positio__Organ__3587F3E0" Association="VINASICModel.FK__T_Positio__Organ__3587F3E0">
+      <End Role="T_Organization" EntitySet="T_Organization" />
+      <End Role="T_Position" EntitySet="T_Position" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_Staff__Organiz__46B27FE2" Association="VINASICModel.FK__T_Staff__Organiz__46B27FE2">
+      <End Role="T_Organization" EntitySet="T_Organization" />
+      <End Role="T_Staff" EntitySet="T_Staff" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_StockIn__Partn__4C6B5938" Association="VINASICModel.FK__T_StockIn__Partn__4C6B5938">
+      <End Role="T_Partner" EntitySet="T_Partner" />
+      <End Role="T_StockIn" EntitySet="T_StockIn" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_RolePer__Permi__42E1EEFE" Association="VINASICModel.FK__T_RolePer__Permi__42E1EEFE">
+      <End Role="T_Permission" EntitySet="T_Permission" />
+      <End Role="T_RolePermission" EntitySet="T_RolePermission" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_Staff__Positio__4A8310C6" Association="VINASICModel.FK__T_Staff__Positio__4A8310C6">
+      <End Role="T_Position" EntitySet="T_Position" />
+      <End Role="T_Staff" EntitySet="T_Staff" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_User__Position__540C7B00" Association="VINASICModel.FK__T_User__Position__540C7B00">
+      <End Role="T_Position" EntitySet="T_Position" />
+      <End Role="T_User" EntitySet="T_User" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_Product__Produ__37703C52" Association="VINASICModel.FK__T_Product__Produ__37703C52">
+      <End Role="T_ProductType" EntitySet="T_ProductType" />
+      <End Role="T_Product" EntitySet="T_Product" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_RolePer__RoleI__44CA3770" Association="VINASICModel.FK__T_RolePer__RoleI__44CA3770">
+      <End Role="T_RoLe" EntitySet="T_RoLe" />
+      <End Role="T_RolePermission" EntitySet="T_RolePermission" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_UserRol__RoleI__55F4C372" Association="VINASICModel.FK__T_UserRol__RoleI__55F4C372">
+      <End Role="T_RoLe" EntitySet="T_RoLe" />
+      <End Role="T_UserRole" EntitySet="T_UserRole" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_StockIn__Stock__5224328E" Association="VINASICModel.FK__T_StockIn__Stock__5224328E">
+      <End Role="T_StockIn" EntitySet="T_StockIn" />
+      <End Role="T_StockInDetail" EntitySet="T_StockInDetail" />
+    </AssociationSet>
+    <EntitySet Name="T_Timing" EntityType="VINASICModel.T_Timing" />
+    <EntitySet Name="T_OrderDetail" EntityType="VINASICModel.T_OrderDetail" />
+    <AssociationSet Name="FK__T_OrderDe__Order__19DFD96B" Association="VINASICModel.FK__T_OrderDe__Order__19DFD96B">
+      <End Role="T_Order" EntitySet="T_Order" />
+      <End Role="T_OrderDetail" EntitySet="T_OrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_OrderDe__Commo__17F790F9" Association="VINASICModel.FK__T_OrderDe__Commo__17F790F9">
+      <End Role="T_Product" EntitySet="T_Product" />
+      <End Role="T_OrderDetail" EntitySet="T_OrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_OrderDe__Desig__18EBB532" Association="VINASICModel.FK__T_OrderDe__Desig__18EBB532">
+      <End Role="T_User" EntitySet="T_User" />
+      <End Role="T_OrderDetail" EntitySet="T_OrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_OrderDe__Print__1AD3FDA4" Association="VINASICModel.FK__T_OrderDe__Print__1AD3FDA4">
+      <End Role="T_User" EntitySet="T_User" />
+      <End Role="T_OrderDetail" EntitySet="T_OrderDetail" />
+    </AssociationSet>
+    <EntitySet Name="T_UserProduct" EntityType="VINASICModel.T_UserProduct" />
+    <AssociationSet Name="FK__T_UserPro__Produ__3E1D39E1" Association="VINASICModel.FK__T_UserPro__Produ__3E1D39E1">
+      <End Role="T_Product" EntitySet="T_Product" />
+      <End Role="T_UserProduct" EntitySet="T_UserProduct" />
+    </AssociationSet>
+    <EntitySet Name="T_StandardSale" EntityType="VINASICModel.T_StandardSale" />
+    <EntitySet Name="T_ElementFormular" EntityType="VINASICModel.T_ElementFormular" />
+    <EntitySet Name="T_Formular" EntityType="VINASICModel.T_Formular" />
+    <EntitySet Name="T_FormularDetail" EntityType="VINASICModel.T_FormularDetail" />
+    <EntitySet Name="T_UserFormular" EntityType="VINASICModel.T_UserFormular" />
+    <AssociationSet Name="FK__T_Formula__Eleme__7D0E9093" Association="VINASICModel.FK__T_Formula__Eleme__7D0E9093">
+      <End Role="T_ElementFormular" EntitySet="T_ElementFormular" />
+      <End Role="T_FormularDetail" EntitySet="T_FormularDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_Formula__Formu__7C1A6C5A" Association="VINASICModel.FK__T_Formula__Formu__7C1A6C5A">
+      <End Role="T_Formular" EntitySet="T_Formular" />
+      <End Role="T_FormularDetail" EntitySet="T_FormularDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_UserFor__Formu__01D345B0" Association="VINASICModel.FK__T_UserFor__Formu__01D345B0">
+      <End Role="T_Formular" EntitySet="T_Formular" />
+      <End Role="T_UserFormular" EntitySet="T_UserFormular" />
+    </AssociationSet>
+    <AssociationSet Name="FK__T_UserFor__UserI__02C769E9" Association="VINASICModel.FK__T_UserFor__UserI__02C769E9">
+      <End Role="T_User" EntitySet="T_User" />
+      <End Role="T_UserFormular" EntitySet="T_UserFormular" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="T__Remind">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="RemaindForUser" Type="Int32" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IsComplete" Type="Boolean" Nullable="false" />
+    <Property Name="CompletedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsApproval" Type="Boolean" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="T_CommodityDictionary">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CommodityId" Type="Int32" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="T_Customer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="TaxCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="CompanyName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="T_Order" Relationship="VINASICModel.FK__T_Order__Custome__2A164134" FromRole="T_Customer" ToRole="T_Order" />
+    <NavigationProperty Name="T_Quittance" Relationship="VINASICModel.FK__T_Quittan__Custo__395884C4" FromRole="T_Customer" ToRole="T_Quittance" />
+    <NavigationProperty Name="T_ReceiptVoucher" Relationship="VINASICModel.FK__T_Receipt__Custo__3D2915A8" FromRole="T_Customer" ToRole="T_ReceiptVoucher" />
+  </EntityType>
+  <EntityType Name="T_ErrorLog">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyId" Type="Int32" Nullable="false" />
+    <Property Name="ModuleName" Type="String" Nullable="false" MaxLength="40" FixedLength="true" Unicode="true" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CreateUser" Type="Int32" Nullable="false" />
+    <Property Name="IsFix" Type="Boolean" Nullable="false" />
+    <Property Name="ErrorCaption" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ErrorClass" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ErrorMethod" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="StrackTrace" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IpError" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ActionError" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="TargetSite" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="T_Feature">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FeatureName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="SystemName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsSystem" Type="Boolean" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="IsDefault" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_Permission" Relationship="VINASICModel.FK__T_Permiss__Featu__339FAB6E" FromRole="T_Feature" ToRole="T_Permission" />
+    <NavigationProperty Name="T_RolePermission" Relationship="VINASICModel.FK__T_RolePer__Featu__40F9A68C" FromRole="T_Feature" ToRole="T_RolePermission" />
+  </EntityType>
+  <EntityType Name="T_Machine">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Tempo" Type="Double" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="T_Material">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Inventory" Type="Int32" Nullable="false" />
+    <Property Name="MaterialTypeId" Type="Int32" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_MaterialType" Relationship="VINASICModel.FK__T_Materia__Mater__245D67DE" FromRole="T_Material" ToRole="T_MaterialType" />
+    <NavigationProperty Name="T_StockInDetail" Relationship="VINASICModel.FK__T_StockIn__Mater__4E53A1AA" FromRole="T_Material" ToRole="T_StockInDetail" />
+  </EntityType>
+  <EntityType Name="T_MaterialType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_Material" Relationship="VINASICModel.FK__T_Materia__Mater__245D67DE" FromRole="T_MaterialType" ToRole="T_Material" />
+  </EntityType>
+  <EntityType Name="T_Menu">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MenuCategoryId" Type="Int32" Nullable="false" />
+    <Property Name="MenuName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="OrderIndex" Type="Int32" Nullable="false" />
+    <Property Name="Link" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="IsShow" Type="Boolean" Nullable="false" />
+    <Property Name="IsViewIcon" Type="Boolean" Nullable="false" />
+    <Property Name="Icon" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_MenuCategory" Relationship="VINASICModel.FK__T_Menu__MenuCate__2645B050" FromRole="T_Menu" ToRole="T_MenuCategory" />
+  </EntityType>
+  <EntityType Name="T_MenuCategory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Category" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Position" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="OrderIndex" Type="Int32" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Icon" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="IsViewIcon" Type="Boolean" Nullable="false" />
+    <Property Name="Link" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <NavigationProperty Name="T_Menu" Relationship="VINASICModel.FK__T_Menu__MenuCate__2645B050" FromRole="T_MenuCategory" ToRole="T_Menu" />
+  </EntityType>
+  <EntityType Name="T_Notification">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsRead" Type="Boolean" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="T_Order">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="CustomerId" Type="Int32" Nullable="false" />
+    <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
+    <Property Name="SubTotal" Type="Double" Nullable="false" />
+    <Property Name="IsPayment" Type="Boolean" Nullable="false" />
+    <Property Name="IsApproval" Type="Boolean" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="HasPay" Type="Double" />
+    <Property Name="CreatedForUser" Type="Int32" Nullable="false" />
+    <Property Name="HasTax" Type="Boolean" />
+    <Property Name="OrderView" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="IsDelivery" Type="Int32" Nullable="false" />
+    <Property Name="PaymentMethol" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="T_Customer" Relationship="VINASICModel.FK__T_Order__Custome__2A164134" FromRole="T_Order" ToRole="T_Customer" />
+    <NavigationProperty Name="T_User" Relationship="VINASICModel.FK__T_Order__Created__282DF8C2" FromRole="T_Order" ToRole="T_User" />
+    <NavigationProperty Name="T_Quittance" Relationship="VINASICModel.FK__T_Quittan__Order__3B40CD36" FromRole="T_Order" ToRole="T_Quittance" />
+    <NavigationProperty Name="T_ReceiptVoucher" Relationship="VINASICModel.FK__T_Receipt__Order__3F115E1A" FromRole="T_Order" ToRole="T_ReceiptVoucher" />
+    <NavigationProperty Name="T_OrderDetail" Relationship="VINASICModel.FK__T_OrderDe__Order__19DFD96B" FromRole="T_Order" ToRole="T_OrderDetail" />
+  </EntityType>
+  <EntityType Name="T_Organization">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="125" FixedLength="false" Unicode="true" />
+    <Property Name="ShortName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="OrderIndex" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <NavigationProperty Name="T_Position" Relationship="VINASICModel.FK__T_Positio__Organ__3587F3E0" FromRole="T_Organization" ToRole="T_Position" />
+    <NavigationProperty Name="T_Staff" Relationship="VINASICModel.FK__T_Staff__Organiz__46B27FE2" FromRole="T_Organization" ToRole="T_Staff" />
+  </EntityType>
+  <EntityType Name="T_Partner">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="TaxCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_StockIn" Relationship="VINASICModel.FK__T_StockIn__Partn__4C6B5938" FromRole="T_Partner" ToRole="T_StockIn" />
+  </EntityType>
+  <EntityType Name="T_PaymentVoucher">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Content" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Money" Type="Double" Nullable="false" />
+    <Property Name="Debit" Type="Int32" />
+    <Property Name="Credit" Type="Int32" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="ReceiptName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ReceiptAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="PaymentDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="T_Permission">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FeatureId" Type="Int32" Nullable="false" />
+    <Property Name="PermissionTypeId" Type="Int32" Nullable="false" />
+    <Property Name="SystemName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="PermissionName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Url" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="IsDefault" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_Feature" Relationship="VINASICModel.FK__T_Permiss__Featu__339FAB6E" FromRole="T_Permission" ToRole="T_Feature" />
+    <NavigationProperty Name="T_RolePermission" Relationship="VINASICModel.FK__T_RolePer__Permi__42E1EEFE" FromRole="T_Permission" ToRole="T_RolePermission" />
+  </EntityType>
+  <EntityType Name="T_Position">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="OrganizationId" Type="Int32" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_Organization" Relationship="VINASICModel.FK__T_Positio__Organ__3587F3E0" FromRole="T_Position" ToRole="T_Organization" />
+    <NavigationProperty Name="T_Staff" Relationship="VINASICModel.FK__T_Staff__Positio__4A8310C6" FromRole="T_Position" ToRole="T_Staff" />
+    <NavigationProperty Name="T_User" Relationship="VINASICModel.FK__T_User__Position__540C7B00" FromRole="T_Position" ToRole="T_User" />
+  </EntityType>
+  <EntityType Name="T_Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ProductTypeId" Type="Int32" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="Inventory" Type="Int32" />
+    <NavigationProperty Name="T_ProductType" Relationship="VINASICModel.FK__T_Product__Produ__37703C52" FromRole="T_Product" ToRole="T_ProductType" />
+    <NavigationProperty Name="T_OrderDetail" Relationship="VINASICModel.FK__T_OrderDe__Commo__17F790F9" FromRole="T_Product" ToRole="T_OrderDetail" />
+    <NavigationProperty Name="T_UserProduct" Relationship="VINASICModel.FK__T_UserPro__Produ__3E1D39E1" FromRole="T_Product" ToRole="T_UserProduct" />
+  </EntityType>
+  <EntityType Name="T_ProductType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_Product" Relationship="VINASICModel.FK__T_Product__Produ__37703C52" FromRole="T_ProductType" ToRole="T_Product" />
+  </EntityType>
+  <EntityType Name="T_Quittance">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Content" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Money" Type="Double" />
+    <Property Name="CustomerId" Type="Int32" Nullable="false" />
+    <Property Name="OrderId" Type="Int32" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_Customer" Relationship="VINASICModel.FK__T_Quittan__Custo__395884C4" FromRole="T_Quittance" ToRole="T_Customer" />
+    <NavigationProperty Name="T_Order" Relationship="VINASICModel.FK__T_Quittan__Order__3B40CD36" FromRole="T_Quittance" ToRole="T_Order" />
+  </EntityType>
+  <EntityType Name="T_ReceiptVoucher">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Content" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Money" Type="Double" />
+    <Property Name="Debit" Type="Int32" />
+    <Property Name="Credit" Type="Int32" />
+    <Property Name="CustomerId" Type="Int32" />
+    <Property Name="OrderId" Type="Int32" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_Customer" Relationship="VINASICModel.FK__T_Receipt__Custo__3D2915A8" FromRole="T_ReceiptVoucher" ToRole="T_Customer" />
+    <NavigationProperty Name="T_Order" Relationship="VINASICModel.FK__T_Receipt__Order__3F115E1A" FromRole="T_ReceiptVoucher" ToRole="T_Order" />
+  </EntityType>
+  <EntityType Name="T_RoLe">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Decription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsSystem" Type="Boolean" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_RolePermission" Relationship="VINASICModel.FK__T_RolePer__RoleI__44CA3770" FromRole="T_RoLe" ToRole="T_RolePermission" />
+    <NavigationProperty Name="T_UserRole" Relationship="VINASICModel.FK__T_UserRol__RoleI__55F4C372" FromRole="T_RoLe" ToRole="T_UserRole" />
+  </EntityType>
+  <EntityType Name="T_RolePermission">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleId" Type="Int32" Nullable="false" />
+    <Property Name="FeatureId" Type="Int32" Nullable="false" />
+    <Property Name="PermissionId" Type="Int32" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_Feature" Relationship="VINASICModel.FK__T_RolePer__Featu__40F9A68C" FromRole="T_RolePermission" ToRole="T_Feature" />
+    <NavigationProperty Name="T_Permission" Relationship="VINASICModel.FK__T_RolePer__Permi__42E1EEFE" FromRole="T_RolePermission" ToRole="T_Permission" />
+    <NavigationProperty Name="T_RoLe" Relationship="VINASICModel.FK__T_RolePer__RoleI__44CA3770" FromRole="T_RolePermission" ToRole="T_RoLe" />
+  </EntityType>
+  <EntityType Name="T_Staff">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="OrganizationId" Type="Int32" Nullable="false" />
+    <Property Name="PositionId" Type="Int32" Nullable="false" />
+    <Property Name="Image" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BirthDay" Type="DateTime" Precision="3" />
+    <Property Name="Gender" Type="Boolean" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="StartDate" Type="DateTime" Precision="3" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_Organization" Relationship="VINASICModel.FK__T_Staff__Organiz__46B27FE2" FromRole="T_Staff" ToRole="T_Organization" />
+    <NavigationProperty Name="T_Position" Relationship="VINASICModel.FK__T_Staff__Positio__4A8310C6" FromRole="T_Staff" ToRole="T_Position" />
+  </EntityType>
+  <EntityType Name="T_StockIn">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PartnerId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="StockInDate" Type="DateTime" Precision="3" />
+    <Property Name="SubTotal" Type="Double" Nullable="false" />
+    <Property Name="IsPayment" Type="Boolean" Nullable="false" />
+    <Property Name="IsApproval" Type="Boolean" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="T_Partner" Relationship="VINASICModel.FK__T_StockIn__Partn__4C6B5938" FromRole="T_StockIn" ToRole="T_Partner" />
+    <NavigationProperty Name="T_StockInDetail" Relationship="VINASICModel.FK__T_StockIn__Stock__5224328E" FromRole="T_StockIn" ToRole="T_StockInDetail" />
+  </EntityType>
+  <EntityType Name="T_StockInDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StockInId" Type="Int32" Nullable="false" />
+    <Property Name="MaterialId" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Double" Nullable="false" />
+    <Property Name="Price" Type="Double" />
+    <Property Name="SubTotal" Type="Double" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="Index" Type="Int32" />
+    <Property Name="MateriaName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="T_Material" Relationship="VINASICModel.FK__T_StockIn__Mater__4E53A1AA" FromRole="T_StockInDetail" ToRole="T_Material" />
+    <NavigationProperty Name="T_StockIn" Relationship="VINASICModel.FK__T_StockIn__Stock__5224328E" FromRole="T_StockInDetail" ToRole="T_StockIn" />
+  </EntityType>
+  <EntityType Name="T_User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PassWord" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="IsLock" Type="Boolean" Nullable="false" />
+    <Property Name="IsRequireChangePW" Type="Boolean" Nullable="false" />
+    <Property Name="IsForgotPassword" Type="Boolean" Nullable="false" />
+    <Property Name="NoteForgotPassword" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ImagePath" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="LockedTime" Type="DateTime" Precision="3" />
+    <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="FisrtName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="IsOwner" Type="Boolean" />
+    <Property Name="Mobile" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="PositionId" Type="Int32" Nullable="false" />
+    <Property Name="OrganizationId" Type="Int32" />
+    <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="T_Order" Relationship="VINASICModel.FK__T_Order__Created__282DF8C2" FromRole="T_User" ToRole="T_Order" />
+    <NavigationProperty Name="T_Position" Relationship="VINASICModel.FK__T_User__Position__540C7B00" FromRole="T_User" ToRole="T_Position" />
+    <Property Name="ColorString" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="T_OrderDetail" Relationship="VINASICModel.FK__T_OrderDe__Desig__18EBB532" FromRole="T_User" ToRole="T_OrderDetail" />
+    <NavigationProperty Name="T_OrderDetail1" Relationship="VINASICModel.FK__T_OrderDe__Print__1AD3FDA4" FromRole="T_User" ToRole="T_OrderDetail" />
+    <NavigationProperty Name="T_UserFormular" Relationship="VINASICModel.FK__T_UserFor__UserI__02C769E9" FromRole="T_User" ToRole="T_UserFormular" />
+  </EntityType>
+  <EntityType Name="T_UserRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleId" Type="Int32" Nullable="false" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="Decription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_RoLe" Relationship="VINASICModel.FK__T_UserRol__RoleI__55F4C372" FromRole="T_UserRole" ToRole="T_RoLe" />
+  </EntityType>
+  <Association Name="FK__T_Order__Custome__2A164134">
+    <End Type="VINASICModel.T_Customer" Role="T_Customer" Multiplicity="1" />
+    <End Type="VINASICModel.T_Order" Role="T_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_Order">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_Quittan__Custo__395884C4">
+    <End Type="VINASICModel.T_Customer" Role="T_Customer" Multiplicity="1" />
+    <End Type="VINASICModel.T_Quittance" Role="T_Quittance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_Quittance">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_Receipt__Custo__3D2915A8">
+    <End Type="VINASICModel.T_Customer" Role="T_Customer" Multiplicity="0..1" />
+    <End Type="VINASICModel.T_ReceiptVoucher" Role="T_ReceiptVoucher" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_ReceiptVoucher">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_Permiss__Featu__339FAB6E">
+    <End Type="VINASICModel.T_Feature" Role="T_Feature" Multiplicity="1" />
+    <End Type="VINASICModel.T_Permission" Role="T_Permission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Feature">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_Permission">
+        <PropertyRef Name="FeatureId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_RolePer__Featu__40F9A68C">
+    <End Type="VINASICModel.T_Feature" Role="T_Feature" Multiplicity="1" />
+    <End Type="VINASICModel.T_RolePermission" Role="T_RolePermission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Feature">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_RolePermission">
+        <PropertyRef Name="FeatureId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_Materia__Mater__245D67DE">
+    <End Type="VINASICModel.T_MaterialType" Role="T_MaterialType" Multiplicity="1" />
+    <End Type="VINASICModel.T_Material" Role="T_Material" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_MaterialType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_Material">
+        <PropertyRef Name="MaterialTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_StockIn__Mater__4E53A1AA">
+    <End Type="VINASICModel.T_Material" Role="T_Material" Multiplicity="1" />
+    <End Type="VINASICModel.T_StockInDetail" Role="T_StockInDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Material">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_StockInDetail">
+        <PropertyRef Name="MaterialId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_Menu__MenuCate__2645B050">
+    <End Type="VINASICModel.T_MenuCategory" Role="T_MenuCategory" Multiplicity="1" />
+    <End Type="VINASICModel.T_Menu" Role="T_Menu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_MenuCategory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_Menu">
+        <PropertyRef Name="MenuCategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_Order__Created__282DF8C2">
+    <End Type="VINASICModel.T_User" Role="T_User" Multiplicity="1" />
+    <End Type="VINASICModel.T_Order" Role="T_Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_Order">
+        <PropertyRef Name="CreatedForUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_Quittan__Order__3B40CD36">
+    <End Type="VINASICModel.T_Order" Role="T_Order" Multiplicity="1" />
+    <End Type="VINASICModel.T_Quittance" Role="T_Quittance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_Quittance">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_Receipt__Order__3F115E1A">
+    <End Type="VINASICModel.T_Order" Role="T_Order" Multiplicity="0..1" />
+    <End Type="VINASICModel.T_ReceiptVoucher" Role="T_ReceiptVoucher" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_ReceiptVoucher">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_Positio__Organ__3587F3E0">
+    <End Type="VINASICModel.T_Organization" Role="T_Organization" Multiplicity="1" />
+    <End Type="VINASICModel.T_Position" Role="T_Position" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Organization">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_Position">
+        <PropertyRef Name="OrganizationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_Staff__Organiz__46B27FE2">
+    <End Type="VINASICModel.T_Organization" Role="T_Organization" Multiplicity="1" />
+    <End Type="VINASICModel.T_Staff" Role="T_Staff" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Organization">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_Staff">
+        <PropertyRef Name="OrganizationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_StockIn__Partn__4C6B5938">
+    <End Type="VINASICModel.T_Partner" Role="T_Partner" Multiplicity="1" />
+    <End Type="VINASICModel.T_StockIn" Role="T_StockIn" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Partner">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_StockIn">
+        <PropertyRef Name="PartnerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_RolePer__Permi__42E1EEFE">
+    <End Type="VINASICModel.T_Permission" Role="T_Permission" Multiplicity="1" />
+    <End Type="VINASICModel.T_RolePermission" Role="T_RolePermission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Permission">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_RolePermission">
+        <PropertyRef Name="PermissionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_Staff__Positio__4A8310C6">
+    <End Type="VINASICModel.T_Position" Role="T_Position" Multiplicity="1" />
+    <End Type="VINASICModel.T_Staff" Role="T_Staff" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Position">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_Staff">
+        <PropertyRef Name="PositionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_User__Position__540C7B00">
+    <End Type="VINASICModel.T_Position" Role="T_Position" Multiplicity="1" />
+    <End Type="VINASICModel.T_User" Role="T_User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Position">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_User">
+        <PropertyRef Name="PositionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_Product__Produ__37703C52">
+    <End Type="VINASICModel.T_ProductType" Role="T_ProductType" Multiplicity="1" />
+    <End Type="VINASICModel.T_Product" Role="T_Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_ProductType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_Product">
+        <PropertyRef Name="ProductTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_RolePer__RoleI__44CA3770">
+    <End Type="VINASICModel.T_RoLe" Role="T_RoLe" Multiplicity="1" />
+    <End Type="VINASICModel.T_RolePermission" Role="T_RolePermission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_RoLe">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_RolePermission">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_UserRol__RoleI__55F4C372">
+    <End Type="VINASICModel.T_RoLe" Role="T_RoLe" Multiplicity="1" />
+    <End Type="VINASICModel.T_UserRole" Role="T_UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_RoLe">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_UserRole">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_StockIn__Stock__5224328E">
+    <End Type="VINASICModel.T_StockIn" Role="T_StockIn" Multiplicity="1" />
+    <End Type="VINASICModel.T_StockInDetail" Role="T_StockInDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_StockIn">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_StockInDetail">
+        <PropertyRef Name="StockInId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="T_Timing">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+    <Property Name="EmployeeName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="TimingYear" Type="Int32" Nullable="false" />
+    <Property Name="TimingMonth" Type="Int32" Nullable="false" />
+    <Property Name="Day1" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day2" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day3" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day4" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day5" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day6" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day7" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day8" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day9" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day10" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day11" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day12" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day13" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day14" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day15" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day16" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day17" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day18" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day19" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day20" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day21" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day22" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day23" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day24" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day25" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day26" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day27" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day28" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day29" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day30" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Day31" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="T_OrderDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderId" Type="Int32" Nullable="false" />
+    <Property Name="CommodityId" Type="Int32" Nullable="false" />
+    <Property Name="CommodityName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Height" Type="Decimal" Precision="18" Scale="6" />
+    <Property Name="Width" Type="Decimal" Precision="18" Scale="6" />
+    <Property Name="Quantity" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Price" Type="Double" />
+    <Property Name="SubTotal" Type="Double" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="DesignUser" Type="Int32" />
+    <Property Name="DesignStatus" Type="Int32" />
+    <Property Name="PrintUser" Type="Int32" />
+    <Property Name="PrintStatus" Type="Int32" />
+    <Property Name="IsCompleted" Type="Boolean" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="DesignFrom" Type="DateTime" Precision="3" />
+    <Property Name="DesignTo" Type="DateTime" Precision="3" />
+    <Property Name="PrintFrom" Type="DateTime" Precision="3" />
+    <Property Name="PrintTo" Type="DateTime" Precision="3" />
+    <Property Name="FileName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DesignDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="PrintDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Index" Type="Int32" Nullable="false" />
+    <Property Name="DesignView" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="PrintView" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Square" Type="Decimal" Precision="18" Scale="6" />
+    <Property Name="SumSquare" Type="Decimal" Precision="18" Scale="6" />
+    <NavigationProperty Name="T_Order" Relationship="VINASICModel.FK__T_OrderDe__Order__19DFD96B" FromRole="T_OrderDetail" ToRole="T_Order" />
+    <NavigationProperty Name="T_Product" Relationship="VINASICModel.FK__T_OrderDe__Commo__17F790F9" FromRole="T_OrderDetail" ToRole="T_Product" />
+    <NavigationProperty Name="T_User" Relationship="VINASICModel.FK__T_OrderDe__Desig__18EBB532" FromRole="T_OrderDetail" ToRole="T_User" />
+    <NavigationProperty Name="T_User1" Relationship="VINASICModel.FK__T_OrderDe__Print__1AD3FDA4" FromRole="T_OrderDetail" ToRole="T_User" />
+  </EntityType>
+  <Association Name="FK__T_OrderDe__Order__19DFD96B">
+    <End Type="VINASICModel.T_Order" Role="T_Order" Multiplicity="1" />
+    <End Type="VINASICModel.T_OrderDetail" Role="T_OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_OrderDetail">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_OrderDe__Commo__17F790F9">
+    <End Type="VINASICModel.T_Product" Role="T_Product" Multiplicity="1" />
+    <End Type="VINASICModel.T_OrderDetail" Role="T_OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_OrderDetail">
+        <PropertyRef Name="CommodityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_OrderDe__Desig__18EBB532">
+    <End Type="VINASICModel.T_User" Role="T_User" Multiplicity="0..1" />
+    <End Type="VINASICModel.T_OrderDetail" Role="T_OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_OrderDetail">
+        <PropertyRef Name="DesignUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_OrderDe__Print__1AD3FDA4">
+    <End Type="VINASICModel.T_User" Role="T_User" Multiplicity="0..1" />
+    <End Type="VINASICModel.T_OrderDetail" Role="T_OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_OrderDetail">
+        <PropertyRef Name="PrintUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="T_UserProduct">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="Decription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_Product" Relationship="VINASICModel.FK__T_UserPro__Produ__3E1D39E1" FromRole="T_UserProduct" ToRole="T_Product" />
+  </EntityType>
+  <Association Name="FK__T_UserPro__Produ__3E1D39E1">
+    <End Type="VINASICModel.T_Product" Role="T_Product" Multiplicity="1" />
+    <End Type="VINASICModel.T_UserProduct" Role="T_UserProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_UserProduct">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="T_StandardSale">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BaseSalary" Type="Double" Nullable="false" />
+    <Property Name="Sales" Type="Double" Nullable="false" />
+    <Property Name="Percent" Type="Decimal" Precision="18" Scale="6" />
+    <Property Name="Bonus" Type="Double" Nullable="false" />
+    <Property Name="IncomeTotal" Type="Double" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="T_ElementFormular">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="DefaultValue" Type="Double" />
+    <Property Name="IsSystem" Type="Boolean" Nullable="false" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_FormularDetail" Relationship="VINASICModel.FK__T_Formula__Eleme__7D0E9093" FromRole="T_ElementFormular" ToRole="T_FormularDetail" />
+  </EntityType>
+  <EntityType Name="T_Formular">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Formular" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_FormularDetail" Relationship="VINASICModel.FK__T_Formula__Formu__7C1A6C5A" FromRole="T_Formular" ToRole="T_FormularDetail" />
+    <NavigationProperty Name="T_UserFormular" Relationship="VINASICModel.FK__T_UserFor__Formu__01D345B0" FromRole="T_Formular" ToRole="T_UserFormular" />
+  </EntityType>
+  <EntityType Name="T_FormularDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Index" Type="Int32" Nullable="false" />
+    <Property Name="FormularId" Type="Int32" Nullable="false" />
+    <Property Name="ElementFormularId" Type="Int32" />
+    <Property Name="Prefix" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_ElementFormular" Relationship="VINASICModel.FK__T_Formula__Eleme__7D0E9093" FromRole="T_FormularDetail" ToRole="T_ElementFormular" />
+    <NavigationProperty Name="T_Formular" Relationship="VINASICModel.FK__T_Formula__Formu__7C1A6C5A" FromRole="T_FormularDetail" ToRole="T_Formular" />
+  </EntityType>
+  <EntityType Name="T_UserFormular">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="Int32" Nullable="false" />
+    <Property Name="FormularId" Type="Int32" Nullable="false" />
+    <Property Name="Formular" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="FormularValue" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+    <Property Name="DeletedUser" Type="Int32" />
+    <Property Name="UpdatedUser" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="T_Formular" Relationship="VINASICModel.FK__T_UserFor__Formu__01D345B0" FromRole="T_UserFormular" ToRole="T_Formular" />
+    <NavigationProperty Name="T_User" Relationship="VINASICModel.FK__T_UserFor__UserI__02C769E9" FromRole="T_UserFormular" ToRole="T_User" />
+  </EntityType>
+  <Association Name="FK__T_Formula__Eleme__7D0E9093">
+    <End Type="VINASICModel.T_ElementFormular" Role="T_ElementFormular" Multiplicity="0..1" />
+    <End Type="VINASICModel.T_FormularDetail" Role="T_FormularDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_ElementFormular">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_FormularDetail">
+        <PropertyRef Name="ElementFormularId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_Formula__Formu__7C1A6C5A">
+    <End Type="VINASICModel.T_Formular" Role="T_Formular" Multiplicity="1" />
+    <End Type="VINASICModel.T_FormularDetail" Role="T_FormularDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Formular">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_FormularDetail">
+        <PropertyRef Name="FormularId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_UserFor__Formu__01D345B0">
+    <End Type="VINASICModel.T_Formular" Role="T_Formular" Multiplicity="1" />
+    <End Type="VINASICModel.T_UserFormular" Role="T_UserFormular" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_Formular">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_UserFormular">
+        <PropertyRef Name="FormularId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__T_UserFor__UserI__02C769E9">
+    <End Type="VINASICModel.T_User" Role="T_User" Multiplicity="1" />
+    <End Type="VINASICModel.T_UserFormular" Role="T_UserFormular" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="T_User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="T_UserFormular">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

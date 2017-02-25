@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{36D4D73A-BDF1-427D-B78F-6BFDC3C999F1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VINASIC.Business.Interface</RootNamespace>
+    <AssemblyName>VINASIC.Business.Interface</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>E:\GPRO\IEDNew\trunk\SourceCode\IED\Library\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList">
+      <HintPath>E:\GPRO\IEDNew\trunk\SourceCode\IED\Library\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Enum\eCheckPermissionType.cs" />
+    <Compile Include="Enum\eErrorPermissionType.cs" />
+    <Compile Include="Enum\eErrorType.cs" />
+    <Compile Include="Enum\eForgotPasswordActionType.cs" />
+    <Compile Include="Enum\eMenuCategoryType.cs" />
+    <Compile Include="Enum\ePermissionType.cs" />
+    <Compile Include="Enum\eString.cs" />
+    <Compile Include="Enum\eTableName.cs" />
+    <Compile Include="Enum\OrderEnum.cs" />
+    <Compile Include="IBLLErrorLog.cs" />
+    <Compile Include="IBLLNotification.cs" />
+    <Compile Include="IBLLPermission.cs" />
+    <Compile Include="IBLLPosition.cs" />
+    <Compile Include="IBLLPaymentVoucher.cs" />
+    <Compile Include="IBLLPartner.cs" />
+    <Compile Include="IBLLOrganization.cs" />
+    <Compile Include="IBLLOrder.cs" />
+    <Compile Include="IBLLMaterialType.cs" />
+    <Compile Include="IBLLMaterial.cs" />
+    <Compile Include="IBLLMachine.cs" />
+    <Compile Include="IBLLEmployee.cs" />
+    <Compile Include="IBLLCustomer.cs" />
+    <Compile Include="IBLLCommodityType.cs" />
+    <Compile Include="IBLLCommodity.cs" />
+    <Compile Include="IBLLFeature.cs" />
+    <Compile Include="IBLLMenu.cs" />
+    <Compile Include="IBLLMenuCategory.cs" />
+    <Compile Include="IBLLProduct.cs" />
+    <Compile Include="IBLLElementFormular.cs" />
+    <Compile Include="IBLLFormular.cs" />
+    <Compile Include="IBLLStandardSale.cs" />
+    <Compile Include="IBLLProductType.cs" />
+    <Compile Include="IBLLRole.cs" />
+    <Compile Include="IBLLRolePermission.cs" />
+    <Compile Include="IBLLStockIn.cs" />
+    <Compile Include="IBLLTiming.cs" />
+    <Compile Include="IBLLUser.cs" />
+    <Compile Include="IBLLUserRole.cs" />
+    <Compile Include="Model\ModelElementFormular.cs" />
+    <Compile Include="Model\ModelFormular.cs" />
+    <Compile Include="Model\ModelStandardSale.cs" />
+    <Compile Include="Model\ModelCountLoginFail.cs" />
+    <Compile Include="Model\ModelErrorLog.cs" />
+    <Compile Include="Model\ModelFeature.cs" />
+    <Compile Include="Model\ModelForDesign.cs" />
+    <Compile Include="Model\ModelForPrint.cs" />
+    <Compile Include="Model\ModelNotification.cs" />
+    <Compile Include="Model\ModelOrderCustomer.cs" />
+    <Compile Include="Model\ModelProduct.cs" />
+    <Compile Include="Model\ModelProductType.cs" />
+    <Compile Include="Model\ModelRemind.cs" />
+    <Compile Include="Model\ModelRole.cs" />
+    <Compile Include="Model\ModelRolePermission.cs" />
+    <Compile Include="Model\ModelSaveOrder.cs" />
+    <Compile Include="Model\ModelSaveStockIn.cs" />
+    <Compile Include="Model\ModelStockInDetail.cs" />
+    <Compile Include="Model\ModelStockIn.cs" />
+    <Compile Include="Model\ModelStaff.cs" />
+    <Compile Include="Model\ModelReceiptVoucher.cs" />
+    <Compile Include="Model\ModelQuittance.cs" />
+    <Compile Include="Model\ModelPosition.cs" />
+    <Compile Include="Model\ModelPaymentVoucher.cs" />
+    <Compile Include="Model\ModelCommodityType.cs" />
+    <Compile Include="Model\ModelMenu.cs" />
+    <Compile Include="Model\ModelMenuCategory.cs" />
+    <Compile Include="Model\ModelPermission.cs" />
+    <Compile Include="Model\ModelSelectItem.cs" />
+    <Compile Include="Model\ModelTiming.cs" />
+    <Compile Include="Model\ModelUser.cs" />
+    <Compile Include="Model\ModelUserRole.cs" />
+    <Compile Include="Model\ResponseBase.cs" />
+    <Compile Include="Model\ModelCommodity.cs" />
+    <Compile Include="Model\ModelCustomer.cs" />
+    <Compile Include="Model\ModelEmployee.cs" />
+    <Compile Include="Model\ModelMachine.cs" />
+    <Compile Include="Model\ModelMaterial.cs" />
+    <Compile Include="Model\ModelMaterialType.cs" />
+    <Compile Include="Model\ModelOrder.cs" />
+    <Compile Include="Model\ModelOrderDetail.cs" />
+    <Compile Include="Model\ModelOrganization.cs" />
+    <Compile Include="Model\ModelPartner.cs" />
+    <Compile Include="Model\UserService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dynamic.Framework\Dynamic.Framework\Dynamic.Framework.csproj">
+      <Project>{c69f15ec-3b10-4c62-9155-55ac391fe62a}</Project>
+      <Name>Dynamic.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VINASIC.Data\VINASIC.Data.csproj">
+      <Project>{81b7db6a-88f8-45f9-9386-3546190def0b}</Project>
+      <Name>VINASIC.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VINASIC.Object\VINASIC.Object.csproj">
+      <Project>{d7a8ede6-2e66-4ec7-ade4-a1712ef5841a}</Project>
+      <Name>VINASIC.Object</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

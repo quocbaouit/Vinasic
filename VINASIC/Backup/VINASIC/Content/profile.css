@@ -1,0 +1,80 @@
+﻿.SystemClass , .SystemClass:hover {
+    color: red;
+    font-weight: bold;    
+     text-decoration:none;
+}
+
+
+.button-image {
+    width: 15px;
+    height: 16px;
+    display: inherit;
+    vertical-align: text-top;
+    margin-right: 5px;
+}
+
+.image-icon {
+      background-size: 18px;
+      width: 18px;
+      height: 18px;
+      background-color: transparent;
+}
+.image-search {
+    background-image: url('../../Images/blog_search.png');
+}
+
+.image-add {
+    background-image: url('../../Images/list1_add.png');
+}
+
+.image-close {
+    background-image: url('../../Images/close.png');
+}
+
+.image-save {
+    background-image: url('../../Images/save.png');
+}
+
+.image-back {
+    background-image: url('../../Images/back.png');
+}
+
+.image-check {
+    background-image: url('../../Images/check.png');
+}
+
+.image-edit {
+    background-image: url('../../Images/edit.png');
+}
+
+.image-agree {
+    background-image: url('../../Images/agree.png');
+}
+
+.image-send {
+    background-image: url('../../Images/email_send.png');
+}
+
+.image-feedback {
+    background-image: url('../../Images/misc_04.png');
+}
+
+.image-lockTime {
+    background-image: url('../../Images/Clock.png');
+}
+
+.image-lockAcc {
+    background-image: url('../../Images/clock2.png');
+}
+
+.image-unlockAcc {
+    background-image: url('../../Images/unclock.png');
+}
+
+.image-requiredPass {
+    background-image: url('../../Images/passwordRequired.png');
+}
+
+
+
+

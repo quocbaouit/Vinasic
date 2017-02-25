@@ -1,0 +1,141 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/VINASIC/PaymentVoucher/PaymentVoucher_Index.js"></script>
+<div class="row">
+    <div class="col-lg-12">
+        <h3 style="background-color: #faf9f8" class="page-header">
+            <img style="width: 200px" src="~/Files/logovinasic.png" />
+        </h3>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="/DashBoard/Index">Home</a></li>
+            <li><i class="fa fa-laptop"></i>Phiếu Chi</li>
+        </ol>
+    </div>
+</div>
+<div style="margin-bottom: 15px;" class="row">
+    <div class="form-group">
+        <div class="col-md-2 col-sm-4 col-xs-12">
+            <label for="datefrom">Từ Ngày</label>
+            <input type="date" class="form-control" name="datefrom" value="" id="datefrom" />
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-12">
+            <label for="dateto">Đến Ngày</label>
+            <input type="date" class="form-control" name="dateto" value="" id="dateto" />
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-12">
+            <label for="keyword">Từ Khóa</label>
+            <input type="text" class="form-control" id="keyword" placeholder="" onkeypress=" return isNumberKey(event)">
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-12">
+            <a id="search" style="margin-top: 25px" class="btn btn-primary" href="javascript:void(0)" title="Bootstrap 3 themes generator"><span class="icon_lightbulb_alt"></span>Tìm Kiếm</a>
+        </div>
+    </div>
+</div>
+<div id="jtablePaymentVoucher"></div>
+<!-- Modal -->
+<div class="modal fade" id="popup_PaymentVoucher" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-pencil"></span>Thêm/Sửa Phiếu Chi</h4>
+            </div>
+            <div class="modal-body" style="padding: 40px 50px;">
+                <form role="form">
+                    <input type="hidden" data-bind="value: Id" />
+                    <div class="form-group">
+                        <label for="date">Ngày Chi</label>
+                        <input type="date" data-bind="value: PaymentDate" class="form-control" name="date" value="" id="date" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Content"><span class="glyphicon glyphicon-qrcode"></span>Nội Dung</label>
+                        <input type="text" data-bind="value: Content" class="form-control" id="Content" placeholder="Code">
+                    </div>
+                    <div class="form-group">
+                        <label for="Name"><span class="glyphicon glyphicon-list-alt"></span>Số Tiền</label>
+                        <input type="text" data-bind="value: Money" class="form-control" id="Name" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="ReceiptName"><span class="glyphicon glyphicon-list-alt"></span>Người Nhận</label>
+                        <input type="text" data-bind="value: ReceiptName" class="form-control" id="ReceiptName" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="ReceiptAddress"><span class="glyphicon glyphicon-list-alt"></span>Địa Chỉ</label>
+                        <input type="text" data-bind="value: ReceiptAddress" class="form-control" id="ReceiptAddress" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="Note"><span class="glyphicon glyphicon-comment"></span>Mô Tả</label>
+                        <input type="text" data-bind="value: Note" class="form-control" id="Note" placeholder="Tên">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
+                    <div class="button-image image-close"></div>
+                    Đóng</button>
+                <button save class="btn btn-primary">
+                    <div class="button-image image-save"></div>
+                    Lưu</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div style="width: 210mm; height: 148.5mm; color: red;display: none" id="pnlContents">
+    <table style="margin-top: 20px; margin-left: 10px" width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+            <tr>
+                <td>Đơn vị:công ty VINASIC<br>
+                    Bộ phận:phòng kế toán</td>
+                <td><strong style="font-size: 20px;">PHIẾU CHI</strong><br>
+                    <em><span id="ppaymentdate1">Ngày 11 tháng 05 năm 2016</span> </em></td>
+                <td style="float: right;font-size: 10px;"><strong>Mẫu số: 01 – TT</strong><br>
+                    (Ban hành theo QĐ số: 48/2006/QĐ- BTC<br>
+                    Ngày 14/9/2006 của Bộ trưởng BTC)</td>
+            </tr>
+        </tbody>
+    </table>
+    <table style="margin-left: 10px" width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+            <tr>
+                <td style="float: right; width: 170px;font-size: 10px;">Quyển số: PT 001<br>
+                    Số:<span id="pid">01</span><br>
+                    Nợ: …………………….<br>
+                    Có: …………………….</td>
+            </tr>
+        </tbody>
+    </table>
+    <p style="margin-left: 10px">
+        Họ và tên người nhận tiền:<span id="pname"> Trần Quốc Bảo</span>.SĐT:<span id="pphone"></span><br>
+        Địa chỉ: <span id="paddress">56/5/6 Văn Chung ,phường 13, quận Tân Bình</span>.<br>
+        Lý do: <span id="pcontent">In PP trong nhà</span>.<br>
+        Số tiền: <span id="pmoney">5,000,000 vnd</span> .(Viết bằng chữ): <span id="strpmoney">một trăm hai mươi lăm ngàn đồng chẵn</span>.<br>
+        Kèm theo: ……………………….Chứng từ gốc.
+    </p>
+    <div style="margin-left: 10px"><em><span id="ppaymentdate2">Ngày 11 tháng 05 năm 2016</span></em></div>
+    <table style="margin-left: 10px" width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+            <tr>
+                <td><strong>Giám đốc</strong><br>
+                    (Ký, họ tên, đóng dấu)</td>
+                <td><strong>Kế toán trưởng</strong><br>
+                    (Ký, họ tên)</td>
+                <td><strong>Người nộp tiền</strong><br>
+                    (Ký, họ tên)</td>
+                <td><strong>Người lập phiếu</strong><br>
+                    (Ký, họ tên)</td>
+                <td><strong>Thủ quỹ</strong><br>
+                    (Ký, họ tên)</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p style="margin-left: 10px">
+        Đã nhận đủ số tiền (viết bằng chữ): ……………………………………………………………………..<br>
+        + Tỷ giá ngoại tệ (vàng, bạc, đá quý): …………………………………………………………………..<br>
+        + Số tiền quy đổi: ………………………………………………………………………………………
+    </p>
+</div>

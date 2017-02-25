@@ -1,0 +1,64 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/VINASIC/Material/Material_Index.js"></script>
+<div class="row">
+    <div class="col-lg-12">
+        <h3 style="background-color: #faf9f8" class="page-header">
+            <img style="width: 200px" src="~/Files/logovinasic.png" />
+        </h3>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="/DashBoard/Index">Home</a></li>
+            <li><i class="fa fa-laptop"></i>Loại Dịch Vụ</li>
+        </ol>
+    </div>
+</div>
+<div id="jtableMaterial"></div>
+<!-- Modal -->
+<div class="modal fade" id="popup_Material" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-pencil"></span>Thêm/Sửa Vật Tư</h4>
+            </div>
+            <div class="modal-body" style="padding: 40px 50px;">
+                <form role="form">
+                    <input type="hidden" data-bind="value: Id" />
+                    <div class="form-group">
+                        <label for="materialType">Chọn Loại</label>
+                        <select id="materialType" class="form-control input-lg m-bot15 ">
+                            <option value="0">Loại Vật Tư</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="Code"><span class="glyphicon glyphicon-qrcode"></span>Mã Vật Tư</label>
+                        <input type="text" data-bind="value: Code" class="form-control" id="Code" placeholder="Code">
+                    </div>
+                    <div class="form-group">
+                        <label for="Name"><span class="glyphicon glyphicon-list-alt"></span>Tên Vật Tư</label>
+                        <input type="text" data-bind="value: Name" class="form-control" id="Name" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="Description"><span class="glyphicon glyphicon-comment"></span>Mô Tả</label>
+                        <input type="text" data-bind="value: Description" class="form-control" id="Description" placeholder="Tên">
+                    </div>
+                    <div class="form-group">
+                        <label for="Inventory"><span class="glyphicon glyphicon-comment"></span>Tồn Kho</label>
+                        <input type="text" data-bind="value: Inventory" class="form-control" id="Inventory" placeholder="Tên">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
+                    <div class="button-image image-close"></div>
+                    Đóng</button>
+                <button save class="btn btn-primary">
+                    <div class="button-image image-save"></div>
+                    Lưu</button>
+            </div>
+        </div>
+
+    </div>
+</div>

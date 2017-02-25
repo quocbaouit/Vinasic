@@ -1,0 +1,71 @@
+﻿@using VINASIC.App_Global;
+@{
+    // ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> items = null;
+    if (ViewData["roles"] != null)
+    {
+        items = (List<SelectListItem>)ViewData["roles"];
+    }
+}
+
+<script src="~/Scripts/VINASIC/User/User.js"></script>
+<div class="row">
+    <div class="col-lg-12">
+        <h3 style="background-color: #faf9f8" class="page-header">
+            <img style="width: 200px" src="~/Files/logovinasic.png" />
+        </h3>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="/Dashboard/index">Trang Chủ</a></li>
+            <li><i class="icon_documents_alt"></i>nhập hàng</li>
+            <li><i class="fa fa-user-md"></i>Quản Lý nhập hàng</li>
+        </ol>
+    </div>
+</div>
+<div id="jtableUser"></div>
+
+@* --------   Change pass Modal  ---------------*@
+<div class="modal fade hide" id="fogotPassModal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" cancel aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Thay Đổi Mật Khẩu</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="rows">
+                        <input type="hidden" txt="userId" data-bind="value: Id" />
+                        <div class="col-left" style="width: 95%">
+                            <label>Yêu cầu từ Tài Khoản </label>
+                            <textarea data-bind="value: NoteForgotPassword" disabled style="width: 100%"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="rows">
+                        <div class="col-left">
+                            <label>Mật Khẩu mới</label>
+                            <input txt="txtNewPass" type="password" />
+                        </div>
+                        <div>
+                            <label>Xác nhận Mật Khẩu</label>
+                            <input txt="txtConfirmNewPass" type="password" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
+                    <div class="button-image image-close"></div>
+                    Đóng</button>
+                <button save class="btn btn-primary" btn="updatePassword">
+                    <div class="button-image image-save"></div>
+                    Lưu Lại</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+

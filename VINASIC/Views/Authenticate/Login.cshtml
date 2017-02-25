@@ -1,0 +1,153 @@
+﻿@using VINASIC.Business.Interface.Model;
+@{
+    Layout = null;
+    
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+
+
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/modernizr-2.5.3.js"></script>
+    <link href="~/Content/profile.css" rel="stylesheet" />
+
+    @*boostrap references*@
+    <link href="~/Content/Bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="~/Content/Bootstrap/css/customizebootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/Boostrap/bootstrap.js"></script>
+    <link href="~/Content/Controll.css" rel="stylesheet" />
+    <script src="~/Scripts/VINASIC/Authenticate/Authenticate.js"></script>
+    <link href="~/Content/MasterPage/MasterPage.css" rel="stylesheet" />
+    <link href="~/Content/LoginPage/LoginPage.css" rel="stylesheet" />
+
+    <link href="~/Content/Bootstrap/css/customizebootstrap.css" rel="stylesheet" />
+
+    <link href="~/Content/Jquery.alerts/jquery.alerts.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.alerts.js"></script>
+    <script src="~/Scripts/VINASIC/common.js"></script>
+
+    <link href="~/Content/LoginPage/style.css" rel="stylesheet"/>
+    <link href="~/Views/Authenticate/login.css" rel="stylesheet" />
+</head>
+<body>
+<style>
+    #username, #password {
+        background-image: url('/Content/LoginPage/images/login-sprite.png') !important;
+        background-repeat: no-repeat !important;
+        background-position: 15px -6px !important;
+        padding-left: 40px;
+    }
+
+    #password {
+        background-position: 15px -55px !important;
+    }
+
+    input:-webkit-autofill {
+        -webkit-box-shadow: inset 0 0 0px 1000px rgba(0, 0, 0, 0.16);
+    }
+</style>
+   
+    
+    <div class="title-login">
+
+        <h2>
+            <img src="~/Content/LoginPage/images/HinhBanhRangXoay.gif" style="width: 50px" />
+            VINASIC COMPANY
+        </h2>
+        <hr />
+    </div>
+    <div class="login">
+
+        <p>
+            <input type="text" id="username" placeholder="Tên Đăng Nhập" autocomplete="off" />
+        </p>
+
+        <p>
+            <input type="password" name="password" id="password" placeholder="Mật Khẩu">
+        </p>
+
+        <p class="login-submit">
+            <button type="button" btn="Login" class="login-button">Đăng Nhập</button>
+        </p>
+        <div id="captchaBox">
+            <div class="box-image">
+                <img id="CaptchaImg" src="" />
+                <img src="~/Content/LoginPage/images/refresh.png" style="cursor: pointer;" id="refresh" height="30" width="30" alt="refresh" title="Đổi captcha khác" />
+            </div>
+            <input id="captchaAnswer" placeholder="Trả lời bằng số." type="text" />
+        </div>
+
+
+        <p class="forgot-password"><a href="#" id="showPopup" data-toggle="modal" data-target="#SystemMenuModal">Bạn quên mật khẩu ?</a></p>
+    </div>
+    <div id="loading">
+        <img src="~/Content/MasterPage/Images/loading%20(1).gif" />
+    </div>
+    <div class="modal fade hide modalsmall" id="SystemMenuModal" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Yêu cầu Mật Khẩu</h4>
+                </div>
+                <div class="modal-body">
+
+                    <ul class="nav nav-tabs" role="tablist" id="myTab">
+                        <li role="presentation" class="active"><a href="#autoEmail" aria-controls="autoEmail" role="tab" data-toggle="tab">Qua Mail</a></li>
+                        <li role="presentation"><a href="#adminSend" aria-controls="adminSend" role="tab" data-toggle="tab">Khác</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="autoEmail">
+                            <div class="container-fluid">
+                                <label style="margin: 10px 0">Yêu cầu gửi lại Mật Khẩu tự động qua mail bạn đã đăng ký.</label>
+                                <div class="rows">
+                                    <div>
+                                        <input type="text" id="txtEmailUserName" placeholder="Nhập Tên Đăng Nhập" />
+                                    </div>
+                                    <div>
+                                        <input type="text" id="txtEmail" placeholder="Nhập email" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="adminSend">
+                            <div class="container-fluid">
+                                <label style="margin: 10px 0">Gửi yêu cầu cho Quản Trị Viên để lấy lại Mật Khẩu.</label>
+                                <div class="rows">
+                                    <div>
+                                        <input type="text" id="txtAdminUserName" placeholder="Nhập Tên Đăng Nhập" />
+                                    </div>
+                                    <div>
+                                        <textarea id="txtUserNote" placeholder="Nhập nội dung bạn muốn gửi cho Quản Trị Viên." style="min-height: 150px"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
+                        <div class="button-image image-close"></div>
+                        Đóng
+                    </button>
+                    <button btn="sendRequest" save class="btn btn-primary">
+                        <div class="button-image image-send"></div>
+                        Gửi Yêu Cầu
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+</body>
+</html>

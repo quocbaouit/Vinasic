@@ -1,0 +1,46 @@
+﻿@model List<ModelMenuCategory>
+@using VINASIC.Business.Interface.Model;
+@{
+    List<ModelMenuCategory> listMenuCategory = Model;
+}
+<!--sidebar start-->
+<aside>
+    @if (listMenuCategory != null)
+{
+    <div id="sidebar" class="nav-collapse ">
+        <ul class="sidebar-menu">
+            <li class="active">
+                <a class="" href="/Dashboard/index">
+                    <i class="icon_house_alt"></i>
+                    <span>Trang Chủ</span>
+                </a>
+            </li>
+            @for (int i = 0; i < listMenuCategory.Count; i++)
+            {
+                <li class="sub-menu">
+                    <a href="@listMenuCategory[i].Link" class="">
+                        <i class="@listMenuCategory[i].Icon"></i>
+                        <span>@listMenuCategory[i].Category</span>
+                      
+                    </a>
+                    @if (listMenuCategory[i].listMenu != null)
+                    {
+                        var menus = listMenuCategory[i].listMenu;
+                        HtmlString img = null;
+                        if (menus.Count > 0)
+                        {
+                        <ul class="sub">
+                            @foreach (var menu in menus)
+                            {
+                                <li><a class="" href="@menu.Link">@menu.MenuName</a></li>
+                            }
+                        </ul>
+                        }
+                    }
+                </li>
+            }
+        </ul>
+    </div>
+}
+</aside>
+<!--sidebar end-->

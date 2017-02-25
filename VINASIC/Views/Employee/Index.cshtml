@@ -1,0 +1,222 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    hr {
+        margin-top: 0px;
+        border: 0;
+        border-top: 5px solid #fed189;
+    }
+
+    div.jtable-main-container > table.jtable > tbody > tr.jtable-data-row > td {
+        padding: 0px;
+    }
+
+    #fixedbutton {
+        position: fixed;
+        bottom: 2px;
+        right: 145px;
+    }
+
+    #fixedbutton1 {
+        position: fixed;
+        bottom: 2px;
+        right: 35px;
+    }
+</style>
+<script src="~/Scripts/VINASIC/Employee/Employee_Index.js"></script>
+<script src="~/fullcalendar/libCalendar/moment.min.js"></script>
+<div class="row">
+    <div class="col-lg-12">
+        <h3 style="background-color: #faf9f8" class="page-header">
+            <img style="width: 200px" src="~/Files/logovinasic.png" />
+        </h3>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-home"></i><a href="/Order/Index">Home</a></li>
+            <li><i class="fa fa-laptop"></i>Danh Sách Nhân Viên</li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading tab-bg-info">
+                <ul class="nav nav-tabs">
+                    <li id="ProcessStockIn" class="active">
+                        <a data-toggle="tab" href="#recent-activity">
+                            <i class="icon-home"></i>
+                            Nhân Viên
+                        </a>
+                    </li>
+                    <li id="CreateStockIn" class="">
+                        <a data-toggle="tab" href="#edit-profile">
+                            <i class="icon-envelope"></i>
+                           Quyền In Ấn
+                        </a>
+                    </li>
+                </ul>
+            </header>
+            <div style="border-style: none" class="panel-body pannel-StockIn">
+                <div class="tab-content">
+                    <div id="recent-activity" class="tab-pane active">
+                        <div id="jtableEmployee"></div>
+                        <input type="hidden" id="temp" value="0" />
+                    </div>
+                    <div id="edit-profile" class="tab-pane disabled">
+                        <section class="panel">
+                            <h4 id="roleTemp"></h4>
+                            <div id="jtableProductUser"></div>
+                            <button id="fixedbutton" style="width: 100px;margin-top: 10px;" save class="btn btn-primary">
+                                <div class="button-image image-save"></div>
+                                Lưu Thay Đổi
+                            </button>
+                            <button id="fixedbutton1" style="width: 100px;margin-top: 10px;margin-left:10px;background-color:#d0d0d0" cancel aria-hidden="true" class="btn">
+                                <div class="button-image image-close"></div>
+                                Không Lưu
+                            </button>
+                        </section>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="popup_Employee" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-pencil"></span>Thêm/Sửa Nhân Viên</h4>
+            </div>
+            <div class="modal-body" style="padding: 40px 50px;">
+                <form role="form">
+                    <input type="hidden" data-bind="value: Id" />
+                    <div class="form-group">
+                        <label for="position">Chọn Chức Vụ</label>
+                        <select id="position" class="form-control input-lg m-bot15 ">
+                            <option value="0">Chức Vụ</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="Name"><span class="glyphicon glyphicon-list-alt"></span>Tên Nhân Viên</label>
+                        <input type="text" data-bind="value: Name" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="Name"><span class="glyphicon glyphicon-list-alt"></span>Tên Đăng Nhập</label>
+                        <input type="text" data-bind="value: UserName" class="form-control"  placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="Address"><span class="glyphicon glyphicon-comment"></span>Địa Chỉ</label>
+                        <input type="text" data-bind="value: Address" class="form-control"  placeholder="">
+                    </div>
+                     <div class="form-group">
+                        <label for="Mobile"><span class="glyphicon glyphicon-list-alt"></span>Số Điện Thoại</label>
+                        <input type="text" data-bind="value: Mobile" class="form-control"  placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="Email"><span class="glyphicon glyphicon-comment"></span>Email</label>
+                        <input type="text" data-bind="value: Email" class="form-control"  placeholder="">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
+                    <div class="button-image image-close"></div>
+                    Đóng</button>
+                <button save class="btn btn-primary">
+                    <div class="button-image image-save"></div>
+                    Lưu</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="popup_UserRole" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-pencil"></span>Nhóm Quyền</h4>
+            </div>
+            <div class="modal-body" style="padding: 40px 50px;">
+                <div id="jtableUserRole"></div>
+            </div>
+            <div class="modal-footer">
+                <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
+                    <div class="button-image image-close"></div>
+                    Đóng
+                </button>
+                <button id="saveUserRole" saveUserRole class="btn btn-primary">
+                    <div class="button-image image-save"></div>
+                    Lưu
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="popup_MainTiming" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-pencil"></span>Chấm Công</h4>
+            </div>
+            <div class="modal-body" style="padding: 40px 50px;">
+                <div style="margin-top:20px;" id='calendar1'></div>
+            </div>
+            <div class="modal-footer">
+                <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
+                    <div class="button-image image-close"></div>
+                    Đóng
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="popupEventForm" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-pencil"></span>Chấm Công</h4>
+            </div>
+            <div class="modal-body" style="padding: 40px 50px;">
+                <form id="EventForm" class="well">
+                    <input type="hidden" id="eventID">
+                    <div class="form-group">
+                        <label for="Content"><span class="glyphicon glyphicon-qrcode"></span>Nội Dung</label>
+                        <textarea rows="4" cols="50" class="form-control" id="eventTitle"></textarea>
+                    </div>
+                    <input type="hidden" id="eventDate">
+                    <input type="hidden" id="eventTime">
+                    <input type="hidden" id="eventDuration" value="15">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnPopupCancel" cancel aria-hidden="true" data-dismiss="modal" class="btn">
+                    <div class="button-image image-close"></div>
+                    Đóng
+                </button>
+                <button id="btnPopupSave" save class="btn btn-primary">
+                    <div class="button-image image-save"></div>
+                    Lưu
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>

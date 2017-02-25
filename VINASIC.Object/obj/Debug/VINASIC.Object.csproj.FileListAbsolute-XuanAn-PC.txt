@@ -1,0 +1,33 @@
+c:\Users\thientran\documents\visual studio 2012\Projects\VINASIC\VINASIC.Object\bin\Debug\VINASIC.Object.dll
+c:\Users\thientran\documents\visual studio 2012\Projects\VINASIC\VINASIC.Object\bin\Debug\VINASIC.Object.pdb
+c:\Users\thientran\documents\visual studio 2012\Projects\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.csprojResolveAssemblyReference.cache
+c:\Users\thientran\documents\visual studio 2012\Projects\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.dll
+c:\Users\thientran\documents\visual studio 2012\Projects\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.pdb
+D:\Projects\VINASIC\VINASIC.Object\bin\Debug\VINASIC.Object.dll
+D:\Projects\VINASIC\VINASIC.Object\bin\Debug\VINASIC.Object.pdb
+D:\Projects\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.dll
+D:\Projects\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.pdb
+D:\Projects\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.csprojResolveAssemblyReference.cache
+D:\SoftWare\VINASIC\VINASIC.Object\bin\Debug\VINASIC.Object.dll
+D:\SoftWare\VINASIC\VINASIC.Object\bin\Debug\VINASIC.Object.pdb
+D:\SoftWare\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.dll
+D:\SoftWare\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.pdb
+D:\SoftWare\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.csprojResolveAssemblyReference.cache
+D:\DynamicCompany\VINASIC\VINASIC.Object\bin\Debug\VINASIC.Object.dll
+D:\DynamicCompany\VINASIC\VINASIC.Object\bin\Debug\VINASIC.Object.pdb
+D:\DynamicCompany\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.dll
+D:\DynamicCompany\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.pdb
+D:\BaoDev\VINASIC\VINASIC.Object\bin\Debug\VINASIC.Object.dll
+D:\BaoDev\VINASIC\VINASIC.Object\bin\Debug\VINASIC.Object.pdb
+D:\BaoDev\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.dll
+D:\BaoDev\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.pdb
+D:\ABao\VINASIC\VINASIC.Object\bin\Debug\VINASIC.Object.dll
+D:\ABao\VINASIC\VINASIC.Object\bin\Debug\VINASIC.Object.pdb
+D:\ABao\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.dll
+D:\ABao\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.pdb
+D:\ABao\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.csprojResolveAssemblyReference.cache
+C:\Users\bao.tran\Downloads\VINASIC\VINASIC.Object\bin\Debug\VINASIC.Object.dll
+C:\Users\bao.tran\Downloads\VINASIC\VINASIC.Object\bin\Debug\VINASIC.Object.pdb
+C:\Users\bao.tran\Downloads\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.csprojResolveAssemblyReference.cache
+C:\Users\bao.tran\Downloads\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.dll
+C:\Users\bao.tran\Downloads\VINASIC\VINASIC.Object\obj\Debug\VINASIC.Object.pdb

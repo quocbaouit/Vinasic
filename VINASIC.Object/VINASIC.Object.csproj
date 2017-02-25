@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D7A8EDE6-2E66-4EC7-ADE4-A1712EF5841A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VINASIC.Object</RootNamespace>
+    <AssemblyName>VINASIC.Object</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="T_CommodityDictionary.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_Customer.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_ElementFormular.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_ErrorLog.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_Feature.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_Formular.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_FormularDetail.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_Machine.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_Material.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_MaterialType.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_Menu.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_MenuCategory.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_Notification.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_Order.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_OrderDetail.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_Organization.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_Partner.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_PaymentVoucher.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_Permission.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_Position.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_Product.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_ProductType.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_Quittance.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_ReceiptVoucher.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_RoLe.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_RolePermission.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_Staff.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_StandardSale.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_StockIn.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_StockInDetail.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_Timing.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_User.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_UserFormular.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_UserProduct.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_UserRole.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T__Remind.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VINASIC.Model.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="VINASIC.Model.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>VINASIC.Model.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

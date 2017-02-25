@@ -1,0 +1,114 @@
+﻿body {
+    font-family: Verdana;
+    font-size: 16px;
+}
+
+.contain {
+    width: 1100px;
+    margin: 50px auto;
+}
+
+.error-left {
+    width: 50%;
+    float: left;
+    display: block !important;
+}
+
+    .error-left img {
+        width: 100%;
+    }
+
+.error-title {
+    font-size: 37px;
+    font-weight: bold;
+    color: blue;
+    padding-bottom: 30px;
+    text-transform:capitalize;
+}
+
+.short-error {
+    color: red;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.error-right {
+    padding-top: 60px;
+}
+
+.button-err {
+    margin-top: 20px;
+}
+
+#collapseError {
+    margin-top: -50px;
+}
+
+        #collapseError .well {
+            background: none !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+@media (max-width:1120px) {
+    .contain {
+        width: 100%;
+    }
+}
+
+@media (max-width:950px) {
+    .contain {
+        margin: 0;
+    }
+
+    .error-right {
+        padding-top: 40px;
+    }
+
+    #collapseError {
+        margin-top: -20px;
+    }
+        #collapseError .well {
+            /*padding: 20px 0*/
+        }
+
+}
+
+@media (max-width:700px) {
+    .error-left {
+        display: none !important;
+    }
+
+    .error-right {
+        background: url('../errorpage/404_2.jpg') no-repeat;
+        background-position: right -30px;
+        padding:70px 0;
+    }
+    .short-error {
+     width: 50%;
+  padding: 10px 0;
+  line-height: 25px;
+    }
+        #collapseError {
+        margin-top:0px;
+    }
+        #collapseError .well {
+            padding: 20px 0
+        }
+}
+
+@media (max-width:540px) {
+    body {
+      background-color: bisque !important;
+    }
+    .error-right {
+    background:none;
+    }
+
+    .short-error {
+    width:100%
+    }
+    #collapseError {
+  margin-top: -50px;
+}
+}
