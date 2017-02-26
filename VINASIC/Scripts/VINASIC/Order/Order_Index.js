@@ -272,6 +272,10 @@ VINASIC.Order = function () {
         });
     }
     function updatePayment(orderId, payment, paymentType) {
+        if (paymentType == 3)
+        {
+            payment = 0;
+        }
         $.ajax({
             url: "/Order/UpdatePayment?orderId=" + orderId + "&payment=" + payment + "&paymentType=" + paymentType,
             type: 'post',
@@ -290,6 +294,8 @@ VINASIC.Order = function () {
         });
     }
     function updateHasPay(orderId, payment, paymentType) {
+        if (payment == "") payment = 0;
+        var a = payment;
         $.ajax({
             url: "/Order/UpdateHaspayCustom?orderId=" + orderId + "&haspay=" + payment + "&paymentType=" + paymentType,
             type: 'post',
@@ -586,32 +592,32 @@ VINASIC.Order = function () {
                                                 width: "10%"
                                             },
                                             Width: {
-                                                title: "Chiều Ngang",
+                                                title: "CNgang",
                                                 width: "5%"
                                             },
                                             Height: {
-                                                title: "Chiều Cao",
+                                                title: "CCao",
                                                 width: "5%"
                                             },
                                             Square: {
-                                                title: "Diện Tích",
+                                                title: "DTích",
                                                 width: "5%"
                                             },
                                             Quantity: {
-                                                title: 'Số Lượng',
+                                                title: 'SLượng',
                                                 width: '5%'
                                             },
                                             SumSquare: {
-                                                title: 'Tổng Diện Tích',
+                                                title: 'Tổng DT',
                                                 width: '10%'
                                             },
                                             strPrice: {
-                                                title: 'Đơn Giá',
+                                                title: 'ĐGiá',
                                                 width: '5%'
                                             },
                                             strSubTotal: {
                                                 title: 'Thành Tiền',
-                                                width: '5%'
+                                                width: '10%'
                                             },
                                             DesignProcess: {
                                                 visibility: 'fixed',
@@ -738,10 +744,10 @@ VINASIC.Order = function () {
                     width: "7%"
                 },
                 strHaspay: {
-                    title: "Đã Thanh Toán",
+                    title: "Đã Thu",
                     width: "7%",
                     display: function (data) {
-                        var text = $('<a  href="javascript:void(0)"  class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + data.record.strHaspay + '</a>');
+                        var text = $('<a  href="javascript:void(0)" style="color:#89798d;"  class="clickable"  data-target="#popup_Order" title="Cập nhật số tiền đã thu.">' + data.record.strHaspay + '</a>');
                         text.click(function () {
                             global.Data.OrderId = data.record.Id;
                             showPopupHaspay();
@@ -749,32 +755,49 @@ VINASIC.Order = function () {
                         return text;
                     }
                 },
-                StrPaymentType: {
-                    visibility: "fixed",
-                    title: "Loại Thanh Toán",
-                    width: "7%",
-                    display: function (data) {
-                        var text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật Trạng Thái.\">" + data.record.StrPaymentType + "</a>");
-                        text.click(function () {
-                            // updateStatus(data.record.Id, data.record.DesignStatus);
-                        });
-                        return text;
-                    }
-                },
+             
                 StrHas: {
                     title: "Còn Lại",
                     width: "7%",
                     display: function (data) {
-                        var text = $('<a  href="javascript:void(0)" class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + (data.record.SubTotal - data.record.HasPay).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</a>');
+                        var text = $('<a  href="javascript:void(0)" style="color:#89798d;"  class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + (data.record.SubTotal - data.record.HasPay).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</a>');
                         return text;
                     }
                 },
+                //StrPaymentType: {
+                //    visibility: "fixed",
+                //    title: "Loại Thanh Toán",
+                //    width: "7%",
+                //    display: function (data) {
+                //        var text = "";
+                //        if (data.record.PaymentMethol == 3)
+                //        { text = $("<a href=\"javascript:void(0)\" style=\"color:#89798d;\"   class=\"clickable\" title=\"Cập nhật Trạng Thái.\">" + "Công Nợ" + "</a>"); }
+                //        else if (data.record.PaymentMethol == 0) {
+                //            { text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật Trạng Thái.\"><span class=\"fa fa-info-circle fa-lg\" aria-hidden=\"true\"></span></a>"); }
+                //        }
+                //        else  {
+                //            text = $("<a href=\"javascript:void(0)\" style=\"color:#89798d;\"   class=\"clickable\" title=\"Cập nhật Trạng Thái.\">" + data.record.StrPaymentType + "</a>");
+                //        }
+                //        text.click(function () {
+                //            // updateStatus(data.record.Id, data.record.DesignStatus);
+                //        });
+                //        return text;
+                //    }
+                //},
                 PaymentProcess: {
                     visibility: 'fixed',
                     title: "Thanh Toán",
                     width: "7%",
                     display: function (data) {
-                        var text = $('<a  href="javascript:void(0)" class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + "Thanh Toán" + '</a>');
+                        var text = "";
+                        if (data.record.PaymentMethol == 3)
+                        { text = $("<a href=\"javascript:void(0)\"   class=\"clickable\" title=\"Cập nhật thanh toán.\">" + "Công Nợ" + "</a>"); }
+                        else if (data.record.PaymentMethol == 0) {
+                            { text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật thanh toán.\"><span class=\"fa fa-money fa-lg\" aria-hidden=\"true\"></span></a>"); }
+                        }
+                        else {
+                            text = $("<a href=\"javascript:void(0)\"  class=\"clickable\" title=\"Cập nhật thanh toán.\">" + data.record.StrPaymentType + "</a>");
+                        }
                         text.click(function () {
                             global.Data.NumberDetail = data.record.T_OrderDetail.length;
                             $("#type2").prop("checked", true);
@@ -802,10 +825,15 @@ VINASIC.Order = function () {
                     }
                 },
                 strIsApproval: {
-                    title: "Quản Lý Duyệt",
-                    width: "7%",
+                    title: "Duyệt",
+                    width: "3%",
                     display: function (data) {
-                        var text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Duyệt Đơn Hàng.\">" + data.record.strIsApproval + "</a>");
+                        var text = "";
+                        if (data.record.IsApproval == true)
+                        { text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật duyệt đơn hàng.\"><span class=\"fa fa-check-square-o fa-lg\" aria-hidden=\"true\"></span></a>"); }
+                        else {
+                            text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật duyệt đơn hàng.\"><span class=\"fa fa-times-circle fa-lg\" aria-hidden=\"true\"></span></a>");
+                        }
                         text.click(function () {
                             updateApproval(data.record.Id, data.record.IsApproval);
                         });
@@ -824,10 +852,15 @@ VINASIC.Order = function () {
 
                 StrHasDelivery: {
                     visibility: "fixed",
-                    title: "Giao Hàng",
-                    width: "5%",
+                    title: "GHàng",
+                    width: "3%",
                     display: function (data) {
-                        var text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật Trạng Thái.\">" + data.record.StrHasDelivery + "</a>");
+                        var text = "";
+                        if (data.record.IsDelivery==2)
+                        { text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật giao hàng.\"><span class=\"fa fa-check-square-o fa-lg\" aria-hidden=\"true\"></span></a>"); }
+                        else {
+                            text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật giao hàng.\"><span class=\"fa fa-times-circle fa-lg\" aria-hidden=\"true\"></span></a>");
+                        }
                         text.click(function () {
                             updateDelivery(data.record.Id, data.record.IsDelivery);
                         });
@@ -835,7 +868,7 @@ VINASIC.Order = function () {
                     }
                 },
                 CreateUserName: {
-                    title: "Nhân viên Kinh Doanh",
+                    title: "NV Kinh Doanh",
                     width: "10%"
                 },
                 Delete: {
@@ -1464,7 +1497,6 @@ VINASIC.Order = function () {
         $("#saveOrder").click(function () {
             saveOrder();
         });
-
         $("#dproduct").change(function () {
             //$("#dfilename").val("");
             //$("#dnote").val("");
