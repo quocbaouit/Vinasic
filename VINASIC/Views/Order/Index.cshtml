@@ -35,29 +35,10 @@
             <img style="width: 200px" src="~/Files/logovinasic.png" />
         </h3>
         <ol class="breadcrumb">
-
-
-            @if (ViewContext.RouteData.Values["controller"].ToString() != "Dashboard")
-            {
-                @Html.ActionLink("Home", "Index", "Dashboard")
-                <li class="active">
-                    / @ViewBag.Title
-                </li>
-            }
-            else
-            {
-                <li class="active">
-                    Timming
-                </li>
-            }
-
-        </ol>
-
-        @*<ol class="breadcrumb">
             <li><i class="fa fa-home"></i><a href="/Dashboard/index">Trang Chủ</a></li>
             <li><i class="icon_documents_alt"></i>Đơn Hàng</li>
             <li><i class="fa fa-user-md"></i>Quản Lý Đơn Hàng</li>
-        </ol>*@
+        </ol>
     </div>
 </div>
 <div style="display: none" id="defauEmployee">@ViewBag.Employee.Id</div>
