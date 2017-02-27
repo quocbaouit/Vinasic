@@ -635,20 +635,22 @@ namespace VINASIC.Controllers
 
             ws.Cells.Style.Font.Size = 14;
             ws.Cells.Style.Font.Name = "Times New Roman";
-            ws.Column(1).Width = 10;
-            ws.Column(2).Width = 20;
-            ws.Column(3).Width = 20;
-            ws.Column(4).Width = 35;
-            ws.Column(5).Width = 35;
-            ws.Column(6).Width = 10;
-            ws.Column(7).Width = 10;
-            ws.Column(8).Width = 10;
-            ws.Column(9).Width = 20;
-            ws.Column(10).Width = 20;
-            ws.Column(11).Width = 30;
-            ws.Column(12).Width = 30;
-            ws.Column(13).Width = 30;
-            ws.Column(14).Width = 20;
+            ws.Column(1).Width = 7;
+            ws.Column(2).Width = 7;
+            ws.Column(3).Width = 15;
+            ws.Column(4).Width = 30;
+            ws.Column(5).Width = 30;
+            ws.Column(6).Width = 30;
+            ws.Column(7).Width = 8;
+            ws.Column(8).Width = 8;
+            ws.Column(9).Width = 8;
+            ws.Column(10).Width = 14;
+            ws.Column(11).Width = 14;
+            ws.Column(12).Width = 14;
+            ws.Column(13).Width = 14;
+            ws.Column(14).Width = 14;
+            ws.Column(15).Width = 14;
+            ws.Column(16).Width = 14;
             const string path = "~/Files/logovinasic.png";
             var logo = Image.FromFile(Server.MapPath(path));
             ws.Row(0 * 5).Height = 39.00D;
@@ -689,59 +691,61 @@ namespace VINASIC.Controllers
             ws.Cells["A8"].Value = "STT";
             ws.Cells["A8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-
-            ws.Cells["B8"].Value = "Ngày Tạo";
+            ws.Cells["B8"].Value = "Mã ĐH";
             ws.Cells["B8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            ws.Cells["C8"].Value = "Tên Khách Hàng";
+            ws.Cells["C8"].Value = "Ngày Tạo";
             ws.Cells["C8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            ws.Cells["D8"].Value = "Hạng mục";
+            ws.Cells["D8"].Value = "Tên Khách Hàng";
             ws.Cells["D8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            ws.Cells["E8"].Value = "Diễn giải";
+            ws.Cells["E8"].Value = "Hạng mục";
             ws.Cells["E8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            ws.Cells["F8"].Value = "Đơn vị";
+            ws.Cells["F8"].Value = "Diễn giải";
             ws.Cells["F8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            ws.Cells["G8:H8"].Merge = true;
-            ws.Cells["G8"].Value = "Kích thước (m)";
+            ws.Cells["G8"].Value = "Đơn vị";
             ws.Cells["G8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            ws.Cells["I8"].Value = "Số lượng";
-            ws.Cells["I8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            ws.Cells["H8:I8"].Merge = true;
+            ws.Cells["H8"].Value = "Kích thước (m)";
+            ws.Cells["H8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            ws.Cells["J8"].Value = "Diện tích";
+            ws.Cells["J8"].Value = "Số lượng";
             ws.Cells["J8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            ws.Cells["K8"].Value = "Đơn giá (vnd)";
+            ws.Cells["K8"].Value = "Diện tích";
             ws.Cells["K8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            ws.Cells["L8"].Value = "Thành Tiền (vnd)";
+            ws.Cells["L8"].Value = "Đơn giá (vnd)";
             ws.Cells["L8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-
-            ws.Cells["M8"].Value = "Tổng Tiền Hàng (vnd)";
+            ws.Cells["M8"].Value = "Thành Tiền (vnd)";
             ws.Cells["M8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            ws.Cells["N8"].Value = "ThanhToán(vnd)";
+
+            ws.Cells["N8"].Value = "Tổng Tiền Hàng (vnd)";
             ws.Cells["N8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            ws.Cells["O8"].Value = "Còn Lại (vnd)";
+            ws.Cells["O8"].Value = "ThanhToán(vnd)";
             ws.Cells["O8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            foreach (var c in ws.Cells["A8:O8"])
+            ws.Cells["P8"].Value = "Còn Lại (vnd)";
+            ws.Cells["P8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+
+            foreach (var c in ws.Cells["A8:P8"])
             {
                 c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 c.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                 c.Style.WrapText = true;
                 c.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
             }
-            ws.Cells["A9:K9"].Merge = true;
-            ws.Cells["A9:K9"].Value = "Tổng cộng";
-            ws.Cells["A9:K9"].Style.Font.Bold = true;
-            ws.Cells["A9:K9"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            ws.Cells["A9:L9"].Merge = true;
+            ws.Cells["A9:L9"].Value = "Tổng cộng";
+            ws.Cells["A9:L9"].Style.Font.Bold = true;
+            ws.Cells["A9:L9"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
             ws.Cells["D9"].Value = "";
             ws.Cells["E9"].Value = "";
@@ -751,15 +755,16 @@ namespace VINASIC.Controllers
             ws.Cells["I9"].Value = "";
             ws.Cells["J9"].Value = "";
             ws.Cells["K9"].Value = "";
-            ws.Cells["L9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells["L9"].Value = result[0].Total;
+            ws.Cells["L9"].Value = "";
             ws.Cells["M9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells["M9"].Value = "";//result.Sum(x => x.Total1);
+            ws.Cells["M9"].Value = result[0].Total;
             ws.Cells["N9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells["N9"].Value = "";//result.Sum(x=>x.HasPay);
+            ws.Cells["N9"].Value = "";//result.Sum(x => x.Total1);
             ws.Cells["O9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells["O9"].Value = "";//result.Sum(x=>x.HasExist);
-            foreach (var c in ws.Cells["A9:O9"])
+            ws.Cells["O9"].Value = "";//result.Sum(x=>x.HasPay);
+            ws.Cells["P9"].Style.Numberformat.Format = "#,##0";
+            ws.Cells["P9"].Value = "";//result.Sum(x=>x.HasExist);
+            foreach (var c in ws.Cells["A9:P9"])
             {
                 c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 c.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
@@ -774,19 +779,20 @@ namespace VINASIC.Controllers
                 ws.InsertRow(endRow, 1);
 
                 ws.Cells[endRow, 1].Value = i + 1;
-                ws.Cells[endRow, 2].Value = result[i].CreatedDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
-                ws.Cells[endRow, 3].Value = result[i].CustomerName;
-                ws.Cells[endRow, 4].Value = result[i].FileName;
-                ws.Cells[endRow, 5].Value = result[i].CommodityName;
-                ws.Cells[endRow, 6].Value = result[i].Unit;
-                ws.Cells[endRow, 7].Value = result[i].Width == 0 ? null : result[i].Width;
-                ws.Cells[endRow, 8].Value = result[i].Height == 0 ? null : result[i].Height;
-                ws.Cells[endRow, 9].Value = result[i].Quantity;
-                ws.Cells[endRow, 10].Value = result[i].Square == 0 ? null : result[i].SumSquare;
-                ws.Cells[endRow, 11].Style.Numberformat.Format = "#,##0";
-                ws.Cells[endRow, 11].Value = result[i].Price;
+                ws.Cells[endRow, 2].Value = result[i].OrderId;
+                ws.Cells[endRow, 3].Value = result[i].CreatedDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                ws.Cells[endRow, 4].Value = result[i].CustomerName;
+                ws.Cells[endRow, 5].Value = result[i].FileName;
+                ws.Cells[endRow, 6].Value = result[i].CommodityName;
+                ws.Cells[endRow, 7].Value = result[i].Unit;
+                ws.Cells[endRow, 8].Value = result[i].Width == 0 ? null : result[i].Width;
+                ws.Cells[endRow, 9].Value = result[i].Height == 0 ? null : result[i].Height;
+                ws.Cells[endRow, 10].Value = result[i].Quantity;
+                ws.Cells[endRow, 11].Value = result[i].Square == 0 ? null : result[i].SumSquare;
                 ws.Cells[endRow, 12].Style.Numberformat.Format = "#,##0";
-                ws.Cells[endRow, 12].Value = result[i].SubTotal;
+                ws.Cells[endRow, 12].Value = result[i].Price;
+                ws.Cells[endRow, 13].Style.Numberformat.Format = "#,##0";
+                ws.Cells[endRow, 13].Value = result[i].SubTotal;
 
                 try
                 {
@@ -794,29 +800,29 @@ namespace VINASIC.Controllers
                     {
                         ws.Cells[endRow, 13].Style.Numberformat.Format = "#,##0";
                         ws.Cells[endRow, 13].Value = result[i].Total1;
-                        ws.Cells[endRow, 14].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, 14].Value = result[i].HasPay;
                         ws.Cells[endRow, 15].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, 15].Value = result[i].HasExist;
+                        ws.Cells[endRow, 15].Value = result[i].HasPay;
+                        ws.Cells[endRow, 16].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, 16].Value = result[i].HasExist;
                     }
                     else
                     {
-                        ws.Cells[endRow, 13].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, 13].Value = "";
                         ws.Cells[endRow, 14].Style.Numberformat.Format = "#,##0";
                         ws.Cells[endRow, 14].Value = "";
                         ws.Cells[endRow, 15].Style.Numberformat.Format = "#,##0";
                         ws.Cells[endRow, 15].Value = "";
+                        ws.Cells[endRow, 16].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, 16].Value = "";
                     }
                 }
                 catch (Exception)
                 {
-                    ws.Cells[endRow, 13].Style.Numberformat.Format = "#,##0";
-                    ws.Cells[endRow, 13].Value = result[i].Total1;
                     ws.Cells[endRow, 14].Style.Numberformat.Format = "#,##0";
-                    ws.Cells[endRow, 14].Value = result[i].HasPay;
+                    ws.Cells[endRow, 14].Value = result[i].Total1;
                     ws.Cells[endRow, 15].Style.Numberformat.Format = "#,##0";
-                    ws.Cells[endRow, 15].Value = result[i].HasExist;
+                    ws.Cells[endRow, 15].Value = result[i].HasPay;
+                    ws.Cells[endRow, 16].Style.Numberformat.Format = "#,##0";
+                    ws.Cells[endRow, 16].Value = result[i].HasExist;
                 }
                 if (i == numRows - 1)
                     continue;
@@ -824,7 +830,7 @@ namespace VINASIC.Controllers
             }
             if (numRows != 0)
             {
-                foreach (var c in ws.Cells["A" + startRow + ":O" + endRow])
+                foreach (var c in ws.Cells["A" + startRow + ":P" + endRow])
                 {
                     c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     c.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
