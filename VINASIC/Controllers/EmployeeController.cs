@@ -128,7 +128,35 @@ namespace VINASIC.Controllers
             }
             return Json(JsonDataResult);
         }
-
+        public JsonResult UpdateLock(int userId, bool isLock)
+        {
+            try
+            {
+                if (IsAuthenticate)
+                {
+                    var responseResult = _bllEmployee.UpdateLock(userId, isLock, UserContext.UserID);
+                    if (responseResult.IsSuccess)
+                        JsonDataResult.Result = "OK";
+                    else
+                    {
+                        JsonDataResult.Result = "ERROR";
+                        JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
+                    }
+                }
+                else
+                {
+                    JsonDataResult.Result = "ERROR";
+                    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
+                }
+            }
+            catch (Exception ex)
+            {
+                //add error
+                JsonDataResult.Result = "ERROR";
+                JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update", Message = "Lỗi: " + ex.Message });
+            }
+            return Json(JsonDataResult);
+        }
         [HttpPost]
         public JsonResult SaveEmployee(ModelUser modelEmployee)
         {

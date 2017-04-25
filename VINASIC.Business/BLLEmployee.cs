@@ -52,7 +52,7 @@ namespace VINASIC.Business
             var checkResult = false;
             try
             {
-                var checkName = _repUser.GetMany(c => !c.IsDeleted && c.Id != id && c.UserName.Trim().ToUpper().Equals(employeeName.Trim().ToUpper())).FirstOrDefault();
+                var checkName = _repUser.GetMany(c => !c.IsDeleted  && c.Id != id && c.UserName.Trim().ToUpper().Equals(employeeName.Trim().ToUpper())).FirstOrDefault();
                 if (checkName == null)
                     checkResult = true;
             }
@@ -171,7 +171,7 @@ namespace VINASIC.Business
             try
             {
                 responResult = new ResponseBase();
-                var employee = _repUser.GetMany(c => !c.IsDeleted && c.Id == id).FirstOrDefault();
+                var employee = _repUser.GetMany(c => !c.IsDeleted  && c.Id == id).FirstOrDefault();
                 if (employee != null)
                 {
 
@@ -215,7 +215,7 @@ namespace VINASIC.Business
                 {
                     sorting = "CreatedDate DESC";
                 }
-                var employees = _repUser.GetMany(c => !c.IsDeleted).Select(c => new ModelUser()
+                var employees = _repUser.GetMany(c => !c.IsDeleted ).Select(c => new ModelUser()
                 {
                     Id = c.Id,
                     Name = c.Name,
@@ -224,6 +224,7 @@ namespace VINASIC.Business
                     Mobile = c.Mobile,
                     Email = c.Email,
                     UserName = c.UserName,
+                    IsLock=c.IsLock,
                     PassWord=c.PassWord,
                     PositionId = c.PositionId,
                     PositionName = c.T_Position.Name,
@@ -259,6 +260,27 @@ namespace VINASIC.Business
                 throw ex;
             }
         }
+        public ResponseBase UpdateLock(int userId, bool isLock, int contextUser)
+        {
+            var responResult = new ResponseBase();
+            var user = _repUser.GetMany(c => !c.IsDeleted && c.Id==userId).FirstOrDefault();
+                if (user != null)
+                {
+                    user.IsLock = !isLock;
+                    user.UpdatedUser = contextUser;
+                    user.UpdatedDate = DateTime.Now.AddHours(14);
+                    _repUser.Update(user);
+                    SaveChange();
+                    responResult.IsSuccess = true;
+                }
+                else
+                {
+                    responResult.IsSuccess = false;
+                    responResult.Errors.Add(new Error() { MemberName = "Update", Message = "Lỗi" });
+                }
+
+            return responResult;
+        }
         public List<ModelSelectItem> GetListEmployee()
         {
             List<ModelSelectItem> listModelSelect = new List<ModelSelectItem>
@@ -268,7 +290,7 @@ namespace VINASIC.Business
 
             try
             {
-                listModelSelect.AddRange(_repUser.GetMany(x => !x.IsDeleted ).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
+                listModelSelect.AddRange(_repUser.GetMany(x => !x.IsDeleted && !x.IsLock ).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
             }
             catch (Exception ex)
             {
@@ -289,7 +311,7 @@ namespace VINASIC.Business
             {
                 try
                 {
-                    listModelSelect.AddRange(_repUser.GetMany(x => !x.IsDeleted &&x.Id== userId && x.T_Position.T_Organization.ShortName.Contains(shortName)).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
+                    listModelSelect.AddRange(_repUser.GetMany(x => !x.IsDeleted &&x.Id== userId && x.T_Position.T_Organization.ShortName.Contains(shortName) && !x.IsLock).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
                 }
                 catch (Exception ex)
                 {
@@ -301,7 +323,7 @@ namespace VINASIC.Business
                 try
                 {
                     listModelSelect.Add( new ModelSelectItem() { Value = 0, Name = "---Chọn Hết----" });
-                    listModelSelect.AddRange(_repUser.GetMany(x => !x.IsDeleted && x.T_Position.T_Organization.ShortName.Contains(shortName)).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
+                    listModelSelect.AddRange(_repUser.GetMany(x => !x.IsDeleted && x.T_Position.T_Organization.ShortName.Contains(shortName) && !x.IsLock).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
                 }
                 catch (Exception ex)
                 {

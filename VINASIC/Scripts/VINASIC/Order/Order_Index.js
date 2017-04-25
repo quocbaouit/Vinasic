@@ -839,15 +839,6 @@ VINASIC.Order = function () {
                         });
                         return text;
                     }
-                    //display: function (data) {
-                    //    var text = $('<a  href="javascript:void(0)" class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + "Báo Giá" + '</a>');
-                    //    text.click(function () {
-                    //        //global.Data.OrderId = data.record.Id;
-                    //        location.href = "/Order/ExportExcelQuotation?orderId=" + data.record.Id + "&orderName=" + data.record.Name;
-                    //        //showPopupHaspay();
-                    //    });
-                    //    return text;
-                    //}
                 },
 
                 StrHasDelivery: {

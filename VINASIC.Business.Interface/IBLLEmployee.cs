@@ -26,5 +26,6 @@ namespace VINASIC.Business.Interface
         ResponseBase ResetPass(int empId);
         List<int> GetProductByUserId(int userId);
         ResponseBase UpdateUserProduct(int userId, List<int> products);
+        ResponseBase UpdateLock(int userId, bool isLock, int contextUser);
     }
 }
