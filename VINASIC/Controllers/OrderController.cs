@@ -798,8 +798,8 @@ namespace VINASIC.Controllers
                 {
                     if ((result[i].OrderId != result[i - 1].OrderId))
                     {
-                        ws.Cells[endRow, 13].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, 13].Value = result[i].Total1;
+                        ws.Cells[endRow, 14].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, 14].Value = result[i].Total1;
                         ws.Cells[endRow, 15].Style.Numberformat.Format = "#,##0";
                         ws.Cells[endRow, 15].Value = result[i].HasPay;
                         ws.Cells[endRow, 16].Style.Numberformat.Format = "#,##0";

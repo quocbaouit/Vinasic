@@ -641,7 +641,7 @@ namespace VINASIC.Business
             }
             if (!string.IsNullOrEmpty(keyWord))
             {
-                orders = orders.Where(c => c.CustomerName.Trim().ToLower().Contains(keyWord.Trim().ToLower()) || c.CustomerPhone.Contains(keyWord)).ToList();
+                orders = orders.Where(c => c.CustomerName.Trim().ToLower().Contains(keyWord.Trim().ToLower()) || c.CustomerPhone.Contains(keyWord) || c.OrderId.ToString().Contains(keyWord)).ToList();
             }
             if (paymentStatus == 1)
             {
