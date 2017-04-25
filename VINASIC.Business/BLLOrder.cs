@@ -629,7 +629,7 @@ namespace VINASIC.Business
                         SubTotal = c.SubTotal,
                         Total1 = c.T_Order.SubTotal,
                         HasPay = c.T_Order.HasPay ?? 0,
-                        HasExist = c.T_Order.SubTotal - c.T_Order.HasPay ?? 0,
+                        HasExist = c.T_Order.SubTotal - c.T_Order.HasPay?? c.T_Order.SubTotal,
                         IsCompleted = c.IsCompleted,
                         strIsComplete = c.IsCompleted ? "Đã Xong" : "Chưa Xong",
                         strDesignStatus = c.DesignStatus == null ? "Chưa Làm" : (c.DesignStatus == 1 ? "Đang Làm" : (c.DesignStatus == 2 ? "Đã Xong" : "Chưa Làm")),
