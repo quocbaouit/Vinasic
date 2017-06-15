@@ -100,6 +100,12 @@
     <Compile Include="T_Position.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="T_Process.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_ProcessDetail.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="T_Product.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>

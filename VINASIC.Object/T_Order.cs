@@ -43,6 +43,7 @@ namespace VINASIC.Object
         public string OrderView { get; set; }
         public int IsDelivery { get; set; }
         public int PaymentMethol { get; set; }
+        public bool Process { get; set; }
     
         public virtual T_Customer T_Customer { get; set; }
         public virtual T_User T_User { get; set; }

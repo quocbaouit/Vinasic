@@ -518,7 +518,21 @@ VINASIC.Order = function () {
             selecting: true, //Enable selecting
             multiselect: true, //Allow multiple selecting
             selectingCheckboxes: true, //Show checkboxes on first column
-            selectOnRowClick: false,
+            selectOnRowClick: false,           
+            rowInserted: function (event, data) {
+                if (data.record.CreatedForUser == 1) {
+                    data.row.css("background", "#F5ECCE");                   
+                }
+                if (data.record.CreatedForUser == 1059) {
+                    data.row.css("background", "#f5cece");
+                }
+                if (data.record.CreatedForUser == 1015) {
+                    data.row.css("background", "#ced3f5");
+                }
+                if (data.record.CreatedForUser == 1063) {
+                    data.row.css("background", "#cef5da");
+                }
+            },
             toolbar: {
                 items: [{
                     tooltip: 'Click here to export this table to excel',
