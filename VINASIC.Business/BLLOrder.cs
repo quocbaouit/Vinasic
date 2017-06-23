@@ -103,7 +103,7 @@ namespace VINASIC.Business
             }
             if (delivery != 0)
             {
-                orders = delivery != 2 ? orders.Where(c => c.IsDelivery != 2) : orders.Where(c => c.IsDelivery == 2);
+                orders = delivery == 2 ? orders.Where(c => c.IsDelivery == 2) : orders.Where(c => c.IsDelivery == 1 || c.IsDelivery == 0);
             }
             var pageNumber = (startIndexRecord / pageSize) + 1;
 
@@ -721,6 +721,14 @@ namespace VINASIC.Business
         public List<ModelOrder> GetOrderOfEmployeeByDate()
         {
             return null;
+        }
+
+        public double GetPriceForCustomerAndProduct(int customerId, int productId)
+        {
+            var detail = _repOrderDetail.GetMany(x => x.T_Order.CustomerId == customerId && x.CommodityId == productId).OrderByDescending(z => z.CreatedDate).FirstOrDefault();
+            if (detail == null)
+                return 0;            
+            return detail.Price??0;
         }
         public PagedList<ModelViewDetail> GetListViewDetail(string keyWord, int startIndexRecord, int pageSize, string sorting, string fromDate, string toDate, int employee)
         {

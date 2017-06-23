@@ -145,12 +145,31 @@ VINASIC.Order = function () {
         return false;
     }
     function reloadListOrder() {
+        debugger;
         var keySearch = $("#keyword").val();
         var fromDate = $("#datefrom").val();
         var toDate = $("#dateto").val();
         var employee = $("#cemployee1").val();
         var delivery = $("#DeliveryType").val();
         var paymentStatus = $("#PaymentStatus").val();
+        $("#" + global.Element.JtableOrder).jtable("load", { 'keyword': keySearch, 'employee': employee, 'fromDate': fromDate, 'toDate': toDate, 'delivery': delivery, 'paymentStatus': paymentStatus });
+    }
+    function reloadListOrder(isdelivery, ispayment) {
+        debugger;
+        var keySearch = $("#keyword").val();
+        var fromDate = $("#datefrom").val();
+        var toDate = $("#dateto").val();
+        var employee = $("#cemployee1").val();
+        var delivery = $("#DeliveryType").val();
+        if (isdelivery != -1)
+        {
+            delivery = isdelivery;
+        }
+        
+        var paymentStatus = $("#PaymentStatus").val();
+        if (ispayment != -1) {
+            paymentStatus = ispayment;
+        }
         $("#" + global.Element.JtableOrder).jtable("load", { 'keyword': keySearch, 'employee': employee, 'fromDate': fromDate, 'toDate': toDate, 'delivery': delivery, 'paymentStatus': paymentStatus });
     }
     function reloadViewDetail() {
@@ -402,7 +421,7 @@ VINASIC.Order = function () {
         $("#dheignt").val("");
         $("#dsquare").val("");
         $("#dquantity").val("");
-        $("#dprice").val("");
+       // $("#dprice").val("");
         $("#dsubtotal").val("");
     }
     /*function Check Validate */
@@ -520,18 +539,16 @@ VINASIC.Order = function () {
             selectingCheckboxes: true, //Show checkboxes on first column
             selectOnRowClick: false,           
             rowInserted: function (event, data) {
-                if (data.record.CreatedForUser == 1) {
-                    data.row.css("background", "#F5ECCE");                   
+                if (data.record.IsDelivery != 2) {
+                    data.row.css("background", "#F5ECCE");
                 }
-                if (data.record.CreatedForUser == 1059) {
+                if (data.record.IsDelivery == 2) {
+                    data.row.css("background", "#dacfcf");
+                }
+                if (data.record.PaymentMethol != 0) {
                     data.row.css("background", "#f5cece");
                 }
-                if (data.record.CreatedForUser == 1015) {
-                    data.row.css("background", "#ced3f5");
-                }
-                if (data.record.CreatedForUser == 1063) {
-                    data.row.css("background", "#cef5da");
-                }
+               
             },
             toolbar: {
                 items: [{
@@ -1503,6 +1520,23 @@ VINASIC.Order = function () {
             saveOrder();
         });
         $("#dproduct").change(function () {
+            $.ajax({
+                url: "/Order/GetPriceForCustomerAndProduct?customerId=" + global.Data.CustomerId + "&productId=" +$(this).val(),
+                type: 'post',
+                contentType: 'application/json',
+                success: function (result) {
+                    GlobalCommon.CallbackProcess(result, function () {
+                        if (result.Records != 0) {
+                            var temp = result.Records.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                            $('#dprice').val(temp);
+                        } else {
+                            $('#dprice').val('');
+                        }
+
+                    }, false, global.Element.PopupOrder, true, true, function () {
+                    });
+                }
+            });
             //$("#dfilename").val("");
             //$("#dnote").val("");
             //$("#dwidth").val("");
@@ -1563,7 +1597,16 @@ VINASIC.Order = function () {
             $("#cphone").attr("disabled", false);
         });
         $("#search").click(function () {
-            reloadListOrder();
+            reloadListOrder(-1,-1);
+        });
+        $("#noDelivery").click(function () {
+            reloadListOrder(1,-1);
+        });
+        $("#Deliveried").click(function () {
+            reloadListOrder(2,-1);
+        });
+        $("#paid").click(function () {
+            reloadListOrder(-1, 1);
         });
         $("#vsearch").click(function () {
             reloadViewDetail();
@@ -1598,6 +1641,7 @@ VINASIC.Order = function () {
         });
         $("#cname").keydown(function () {
             global.Data.CustomerId = 0;
+            $('#dprice').val('');
             $("#cphone").val("");
             $("#cmail").val("");
             $("#caddress").val("");
@@ -1881,6 +1925,9 @@ function isNumberKey(evt) {
     if (charCode === 59 || charCode === 46)
         return true;
     if (charCode > 31 && (charCode < 48 || charCode > 57))
-    { GlobalCommon.ShowMessageDialog("Vui lòng nhập số.", function () { }, "Lỗi Nhập liệu"); }
-    return true;
+    {
+        toastr.warning("Vui lòng chỉ nhập số.");
+        return false;
+    }
+    
 }

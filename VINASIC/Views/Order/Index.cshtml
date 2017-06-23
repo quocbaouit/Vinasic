@@ -28,6 +28,25 @@
         .closebtn:hover {
             color: black;
         }
+        .button {
+    border: none;
+    color: #0c1ce6;
+    font-weight:bold;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.button1 {background-color: #008CBA;} 
+
+.button0 {background-color:#cef5da;} /* */
+.button2 {background-color:#d2ec6a;} /* */
+.button3 {background-color:#F5ECCE;} /* */ 
+.button4 {background-color:#dacfcf ;} 
+.button5 {background-color: #f5cece;} 
 </style>
 <div class="row">
     <div class="col-lg-12">
@@ -73,21 +92,21 @@
                     <div id="recent-activity" class="tab-pane active">
                         <div style="margin-bottom: 15px;" class="row">
                             <div class="form-group">
-                                <div class="col-md-2 col-sm-4 col-xs-12">
+                                <div class="col-md-3 col-sm-4 col-xs-12">
                                     <label for="datefrom">Từ Ngày</label>
                                     <input type="date" class="form-control" name="datefrom" value="" id="datefrom" />
                                 </div>
-                                <div class="col-md-2 col-sm-4 col-xs-12">
+                                <div class="col-md-3 col-sm-4 col-xs-12">
                                     <label for="dateto">Đến Ngày</label>
                                     <input type="date" class="form-control" name="dateto" value="" id="dateto" />
                                 </div>
-                                <div class="col-md-2 col-sm-4 col-xs-12">
+                                <div class="col-md-3 col-sm-4 col-xs-12">
                                     <label for="cname">Nhân Viên Kinh Doanh</label>
                                     <select id="cemployee1" class="form-control">
                                         <option value="0">Nhân Viên Kinh Doanh </option>
                                     </select>
                                 </div>
-                                <div class="col-md-2 col-sm-4 col-xs-12">
+                                @*<div class="col-md-2 col-sm-4 col-xs-12">
                                     <label for="DeliveryType">Giao Hàng</label>
                                     <select id="DeliveryType" class="form-control">
                                         <option value="0">Tất Cả </option>
@@ -102,8 +121,8 @@
                                         <option value="1">Đã Thanh Toán</option>
                                         <option value="2">Còn Nợ</option>
                                     </select>
-                                </div>
-                                <div class="col-md-2 col-sm-4 col-xs-12">
+                                </div>*@
+                                <div class="col-md-3 col-sm-4 col-xs-12">
                                     <label for="keyword">Từ Khóa</label>
                                     <input type="text" class="form-control" id="keyword" placeholder="">
                                 </div>
@@ -112,7 +131,13 @@
                             </div>
                         </div>
                         <div style="margin-left: 5px;margin-bottom: 10px;" class="row">
-                            <a id="search" class="btn btn-primary" href="javascript:void(0)" title="Bootstrap 3 themes generator"><span class="icon_lightbulb_alt"></span>Tìm Kiếm</a>
+                            <button id="search" class="btn button button1">Tìm Kiếm</button>
+                            @*<a id="search" class="btn btn-primary" href="javascript:void(0)" title="Bootstrap 3 themes generator"><span class="icon_lightbulb_alt"></span>Tìm Kiếm</a>*@
+                            <button id="inDesigning" class="btn button button0">Đang Thiết Kế</button>
+                            <button id="inPrinting" class="btn button button2">Đang In Ấn</button>
+                            <button id="noDelivery" class="btn button button3">Chưa Giao Hàng</button>
+                            <button id="Deliveried" class="btn button button4">Đã Giao Hàng</button>
+                            <button id="paid" class="btn button button5">Đã Thanh Toán</button>
                         </div>
                         <div class="=rows" id="jtableOrder"></div>
                         @*<div class="row" style="height: 100px">
@@ -127,21 +152,21 @@
                     <div id="ViewDetail" class="tab-pane">
                         <div style="margin-bottom: 15px;" class="row">
                             <div class="form-group">
-                                <div class="col-md-2 col-sm-4 col-xs-12">
+                                <div class="col-md-3 col-sm-4 col-xs-12">
                                     <label for="datefrom">Từ Ngày</label>
                                     <input type="date" class="form-control" name="datefrom" value="" id="vdatefrom" />
                                 </div>
-                                <div class="col-md-2 col-sm-4 col-xs-12">
+                                <div class="col-md-3 col-sm-4 col-xs-12">
                                     <label for="dateto">Đến Ngày</label>
                                     <input type="date" class="form-control" name="dateto" value="" id="vdateto" />
                                 </div>
-                                <div class="col-md-2 col-sm-4 col-xs-12">
+                                <div class="col-md-3 col-sm-4 col-xs-12">
                                     <label for="cname">Nhân Viên Kinh Doanh</label>
                                     <select id="cemployee2" class="form-control">
                                         <option value="0">Nhân Viên Kinh Doanh </option>
                                     </select>
                                 </div>
-                                <div class="col-md-2 col-sm-4 col-xs-12">
+                                <div class="col-md-3 col-sm-4 col-xs-12">
                                     <label for="keyword">Từ Khóa</label>
                                     <input type="text" class="form-control" id="vkeyword" placeholder="">
                                 </div>

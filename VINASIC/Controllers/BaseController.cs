@@ -10,7 +10,7 @@ namespace VINASIC.Controllers
     {
         public int UserId = 1;
         public string DefaultPage = string.Empty;
-        public bool IsAuthenticate = true;
+        public bool IsAuthenticate = false;
 
         protected override void Initialize(RequestContext requestContext)
         {
@@ -41,39 +41,39 @@ namespace VINASIC.Controllers
             }
             else
             {
-                //if (controllerName.Equals("Authenticate") && actionName.Equals("Login"))
-                //{
-                //    base.Initialize(requestContext);
-                //}
-                //else if (!controllerName.Equals("Error") && !actionName.Equals("Logout"))
-                //{
-                //    var permissions = UserContext.Permissions;
-                //    var havePermissions = false;
-                //    if (permissions.Any())
-                //    {
-                //        havePermissions = permissions.Select(x => x.Trim().ToLower().Contains(accessingResource.Trim().ToLower())).FirstOrDefault(x => x);
-                //    }
-                //    if (havePermissions == false)
-                //    {
-                //        if (requestContext.HttpContext.Request.IsAjaxRequest())
-                //        {
-                //            JsonDataResult.Result = "ERROR";
-                //            JsonDataResult.Message = eErrorMessage.NoPermission;
-                //            base.Initialize(requestContext);
-                //        }
-                //        else
-                //            requestContext.HttpContext.Response.Redirect("~/Error/Index?ErrorType=" + (int)eErrorType.NoPermission, true);
-                //    }
-                //    else
-                //    {
-                //        if (requestContext.HttpContext.Request.IsAjaxRequest())
-                //        {
-                //            IsAuthenticate = true;
-                //        }
-                //        base.Initialize(requestContext);
-                //    }
-                //}
-                //else
+                if (controllerName.Equals("Authenticate") && actionName.Equals("Login"))
+                {
+                    base.Initialize(requestContext);
+                }
+                else if (!controllerName.Equals("Error") && !actionName.Equals("Logout"))
+                {
+                    var permissions = UserContext.Permissions;
+                    var havePermissions = false;
+                    if (permissions.Any())
+                    {
+                        havePermissions = permissions.Select(x => x.Trim().ToLower().Contains(accessingResource.Trim().ToLower())).FirstOrDefault(x => x);
+                    }
+                    if (havePermissions == false)
+                    {
+                        if (requestContext.HttpContext.Request.IsAjaxRequest())
+                        {
+                            JsonDataResult.Result = "ERROR";
+                            JsonDataResult.Message = eErrorMessage.NoPermission;
+                            base.Initialize(requestContext);
+                        }
+                        else
+                            requestContext.HttpContext.Response.Redirect("~/Error/Index?ErrorType=" + (int)eErrorType.NoPermission, true);
+                    }
+                    else
+                    {
+                        if (requestContext.HttpContext.Request.IsAjaxRequest())
+                        {
+                            IsAuthenticate = true;
+                        }
+                        base.Initialize(requestContext);
+                    }
+                }
+                else
                     base.Initialize(requestContext);
             }
 
