@@ -395,7 +395,6 @@ namespace VINASIC.Controllers
                 return Json(new { Result = "ERROR", ex.Message });
             }
         }
-
         public JsonResult GetTest(string phoneNumber)
         {
             try
@@ -609,8 +608,6 @@ namespace VINASIC.Controllers
 
             return dt;
         }
-
-
         public ActionResult ExportReport([FromUri] DateTime fromDate, [FromUri]DateTime toDate, [FromUri]int employee, [FromUri]string keySearch, int delivery = 0, int paymentStatus = 0)
         {
             var pck = new ExcelPackage();
@@ -798,8 +795,8 @@ namespace VINASIC.Controllers
                 {
                     if ((result[i].OrderId != result[i - 1].OrderId))
                     {
-                        ws.Cells[endRow, 13].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, 13].Value = result[i].Total1;
+                        ws.Cells[endRow, 14].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, 14].Value = result[i].Total1;
                         ws.Cells[endRow, 15].Style.Numberformat.Format = "#,##0";
                         ws.Cells[endRow, 15].Value = result[i].HasPay;
                         ws.Cells[endRow, 16].Style.Numberformat.Format = "#,##0";
@@ -1031,6 +1028,20 @@ namespace VINASIC.Controllers
             }
 
             return package;
+        }
+
+        public JsonResult GetPriceForCustomerAndProduct(int customerId, int productId)
+        {
+            try
+            {
+                Thread.Sleep(200);
+                var price = _bllOrder.GetPriceForCustomerAndProduct(customerId, productId);
+                return Json(new { Result = "OK", Records = price });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "ERROR", ex.Message });
+            }
         }
 
     }

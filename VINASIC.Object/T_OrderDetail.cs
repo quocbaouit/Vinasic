@@ -49,6 +49,7 @@ namespace VINASIC.Object
         public string PrintView { get; set; }
         public Nullable<decimal> Square { get; set; }
         public Nullable<decimal> SumSquare { get; set; }
+        public bool DetailProcess { get; set; }
     
         public virtual T_Order T_Order { get; set; }
         public virtual T_Product T_Product { get; set; }

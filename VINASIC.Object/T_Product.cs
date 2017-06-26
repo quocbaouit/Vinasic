@@ -34,10 +34,12 @@ namespace VINASIC.Object
         public Nullable<System.DateTime> DeletedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public Nullable<int> Inventory { get; set; }
+        public Nullable<int> ProcessId { get; set; }
     
         public virtual T_ProductType T_ProductType { get; set; }
         public virtual Collection<T_OrderDetail> T_OrderDetail { get; set; }
         public virtual Collection<T_UserProduct> T_UserProduct { get; set; }
+        public virtual T_Process T_Process { get; set; }
     }
     
 }

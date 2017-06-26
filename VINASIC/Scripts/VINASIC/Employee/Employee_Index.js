@@ -207,6 +207,25 @@ VINASIC.Employee = function () {
             }
         });
     }
+    function updateLock(userId, isLock) {
+        $.ajax({
+            url: "/Employee/UpdateLock?userId=" + userId + "&isLock=" + isLock,
+            type: 'post',
+            contentType: 'application/json',
+            success: function (result) {
+                $('#loading').hide();
+                GlobalCommon.CallbackProcess(result, function () {
+                    if (result.Result === "OK") {
+                        reloadListEmployee();
+                        toastr.success("Thành Công");
+                    }
+                }, false, global.Element.PopupOrder, true, true, function () {
+
+                    toastr.error(result.Message);
+                });
+            }
+        });
+    }
     /*function Init List Using Jtable */
     function initListEmployee() {
         $("#" + global.Element.JtableEmployee).jtable({
@@ -233,6 +252,22 @@ VINASIC.Employee = function () {
                     create: false,
                     edit: false,
                     list: false
+                },
+                strIsLock: {
+                    title: "Khóa TK",
+                    width: "3%",
+                    display: function (data) {
+                        var text = "";
+                        if (data.record.IsLock == false)
+                        { text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\" khóa tài khoản.\"><span class=\"fa fa-check-square-o fa-lg\" aria-hidden=\"true\"></span></a>"); }
+                        else {
+                            text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"mở khóa tài khoản.\"><span class=\"fa fa-times-circle fa-lg\" aria-hidden=\"true\"></span></a>");
+                        }
+                        text.click(function () {
+                            updateLock(data.record.Id, data.record.IsLock);
+                        });
+                        return text;
+                    }
                 },
                 Name: {
                     visibility: "fixed",

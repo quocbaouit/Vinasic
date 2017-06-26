@@ -24,5 +24,6 @@ namespace VINASIC.Business.Interface
         ResponseBase DeleteById(int id, int userId);
         ResponseBase UpdateHaspayCustom(int orderId, string haspay, int paymentType);
         List<ModelViewDetail> GetOrderComplex(int orderId);
+        double GetPriceForCustomerAndProduct(int customerId, int productId);
     }
 }

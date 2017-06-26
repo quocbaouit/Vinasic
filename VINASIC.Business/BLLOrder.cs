@@ -103,7 +103,7 @@ namespace VINASIC.Business
             }
             if (delivery != 0)
             {
-                orders = delivery != 2 ? orders.Where(c => c.IsDelivery != 2) : orders.Where(c => c.IsDelivery == 2);
+                orders = delivery == 2 ? orders.Where(c => c.IsDelivery == 2) : orders.Where(c => c.IsDelivery == 1 || c.IsDelivery == 0);
             }
             var pageNumber = (startIndexRecord / pageSize) + 1;
 
@@ -629,7 +629,7 @@ namespace VINASIC.Business
                         SubTotal = c.SubTotal,
                         Total1 = c.T_Order.SubTotal,
                         HasPay = c.T_Order.HasPay ?? 0,
-                        HasExist = c.T_Order.SubTotal - c.T_Order.HasPay ?? 0,
+                        HasExist = c.T_Order.SubTotal - c.T_Order.HasPay?? c.T_Order.SubTotal,
                         IsCompleted = c.IsCompleted,
                         strIsComplete = c.IsCompleted ? "Đã Xong" : "Chưa Xong",
                         strDesignStatus = c.DesignStatus == null ? "Chưa Làm" : (c.DesignStatus == 1 ? "Đang Làm" : (c.DesignStatus == 2 ? "Đã Xong" : "Chưa Làm")),
@@ -641,7 +641,7 @@ namespace VINASIC.Business
             }
             if (!string.IsNullOrEmpty(keyWord))
             {
-                orders = orders.Where(c => c.CustomerName.Trim().ToLower().Contains(keyWord.Trim().ToLower()) || c.CustomerPhone.Contains(keyWord)).ToList();
+                orders = orders.Where(c => c.CustomerName.Trim().ToLower().Contains(keyWord.Trim().ToLower()) || c.CustomerPhone.Contains(keyWord) || c.OrderId.ToString().Contains(keyWord)).ToList();
             }
             if (paymentStatus == 1)
             {
@@ -721,6 +721,14 @@ namespace VINASIC.Business
         public List<ModelOrder> GetOrderOfEmployeeByDate()
         {
             return null;
+        }
+
+        public double GetPriceForCustomerAndProduct(int customerId, int productId)
+        {
+            var detail = _repOrderDetail.GetMany(x => x.T_Order.CustomerId == customerId && x.CommodityId == productId).OrderByDescending(z => z.CreatedDate).FirstOrDefault();
+            if (detail == null)
+                return 0;            
+            return detail.Price??0;
         }
         public PagedList<ModelViewDetail> GetListViewDetail(string keyWord, int startIndexRecord, int pageSize, string sorting, string fromDate, string toDate, int employee)
         {

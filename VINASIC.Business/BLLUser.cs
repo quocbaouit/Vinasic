@@ -734,7 +734,7 @@ namespace VINASIC.Business
         private ResponseBase CheckUserNamePassword(string userName, string password, List<ModelCountLoginFail> listModelCountLoginFail, int timeLock, int loginCount, int index)
         {
             ResponseBase result = new ResponseBase();
-            T_User user = repUser.GetMany(x => x.UserName.Trim().ToUpper().Equals(userName) && (!x.IsDeleted || x.IsOwner==true)).FirstOrDefault();
+            T_User user = repUser.GetMany(x => x.UserName.Trim().ToUpper().Equals(userName) && (!x.IsDeleted || x.IsOwner==true) && !x.IsLock).FirstOrDefault();
             if (user == null)
             {
                 result.IsSuccess = false;

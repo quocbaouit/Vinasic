@@ -19,6 +19,7 @@ namespace VINASIC.Object
         {
             this.T_RolePermission = new Collection<T_RolePermission>();
             this.T_UserRole = new Collection<T_UserRole>();
+            this.T_ProcessDetail = new Collection<T_ProcessDetail>();
         }
     
         public int Id { get; set; }
@@ -32,9 +33,11 @@ namespace VINASIC.Object
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public Nullable<int> DeletedUser { get; set; }
         public Nullable<System.DateTime> DeletedDate { get; set; }
+        public bool IsStaff { get; set; }
     
         public virtual Collection<T_RolePermission> T_RolePermission { get; set; }
         public virtual Collection<T_UserRole> T_UserRole { get; set; }
+        public virtual Collection<T_ProcessDetail> T_ProcessDetail { get; set; }
     }
     
 }
