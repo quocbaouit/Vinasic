@@ -62,7 +62,60 @@ function datetimePicker(selector) {
 	    dateFormat: 'dd/mm/yy'
 	});
 }
-
+function getOrderStatus(status) {
+    switch(status) {
+        case 0:
+            return 'Đơn hàng vừa được tạo';
+            break;
+        case 1:
+            return 'Đang xử lý';
+            break;
+        case 2:
+            return 'Chưa giao hàng';
+            break;
+        case 3:
+            return 'Đã giao hàng';
+            break;
+        case 4:
+            return 'Đã thanh toán';
+            break;
+        case 5:
+            return 'Đã duyệt';
+            break;
+        default:
+            return 'không xác định được trạng thái đơn hàng';
+    }
+}
+function getOrderDetailStatus(status) {
+    switch (status) {
+        case 0:
+            return 'Không Xử Lý';
+            break;
+        case 1:
+            return 'Đang thiết kế';
+            break;
+        case 2:
+            return 'Đã thiết kế xong';
+            break;
+        case 3:
+            return 'Đang in ấn';
+            break;
+        case 4:
+            return 'Đã in xong';
+            break;
+        case 5:
+            return 'Đang gia công';
+            break;
+        case 6:
+            return 'Đã gia công xong';
+            break;
+        case 7:
+            return 'Đã Xong.Đợi giao hàng';
+            break;
+        default:
+            return 'không xác định được trạng thái đơn hàng';
+    }
+}
 function parseDate(dateString, format) {
     //dateString = "13/03/2012 13:19:45";
     if (dateString == undefined || dateString == null || dateString.length == 0) {

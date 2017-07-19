@@ -277,6 +277,7 @@
           <Property Name="PaymentMethol" Type="int" Nullable="false" />
           <Property Name="IsDelivery" Type="int" Nullable="false" />
           <Property Name="Process" Type="bit" Nullable="false" />
+          <Property Name="OrderStatus" Type="float" />
         </EntityType>
         <EntityType Name="T_OrderDetail">
           <Key>
@@ -312,11 +313,14 @@
           <Property Name="DesignDescription" Type="nvarchar" MaxLength="500" />
           <Property Name="PrintDescription" Type="nvarchar" MaxLength="500" />
           <Property Name="Index" Type="int" Nullable="false" />
-          <Property Name="DesignView" Type="nvarchar" MaxLength="20" />
-          <Property Name="PrintView" Type="nvarchar" MaxLength="20" />
+          <Property Name="DesignView" Type="nvarchar" MaxLength="200" />
+          <Property Name="PrintView" Type="nvarchar" MaxLength="200" />
           <Property Name="Square" Type="decimal" Precision="18" Scale="6" />
           <Property Name="SumSquare" Type="decimal" Precision="18" Scale="6" />
           <Property Name="DetailProcess" Type="bit" Nullable="false" />
+          <Property Name="DetailStatus" Type="float" />
+          <Property Name="AddonUser" Type="int" />
+          <Property Name="AddOnView" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="T_Organization">
           <Key>
@@ -1822,6 +1826,7 @@
           <NavigationProperty Name="T_ReceiptVoucher" Relationship="VINASICModel.FK__T_Receipt__Order__3F115E1A" FromRole="T_Order" ToRole="T_ReceiptVoucher" />
           <NavigationProperty Name="T_OrderDetail" Relationship="VINASICModel.FK__T_OrderDe__Order__19DFD96B" FromRole="T_Order" ToRole="T_OrderDetail" />
           <Property Name="Process" Type="Boolean" Nullable="false" />
+          <Property Name="OrderStatus" Type="Double" />
         </EntityType>
         <EntityType Name="T_Organization">
           <Key>
@@ -2504,8 +2509,8 @@
           <Property Name="DesignDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="PrintDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Index" Type="Int32" Nullable="false" />
-          <Property Name="DesignView" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="PrintView" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="DesignView" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PrintView" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Square" Type="Decimal" Precision="18" Scale="6" />
           <Property Name="SumSquare" Type="Decimal" Precision="18" Scale="6" />
           <NavigationProperty Name="T_Order" Relationship="VINASICModel.FK__T_OrderDe__Order__19DFD96B" FromRole="T_OrderDetail" ToRole="T_Order" />
@@ -2513,6 +2518,9 @@
           <NavigationProperty Name="T_User" Relationship="VINASICModel.FK__T_OrderDe__Desig__18EBB532" FromRole="T_OrderDetail" ToRole="T_User" />
           <NavigationProperty Name="T_User1" Relationship="VINASICModel.FK__T_OrderDe__Print__1AD3FDA4" FromRole="T_OrderDetail" ToRole="T_User" />
           <Property Name="DetailProcess" Type="Boolean" Nullable="false" />
+          <Property Name="DetailStatus" Type="Double" />
+          <Property Name="AddonUser" Type="Int32" />
+          <Property Name="AddOnView" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK__T_OrderDe__Order__19DFD96B">
           <End Type="VINASICModel.T_Order" Role="T_Order" Multiplicity="1" />
@@ -3019,6 +3027,7 @@
           <EntitySetMapping Name="T_Order">
             <EntityTypeMapping TypeName="VINASICModel.T_Order">
               <MappingFragment StoreEntitySet="T_Order">
+                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
                 <ScalarProperty Name="Process" ColumnName="Process" />
                 <ScalarProperty Name="PaymentMethol" ColumnName="PaymentMethol" />
                 <ScalarProperty Name="IsDelivery" ColumnName="IsDelivery" />
@@ -3424,6 +3433,9 @@
           <EntitySetMapping Name="T_OrderDetail">
             <EntityTypeMapping TypeName="VINASICModel.T_OrderDetail">
               <MappingFragment StoreEntitySet="T_OrderDetail">
+                <ScalarProperty Name="AddOnView" ColumnName="AddOnView" />
+                <ScalarProperty Name="AddonUser" ColumnName="AddonUser" />
+                <ScalarProperty Name="DetailStatus" ColumnName="DetailStatus" />
                 <ScalarProperty Name="DetailProcess" ColumnName="DetailProcess" />
                 <ScalarProperty Name="SumSquare" ColumnName="SumSquare" />
                 <ScalarProperty Name="Square" ColumnName="Square" />

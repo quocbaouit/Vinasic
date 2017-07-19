@@ -12,6 +12,7 @@ namespace VINASIC.Business.Interface.Model
         public double PrintfPecent { get; set; }
         public string strHaspay { get; set; }
         public string strHasTax { get; set; }
+        public string strOrderStatus { get; set; }
 
         public string StrHasDelivery { get; set; }
         public string StrPaymentType { get; set; }

@@ -44,7 +44,7 @@ namespace VINASIC.Controllers
             return View();
         }
         [System.Web.Mvc.HttpPost]
-        public JsonResult GetOrders(int jtStartIndex = 0, int jtPageSize = 10, string jtSorting = "", string keyword = "", int employee = 0, string fromDate = "", string toDate = "", int delivery = 0, int paymentStatus = 0)
+        public JsonResult GetOrders(int jtStartIndex = 0, int jtPageSize = 10, string jtSorting = "", string keyword = "", int employee = 0, string fromDate = "", string toDate = "", float orderStatus = -1)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace VINASIC.Controllers
                 {
                     employee = UserContext.UserID;
                 }
-                var listOrder = _bllOrder.GetList(UserContext.UserID, jtStartIndex, jtPageSize, jtSorting, fromDate, toDate, employee, keyword, delivery, paymentStatus);
+                var listOrder = _bllOrder.GetList(UserContext.UserID, jtStartIndex, jtPageSize, jtSorting, fromDate, toDate, employee, keyword, orderStatus);
 
                 JsonDataResult.Records = listOrder;
                 JsonDataResult.Result = "OK";
@@ -467,6 +467,35 @@ namespace VINASIC.Controllers
                 if (IsAuthenticate)
                 {
                     var responseResult = _bllOrder.UpdateHaspay(orderId, haspay);
+                    if (responseResult.IsSuccess)
+                        JsonDataResult.Result = "OK";
+                    else
+                    {
+                        JsonDataResult.Result = "ERROR";
+                        JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
+                    }
+                }
+                else
+                {
+                    JsonDataResult.Result = "ERROR";
+                    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
+                }
+            }
+            catch (Exception ex)
+            {
+                //add error
+                JsonDataResult.Result = "ERROR";
+                JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update", Message = "Lỗi: " + ex.Message });
+            }
+            return Json(JsonDataResult);
+        }
+        public JsonResult UpdateOrderStatus(int orderId, float status)
+        {
+            try
+            {
+                if (IsAuthenticate)
+                {
+                    var responseResult = _bllOrder.UpdateOrderStatus(orderId, status,UserContext.UserID);
                     if (responseResult.IsSuccess)
                         JsonDataResult.Result = "OK";
                     else

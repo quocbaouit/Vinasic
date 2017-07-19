@@ -50,6 +50,9 @@ namespace VINASIC.Object
         public Nullable<decimal> Square { get; set; }
         public Nullable<decimal> SumSquare { get; set; }
         public bool DetailProcess { get; set; }
+        public Nullable<double> DetailStatus { get; set; }
+        public Nullable<int> AddonUser { get; set; }
+        public string AddOnView { get; set; }
     
         public virtual T_Order T_Order { get; set; }
         public virtual T_Product T_Product { get; set; }

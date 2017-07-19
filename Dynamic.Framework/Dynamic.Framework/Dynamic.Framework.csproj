@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Constant.cs" />
     <Compile Include="eLanguage.cs" />
+    <Compile Include="ConvertTimeZone.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Generic\ApplicationManager.cs" />
     <Compile Include="Generic\Dynamic.cs" />

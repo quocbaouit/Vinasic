@@ -6,7 +6,7 @@ namespace VINASIC.Business.Interface
 {
     public interface IBllOrder
     {
-        PagedList<ModelOrder> GetList(int listEmployee, int startIndexRecord, int pageSize, string sorting, string fromDate, string toDate, int employee,string keyword, int delivery = 0, int paymentStatus = 0);
+        PagedList<ModelOrder> GetList(int listEmployee, int startIndexRecord, int pageSize, string sorting, string fromDate, string toDate, int employee,string keyword, float orderStatus = -1);
 
         PagedList<ModelViewDetail> GetListViewDetail(string keyWord, int startIndexRecord, int pageSize, string sorting,
             string fromDate, string toDate, int employee);
@@ -25,5 +25,6 @@ namespace VINASIC.Business.Interface
         ResponseBase UpdateHaspayCustom(int orderId, string haspay, int paymentType);
         List<ModelViewDetail> GetOrderComplex(int orderId);
         double GetPriceForCustomerAndProduct(int customerId, int productId);
+        ResponseBase UpdateOrderStatus(int orderId, float status, int userId);
     }
 }

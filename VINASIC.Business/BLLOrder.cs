@@ -10,6 +10,7 @@ using VINASIC.Business.Interface.Model;
 using VINASIC.Data;
 using VINASIC.Data.Repositories;
 using VINASIC.Object;
+using System.Configuration;
 
 namespace VINASIC.Business
 {
@@ -20,19 +21,20 @@ namespace VINASIC.Business
         private readonly IT_UserRepository _repUser;
         private readonly IT_OrderDetailRepository _repOrderDetail;
         private readonly IUnitOfWork<VINASICEntities> _unitOfWork;
+        private readonly TimeZoneInfo curentZone = TimeZoneInfo.FindSystemTimeZoneById(ConfigurationManager.AppSettings["WEBSITE_TIME_ZONE"]);
         public BllOrder(IUnitOfWork<VINASICEntities> unitOfWork, IT_OrderRepository repOrder, IT_OrderDetailRepository repOrderDetail, IT_CustomerRepository repCus, IT_UserRepository repUserRepository)
         {
             _unitOfWork = unitOfWork;
             _repOrder = repOrder;
             _repOrderDetail = repOrderDetail;
             _repUser = repUserRepository;
-            _repCus = repCus;
+            _repCus = repCus;           
         }
         private void SaveChange()
         {
             _unitOfWork.Commit();
         }
-        public PagedList<ModelOrder> GetList(int employee, int startIndexRecord, int pageSize, string sorting, string fromDate, string toDate, int employee1, string keyWord, int delivery, int paymentStatus)
+        public PagedList<ModelOrder> GetList(int employee, int startIndexRecord, int pageSize, string sorting, string fromDate, string toDate, int employee1, string keyWord, float orderStatus)
         {
             if (string.IsNullOrEmpty(sorting))
             {
@@ -70,6 +72,7 @@ namespace VINASIC.Business
                 CreateUserName = c.T_User.Name,
                 CreatedDate = c.CreatedDate,
                 HasPay = c.HasPay ?? 0,
+                OrderStatus = c.OrderStatus,
                 T_OrderDetail = c.T_OrderDetail
             }).OrderBy(sorting);
 
@@ -93,18 +96,18 @@ namespace VINASIC.Business
             {
                 orders = orders.Where(c => c.CreatedDate >= frDate && c.CreatedDate <= tDate);
             }
-            if (paymentStatus == 1)
+            if (orderStatus != -1)
             {
-                orders = orders.Where(c => c.HasPay == c.SubTotal);
+                orders = orders.Where(c => c.OrderStatus == orderStatus);
             }
-            if (paymentStatus == 2)
-            {
-                orders = orders.Where(c => c.HasPay < c.SubTotal);
-            }
-            if (delivery != 0)
-            {
-                orders = delivery == 2 ? orders.Where(c => c.IsDelivery == 2) : orders.Where(c => c.IsDelivery == 1 || c.IsDelivery == 0);
-            }
+            //if (paymentStatus == 2)
+            //{
+            //    orders = orders.Where(c => c.HasPay < c.SubTotal);
+            //}
+            //if (delivery != 0)
+            //{
+            //    orders = delivery == 2 ? orders.Where(c => c.IsDelivery == 2) : orders.Where(c => c.IsDelivery == 1 || c.IsDelivery == 0);
+            //}
             var pageNumber = (startIndexRecord / pageSize) + 1;
 
             var result = new PagedList<ModelOrder>(orders, pageNumber, pageSize);
@@ -113,7 +116,7 @@ namespace VINASIC.Business
             {
                 order.strHaspay = $"{order.HasPay ?? 0:0,0}";
                 order.strSubTotal = $"{order.SubTotal:0,0}";
-                order.StrCreatedDate = $"{order.CreatedDate:d/M/yyyy HH:mm}";
+                order.StrCreatedDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(order.CreatedDate, curentZone):d/M/yyyy HH:mm}";
             }
             var sum = result.Sum(x => x.SubTotal);
             result.ToList().Add(new ModelOrder() { Name = "Tổng Cộng", SubTotal = sum });
@@ -127,7 +130,7 @@ namespace VINASIC.Business
             {
                 partner.IsDeleted = true;
                 partner.DeletedUser = userId;
-                partner.DeletedDate = DateTime.Now.AddHours(14);
+                partner.DeletedDate = DateTime.UtcNow;
                 _repOrder.Update(partner);
                 SaveChange();
                 responResult.IsSuccess = true;
@@ -169,18 +172,16 @@ namespace VINASIC.Business
                 DesignFrom = o.DesignFrom,
                 DesignTo = o.DesignTo,
                 SubTotal = o.SubTotal,
-                IsCompleted = o.IsCompleted,
-                strIsComplete = o.IsCompleted ? "Đã Xong" : "Chưa Xong",
-                strDesignStatus = o.DesignStatus == null ? "Chưa Làm" : (o.DesignStatus == 1 ? "Đang Làm" : (o.DesignStatus == 2 ? "Đã Xong" : "Chưa Làm")),
-                strPrinStatus = o.PrintStatus == null ? "Chưa làm" : (o.PrintStatus == 1 ? "Đang Làm" : (o.PrintStatus == 2 ? "Đã Xong" : "Chưa Làm")),
+                IsCompleted = o.IsCompleted,              
                 CreatedDate = o.CreatedDate,
+                DesignView=o.DesignView,
+                PrintView=o.PrintView,
+                AddOnView=o.AddOnView,
+                DetailStatus=o.DetailStatus,
+                
             }).ToList();
             foreach (var order in ordeDetails)
             {
-                var firstOrDefault = allEmployee.FirstOrDefault(x => x.Id == order.DesignUser);
-                order.DesignUserName = firstOrDefault != null ? firstOrDefault.Name : "";
-                var orDefault = allEmployee.FirstOrDefault(x => x.Id == order.PrintUser);
-                order.PrintUserName = orDefault != null ? orDefault.Name : "";
                 order.strSubTotal = $"{order.SubTotal:0,0}";
                 order.strPrice = $"{order.Price:0,0}";
             }
@@ -200,7 +201,7 @@ namespace VINASIC.Business
                     cus.Mobile = obj.CustomerPhone;
                     cus.Email = obj.CustomerMail;
                     cus.TaxCode = obj.CustomerTaxCode;
-                    cus.UpdatedDate = DateTime.Now.AddHours(14);
+                    cus.UpdatedDate = DateTime.UtcNow;
                     cus.UpdatedUser = userId;
                     baseCustomerId = obj.CustomerId;
                     _repCus.Update(cus);
@@ -215,7 +216,7 @@ namespace VINASIC.Business
                         Mobile = obj.CustomerPhone,
                         Email = obj.CustomerMail,
                         TaxCode = obj.CustomerTaxCode,
-                        CreatedDate = DateTime.Now.AddHours(14),
+                        CreatedDate = DateTime.UtcNow,
                         CreatedUser = userId
                     };
                     _repCus.Add(cus);
@@ -236,7 +237,8 @@ namespace VINASIC.Business
                     CreatedForUser = obj.EmployeeId,
                     CreatedUser = userId,
                     IsDelivery = 1,
-                    CreatedDate = DateTime.Now.AddHours(14)
+                    OrderStatus=1,
+                    CreatedDate = DateTime.UtcNow
                 };
                 _repOrder.Add(order);
                 SaveChange();
@@ -259,7 +261,7 @@ namespace VINASIC.Business
                         IsCompleted = false,
                         IsDeleted = false,
                         CreatedUser = userId,
-                        CreatedDate = DateTime.Now.AddHours(14),
+                        CreatedDate = DateTime.UtcNow,
                         FileName = detail.FileName
                     };
                     _repOrderDetail.Add(orderDetail);
@@ -288,7 +290,7 @@ namespace VINASIC.Business
                 cus.Mobile = obj.CustomerPhone;
                 cus.Email = obj.CustomerMail;
                 cus.TaxCode = obj.CustomerTaxCode;
-                cus.UpdatedDate = DateTime.Now.AddHours(14);
+                cus.UpdatedDate = DateTime.UtcNow;
                 cus.UpdatedUser = userId;
                 _repCus.Update(cus);
                 SaveChange();
@@ -304,9 +306,10 @@ namespace VINASIC.Business
                 order.IsApproval = false;
                 order.IsDeleted = false;
                 order.IsDelivery = 1;
+                order.OrderStatus = 1;
                 order.CreatedForUser = obj.EmployeeId;
                 order.UpdatedUser = userId;
-                order.UpatedDate = DateTime.Now.AddHours(14);
+                order.UpatedDate = DateTime.UtcNow;
                 _repOrder.Update(order);
                 SaveChange();
                 var baseOrderDetail = _repOrderDetail.GetMany(x => x.OrderId == order.Id).ToList();
@@ -376,7 +379,7 @@ namespace VINASIC.Business
                 {
                     order.IsApproval = true;
                     order.UpdatedUser = userId;
-                    order.UpatedDate = DateTime.Now.AddHours(14);
+                    order.UpatedDate = DateTime.UtcNow;
                     _repOrder.Update(order);
                     SaveChange();
                     responResult.IsSuccess = true;
@@ -395,6 +398,26 @@ namespace VINASIC.Business
 
             return responResult;
         }
+        public ResponseBase UpdateOrderStatus(int orderId, float status, int userId)
+        {
+            var responResult = new ResponseBase();
+            var order = _repOrder.GetMany(c => !c.IsDeleted && c.Id == orderId).FirstOrDefault();
+                if (order != null)
+                {
+                    order.OrderStatus = status;
+                    order.UpdatedUser = userId;
+                    order.UpatedDate = DateTime.UtcNow;
+                    _repOrder.Update(order);
+                    SaveChange();
+                    responResult.IsSuccess = true;
+                }
+                else
+                {
+                    responResult.IsSuccess = false;
+                    responResult.Errors.Add(new Error() { MemberName = "Update", Message = "Lỗi" });
+                }          
+            return responResult;
+        }
         public ResponseBase UpdateDelivery(int orderId, int status, int userId)
         {
             var responResult = new ResponseBase();
@@ -408,7 +431,7 @@ namespace VINASIC.Business
                 }
                 order.IsDelivery = status;
                 order.UpdatedUser = userId;
-                order.UpatedDate = DateTime.Now.AddHours(14);
+                order.UpatedDate = DateTime.UtcNow;
                 _repOrder.Update(order);
                 SaveChange();
                 responResult.IsSuccess = true;
@@ -438,7 +461,7 @@ namespace VINASIC.Business
                 order.HasPay = total;
                 order.UpdatedUser = userId;
                 order.PaymentMethol = paymentType;
-                order.UpatedDate = DateTime.Now.AddHours(14);
+                order.UpatedDate = DateTime.UtcNow;
                 _repOrder.Update(order);
                 SaveChange();
                 responResult.IsSuccess = true;
@@ -471,7 +494,7 @@ namespace VINASIC.Business
                 }
                 order.SubTotal = subTotal;
                 order.UpdatedUser = userId;
-                order.UpatedDate = DateTime.Now.AddHours(14);
+                order.UpatedDate = DateTime.UtcNow;
                 _repOrder.Update(order);
                 SaveChange();
                 responResult.IsSuccess = true;
@@ -491,7 +514,7 @@ namespace VINASIC.Business
             {
                 order.DesignDescription = description;
                 order.DesignUser = designId;
-                order.UpatedDate = DateTime.Now.AddHours(14);
+                order.UpatedDate = DateTime.UtcNow;
                 _repOrderDetail.Update(order);
                 SaveChange();
                 responResult.IsSuccess = true;
@@ -511,7 +534,7 @@ namespace VINASIC.Business
             {
                 order.PrintDescription = description;
                 order.PrintUser = printId;
-                order.UpatedDate = DateTime.Now.AddHours(14);
+                order.UpatedDate = DateTime.UtcNow;
                 _repOrderDetail.Update(order);
                 SaveChange();
                 responResult.IsSuccess = true;
@@ -531,7 +554,7 @@ namespace VINASIC.Business
             if (order != null)
             {
                 order.HasPay = pay;
-                order.UpatedDate = DateTime.Now.AddHours(14);
+                order.UpatedDate = DateTime.UtcNow;
                 _repOrder.Update(order);
                 SaveChange();
                 responResult.IsSuccess = true;
@@ -560,7 +583,7 @@ namespace VINASIC.Business
                 }
                 order.HasPay = pay;
                 order.PaymentMethol = paymentType;
-                order.UpatedDate = DateTime.Now.AddHours(14);
+                order.UpatedDate = DateTime.UtcNow;
                 _repOrder.Update(order);
                 SaveChange();
                 responResult.IsSuccess = true;
