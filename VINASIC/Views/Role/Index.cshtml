@@ -13,12 +13,12 @@
     div.jtable-main-container > table.jtable > tbody > tr.jtable-data-row > td {
         padding: 0px;
     }
-    #fixedbutton {
+    #fixedbutton, #fixedbuttonprint {
     position: fixed;
     bottom: 2px;
     right: 145px; 
 }
-    #fixedbutton1 {
+    #fixedbutton1, #fixedbuttonprint1 {
     position: fixed;
     bottom: 2px;
     right: 35px; 
@@ -54,6 +54,12 @@
                             Quản Lý Quyền
                         </a>
                     </li>
+                    <li id="CreatePrinting" class="">
+                        <a data-toggle="tab" href="#edit-printing">
+                            <i class="icon-envelope"></i>
+                            Quyền In Ấn
+                        </a>
+                    </li>
                 </ul>
             </header>
             <div style="border-style: none" class="panel-body pannel-StockIn">
@@ -72,6 +78,21 @@
                             <button id="fixedbutton1" style="width: 100px;margin-top: 10px;margin-left:10px;background-color:#d0d0d0" cancel aria-hidden="true" class="btn">
                                 <div class="button-image image-close"></div>
                                 Không Lưu 
+                            </button>
+                        </section>
+
+                    </div>
+                    <div id="edit-printing" class="tab-pane disabled">
+                        <section class="panel">
+                            <h4 id="roleTemp123"></h4>
+                            <div id="jtableProductUser"></div>
+                            <button id="fixedbuttonprint" style="width: 100px;margin-top: 10px;" save class="btn btn-primary">
+                                <div class="button-image image-save"></div>
+                                Lưu Thay Đổi
+                            </button>
+                            <button id="fixedbuttonprint1" style="width: 100px;margin-top: 10px;margin-left:10px;background-color:#d0d0d0" cancel aria-hidden="true" class="btn">
+                                <div class="button-image image-close"></div>
+                                Không Lưu
                             </button>
                         </section>
 

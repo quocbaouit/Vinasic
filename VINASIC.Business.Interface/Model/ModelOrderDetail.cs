@@ -15,7 +15,8 @@ namespace VINASIC.Business.Interface.Model
 
         public string DesignUserName { get; set; }
         public string PrintUserName { get; set; }
-        
+        public string UserProcess { get; set; }
+
     }
 }
 

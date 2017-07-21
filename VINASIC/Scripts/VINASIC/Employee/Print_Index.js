@@ -155,11 +155,11 @@ VINASIC.Print = function () {
                 StrPrintStatus: {
                     visibility: "fixed",
                     title: "Xử Lý",
-                    width: "10%",
+                    width: "15%",
                     display: function (data) {
                         var text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật Trạng Thái.\">" + data.record.StrPrintStatus + "</a>");
                         text.click(function () {
-                            updateStatus(data.record.Id, data.record.PrintStatus);
+                            updateStatus(data.record.Id, data.record.DetailStatus);
                             global.Data.ClientId = document.getElementById("ClientName").innerHTML;
                             var realTimeHub = $.connection.realTimeJTableDemoHub;
                             realTimeHub.server.sendUpdateEvent("jtablePrint", global.Data.ClientId, "Cập nhật hàng in</br> " + data.record.CustomerName);

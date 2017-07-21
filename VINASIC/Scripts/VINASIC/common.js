@@ -92,25 +92,25 @@ function getOrderDetailStatus(status) {
             return 'Không Xử Lý';
             break;
         case 1:
-            return 'Đang thiết kế';
+            return 'Đợi thiết kế';
             break;
         case 2:
-            return 'Đã thiết kế xong';
+            return 'Đang thiết kế';
             break;
         case 3:
-            return 'Đang in ấn';
+            return 'Đợi in';
             break;
         case 4:
-            return 'Đã in xong';
+            return 'Đang in ấn';
             break;
         case 5:
-            return 'Đang gia công';
+            return 'Đợi gia công';
             break;
         case 6:
-            return 'Đã gia công xong';
+            return 'Đang gia công';
             break;
         case 7:
-            return 'Đã Xong.Đợi giao hàng';
+            return 'Đã xong';
             break;
         default:
             return 'không xác định được trạng thái đơn hàng';

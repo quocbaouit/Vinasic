@@ -19,6 +19,7 @@ namespace Dynamic.Framework.Security
         bool IsOwner { get; set; }
 
         int UserID { get; set; }
+        int RoleID { get; set; }
 
         int employeeId { get; set; }
 

@@ -16,8 +16,8 @@ namespace VINASIC.Business.Interface
         List<ModelSelectItem> GetCustomerByOrganization(string shortName, bool isAuthor, int userId);
         PagedList<ModelForDesign> GetListForDesign(string keyWord, int startIndexRecord, int pageSize, string sorting,int userid, string fromDate, string toDate,bool auth,int emp);
         PagedList<ModelForPrint> GetListForPrint(string keyWord, int startIndexRecord, int pageSize, string sorting, int userid, string fromDate, string toDate,bool auth,int emp);
-        ResponseBase DesignUpdateOrderDeatail(int id, int stautus, int userId);
-        ResponseBase PrintUpdateOrderDeatail(int id, int stautus, int userId);
+        ResponseBase DesignUpdateOrderDeatail(int id, int stautus, int userId, string employeeName);
+        ResponseBase PrintUpdateOrderDeatail(int id, int stautus, int userId,string employeeName);
         ResponseBase BusinessUpdateOrderDeatail(int id, int employeeId, string description, int type, int stautus,int userId);
         T_User GetUserById(int id);
 

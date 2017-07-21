@@ -89,6 +89,7 @@ namespace VINASIC
                 this.LogoCompany = userService.LogoCompany;
                 this.Permissions = userService.Permissions;
                 this.UserID = userService.UserID;
+                this.RoleID = userService.RoleID;
                 State = new object();
             }
             public int StoreID { get; set; }

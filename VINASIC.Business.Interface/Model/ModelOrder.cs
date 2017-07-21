@@ -79,6 +79,7 @@ namespace VINASIC.Business.Interface.Model
 
         public string CreateForUserName { get; set; }
         public string CreateForUserMobile { get; set; }
+        public string UserProcess { get; set; }
     }
 }
 

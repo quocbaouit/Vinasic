@@ -8,8 +8,7 @@ namespace VINASIC.Business.Interface
     {
         PagedList<ModelOrder> GetList(int listEmployee, int startIndexRecord, int pageSize, string sorting, string fromDate, string toDate, int employee,string keyword, float orderStatus = -1);
 
-        PagedList<ModelViewDetail> GetListViewDetail(string keyWord, int startIndexRecord, int pageSize, string sorting,
-            string fromDate, string toDate, int employee);
+        PagedList<ModelViewDetail> GetListViewDetail(string keyWord, int startIndexRecord, int pageSize, string sorting, int orderId);
         List<ModelOrderDetail> GetListOrderDetailByOrderId(int orderId);
         ResponseBase UpdateApproval(int orderId,bool isAppvroval, int userId);
         ResponseBase UpdateDelivery(int orderId, int status, int userId);
@@ -26,5 +25,6 @@ namespace VINASIC.Business.Interface
         List<ModelViewDetail> GetOrderComplex(int orderId);
         double GetPriceForCustomerAndProduct(int customerId, int productId);
         ResponseBase UpdateOrderStatus(int orderId, float status, int userId);
+        ResponseBase UpdateDetailStatus(int detailId, int status);
     }
 }

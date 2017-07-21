@@ -59,7 +59,9 @@ VINASIC.Order = function () {
             Pdate: "",
             Pproduct: "",
             NumberDetail: 0,
-            IdOrderStatus:0
+            IdOrderStatus: 0,
+            IdDetailStatus: 0,
+            IdForView:0,
         }
     };
     this.GetGlobal = function () {
@@ -173,14 +175,8 @@ VINASIC.Order = function () {
         $("#" + global.Element.JtableOrder).jtable("load", { 'keyword': keySearch, 'employee': employee, 'fromDate': fromDate, 'toDate': toDate, 'orderStatus': orderStatus });
     }
     function reloadViewDetail() {
-        var keySearch = $("#vkeyword").val();
-        var fromDate = $("#vdatefrom").val();
-        var toDate = $("#vdateto").val();
-        var employee = $("#cemployee2").val();
-        if (employee === 0) {
-            employee = global.Data.SaleId;
-        }
-        $("#" + global.Element.jtableViewDetail).jtable("load", { 'keyword': keySearch, 'employee': employee, 'fromDate': fromDate, 'toDate': toDate });
+        var keySearch = '';
+        $("#" + global.Element.jtableViewDetail).jtable("load", { 'keyword': keySearch, 'orderId': global.Data.IdForView });
     }
     function reloadListOrderDetail() {
         $('#' + global.Element.JtableOrderDetail).jtable('load', { 'keyword': "" });
@@ -381,6 +377,26 @@ VINASIC.Order = function () {
                 GlobalCommon.CallbackProcess(result, function () {
                     if (result.Result === "OK") {
                         reloadListOrder();
+                        toastr.success("Thành Công");
+                    }
+                }, false, global.Element.PopupOrder, true, true, function () {
+
+                    toastr.error(result.Message);
+                });
+            }
+        });
+    }
+    function updateDetailStatus(detailId, status) {
+        $.ajax({
+            url: "/Order/UpdateDetailStatus?detailId=" + detailId + "&status=" + status,
+            type: 'post',
+            contentType: 'application/json',
+            success: function (result) {
+                $('#loading').hide();
+                GlobalCommon.CallbackProcess(result, function () {
+                    if (result.Result === "OK") {
+                        reloadListOrder();
+                        reloadViewDetail();
                         toastr.success("Thành Công");
                     }
                 }, false, global.Element.PopupOrder, true, true, function () {
@@ -609,7 +625,7 @@ VINASIC.Order = function () {
                     list: false
                 },
                 OrderDetail: {
-                    title: ' CTĐH',
+                    title: ' Id',
                     width: '2%',
                     sorting: false,
                     edit: false,
@@ -683,84 +699,49 @@ VINASIC.Order = function () {
                                                 display: function (data) {                           
                                                     var text = "";
                                                     var strStatus = getOrderDetailStatus(data.record.DetailStatus);
-                                                    text = $('<a href="javascript:void(0)"  class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + strStatus + '</a>');
+                                                    var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu"><li><a class="detailstatus1" href="javascript:void(0)">Chuyển cho thiết kế</a></li><li><a class="detailstatus3" href="javascript:void(0)">Chuyển cho in ấn</a></li><li><a class="detailstatus5" href="javascript:void(0)">chuyển cho gia công</a></li><li><a class="detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
+                                                       
                                                     text.click(function () {
-                                                        $("#dDesignName").val(data.record.DesignUser);
-                                                        $("#gDescription").val(data.record.DesignDescription);
-                                                        $("#gStatus").val(data.record.PrintStatus);
-                                                        global.Data.DetailId = data.record.Id;
-                                                        showPopupDesignProcess();
-                                                        data.record.StrDeliveryDate = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd");
-                                                        var a = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd'T'HH:MM:ss");
+                                                        debugger;
+                                                        global.Data.IdDetailStatus = data.record.Id;
                                                     });
                                                     return text;
                                                 }
                                             },
-                                            //DesignProcess: {
-                                            //    visibility: 'fixed',
-                                            //    title: "Thiết Kế",
-                                            //    width: "10%",
-                                            //    display: function (data) {
-                                            //        var text = $('<a href="javascript:void(0)"  class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + data.record.DesignUserName + ":" + data.record.strDesignStatus + '</a>');
-                                            //        text.click(function () {
-                                            //            $("#dDesignName").val(data.record.DesignUser);
-                                            //            $("#gDescription").val(data.record.DesignDescription);
-                                            //            $("#gStatus").val(data.record.PrintStatus);
-                                            //            global.Data.DetailId = data.record.Id;
-                                            //            showPopupDesignProcess();
-                                            //            data.record.StrDeliveryDate = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd");
-                                            //            var a = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd'T'HH:MM:ss");
-                                            //        });
-                                            //        return text;
-                                            //    }
-                                            //},
-                                            //"": {
-                                            //    visibility: 'fixed',
-                                            //    title: "",
-                                            //    width: "1%",
-                                            //    display: function (data) {
-                                            //        var text = $('<a style="color: red" href="javascript:void(0)"  class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + "!" + '</a>');
-                                            //        text.click(function () {
-                                            //        });
-                                            //        return text;
-                                            //    }
-                                            //},
-                                            //PrintProcess: {
-                                            //    visibility: 'fixed',
-                                            //    title: "In Ấn",
-                                            //    width: "10%",
-
-                                            //    display: function (data) {
-                                            //        var text = $('<a href="javascript:void(0)"  class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + data.record.PrintUserName + ":" + data.record.strPrinStatus + '</a>');
-                                            //        text.click(function () {
-                                            //            $("#gPrintName").val(data.record.PrintUser);
-                                            //            $("#dDescription").val(data.record.PrintDescription);
-                                            //            $("#dStatus").val(data.record.DesignStatus);
-                                            //            global.Data.DetailId = data.record.Id;
-                                            //            showPopupPrintProcess();
-                                            //            data.record.StrDeliveryDate = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd");
-                                            //            var a = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd'T'HH:MM:ss");
-                                            //        });
-                                            //        return text;
-                                            //    }
-                                            //},
-                                            //" ": {
-                                            //    visibility: 'fixed',
-                                            //    title: "",
-                                            //    width: "1%",
-                                            //    display: function (data) {
-                                            //        var text = $('<a style="color: red" href="javascript:void(0)"  class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + "!" + '</a>');
-                                            //        text.click(function () {
-                                            //        });
-                                            //        return text;
-                                            //    }
-                                            //},
+                                            UserProcess: {
+                                                visibility: 'fixed',
+                                                title: "Nhân Viên",
+                                                width: "10%",
+                                                display: function (data) {                                                                                                    
+                                                    var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + data.record.UserProcess + '</a></span></button><ul class="dropdown-menu"><li><a class="user1" href="javascript:void(0)">Thiết Kế: ' + data.record.DesignView + '</a></li><li><a class="user2" href="javascript:void(0)">In: ' + data.record.PrintView + '</a></li><li><a class="user3" href="javascript:void(0)">Gia Công:' + data.record.AddOnView + '</a></li></ul></div>');
+                                                    text.click(function () {
+                                                    });
+                                                    return text;
+                                                }
+                                            },
                                         }
                                     }, function (data) { //opened handler
                                         data.childTable.jtable('load');
                                     });
                         });
                         return $img;
+                    }
+                },
+                EditDetail: {
+                    title: 'Chi Tiết',
+                    width: "5%",
+                    sorting: false,
+                    display: function (data) {
+                        var text = '';
+                        if (!data.record.IsSystem) {
+                            text = $('<button title="chỉnh sửa" class="jtable-command-button jtable-edit-command-button"><span>Phân Quyền</span></button>');
+                            text.click(function () {
+                                global.Data.IdForView = data.record.Id;
+                                $('.nav-tabs a[href="#ViewDetail"]').tab('show');
+                                reloadViewDetail();
+                            });
+                        }
+                        return text;
                     }
                 },
                 Name: {
@@ -914,40 +895,6 @@ VINASIC.Order = function () {
                         return text;
                     }
                 },
-                //strIsApproval: {
-                //    title: "Duyệt",
-                //    width: "3%",
-                //    display: function (data) {
-                //        var text = "";
-                //        if (data.record.IsApproval == true)
-                //        { text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật duyệt đơn hàng.\"><span class=\"fa fa-check-square-o fa-lg\" aria-hidden=\"true\"></span></a>"); }
-                //        else {
-                //            text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật duyệt đơn hàng.\"><span class=\"fa fa-times-circle fa-lg\" aria-hidden=\"true\"></span></a>");
-                //        }
-                //        text.click(function () {
-                //            updateApproval(data.record.Id, data.record.IsApproval);
-                //        });
-                //        return text;
-                //    }
-                //},
-
-                //StrHasDelivery: {
-                //    visibility: "fixed",
-                //    title: "GHàng",
-                //    width: "3%",
-                //    display: function (data) {
-                //        var text = "";
-                //        if (data.record.IsDelivery==2)
-                //        { text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật giao hàng.\"><span class=\"fa fa-check-square-o fa-lg\" aria-hidden=\"true\"></span></a>"); }
-                //        else {
-                //            text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật giao hàng.\"><span class=\"fa fa-times-circle fa-lg\" aria-hidden=\"true\"></span></a>");
-                //        }
-                //        text.click(function () {
-                //            updateDelivery(data.record.Id, data.record.IsDelivery);
-                //        });
-                //        return text;
-                //    }
-                //},
                 CreateUserName: {
                     title: "NV Kinh Doanh",
                     width: "10%"
@@ -1082,66 +1029,33 @@ VINASIC.Order = function () {
                     title: "Thành Tiền",
                     width: "3%"
                 },
-                DesignProcess: {
+                strDetailStatus: {
                     visibility: 'fixed',
-                    title: "Thiết Kế",
+                    title: "Trạng Thái",
                     width: "10%",
                     display: function (data) {
-                        var text = $('<a href="javascript:void(0)" class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + data.record.DesignUserName + ":" + data.record.strDesignStatus + '</a>');
-                        text.click(function () {
+                        var text = "";
+                        var strStatus = getOrderDetailStatus(data.record.DetailStatus);
+                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu"><li><a class="detailstatus1" href="javascript:void(0)">Chuyển cho thiết kế</a></li><li><a class="detailstatus3" href="javascript:void(0)">Chuyển cho in ấn</a></li><li><a class="detailstatus5" href="javascript:void(0)">chuyển cho gia công</a></li><li><a class="detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
 
-                            $("#dDesignName").val(data.record.DesignUser);
-                            $("#gDescription").val(data.record.DesignDescription);
-                            $("#gStatus").val(data.record.PrintStatus);
-                            global.Data.DetailId = data.record.Id;
-                            showPopupDesignProcess();
-                            data.record.StrDeliveryDate = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd");
-                            var a = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd'T'HH:MM:ss");
-                        });
-                        return text;
-                    }
-                },
-                "": {
-                    visibility: 'fixed',
-                    title: "",
-                    width: "1%",
-                    display: function (data) {
-                        var text = $('<a style="color: red" href="javascript:void(0)" class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + "!" + '</a>');
                         text.click(function () {
+                            debugger;
+                            global.Data.IdDetailStatus = data.record.Id;
                         });
                         return text;
                     }
                 },
-                PrintProcess: {
+                UserProcess: {
                     visibility: 'fixed',
-                    title: "In Ấn",
+                    title: "Nhân Viên",
                     width: "10%",
-
                     display: function (data) {
-                        var text = $('<a href="javascript:void(0)" class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + data.record.PrintUserName + ":" + data.record.strPrinStatus + '</a>');
+                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + data.record.UserProcess + '</a></span></button><ul class="dropdown-menu"><li><a class="user1" href="javascript:void(0)">Thiết Kế: ' + data.record.DesignView + '</a></li><li><a class="user2" href="javascript:void(0)">In: ' + data.record.PrintView + '</a></li><li><a class="user3" href="javascript:void(0)">Gia Công:' + data.record.AddOnView + '</a></li></ul></div>');
                         text.click(function () {
-                            $("#gPrintName").val(data.record.PrintUser);
-                            $("#dDescription").val(data.record.PrintDescription);
-                            $("#dStatus").val(data.record.DesignStatus);
-                            global.Data.DetailId = data.record.Id;
-                            showPopupPrintProcess();
-                            data.record.StrDeliveryDate = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd");
-                            var a = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd'T'HH:MM:ss");
                         });
                         return text;
                     }
                 },
-                " ": {
-                    visibility: 'fixed',
-                    title: "",
-                    width: "1%",
-                    display: function (data) {
-                        var text = $('<a style="color: red" href="javascript:void(0)" class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + "!" + '</a>');
-                        text.click(function () {
-                        });
-                        return text;
-                    }
-                }
             }
         });
     }
@@ -1712,6 +1626,23 @@ VINASIC.Order = function () {
             event.preventDefault();
             updateOrderStatus(global.Data.IdOrderStatus, 5);
         });
+
+        $("body").delegate(".detailstatus1", "click", function (event) {
+            event.preventDefault();
+            updateDetailStatus(global.Data.IdDetailStatus, 1);
+        });
+        $("body").delegate(".detailstatus3", "click", function (event) {
+            event.preventDefault();
+            updateDetailStatus(global.Data.IdDetailStatus, 3);
+        });
+        $("body").delegate(".detailstatus5", "click", function (event) {
+            event.preventDefault();
+            updateDetailStatus(global.Data.IdDetailStatus, 5);
+        });
+        $("body").delegate(".detailstatus7", "click", function (event) {
+            event.preventDefault();
+            updateDetailStatus(global.Data.IdDetailStatus, 7);
+        });
         $("#canelOrder").click(function () {
             resetAll();
             global.Data.CurenIndex = 0;
@@ -1955,8 +1886,6 @@ VINASIC.Order = function () {
         registerEvent();
         document.getElementById("datefrom").defaultValue = new Date(new Date() - 24 * 60 * 60 * 1000).toISOString().substring(0, 10);
         document.getElementById("dateto").defaultValue = new Date().toISOString().substring(0, 10);
-        document.getElementById("vdatefrom").defaultValue = new Date(new Date() - 24 * 60 * 60 * 1000).toISOString().substring(0, 10);
-        document.getElementById("vdateto").defaultValue = new Date().toISOString().substring(0, 10);
         initComboBoxBusiness();
         initComboBoxBusiness1();
         initComboBoxBusiness2();

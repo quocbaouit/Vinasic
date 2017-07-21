@@ -130,29 +130,29 @@ VINASIC.Design = function () {
                 },
                 CustomerName: {
                     title: "Tên Khách Hàng",
-                    width: "20%"
+                    width: "15%"
                 },
                 CommodityName: {
                     title: "Dịch Vụ",
-                    width: "20%"
+                    width: "15%"
                 },
                 FileName: {
                     title: "Tên File",
-                    width: "20%"
+                    width: "15%"
                 },
                 Width: {
                     visibility: "fixed",
                     title: "Chiều dài",
-                    width: "5%"
+                    width: "2%"
                 },
                 Height: {
                     visibility: "fixed",
                     title: "Chiều Rộng",
-                    width: "5%"
+                    width: "2%"
                 },
                 DesignDescription: {
                     title: "Mô Tả",
-                    width: "25%"
+                    width: "15%"
                 },
                 EmployeeName: {
                     title: "Nhân Viên Kinh Doanh",
@@ -161,11 +161,11 @@ VINASIC.Design = function () {
                 StrdesignStatus: {
                     visibility: "fixed",
                     title: "Xử Lý",
-                    width: "25%",
+                    width: "20%",
                     display: function (data) {
                         var text = $("<a href=\"#\" class=\"clickable\" title=\"Cập nhật Trạng Thái.\">" + data.record.StrdesignStatus + "</a>");
                         text.click(function () {
-                            updateStatus(data.record.Id, data.record.DesignStatus);
+                            updateStatus(data.record.Id, data.record.DetailStatus);
                         });
                         return text;
                     }

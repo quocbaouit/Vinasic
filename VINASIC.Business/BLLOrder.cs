@@ -174,14 +174,30 @@ namespace VINASIC.Business
                 SubTotal = o.SubTotal,
                 IsCompleted = o.IsCompleted,              
                 CreatedDate = o.CreatedDate,
-                DesignView=o.DesignView,
-                PrintView=o.PrintView,
-                AddOnView=o.AddOnView,
+                DesignView=o.DesignView??"",
+                PrintView=o.PrintView??"",
+                AddOnView=o.AddOnView??"",
                 DetailStatus=o.DetailStatus,
                 
             }).ToList();
             foreach (var order in ordeDetails)
             {
+                if (order.DetailStatus == 2 || order.DetailStatus == 3)
+                {
+                    order.UserProcess = order.DesignView;
+                }
+                if (order.DetailStatus == 4 || order.DetailStatus == 5)
+                {
+                    order.UserProcess = order.PrintView;
+                }
+                if (order.DetailStatus == 6 ||order.DetailStatus == 7)
+                {
+                    order.UserProcess = order.AddOnView;
+                }
+                if (string.IsNullOrEmpty(order.UserProcess))
+                {
+                    order.UserProcess = "Chưa có nhân viên phụ trách";
+                }
                 order.strSubTotal = $"{order.SubTotal:0,0}";
                 order.strPrice = $"{order.Price:0,0}";
             }
@@ -260,6 +276,7 @@ namespace VINASIC.Business
                         Description = detail.Description,
                         IsCompleted = false,
                         IsDeleted = false,
+                        DetailStatus = 0,
                         CreatedUser = userId,
                         CreatedDate = DateTime.UtcNow,
                         FileName = detail.FileName
@@ -337,6 +354,7 @@ namespace VINASIC.Business
                         IsCompleted = false,
                         IsDeleted = false,
                         CreatedUser = userId,
+                        DetailStatus=0,
                         CreatedDate = order.CreatedDate,
                         FileName = detail.FileName
                     };
@@ -516,6 +534,38 @@ namespace VINASIC.Business
                 order.DesignUser = designId;
                 order.UpatedDate = DateTime.UtcNow;
                 _repOrderDetail.Update(order);
+                SaveChange();
+                responResult.IsSuccess = true;
+            }
+            else
+            {
+                responResult.IsSuccess = false;
+                responResult.Errors.Add(new Error() { MemberName = "Update", Message = "Lỗi" });
+            }
+            return responResult;
+        }
+
+        public ResponseBase UpdateDetailStatus(int detailId, int status)
+        {
+            var responResult = new ResponseBase();
+            var orderDetail = _repOrderDetail.GetMany(c => !c.IsDeleted && c.Id == detailId).FirstOrDefault();
+            if (orderDetail != null)
+            {
+                orderDetail.DetailStatus = status;
+                orderDetail.UpatedDate = DateTime.UtcNow;
+                _repOrderDetail.Update(orderDetail);
+                SaveChange();
+                var order = _repOrder.GetById(orderDetail.OrderId);
+                var isComplete =_repOrderDetail.GetMany(x =>x.OrderId==order.Id && x.DetailStatus != 0 && x.DetailStatus != 7).ToList();
+                if (isComplete.Count==0)
+                {
+                    order.OrderStatus = 2;                 
+                }
+                else
+                {
+                    order.OrderStatus = 1;
+                }
+                _repOrder.Update(order);
                 SaveChange();
                 responResult.IsSuccess = true;
             }
@@ -753,16 +803,11 @@ namespace VINASIC.Business
                 return 0;            
             return detail.Price??0;
         }
-        public PagedList<ModelViewDetail> GetListViewDetail(string keyWord, int startIndexRecord, int pageSize, string sorting, string fromDate, string toDate, int employee)
+        public PagedList<ModelViewDetail> GetListViewDetail(string keyWord, int startIndexRecord, int pageSize, string sorting, int orderId)
         {
-            var allEmployee = _repUser.GetMany(x => !x.IsDeleted);
-            var realfromDate = DateTime.Parse(fromDate);
-            var realtoDate = DateTime.Parse(toDate);
-            var frDate = new DateTime(realfromDate.Year, realfromDate.Month, realfromDate.Day, 0, 0, 0, 0);
-            var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
             sorting = "CreatedDate DESC";
             var orders =
-                _repOrderDetail.GetMany(c => !c.IsDeleted && !c.T_Order.IsDeleted)
+                _repOrderDetail.GetMany(c => !c.IsDeleted && !c.T_Order.IsDeleted && c.T_Order.Id== orderId)
                     .Select(c => new ModelViewDetail()
                     {
                         CustomerName = c.T_Order.Name,
@@ -794,18 +839,12 @@ namespace VINASIC.Business
                         DesignTo = c.DesignTo,
                         SubTotal = c.SubTotal,
                         IsCompleted = c.IsCompleted,
-                        strIsComplete = c.IsCompleted ? "Đã In" : "Chưa In",
-                        strDesignStatus = c.DesignStatus == null ? "Không Xử Lý" : (c.DesignStatus == 1 ? "Đang Xử Lý" : (c.DesignStatus == 2 ? "Đã Xử Lý" : "Không xử lý")),
-                        strPrinStatus = c.PrintStatus == null ? "Không Xử Lý" : (c.PrintStatus == 1 ? "Đang Xử Lý" : (c.PrintStatus == 2 ? "Đã Xử Lý" : "Không xử lý"))
+                        DesignView = c.DesignView ?? "",
+                        PrintView = c.PrintView ?? "",
+                        AddOnView = c.AddOnView ?? "",
+                        DetailStatus = c.DetailStatus,
+
                     }).OrderBy(sorting);
-            if (!string.IsNullOrEmpty(fromDate) && !string.IsNullOrEmpty(toDate))
-            {
-                orders = orders.Where(c => c.T_Order.CreatedDate >= frDate && c.T_Order.CreatedDate <= tDate);
-            }
-            if (employee != 0)
-            {
-                orders = orders.Where(c => c.CreatedForUser == employee);
-            }
             if (!string.IsNullOrEmpty(keyWord))
             {
                 orders = orders.Where(c => c.CustomerName.Trim().ToLower().Contains(keyWord.Trim().ToLower()) || c.CustomerPhone.Contains(keyWord));
@@ -814,10 +853,22 @@ namespace VINASIC.Business
             var result = new PagedList<ModelViewDetail>(orders, pageNumber, pageSize);
             foreach (var order in result)
             {
-                var firstOrDefault = allEmployee.FirstOrDefault(x => x.Id == order.DesignUser);
-                order.DesignUserName = firstOrDefault != null ? firstOrDefault.Name : "";
-                var orDefault = allEmployee.FirstOrDefault(x => x.Id == order.PrintUser);
-                order.PrintUserName = orDefault != null ? orDefault.Name : "";
+                if (order.DetailStatus == 2 || order.DetailStatus == 3)
+                {
+                    order.UserProcess = order.DesignView;
+                }
+                if (order.DetailStatus == 4 || order.DetailStatus == 5)
+                {
+                    order.UserProcess = order.PrintView;
+                }
+                if (order.DetailStatus == 6 || order.DetailStatus == 7)
+                {
+                    order.UserProcess = order.AddOnView;
+                }
+                if (string.IsNullOrEmpty(order.UserProcess))
+                {
+                    order.UserProcess = "Chưa có nhân viên phụ trách";
+                }
                 order.strSubTotal = $"{order.SubTotal:0,0}";
                 order.strPrice = $"{order.Price:0,0}";
             }

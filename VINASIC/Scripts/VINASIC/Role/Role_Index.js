@@ -25,19 +25,25 @@ VINASIC.Role = function () {
             CreateRole: '/Role/CreateRole',
             DeleteRole: '/Role/Delete',
             GetListPermission: "/Permission/GetPermissionsForRole",
-            SaveRolePermission: '/Role/SaveRolePermission'
+            SaveRolePermission: '/Role/SaveRolePermission',
+            SaveUSerProduct: "/Employee/SaveUserProduct",
+            GetProductForUser: "/Employee/GetProductForUser"
         },
         Element: {
             JtableRole: 'jtableRole',
             JtablePermission: "jtablePermission",
-            PopupRole: "popup_Role"
+            PopupRole: "popup_Role",
+            JtableProductUser: "jtableProductUser",
         },
         Data: {
             ModelRole: {},
             RoleId: 0,
             RoleNameTemp:"",
             listSelectPermision: [],
-            RolePermissionModel: { RoleId: 0, ListPermission: []}
+            RolePermissionModel: { RoleId: 0, ListPermission: [] },
+            ListSelectProductModel: { UserId: 0, ListSelectProduct: [] },
+            ClientId: "",
+            ListSelectProduct: []
         }
     }
     this.GetGlobal = function () {
@@ -47,6 +53,11 @@ VINASIC.Role = function () {
         var keySearch = "abc";
         innitListSelect(Global.Data.RoleId);
         $("#" + Global.Element.JtablePermission).jtable("load", { 'keyword': keySearch, 'roleId': Global.Data.RoleId });
+    }
+    function reloadListProduct() {
+        var keySearch = "abc";
+        innitListSelectProduct(Global.Data.UserId);
+        $("#" + Global.Element.JtableProductUser).jtable("load", { 'keyword': keySearch, 'UserId': Global.Data.UserId });
     }
     function removeItemInArray(arr, id) {
         if (typeof (arr) != "undefined") {
@@ -61,6 +72,7 @@ VINASIC.Role = function () {
     this.Init = function () {
         RegisterEvent();
         InitListRole();
+        jtableProductUser();
         ReloadListRole();
         initListPermission();
         initPopupRole();
@@ -111,8 +123,36 @@ VINASIC.Role = function () {
         $('#fixedbutton1').click(function () {
             $('.nav-tabs a:first').tab('show');
         });
+        $('#fixedbuttonprint').click(function () {
+            saveUserProduct();
+        });
+        $('#fixedbuttonprint1').click(function () {
+            $('.nav-tabs a:first').tab('show');
+        });
     }
+    function innitListSelectProduct(userId) {
+        $.ajax({
+            url: "/Employee/GetProductIdByUserId?userId=" + userId,
+            type: 'post',
+            contentType: 'application/json',
+            success: function (result) {
+                $('#loading').hide();
+                GlobalCommon.CallbackProcess(result, function () {
+                    if (result.Result === "OK") {
+                        while (Global.Data.ListSelectProduct.length) {
+                            Global.Data.ListSelectProduct.pop();
+                        }
+                        for (var i = 0; i < result.Records.length; i++) {
+                            Global.Data.ListSelectProduct.push(result.Records[i]);
+                        };
+                    }
+                }, false, null, true, true, function () {
 
+                    toastr.error("Đã có lỗi xảy ra trong quá trình sử lý.");
+                });
+            }
+        });
+    }
     function initListPermission() {
         $("#" + Global.Element.JtablePermission).jtable({
             title: "",
@@ -280,7 +320,7 @@ VINASIC.Role = function () {
                     title: "Tên Nhóm Quyền",
                     width: "20%",
                     display: function (data) {
-                        var text = $('<a style="color:red" href="javascript:void(0) class="SystemClass" title="Đây là quyền Hệ Thống.\nBạn không được thao tác trên Quyền Hệ Thống">' + data.record.RoleName + '</a>');;
+                        var text = $('<a style="color:red" href="javascript:void(0) class="SystemClass" title="Đây là quyền Hệ Thống.\nBạn không được thao tác trên Quyền Hệ Thống">' + data.record.RoleName + '</a>');
                         if (!data.record.IsSystem) {
                             text = $('<a href="javascript:void(0) class="clickable" data-toggle="modal" data-target="#myModal" title="Chỉnh sửa thông tin Quyền Tài Khoản">' + data.record.RoleName + '</a>');
                             text.click(function () {
@@ -319,11 +359,29 @@ VINASIC.Role = function () {
                             text = $('<button title="chỉnh sửa" class="jtable-command-button jtable-edit-command-button"><span>Phân Quyền</span></button>');
                             text.click(function () {
                                 Global.Data.RoleId = data.record.Id;
-                                $('.nav-tabs a:last').tab('show');
+                                $('.nav-tabs a[href="#edit-profile"]').tab('show');
+                                //$('.nav-tabs a:last').tab('show');
                                 document.getElementById("roleTemp").innerHTML = "Nhóm Quyền " + data.record.RoleName;
                                 reloadListPermission();
                             });
                         }
+                        return text;
+                    }
+                },
+                EditPrintingPermission: {
+                    title: 'In Ấn',
+                    width: "3%",
+                    sorting: false,
+                    display: function (data) {
+                        var text = '';
+                        text = $('<button title="quyền in ấn" class="jtable-command-button jtable-edit-command-button"><span>Phân Quyền</span></button>');
+                        text.click(function () {
+                            Global.Data.UserId = data.record.Id;
+                            document.getElementById("roleTemp123").innerHTML = "In ấn cho nhóm quyền: " + data.record.RoleName;
+                            $('.nav-tabs a:last').tab('show');                          
+                            reloadListProduct();                          
+                        });
+
                         return text;
                     }
                 },
@@ -397,6 +455,30 @@ VINASIC.Role = function () {
             }
         });
     }
+    function saveUserProduct() {
+        Global.Data.ListSelectProductModel.UserId = Global.Data.UserId;
+        Global.Data.ListSelectProductModel.ListSelectProduct = Global.Data.ListSelectProduct;
+        $.ajax({
+            url: Global.UrlAction.SaveUSerProduct,
+            type: 'post',
+            data: JSON.stringify(Global.Data.ListSelectProductModel),
+            contentType: 'application/json',
+            success: function (result) {
+                $('#loading').hide();
+                GlobalCommon.CallbackProcess(result, function () {
+                    if (result.Result === "OK") {
+                        ReloadListRole();
+                        //$("#" + Global.Element.PopupUserRole).modal("hide");
+                        toastr.success('Cập Nhật Thành Công');
+                        $('.nav-tabs a:first').tab('show');
+                    }
+                }, false, Global.Element.PopupUserRole, true, true, function () {
+                    var msg = GlobalCommon.GetErrorMessage(result);
+                    GlobalCommon.ShowMessageDialog(msg, function () { }, "Đã có lỗi xảy ra trong quá trình sử lý.");
+                });
+            }
+        });
+    }
     /*End Save */
     function CheckValidate() {
         if ($('[txt="RoleName"]').val() == "") {
@@ -430,6 +512,67 @@ VINASIC.Role = function () {
                     var msg = GlobalCommon.GetErrorMessage(result);
                     GlobalCommon.ShowMessageDialog(msg, function () { }, "Đã có lỗi xảy ra trong quá trình sử lý.");
                 });
+            }
+        });
+    }
+    function jtableProductUser() {
+        $("#" + Global.Element.JtableProductUser).jtable({
+            title: "",
+            paging: false,
+            pageSize: 1000,
+            pageSizeChangeProduct: false,
+            sorting: false,
+            selectShow: true,
+            actions: {
+                listAction: Global.UrlAction.GetProductForUser
+            },
+            messages: {
+                selectShow: "Ẩn hiện cột"
+            },
+            fields: {
+                Id: {
+                    key: true,
+                    create: false,
+                    edit: false,
+                    list: false
+                },
+
+                Select: {
+                    title: 'Chọn',
+                    width: '2%',
+                    list: true,
+                    display: function (data) {
+                        var text = "";
+                        if (data.record.Selected === true) {
+                            text = $("<input id=checkProduct" + data.record.Id + " type=\"checkbox\" checked>");
+                        }
+                        else {
+                            text = $("<input id=checkProduct" + data.record.Id + " type=\"checkbox\">");
+                        }
+
+                        text.click(function () {
+                            var id = "checkProduct" + data.record.Id;
+                            var isCheck = document.getElementById(id).checked;
+                            if (isCheck === true) {
+                                Global.Data.ListSelectProduct.push(data.record.Id);
+                            }
+                            else {
+                                removeItemInArray(Global.Data.ListSelectProduct, data.record.Id);
+                            }
+
+                        });
+                        return text;
+                    }
+                },
+                Name: {
+                    title: "Tên Dich Vu",
+                    width: "20%"
+                },
+                Description: {
+                    title: "Mô Tả",
+                    width: "20%"
+                }
+
             }
         });
     }

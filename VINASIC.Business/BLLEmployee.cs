@@ -22,15 +22,19 @@ namespace VINASIC.Business
         private readonly IT_UserProductRepository _repUserProduct;
         private readonly IT_PositionRepository _repPositionRepository;
         private readonly IT_OrderDetailRepository _repOrderDetailRepository;
+        private readonly IT_OrderRepository _repOrderRepository;
+        private readonly IBLLUserRole bllUserRole;
         private readonly IUnitOfWork<VINASICEntities> _unitOfWork;
         private readonly IBLLRole bllRole;
-        public BllEmployee(IUnitOfWork<VINASICEntities> unitOfWork, IT_UserRepository repUser, IT_OrderDetailRepository repOrderDetailRepository, IT_PositionRepository repPositionRepository, IT_ProductRepository repProduct, IBLLRole _bllRole, IT_UserProductRepository repUserProduct)
+        public BllEmployee(IUnitOfWork<VINASICEntities> unitOfWork, IT_OrderRepository repOder, IT_UserRepository repUser, IT_OrderDetailRepository repOrderDetailRepository, IT_PositionRepository repPositionRepository, IT_ProductRepository repProduct, IBLLRole _bllRole, IT_UserProductRepository repUserProduct, IBLLUserRole _bllUserRole)
         {
+            this.bllUserRole = _bllUserRole;
             _unitOfWork = unitOfWork;
             _repUser = repUser;
             _repProduct = repProduct;
             _repUserProduct = repUserProduct;
             _repOrderDetailRepository = repOrderDetailRepository;
+            _repOrderRepository = repOder;
             _repPositionRepository = repPositionRepository;
             bllRole = _bllRole;
         }
@@ -347,7 +351,7 @@ namespace VINASIC.Business
                     var frDate = new DateTime(realfromDate.Year, realfromDate.Month, realfromDate.Day, 0, 0, 0, 0);
                     var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
                     var listDesignProcess =
-                        _repOrderDetailRepository.GetMany(c => !c.IsDeleted&&c.DesignUser!=null&& c.CreatedDate >= frDate && c.CreatedDate <= tDate)
+                        _repOrderDetailRepository.GetMany(c => !c.IsDeleted&&(c.DetailStatus==1 || c.DetailStatus == 2 ||!string.IsNullOrEmpty(c.DesignView)) && c.CreatedDate >= frDate && c.CreatedDate <= tDate)
                             .Select(c => new ModelForDesign()
                             {
                                 T_Order=c.T_Order,
@@ -362,12 +366,13 @@ namespace VINASIC.Business
                                 DesignTo = c.DesignTo,
                                 DesignStatus = c.DesignStatus ?? 0,
                                 DesignDescription = c.DesignDescription,
+                                DetailStatus=c.DetailStatus,
                                 StrdesignStatus =
-                                    c.DesignStatus == null
-                                        ? "Không Xử Lý"
-                                        : (c.DesignStatus == 1
-                                            ? "Đang Xử Lý"
-                                            : (c.DesignStatus == 2 ? "Đã Xử Lý" : "Không xử lý")),
+                                    c.DetailStatus == 1
+                                        ? "Chưa Thiết kế"
+                                        : (c.DetailStatus == 2
+                                            ? "Đang Thiết Kế"
+                                            : (c.DetailStatus == 3 ? "Đã Xong" : "Đã Xong")),
                                 CreatedDate = c.CreatedDate,
                             }).OrderBy(sorting).ToList();
                     if (!auth)
@@ -399,14 +404,15 @@ namespace VINASIC.Business
                 {
                     sorting = "CreatedDate DESC";
                 }
+                 List < int > listUserRole = bllUserRole.GetUserRolesIdByUserId(userId);
                 var userProduct =
-                    _repUserProduct.GetMany(x => !x.IsDeleted && x.UserId == userId).Select(x => x.ProductId).ToList();
+                    _repUserProduct.GetMany(x => !x.IsDeleted && listUserRole.Contains(x.UserId)).Select(x => x.ProductId).ToList();
                     var realfromDate = DateTime.Parse(fromDate);
                     var realtoDate = DateTime.Parse(toDate);
                     var frDate = new DateTime(realfromDate.Year, realfromDate.Month, realfromDate.Day, 0, 0, 0, 0);
                     var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
                     var listPrintProcess =
-                        _repOrderDetailRepository.GetMany(c =>!c.IsDeleted && c.CreatedDate >= frDate && c.CreatedDate <= tDate)
+                        _repOrderDetailRepository.GetMany(c =>!c.IsDeleted && c.CreatedDate >= frDate && (c.DetailStatus>=3) && c.CreatedDate <= tDate && userProduct.Contains(c.CommodityId))
                             .Select(c => new ModelForPrint()
                             {
                                 T_Order = c.T_Order,
@@ -423,18 +429,12 @@ namespace VINASIC.Business
                                 PrintDescription = c.PrintDescription,
                                 PrintFrom = c.PrintFrom,
                                 PrintTo = c.PrintTo,
-                                StrPrintStatus =
-                                    c.PrintStatus == null
-                                        ? "Chưa In"
-                                        : (c.PrintStatus == 1
-                                            ? "Đang In"
-                                            : (c.PrintStatus == 2 ? "Đã Xong" : "Chưa In")),
+                                DetailStatus=c.DetailStatus,
                                 CreatedDate = c.CreatedDate,
+                                StrPrintStatus= c.DetailStatus == 3? "Chưa In": (c.DetailStatus == 4 ? "Đang In":
+                                (c.DetailStatus == 5 ? "Đã Xong" : (c.DetailStatus == 6 ? "Đang gia công" : "Đã gia công xong"))),
                             }).OrderBy(sorting);
-                if (!auth)
-                {
-                    listPrintProcess = listPrintProcess.Where(c=>userProduct.Contains(c.CommodityId));
-                }
+
                 if (!string.IsNullOrEmpty(keyWord))
                     {
                         listPrintProcess = listPrintProcess.Where(x => x.CustomerName.Contains(keyWord));
@@ -453,20 +453,21 @@ namespace VINASIC.Business
             }
         }
 
-        public ResponseBase DesignUpdateOrderDeatail(int id, int stautus, int userId)
+        public ResponseBase DesignUpdateOrderDeatail(int id, int stautus, int userId, string employee)
         {
             ResponseBase result = new ResponseBase { IsSuccess = false };
             try
             {
-                if (stautus >= 2)
+                if (stautus >= 3)
                 {
                     result.IsSuccess = false;
                     result.Data = "Đã Hoàn Thành Không Thể Cập nhật";
                     return result;
                 }
                 var orderDetail = _repOrderDetailRepository.Get(x => x.Id == id && !x.IsDeleted);
-                orderDetail.DesignStatus = stautus + 1;
+                orderDetail.DetailStatus = stautus + 1;
                 orderDetail.UpatedDate = DateTime.Now.AddHours(14);
+                orderDetail.DesignView = employee;
                 orderDetail.UpdatedUser = userId;
                 _repOrderDetailRepository.Update(orderDetail);
                 SaveChange();
@@ -481,22 +482,35 @@ namespace VINASIC.Business
             return result;
         }
 
-        public ResponseBase PrintUpdateOrderDeatail(int id, int stautus, int userId)
+        public ResponseBase PrintUpdateOrderDeatail(int id, int stautus, int userId, string employee)
         {
             ResponseBase result = new ResponseBase { IsSuccess = false };
             try
             {
-                if (stautus >= 2)
+                if (stautus >= 7)
                 {
                     result.IsSuccess = false;
                     result.Data = "Đã Hoàn Thành Không Thể Cập nhật";
                     return result;
                 }
                 var orderDetail = _repOrderDetailRepository.Get(x => x.Id == id && !x.IsDeleted);
-                orderDetail.PrintStatus = stautus + 1;
+                orderDetail.DetailStatus = stautus + 1;
+                orderDetail.PrintView = employee;
                 orderDetail.UpatedDate = DateTime.Now.AddHours(14);
                 orderDetail.UpdatedUser = userId;
                 _repOrderDetailRepository.Update(orderDetail);
+                SaveChange();
+                var order = _repOrderRepository.GetById(orderDetail.OrderId);
+                var isComplete = _repOrderDetailRepository.GetMany(x => x.OrderId == order.Id && x.DetailStatus != 0 && x.DetailStatus != 7).ToList();
+                if (isComplete.Count == 0)
+                {
+                    order.OrderStatus = 2;
+                }
+                else
+                {
+                    order.OrderStatus = 1;
+                }
+                _repOrderRepository.Update(order);
                 SaveChange();
                 result.IsSuccess = true;
                 result.Data = DateTime.Now.AddHours(14);

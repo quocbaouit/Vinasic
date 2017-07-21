@@ -113,7 +113,7 @@ namespace VINASIC.Controllers
         {
             try
             {
-                var auth = UserContext.Permissions.Contains("AllPermisionPrint");
+                var auth = true;
                 var listEmployee = _bllEmployee.GetListForPrint(keyword, jtStartIndex, jtPageSize, jtSorting, UserContext.UserID, fromDate, toDate, auth, employee);
                 JsonDataResult.Records = listEmployee;
                 JsonDataResult.Result = "OK";
@@ -238,7 +238,7 @@ namespace VINASIC.Controllers
             {
                 try
                 {
-                    var result = _bllEmployee.DesignUpdateOrderDeatail(id, status, UserContext.UserID);
+                    var result = _bllEmployee.DesignUpdateOrderDeatail(id, status, UserContext.UserID,UserContext.EmployeeName);
                     JsonDataResult.Records = result;
                     JsonDataResult.Result = JsonDataResult.Result = result.IsSuccess ? JsonDataResult.Result = "OK" : JsonDataResult.Result = "ERROR";
 
@@ -264,7 +264,7 @@ namespace VINASIC.Controllers
             {
                 if (IsAuthenticate)
                 {
-                    var result = _bllEmployee.PrintUpdateOrderDeatail(id, status, UserContext.UserID);
+                    var result = _bllEmployee.PrintUpdateOrderDeatail(id, status, UserContext.UserID,UserContext.EmployeeName);
                     JsonDataResult.Records = result;
                     JsonDataResult.Result = result.IsSuccess ? JsonDataResult.Result = "OK" : JsonDataResult.Result = "ERROR";
                 }

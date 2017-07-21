@@ -335,23 +335,23 @@ VINASIC.Employee = function () {
                         return text;
                     }
                 },
-                EditPermission: {
-                    title: 'In An',
-                    width: "3%",
-                    sorting: false,
-                    display: function (data) {
-                        var text = '';
-                        text = $('<a href="javascript:void(0)" title="chỉnh sửa"><span>Quyền In Ấn</a>');
-                            text.click(function () {
-                                global.Data.UserId = data.record.Id;
-                                $('.nav-tabs a:last').tab('show');
-                                document.getElementById("roleTemp").innerHTML = "In ấn cho nhân viên: " + data.record.Name;
-                                reloadListProduct();
-                            });
+                //EditPermission: {
+                //    title: 'In An',
+                //    width: "3%",
+                //    sorting: false,
+                //    display: function (data) {
+                //        var text = '';
+                //        text = $('<a href="javascript:void(0)" title="chỉnh sửa"><span>Quyền In Ấn</a>');
+                //            text.click(function () {
+                //                global.Data.UserId = data.record.Id;
+                //                $('.nav-tabs a:last').tab('show');
+                //                document.getElementById("roleTemp").innerHTML = "In ấn cho nhân viên: " + data.record.Name;
+                //                reloadListProduct();
+                //            });
                         
-                        return text;
-                    }
-                },
+                //        return text;
+                //    }
+                //},
                 ResetPass: {
                     visibility: "fixed",
                     title: "Reset Pass",
