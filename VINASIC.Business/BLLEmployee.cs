@@ -412,7 +412,7 @@ namespace VINASIC.Business
                     var frDate = new DateTime(realfromDate.Year, realfromDate.Month, realfromDate.Day, 0, 0, 0, 0);
                     var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
                     var listPrintProcess =
-                        _repOrderDetailRepository.GetMany(c =>!c.IsDeleted && c.CreatedDate >= frDate && (c.DetailStatus>=3) && c.CreatedDate <= tDate && userProduct.Contains(c.CommodityId))
+                        _repOrderDetailRepository.GetMany(c =>!c.IsDeleted && c.CreatedDate >= frDate && (c.DetailStatus==3 || !string.IsNullOrEmpty(c.PrintView) ) && c.CreatedDate <= tDate && userProduct.Contains(c.CommodityId))
                             .Select(c => new ModelForPrint()
                             {
                                 T_Order = c.T_Order,

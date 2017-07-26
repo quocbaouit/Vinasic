@@ -43,7 +43,7 @@ namespace VINASIC.Business
                     Link = x.Link,
                     OrderIndex = x.OrderIndex,
                     Description = x.Description,
-                });
+                }).OrderBy(y=>y.OrderIndex);
             }
             catch (Exception)
             {
@@ -60,7 +60,7 @@ namespace VINASIC.Business
                 List<int> listUserRole = bllUserRole.GetUserRolesIdByUserId(userId);
                 listPermissionUrl = bllRolePermission.GetListSystemNameAndUrlOfPermissionByListRoleId(listUserRole);
 
-                var menuCategorys = GetCategorysByPosition(position);
+                var menuCategorys = GetCategorysByPosition(position).OrderBy(y=>y.OrderIndex);
                 if (menuCategorys != null && menuCategorys.Count() > 0)
                 {
                     listMenuCategory = new List<ModelMenuCategory>();
