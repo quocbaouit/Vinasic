@@ -43,8 +43,11 @@ namespace VINASIC.Business
 
             var realfromDate = DateTime.Parse(fromDate);
             var realtoDate = DateTime.Parse(toDate);
+
             var frDate = new DateTime(realfromDate.Year, realfromDate.Month, realfromDate.Day, 0, 0, 0, 0);
+            frDate = TimeZoneInfo.ConvertTimeToUtc(frDate);
             var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
+            tDate = TimeZoneInfo.ConvertTimeToUtc(tDate);
             var orders = _repOrder.GetMany(c => !c.IsDeleted).Select(c => new ModelOrder()
             {
                 CustomerPhone = c.T_Customer.Mobile,
@@ -100,14 +103,6 @@ namespace VINASIC.Business
             {
                 orders = orders.Where(c => c.OrderStatus == orderStatus);
             }
-            //if (paymentStatus == 2)
-            //{
-            //    orders = orders.Where(c => c.HasPay < c.SubTotal);
-            //}
-            //if (delivery != 0)
-            //{
-            //    orders = delivery == 2 ? orders.Where(c => c.IsDelivery == 2) : orders.Where(c => c.IsDelivery == 1 || c.IsDelivery == 0);
-            //}
             var pageNumber = (startIndexRecord / pageSize) + 1;
 
             var result = new PagedList<ModelOrder>(orders, pageNumber, pageSize);
@@ -667,7 +662,9 @@ namespace VINASIC.Business
         public List<ModelViewDetail> ExportReport(DateTime fromDate, DateTime toDate, int employee, string keyWord, int delivery, int paymentStatus)
         {
             var frDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0, 0);
-            var tDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59, 999);
+            var tDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59, 999); 
+            frDate = TimeZoneInfo.ConvertTimeToUtc(frDate);
+             tDate = TimeZoneInfo.ConvertTimeToUtc(tDate);
             var orders =
                 _repOrderDetail.GetMany(c => !c.IsDeleted && !c.T_Order.IsDeleted && c.T_Order.CreatedDate >= frDate && c.T_Order.CreatedDate <= tDate)
                     .Select(c => new ModelViewDetail()
@@ -707,7 +704,7 @@ namespace VINASIC.Business
                         strIsComplete = c.IsCompleted ? "Đã Xong" : "Chưa Xong",
                         strDesignStatus = c.DesignStatus == null ? "Chưa Làm" : (c.DesignStatus == 1 ? "Đang Làm" : (c.DesignStatus == 2 ? "Đã Xong" : "Chưa Làm")),
                         strPrinStatus = c.PrintStatus == null ? "Chưa Làm" : (c.PrintStatus == 1 ? "Đang Làm" : (c.PrintStatus == 2 ? "Đã Xong" : "Chưa Làm"))
-                    }).ToList();
+                    }).OrderBy("CreatedDate DESC").ToList();
             if (employee != 0)
             {
                 orders = orders.Where(c => c.CreatedForUser == employee).ToList();
@@ -715,14 +712,6 @@ namespace VINASIC.Business
             if (!string.IsNullOrEmpty(keyWord))
             {
                 orders = orders.Where(c => c.CustomerName.Trim().ToLower().Contains(keyWord.Trim().ToLower()) || c.CustomerPhone.Contains(keyWord) || c.OrderId.ToString().Contains(keyWord)).ToList();
-            }
-            if (paymentStatus == 1)
-            {
-                orders = orders.Where(c => c.HasPay == c.Total1).ToList();
-            }
-            if (paymentStatus == 2)
-            {
-                orders = orders.Where(c => c.HasPay < c.Total1).ToList();
             }
             var sum = orders.Sum(x => x.SubTotal);
             if (orders.Count > 0)

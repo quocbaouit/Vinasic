@@ -678,9 +678,9 @@ namespace VINASIC.Controllers
         public ExcelPackage ExportSum(ExcelPackage package, DateTime fromDate, DateTime toDate, int employee, string keySearch, int delivery, int paymentStatus)
         {
             var result = _bllOrder.ExportReport(fromDate, toDate, employee, keySearch, delivery, paymentStatus);
-            if (result == null)
+            if (result.Count == 0)
             {
-                return null;
+                return package;
             }
             var ws = package.Workbook.Worksheets.Add("Thống Kê");
 
@@ -712,7 +712,7 @@ namespace VINASIC.Controllers
             picture.To.Row = 0;
             picture.SetSize(280, 104);
 
-            ws.Cells["G1"].Value = "CÔNG TY TNHH DỊCH VỤ VĂN HÓA THÔNG TIN VIỆT NAM";
+            ws.Cells["G1"].Value = "CÔNG TY TNHH THƯƠNG MẠI QUẢNG CÁO PDCA";
             ws.Cells["G1"].Style.Font.Bold = true;
             ws.Cells["G1"].Style.Font.Size = 16;
             ws.Cells["G1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
@@ -937,7 +937,7 @@ namespace VINASIC.Controllers
             picture.To.Row = 0;
             picture.SetSize(280, 104);
 
-            ws.Cells["G1"].Value = "CÔNG TY TNHH DỊCH VỤ VĂN HÓA THÔNG TIN VIỆT NAM";
+            ws.Cells["G1"].Value = "CÔNG TY TNHH THƯƠNG MẠI QUẢNG CÁO PDCA";
             ws.Cells["G1"].Style.Font.Bold = true;
             ws.Cells["G1"].Style.Font.Size = 16;
             ws.Cells["G1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
