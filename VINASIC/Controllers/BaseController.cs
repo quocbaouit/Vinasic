@@ -10,7 +10,7 @@ namespace VINASIC.Controllers
     {
         public int UserId = 1;
         public string DefaultPage = string.Empty;
-        public bool IsAuthenticate = true;
+        public bool IsAuthenticate = false;
 
         protected override void Initialize(RequestContext requestContext)
         {
@@ -42,73 +42,73 @@ namespace VINASIC.Controllers
             else
             {
 
-                //if (controllerName.Equals("Authenticate") && actionName.Equals("Login"))
+                if (controllerName.Equals("Authenticate") && actionName.Equals("Login"))
 
-                //{
+                {
 
-                //    base.Initialize(requestContext);
+                    base.Initialize(requestContext);
 
-                //}
+                }
 
-                //else if (!controllerName.Equals("Error") && !actionName.Equals("Logout"))
+                else if (!controllerName.Equals("Error") && !actionName.Equals("Logout"))
 
-                //{
+                {
 
-                //    var permissions = UserContext.Permissions;
+                    var permissions = UserContext.Permissions;
 
-                //    var havePermissions = false;
+                    var havePermissions = false;
 
-                //    if (permissions.Any())
+                    if (permissions.Any())
 
-                //    {
+                    {
 
-                //        havePermissions = permissions.Select(x => x.Trim().ToLower().Contains(accessingResource.Trim().ToLower())).FirstOrDefault(x => x);
+                        havePermissions = permissions.Select(x => x.Trim().ToLower().Contains(accessingResource.Trim().ToLower())).FirstOrDefault(x => x);
 
-                //    }
+                    }
 
-                //    if (havePermissions == false)
+                    if (havePermissions == false)
 
-                //    {
+                    {
 
-                //        if (requestContext.HttpContext.Request.IsAjaxRequest())
+                        if (requestContext.HttpContext.Request.IsAjaxRequest())
 
-                //        {
+                        {
 
-                //            JsonDataResult.Result = "ERROR";
+                            JsonDataResult.Result = "ERROR";
 
-                //            JsonDataResult.Message = eErrorMessage.NoPermission;
+                            JsonDataResult.Message = eErrorMessage.NoPermission;
 
-                //            base.Initialize(requestContext);
+                            base.Initialize(requestContext);
 
-                //        }
+                        }
 
-                //        else
+                        else
 
-                //            requestContext.HttpContext.Response.Redirect("~/Error/Index?ErrorType=" + (int)eErrorType.NoPermission, true);
+                            requestContext.HttpContext.Response.Redirect("~/Error/Index?ErrorType=" + (int)eErrorType.NoPermission, true);
 
-                //    }
+                    }
 
-                //    else
+                    else
 
-                //    {
+                    {
 
-                //        if (requestContext.HttpContext.Request.IsAjaxRequest())
+                        if (requestContext.HttpContext.Request.IsAjaxRequest())
 
-                //        {
+                        {
 
-                //            IsAuthenticate = true;
+                            IsAuthenticate = true;
 
-                //        }
+                        }
 
-                //        base.Initialize(requestContext);
+                        base.Initialize(requestContext);
 
-                //    }
+                    }
 
-                //}
+                }
 
-                //else
+                else
 
-                base.Initialize(requestContext);
+                    base.Initialize(requestContext);
             }
 
         }

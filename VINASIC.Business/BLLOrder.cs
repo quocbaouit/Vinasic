@@ -117,11 +117,16 @@ namespace VINASIC.Business
             result.ToList().Add(new ModelOrder() { Name = "Tổng Cộng", SubTotal = sum });
             return result;
         }
-        public ResponseBase DeleteById(int id, int userId)
+        public ResponseBase DeleteById(int id, int userId,bool isAdmin)
         {
             var responResult = new ResponseBase();
             var partner = _repOrder.GetMany(c => !c.IsDeleted && c.Id == id).FirstOrDefault();
-            if (partner != null)
+            if (partner.OrderStatus >= 3 && !isAdmin)
+            {
+                responResult.IsSuccess = false;
+                responResult.Errors.Add(new Error() { MemberName = "Delete", Message = "Đơn hàng này không thể xóa. Vui lòng liên hệ với quản trị" });
+            }
+            else if (partner != null)
             {
                 partner.IsDeleted = true;
                 partner.DeletedUser = userId;
@@ -290,7 +295,7 @@ namespace VINASIC.Business
             }
             return result;
         }
-        public ResponseBase UpdatedOrder(ModelSaveOrder obj, int userId)
+        public ResponseBase UpdatedOrder(ModelSaveOrder obj, int userId,bool isAdmin)
         {
 
             ResponseBase result = new ResponseBase { IsSuccess = false };
@@ -309,6 +314,12 @@ namespace VINASIC.Business
 
 
                 var order = _repOrder.Get(x => x.Id == obj.OrderId);
+                if (order.OrderStatus >= 3 && !isAdmin)
+                {
+                    result.IsSuccess = false;
+                    result.Errors.Add(new Error() { MemberName = "Delete", Message = "Đơn hàng này không thể cập nhật. Vui lòng liên hệ với quản trị" });
+                    return result;
+                }
                 order.Name = obj.CustomerName;
                 order.Description = "";
                 order.SubTotal = obj.OrderTotal;
@@ -411,10 +422,16 @@ namespace VINASIC.Business
 
             return responResult;
         }
-        public ResponseBase UpdateOrderStatus(int orderId, float status, int userId)
+        public ResponseBase UpdateOrderStatus(int orderId, float status, int userId,bool isAdmin)
         {
             var responResult = new ResponseBase();
             var order = _repOrder.GetMany(c => !c.IsDeleted && c.Id == orderId).FirstOrDefault();
+            if (order.OrderStatus >= 3 && !isAdmin && status< order.OrderStatus) {
+                responResult.IsSuccess = false;
+                responResult.Errors.Add(new Error() { MemberName = "Tài khoản không có quyền thay đổi đơn hàng sau khi giao hàng", Message = "Lỗi" });
+                return responResult;
+
+            }
                 if (order != null)
                 {
                     order.OrderStatus = status;

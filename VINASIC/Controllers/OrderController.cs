@@ -88,11 +88,12 @@ namespace VINASIC.Controllers
         [System.Web.Mvc.HttpPost]
         public JsonResult DeleteOrder(int id)
         {
+            var IsAdmin = UserContext.Permissions.Contains("/Order/GetCustomerByOrganization");
             try
             {
                 if (IsAuthenticate)
                 {
-                    var responseResult = _bllOrder.DeleteById(id, UserContext.UserID);
+                    var responseResult = _bllOrder.DeleteById(id, UserContext.UserID, IsAdmin);
                     if (responseResult.IsSuccess)
                         JsonDataResult.Result = "OK";
                     else
@@ -249,6 +250,7 @@ namespace VINASIC.Controllers
         {
             try
             {
+                var IsAdmin = UserContext.Permissions.Contains("/Order/GetCustomerByOrganization");
                 if (IsAuthenticate)
                 {
                     var saveOrder = new ModelSaveOrder
@@ -265,7 +267,7 @@ namespace VINASIC.Controllers
                         DateDelivery = DateTime.Parse(dateDelivery ?? DateTime.Now.AddHours(14).ToString(CultureInfo.InvariantCulture)),
                         Detail = listDetail
                     };
-                    var responseResult = saveOrder.OrderId == 0 ? _bllOrder.CreateOrder(saveOrder, UserContext.UserID) : _bllOrder.UpdatedOrder(saveOrder, UserContext.UserID);
+                    var responseResult = saveOrder.OrderId == 0 ? _bllOrder.CreateOrder(saveOrder, UserContext.UserID) : _bllOrder.UpdatedOrder(saveOrder, UserContext.UserID, IsAdmin);
                     if (!responseResult.IsSuccess)
                     {
                         JsonDataResult.Result = "ERROR";
@@ -489,9 +491,10 @@ namespace VINASIC.Controllers
         {
             try
             {
-                if (IsAuthenticate)
-                {
-                    var responseResult = _bllOrder.UpdateOrderStatus(orderId, status,UserContext.UserID);
+                var IsAdmin = UserContext.Permissions.Contains("/Order/GetCustomerByOrganization");
+                //if (IsAuthenticate)
+                //{
+                    var responseResult = _bllOrder.UpdateOrderStatus(orderId, status,UserContext.UserID, IsAdmin);
                     if (responseResult.IsSuccess)
                         JsonDataResult.Result = "OK";
                     else
@@ -499,12 +502,12 @@ namespace VINASIC.Controllers
                         JsonDataResult.Result = "ERROR";
                         JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
                     }
-                }
-                else
-                {
-                    JsonDataResult.Result = "ERROR";
-                    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
-                }
+                //}
+                //else
+                //{
+                //    JsonDataResult.Result = "ERROR";
+                //    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
+                //}
             }
             catch (Exception ex)
             {
