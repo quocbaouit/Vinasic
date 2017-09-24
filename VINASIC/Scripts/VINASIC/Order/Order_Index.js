@@ -61,7 +61,7 @@ VINASIC.Order = function () {
             NumberDetail: 0,
             IdOrderStatus: 0,
             IdDetailStatus: 0,
-            IdForView:0,
+            IdForView: 0,
         }
     };
     this.GetGlobal = function () {
@@ -148,7 +148,6 @@ VINASIC.Order = function () {
         return false;
     }
     function reloadListOrder() {
-        debugger;
         var keySearch = $("#keyword").val();
         //var fromDate = $("#datefrom").val();
         //var toDate = $("#dateto").val();
@@ -162,14 +161,13 @@ VINASIC.Order = function () {
         $("#" + global.Element.JtableOrder).jtable("load", { 'keyword': keySearch, 'employee': employee, 'fromDate': fromDate, 'toDate': toDate, 'orderStatus': -1 });
     }
     function reloadListOrder(orderStatus) {
-        debugger;
         var keySearch = $("#keyword").val();
         //var fromDate = $("#datefrom").val();
         //var toDate = $("#dateto").val();
         moment.utc($("#datefrom").val()).toJSON().slice(0, 10);
         moment.utc($("#dateto").val()).toJSON().slice(0, 10);
         var fromDate = $("#datefrom").val();
-        var toDate = $("#dateto").val();  
+        var toDate = $("#dateto").val();
         var employee = $("#cemployee1").val();
         var delivery = $("#DeliveryType").val();
         $("#" + global.Element.JtableOrder).jtable("load", { 'keyword': keySearch, 'employee': employee, 'fromDate': fromDate, 'toDate': toDate, 'orderStatus': orderStatus });
@@ -286,13 +284,12 @@ VINASIC.Order = function () {
             }
         });
     }
-    function updatePayment(orderId, payment, paymentType) {
-        if (paymentType == 3)
-        {
+    function updatePayment(orderId, payment, paymentType, transferDescription) {
+        if (paymentType == 3) {
             payment = 0;
         }
         $.ajax({
-            url: "/Order/UpdatePayment?orderId=" + orderId + "&payment=" + payment + "&paymentType=" + paymentType,
+            url: "/Order/UpdatePayment?orderId=" + orderId + "&payment=" + payment + "&paymentType=" + paymentType + "&transferDescription=" + transferDescription,
             type: 'post',
             contentType: 'application/json',
             success: function (result) {
@@ -308,7 +305,7 @@ VINASIC.Order = function () {
             }
         });
     }
-    function updateHasPay(orderId, payment, paymentType) {
+    function updateHasPay(orderId, payment,transferDescription) {
         if (payment == "") payment = 0;
         var a = payment;
         $.ajax({
@@ -346,7 +343,7 @@ VINASIC.Order = function () {
                 });
             }
         });
-    } 
+    }
     function updateApproval(orderId, approval) {
         $.ajax({
             url: "/Order/UpdateApproval?orderId=" + orderId + "&approval=" + approval,
@@ -366,7 +363,7 @@ VINASIC.Order = function () {
             }
         });
     }
-    
+
     function updateOrderStatus(orderId, status) {
         $.ajax({
             url: "/Order/UpdateOrderStatus?orderId=" + orderId + "&status=" + status,
@@ -457,7 +454,7 @@ VINASIC.Order = function () {
         $("#dheignt").val("");
         $("#dsquare").val("");
         $("#dquantity").val("");
-       // $("#dprice").val("");
+        // $("#dprice").val("");
         $("#dsubtotal").val("");
     }
     /*function Check Validate */
@@ -573,7 +570,7 @@ VINASIC.Order = function () {
             selecting: true, //Enable selecting
             multiselect: true, //Allow multiple selecting
             selectingCheckboxes: true, //Show checkboxes on first column
-            selectOnRowClick: false,           
+            selectOnRowClick: false,
             rowInserted: function (event, data) {
                 if (data.record.OrderStatus == 1) {
                     data.row.css("background", "#cef5da");
@@ -590,7 +587,7 @@ VINASIC.Order = function () {
                 if (data.record.OrderStatus == 5) {
                     data.row.css("background", "#f5cece");
                 }
-               
+
             },
             toolbar: {
                 items: [{
@@ -696,13 +693,11 @@ VINASIC.Order = function () {
                                                 visibility: 'fixed',
                                                 title: "Trạng Thái",
                                                 width: "10%",
-                                                display: function (data) {                           
+                                                display: function (data) {
                                                     var text = "";
                                                     var strStatus = getOrderDetailStatus(data.record.DetailStatus);
                                                     var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu"><li><a class="detailstatus1" href="javascript:void(0)">Chuyển cho thiết kế</a></li><li><a class="detailstatus3" href="javascript:void(0)">Chuyển cho in ấn</a></li><li><a class="detailstatus5" href="javascript:void(0)">chuyển cho gia công</a></li><li><a class="detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
-                                                       
                                                     text.click(function () {
-                                                        debugger;
                                                         global.Data.IdDetailStatus = data.record.Id;
                                                     });
                                                     return text;
@@ -712,7 +707,7 @@ VINASIC.Order = function () {
                                                 visibility: 'fixed',
                                                 title: "Nhân Viên",
                                                 width: "10%",
-                                                display: function (data) {                                                                                                    
+                                                display: function (data) {
                                                     var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + data.record.UserProcess + '</a></span></button><ul class="dropdown-menu"><li><a class="user1" href="javascript:void(0)">Thiết Kế: ' + data.record.DesignView + '</a></li><li><a class="user2" href="javascript:void(0)">In: ' + data.record.PrintView + '</a></li><li><a class="user3" href="javascript:void(0)">Gia Công:' + data.record.AddOnView + '</a></li></ul></div>');
                                                     text.click(function () {
                                                     });
@@ -802,23 +797,35 @@ VINASIC.Order = function () {
                     width: "7%"
                 },
                 strHaspay: {
-                    title: "Đã Thu",
+                    title: "Đã Thu TM",
                     width: "7%",
                     display: function (data) {
                         var text = $('<a  href="javascript:void(0)" style="color:#89798d;"  class="clickable"  data-target="#popup_Order" title="Cập nhật số tiền đã thu.">' + data.record.strHaspay + '</a>');
                         text.click(function () {
                             global.Data.OrderId = data.record.Id;
-                            showPopupHaspay();
+                            //showPopupHaspay();
                         });
                         return text;
                     }
                 },
-             
+                strHaspayTransfer: {
+                    title: "Đã Thu CK",
+                    width: "7%",
+                    display: function (data) {
+                        var text = $('<a  href="javascript:void(0)" style="color:#89798d;"  class="clickable"  data-target="#popup_Order" title="' + data.record.Description + '">' + data.record.strHaspayTransfer + '</a>');
+                        text.click(function () {
+                            global.Data.OrderId = data.record.Id;
+                            //showPopupHaspay();
+                        });
+                        return text;
+                    }
+                },
+
                 StrHas: {
                     title: "Còn Lại",
                     width: "7%",
                     display: function (data) {
-                        var text = $('<a  href="javascript:void(0)" style="color:#89798d;"  class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + (data.record.SubTotal - data.record.HasPay).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</a>');
+                        var text = $('<a  href="javascript:void(0)" style="color:#89798d;"  class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + (data.record.SubTotal - (data.record.HasPay + data.record.HaspayTransfer)).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</a>');
                         return text;
                     }
                 },
@@ -850,20 +857,18 @@ VINASIC.Order = function () {
                         var text = "";
                         if (data.record.PaymentMethol == 3)
                         { text = $("<a href=\"javascript:void(0)\"   class=\"clickable\" title=\"Cập nhật thanh toán.\">" + "Công Nợ" + "</a>"); }
-                        else if (data.record.PaymentMethol == 0) {
-                            { text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật thanh toán.\"><span class=\"fa fa-money fa-lg\" aria-hidden=\"true\"></span></a>"); }
-                        }
                         else {
-                            text = $("<a href=\"javascript:void(0)\"  class=\"clickable\" title=\"Cập nhật thanh toán.\">" + data.record.StrPaymentType + "</a>");
+                            text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật thanh toán.\"><span class=\"fa fa-money fa-lg\" aria-hidden=\"true\"></span></a>");
                         }
                         text.click(function () {
                             global.Data.NumberDetail = data.record.T_OrderDetail.length;
                             $("#type2").prop("checked", true);
                             $("#ppay").val("");
                             $("#prest").val("");
+                            $('#transferId').val("");
                             $("#ptotal").val(data.record.strSubTotal);
-                            $("#phaspay").val(data.record.strHaspay);
-                            var a1 = data.record.SubTotal - data.record.HasPay;
+                            $("#phaspay").val((data.record.HasPay + data.record.HaspayTransfer).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                            var a1 = data.record.SubTotal - (data.record.HasPay + data.record.HaspayTransfer);
                             var b = a1.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                             $("#ppayment").val(b);
                             $("#prealpay").val(b);
@@ -890,7 +895,7 @@ VINASIC.Order = function () {
                         var strStatus = getOrderStatus(data.record.OrderStatus);
                         var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật trạng thái đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu"><li><a class="orderstatus5" href="javascript:void(0)">Đã duyệt</a></li><li><a class="orderstatus4" href="javascript:void(0)">Đã thanh toán</a></li><li><a class="orderstatus3" href="javascript:void(0)">Đã giao hàng</a></li><li><a class="orderstatus2" href="javascript:void(0)">Chưa giao hàng</a></li><li><a class="orderstatus1" href="javascript:void(0)">Đang Xử Lý</a></li></ul></div>');
                         text.click(function (e) {
-                            global.Data.IdOrderStatus = data.record.Id;                         
+                            global.Data.IdOrderStatus = data.record.Id;
                         });
                         return text;
                     }
@@ -1039,7 +1044,6 @@ VINASIC.Order = function () {
                         var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu"><li><a class="detailstatus1" href="javascript:void(0)">Chuyển cho thiết kế</a></li><li><a class="detailstatus3" href="javascript:void(0)">Chuyển cho in ấn</a></li><li><a class="detailstatus5" href="javascript:void(0)">chuyển cho gia công</a></li><li><a class="detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
 
                         text.click(function () {
-                            debugger;
                             global.Data.IdDetailStatus = data.record.Id;
                         });
                         return text;
@@ -1342,7 +1346,8 @@ VINASIC.Order = function () {
             var orderId = global.Data.OrderId;
             var payment = $("#prealpay").val();
             var paymentType = $("#PaymentType").val();
-            updatePayment(orderId, payment, paymentType);
+            var transfer = $('#transferId').val();
+            updatePayment(orderId, payment, paymentType, transfer);
             //var designId = $("#dDesignName").val();
 
             //var description = $("#dDescription").val();
@@ -1461,7 +1466,7 @@ VINASIC.Order = function () {
             var orderId = global.Data.OrderId;
             var payment = $("#haspay").val();
             var paymentType = $("#PaymentType1").val();
-            updateHasPay(orderId, payment, paymentType);
+            updateHasPay(orderId, payment, paymentType, $('#transferId').val());
             reloadListOrder();
             $("#" + global.Element.PopupHasPay).modal("hide");
         });
@@ -1489,12 +1494,20 @@ VINASIC.Order = function () {
             global.Data.ProductTypeId = id;
             initComboBoxProduct(id);
         });
+        $('#PaymentType').change(function () {
+            if ($(this).val() === '2') {
+                $('#transferIdShell').css('display', 'inline');
+                // Do something for option "b"
+            } else {
+                $('#transferIdShell').css('display', 'none');
+            }
+        });
         $("#saveOrder").click(function () {
             saveOrder();
         });
         $("#dproduct").change(function () {
             $.ajax({
-                url: "/Order/GetPriceForCustomerAndProduct?customerId=" + global.Data.CustomerId + "&productId=" +$(this).val(),
+                url: "/Order/GetPriceForCustomerAndProduct?customerId=" + global.Data.CustomerId + "&productId=" + $(this).val(),
                 type: 'post',
                 contentType: 'application/json',
                 success: function (result) {
@@ -1598,7 +1611,7 @@ VINASIC.Order = function () {
             var ClientId = document.getElementById("ClientId").innerHTML;
             global.Data.CurenIndex = 0;
             $("#cemployee").val(ClientId).change();
-            
+
             global.Data.Index = 1;
             global.Data.OrderId = 0;
             while (global.Data.ModelOrderDetail.length) {
@@ -1938,10 +1951,9 @@ function isNumberKey(evt) {
     var charCode = (evt.which) ? evt.which : event.keyCode;
     if (charCode === 59 || charCode === 46)
         return true;
-    if (charCode > 31 && (charCode < 48 || charCode > 57))
-    {
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
         toastr.warning("Vui lòng chỉ nhập số.");
         return false;
     }
-    
+
 }

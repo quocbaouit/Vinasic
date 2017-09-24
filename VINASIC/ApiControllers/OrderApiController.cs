@@ -1,22 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
+using System.Data;
+using System.Drawing;
+using System.Globalization;
+using System.Linq;
+using System.Threading;
 using System.Web.Http;
-namespace MCMContactManagement.API.Controllers
+using Dynamic.Framework.Mvc;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using VINASIC.Business.Interface;
+using VINASIC.Business.Interface.Model;
+using VINASIC.Infrastructure.ActionExtention;
+
+
+namespace VINASIC.Controllers
 {
     [AllowAnonymous]
     public class OrderApiController : ApiController
     {
+        private readonly IBllOrder _bllOrder;
+        private readonly IBllProductType _bllProductType;
+        private readonly IBllProduct _bllProduct;
+        private readonly IBllEmployee _bllEmployee;
+        private readonly IBllCustomer _bllCustomer;
         /// <summary>
         /// 
         /// </summary>
-        public OrderApiController()
+        /// 
+
+        public OrderApiController(IBllOrder bllOrder, IBllEmployee bllEmployee, IBllCustomer bllCustomer, IBllProductType bllProductType, IBllProduct bllProduct)
         {
+            _bllOrder = bllOrder;
+            _bllEmployee = bllEmployee;
+            _bllCustomer = bllCustomer;
+            _bllProductType = bllProductType;
+            _bllProduct = bllProduct;
         }
         [HttpGet]
         public string Get(string id)
@@ -25,7 +44,7 @@ namespace MCMContactManagement.API.Controllers
         }
         [HttpGet]
         [ActionName("GetById")]
-        public string GetById(string Id)
+        public string GetById(int Id)
         {
             return "Test";
         }

@@ -462,17 +462,23 @@
                         <input disabled="disabled" type="text" class="form-control" id="ppayment" placeholder="">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="ppay">Tiền Khách Đưa(VND)</label>
-                    <input type="text" class="form-control" id="ppay" placeholder="" onkeypress=" return isNumberKey(event) ">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="ppay">Khách Đưa</label>
+                        <input type="text" class="form-control" id="ppay" placeholder="" onkeypress=" return isNumberKey(event) ">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="prealpay">Tiền Thu</label>
-                    <input type="text" class="form-control" id="prealpay" placeholder="" onkeypress=" return isNumberKey(event) ">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="prealpay">Tiền Thu</label>
+                        <input type="text" class="form-control" id="prealpay" placeholder="" onkeypress=" return isNumberKey(event) ">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="prest">Còn Lại(VND)</label>
-                    <input type="text" class="form-control" id="prest" placeholder="" onkeypress=" return isNumberKey(event) ">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label for="prest">Còn Lại</label>
+                        <input type="text" class="form-control" id="prest" placeholder="" onkeypress=" return isNumberKey(event) ">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="prest">Loại Thanh Toán</label>
@@ -482,6 +488,10 @@
                         <option value="3">Công Nợ</option>
                         
                     </select>
+                </div>
+                <div id="transferIdShell" style="display:none" class="form-group" >
+                    <label for="caddress">Thông Tin Chuyển Khoản</label>
+                    <textarea   name="" id="transferId" class="form-control" cols="30" rows="3"></textarea>
                 </div>
             </div>
             <div class="modal-footer">

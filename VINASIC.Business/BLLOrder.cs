@@ -75,6 +75,7 @@ namespace VINASIC.Business
                 CreateUserName = c.T_User.Name,
                 CreatedDate = c.CreatedDate,
                 HasPay = c.HasPay ?? 0,
+                HaspayTransfer=c.HaspayTransfer??0,
                 OrderStatus = c.OrderStatus,
                 T_OrderDetail = c.T_OrderDetail
             }).OrderBy(sorting);
@@ -110,6 +111,7 @@ namespace VINASIC.Business
             foreach (var order in result)
             {
                 order.strHaspay = $"{order.HasPay ?? 0:0,0}";
+                order.strHaspayTransfer = $"{order.HaspayTransfer ?? 0:0,0}";
                 order.strSubTotal = $"{order.SubTotal:0,0}";
                 order.StrCreatedDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(order.CreatedDate, curentZone):d/M/yyyy HH:mm}";
             }
@@ -473,7 +475,7 @@ namespace VINASIC.Business
             }
             return responResult;
         }
-        public ResponseBase UpdatePayment(int orderId, float payment, int paymentType, int userId)
+        public ResponseBase UpdatePayment(int orderId, float payment, int paymentType, int userId,string transferDescription)
         {
             var responResult = new ResponseBase();
             var order = _repOrder.GetMany(c => !c.IsDeleted && c.Id == orderId).FirstOrDefault();
@@ -483,12 +485,26 @@ namespace VINASIC.Business
                 {
                     order.HasPay = 0;
                 }
-                var total = order.HasPay + payment;
-                if (total > order.SubTotal)
+                double? total = 0;
+                if (paymentType == 1)
                 {
-                    order.HasPay = order.SubTotal;
+                    total = order.HasPay + payment;
+                    if (total > order.SubTotal)
+                    {
+                        order.HasPay = order.SubTotal;
+                    }
+                    order.HasPay = total;
                 }
-                order.HasPay = total;
+                if (paymentType == 2)
+                {
+                    total = order.HaspayTransfer??0 + payment;
+                    if (total > order.SubTotal)
+                    {
+                        order.HaspayTransfer = order.SubTotal;
+                    }
+                    order.HaspayTransfer = total;
+                    order.Description = transferDescription;
+                }
                 order.UpdatedUser = userId;
                 order.PaymentMethol = paymentType;
                 order.UpatedDate = DateTime.UtcNow;
@@ -638,12 +654,13 @@ namespace VINASIC.Business
                 if (haspay != null)
                 {
                     pay = Double.Parse(haspay);
+                    order.HasPay = pay;
                 }
                 if (pay > order.SubTotal)
                 {
                     pay = order.SubTotal;
-                }
-                order.HasPay = pay;
+                    order.HasPay = pay;
+                }            
                 order.PaymentMethol = paymentType;
                 order.UpatedDate = DateTime.UtcNow;
                 _repOrder.Update(order);
@@ -716,7 +733,7 @@ namespace VINASIC.Business
                         SubTotal = c.SubTotal,
                         Total1 = c.T_Order.SubTotal,
                         HasPay = c.T_Order.HasPay ?? 0,
-                        HasExist = c.T_Order.SubTotal - c.T_Order.HasPay?? c.T_Order.SubTotal,
+                        HasPayTransfer=c.T_Order.HaspayTransfer??0,
                         IsCompleted = c.IsCompleted,
                         strIsComplete = c.IsCompleted ? "Đã Xong" : "Chưa Xong",
                         strDesignStatus = c.DesignStatus == null ? "Chưa Làm" : (c.DesignStatus == 1 ? "Đang Làm" : (c.DesignStatus == 2 ? "Đã Xong" : "Chưa Làm")),

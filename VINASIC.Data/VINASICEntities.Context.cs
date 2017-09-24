@@ -41,7 +41,6 @@ namespace VINASIC.Data
         public DbSet<T_Menu> T_Menu { get; set; }
         public DbSet<T_MenuCategory> T_MenuCategory { get; set; }
         public DbSet<T_Notification> T_Notification { get; set; }
-        public DbSet<T_Order> T_Order { get; set; }
         public DbSet<T_Organization> T_Organization { get; set; }
         public DbSet<T_Partner> T_Partner { get; set; }
         public DbSet<T_PaymentVoucher> T_PaymentVoucher { get; set; }
@@ -68,5 +67,6 @@ namespace VINASIC.Data
         public DbSet<T_Process> T_Process { get; set; }
         public DbSet<T_ProcessDetail> T_ProcessDetail { get; set; }
         public DbSet<T_StandardSale> T_StandardSale { get; set; }
+        public DbSet<T_Order> T_Order { get; set; }
     }
 }

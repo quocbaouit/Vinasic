@@ -157,14 +157,14 @@ namespace VINASIC.Controllers
             }
             return Json(JsonDataResult);
         }
-        public JsonResult UpdatePayment(int orderId, string payment, int paymentType)
+        public JsonResult UpdatePayment(int orderId, string payment, int paymentType,string transferDescription)
         {
             try
             {
                 if (IsAuthenticate)
                 {
                     var pay = float.Parse(payment);
-                    var responseResult = _bllOrder.UpdatePayment(orderId, pay, paymentType, UserId);
+                    var responseResult = _bllOrder.UpdatePayment(orderId, pay, paymentType, UserId, transferDescription);
                     if (responseResult.IsSuccess)
                         JsonDataResult.Result = "OK";
                     else
@@ -780,10 +780,10 @@ namespace VINASIC.Controllers
             ws.Cells["M8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
 
-            ws.Cells["N8"].Value = "Tổng Tiền Hàng (vnd)";
+            ws.Cells["N8"].Value = "ThanhToán Tiền Mặt";
             ws.Cells["N8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            ws.Cells["O8"].Value = "ThanhToán(vnd)";
+            ws.Cells["O8"].Value = "ThanhToán Chuyển Khoản";
             ws.Cells["O8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
             ws.Cells["P8"].Value = "Còn Lại (vnd)";
@@ -853,11 +853,11 @@ namespace VINASIC.Controllers
                     if ((result[i].OrderId != result[i - 1].OrderId))
                     {
                         ws.Cells[endRow, 14].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, 14].Value = result[i].Total1;
+                        ws.Cells[endRow, 14].Value = result[i].HasPay;
                         ws.Cells[endRow, 15].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, 15].Value = result[i].HasPay;
+                        ws.Cells[endRow, 15].Value = result[i].HasPayTransfer;
                         ws.Cells[endRow, 16].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, 16].Value = result[i].HasExist;
+                        ws.Cells[endRow, 16].Value = result[i].SubTotal - (result[i].HasPay + result[i].HasPayTransfer);
                     }
                     else
                     {
@@ -872,11 +872,11 @@ namespace VINASIC.Controllers
                 catch (Exception)
                 {
                     ws.Cells[endRow, 14].Style.Numberformat.Format = "#,##0";
-                    ws.Cells[endRow, 14].Value = result[i].Total1;
+                    ws.Cells[endRow, 14].Value = result[i].HasPay;
                     ws.Cells[endRow, 15].Style.Numberformat.Format = "#,##0";
-                    ws.Cells[endRow, 15].Value = result[i].HasPay;
+                    ws.Cells[endRow, 15].Value = result[i].HasPayTransfer;
                     ws.Cells[endRow, 16].Style.Numberformat.Format = "#,##0";
-                    ws.Cells[endRow, 16].Value = result[i].HasExist;
+                    ws.Cells[endRow, 16].Value = result[i].SubTotal - ( result[i].HasPay + result[i].HasPayTransfer);
                 }
                 if (i == numRows - 1)
                     continue;

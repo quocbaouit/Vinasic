@@ -278,6 +278,8 @@
           <Property Name="IsDelivery" Type="int" Nullable="false" />
           <Property Name="Process" Type="bit" Nullable="false" />
           <Property Name="OrderStatus" Type="float" />
+          <Property Name="HaspayTransfer" Type="float" />
+          <Property Name="IsQuittance" Type="bit" />
         </EntityType>
         <EntityType Name="T_OrderDetail">
           <Key>
@@ -1429,7 +1431,6 @@
           <EntitySet Name="T_Menu" EntityType="VINASICModel.T_Menu" />
           <EntitySet Name="T_MenuCategory" EntityType="VINASICModel.T_MenuCategory" />
           <EntitySet Name="T_Notification" EntityType="VINASICModel.T_Notification" />
-          <EntitySet Name="T_Order" EntityType="VINASICModel.T_Order" />
           <EntitySet Name="T_Organization" EntityType="VINASICModel.T_Organization" />
           <EntitySet Name="T_Partner" EntityType="VINASICModel.T_Partner" />
           <EntitySet Name="T_PaymentVoucher" EntityType="VINASICModel.T_PaymentVoucher" />
@@ -1446,10 +1447,6 @@
           <EntitySet Name="T_StockInDetail" EntityType="VINASICModel.T_StockInDetail" />
           <EntitySet Name="T_User" EntityType="VINASICModel.T_User" />
           <EntitySet Name="T_UserRole" EntityType="VINASICModel.T_UserRole" />
-          <AssociationSet Name="FK__T_Order__Custome__2A164134" Association="VINASICModel.FK__T_Order__Custome__2A164134">
-            <End Role="T_Customer" EntitySet="T_Customer" />
-            <End Role="T_Order" EntitySet="T_Order" />
-          </AssociationSet>
           <AssociationSet Name="FK__T_Quittan__Custo__395884C4" Association="VINASICModel.FK__T_Quittan__Custo__395884C4">
             <End Role="T_Customer" EntitySet="T_Customer" />
             <End Role="T_Quittance" EntitySet="T_Quittance" />
@@ -1477,18 +1474,6 @@
           <AssociationSet Name="FK__T_Menu__MenuCate__2645B050" Association="VINASICModel.FK__T_Menu__MenuCate__2645B050">
             <End Role="T_MenuCategory" EntitySet="T_MenuCategory" />
             <End Role="T_Menu" EntitySet="T_Menu" />
-          </AssociationSet>
-          <AssociationSet Name="FK__T_Order__Created__282DF8C2" Association="VINASICModel.FK__T_Order__Created__282DF8C2">
-            <End Role="T_User" EntitySet="T_User" />
-            <End Role="T_Order" EntitySet="T_Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK__T_Quittan__Order__3B40CD36" Association="VINASICModel.FK__T_Quittan__Order__3B40CD36">
-            <End Role="T_Order" EntitySet="T_Order" />
-            <End Role="T_Quittance" EntitySet="T_Quittance" />
-          </AssociationSet>
-          <AssociationSet Name="FK__T_Receipt__Order__3F115E1A" Association="VINASICModel.FK__T_Receipt__Order__3F115E1A">
-            <End Role="T_Order" EntitySet="T_Order" />
-            <End Role="T_ReceiptVoucher" EntitySet="T_ReceiptVoucher" />
           </AssociationSet>
           <AssociationSet Name="FK__T_Positio__Organ__3587F3E0" Association="VINASICModel.FK__T_Positio__Organ__3587F3E0">
             <End Role="T_Organization" EntitySet="T_Organization" />
@@ -1532,10 +1517,6 @@
           </AssociationSet>
           <EntitySet Name="T_Timing" EntityType="VINASICModel.T_Timing" />
           <EntitySet Name="T_OrderDetail" EntityType="VINASICModel.T_OrderDetail" />
-          <AssociationSet Name="FK__T_OrderDe__Order__19DFD96B" Association="VINASICModel.FK__T_OrderDe__Order__19DFD96B">
-            <End Role="T_Order" EntitySet="T_Order" />
-            <End Role="T_OrderDetail" EntitySet="T_OrderDetail" />
-          </AssociationSet>
           <AssociationSet Name="FK__T_OrderDe__Commo__17F790F9" Association="VINASICModel.FK__T_OrderDe__Commo__17F790F9">
             <End Role="T_Product" EntitySet="T_Product" />
             <End Role="T_OrderDetail" EntitySet="T_OrderDetail" />
@@ -1588,6 +1569,27 @@
             <End Role="T_ProcessDetail" EntitySet="T_ProcessDetail" />
           </AssociationSet>
           <EntitySet Name="T_StandardSale" EntityType="VINASICModel.T_StandardSale" />
+          <EntitySet Name="T_Order" EntityType="VINASICModel.T_Order" />
+          <AssociationSet Name="FK__T_Order__Custome__32AB8735" Association="VINASICModel.FK__T_Order__Custome__32AB8735">
+            <End Role="T_Customer" EntitySet="T_Customer" />
+            <End Role="T_Order" EntitySet="T_Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__T_Order__Created__31B762FC" Association="VINASICModel.FK__T_Order__Created__31B762FC">
+            <End Role="T_User" EntitySet="T_User" />
+            <End Role="T_Order" EntitySet="T_Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__T_OrderDe__Order__3587F3E0" Association="VINASICModel.FK__T_OrderDe__Order__3587F3E0">
+            <End Role="T_Order" EntitySet="T_Order" />
+            <End Role="T_OrderDetail" EntitySet="T_OrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__T_Quittan__Order__3D2915A8" Association="VINASICModel.FK__T_Quittan__Order__3D2915A8">
+            <End Role="T_Order" EntitySet="T_Order" />
+            <End Role="T_Quittance" EntitySet="T_Quittance" />
+          </AssociationSet>
+          <AssociationSet Name="FK__T_Receipt__Order__3F115E1A" Association="VINASICModel.FK__T_Receipt__Order__3F115E1A">
+            <End Role="T_Order" EntitySet="T_Order" />
+            <End Role="T_ReceiptVoucher" EntitySet="T_ReceiptVoucher" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="T__Remind">
           <Key>
@@ -1641,9 +1643,9 @@
           <Property Name="DeletedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <Property Name="CompanyName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="T_Order" Relationship="VINASICModel.FK__T_Order__Custome__2A164134" FromRole="T_Customer" ToRole="T_Order" />
           <NavigationProperty Name="T_Quittance" Relationship="VINASICModel.FK__T_Quittan__Custo__395884C4" FromRole="T_Customer" ToRole="T_Quittance" />
           <NavigationProperty Name="T_ReceiptVoucher" Relationship="VINASICModel.FK__T_Receipt__Custo__3D2915A8" FromRole="T_Customer" ToRole="T_ReceiptVoucher" />
+          <NavigationProperty Name="T_Order" Relationship="VINASICModel.FK__T_Order__Custome__32AB8735" FromRole="T_Customer" ToRole="T_Order" />
         </EntityType>
         <EntityType Name="T_ErrorLog">
           <Key>
@@ -1794,39 +1796,6 @@
           <Property Name="UpatedDate" Type="DateTime" Precision="3" />
           <Property Name="DeletedUser" Type="Int32" />
           <Property Name="DeletedDate" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="T_Order">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CustomerId" Type="Int32" Nullable="false" />
-          <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
-          <Property Name="SubTotal" Type="Double" Nullable="false" />
-          <Property Name="IsPayment" Type="Boolean" Nullable="false" />
-          <Property Name="IsApproval" Type="Boolean" Nullable="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedUser" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedUser" Type="Int32" />
-          <Property Name="UpatedDate" Type="DateTime" Precision="3" />
-          <Property Name="DeletedUser" Type="Int32" />
-          <Property Name="DeletedDate" Type="DateTime" Precision="3" />
-          <Property Name="HasPay" Type="Double" />
-          <Property Name="CreatedForUser" Type="Int32" Nullable="false" />
-          <Property Name="HasTax" Type="Boolean" />
-          <Property Name="OrderView" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="IsDelivery" Type="Int32" Nullable="false" />
-          <Property Name="PaymentMethol" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="T_Customer" Relationship="VINASICModel.FK__T_Order__Custome__2A164134" FromRole="T_Order" ToRole="T_Customer" />
-          <NavigationProperty Name="T_User" Relationship="VINASICModel.FK__T_Order__Created__282DF8C2" FromRole="T_Order" ToRole="T_User" />
-          <NavigationProperty Name="T_Quittance" Relationship="VINASICModel.FK__T_Quittan__Order__3B40CD36" FromRole="T_Order" ToRole="T_Quittance" />
-          <NavigationProperty Name="T_ReceiptVoucher" Relationship="VINASICModel.FK__T_Receipt__Order__3F115E1A" FromRole="T_Order" ToRole="T_ReceiptVoucher" />
-          <NavigationProperty Name="T_OrderDetail" Relationship="VINASICModel.FK__T_OrderDe__Order__19DFD96B" FromRole="T_Order" ToRole="T_OrderDetail" />
-          <Property Name="Process" Type="Boolean" Nullable="false" />
-          <Property Name="OrderStatus" Type="Double" />
         </EntityType>
         <EntityType Name="T_Organization">
           <Key>
@@ -1985,7 +1954,7 @@
           <Property Name="DeletedUser" Type="Int32" />
           <Property Name="DeletedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="T_Customer" Relationship="VINASICModel.FK__T_Quittan__Custo__395884C4" FromRole="T_Quittance" ToRole="T_Customer" />
-          <NavigationProperty Name="T_Order" Relationship="VINASICModel.FK__T_Quittan__Order__3B40CD36" FromRole="T_Quittance" ToRole="T_Order" />
+          <NavigationProperty Name="T_Order" Relationship="VINASICModel.FK__T_Quittan__Order__3D2915A8" FromRole="T_Quittance" ToRole="T_Order" />
         </EntityType>
         <EntityType Name="T_ReceiptVoucher">
           <Key>
@@ -2151,12 +2120,12 @@
           <Property Name="PositionId" Type="Int32" Nullable="false" />
           <Property Name="OrganizationId" Type="Int32" />
           <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="T_Order" Relationship="VINASICModel.FK__T_Order__Created__282DF8C2" FromRole="T_User" ToRole="T_Order" />
           <NavigationProperty Name="T_Position" Relationship="VINASICModel.FK__T_User__Position__540C7B00" FromRole="T_User" ToRole="T_Position" />
           <Property Name="ColorString" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="T_OrderDetail" Relationship="VINASICModel.FK__T_OrderDe__Desig__18EBB532" FromRole="T_User" ToRole="T_OrderDetail" />
           <NavigationProperty Name="T_OrderDetail1" Relationship="VINASICModel.FK__T_OrderDe__Print__1AD3FDA4" FromRole="T_User" ToRole="T_OrderDetail" />
           <NavigationProperty Name="T_UserFormular" Relationship="VINASICModel.FK__T_UserFor__UserI__02C769E9" FromRole="T_User" ToRole="T_UserFormular" />
+          <NavigationProperty Name="T_Order" Relationship="VINASICModel.FK__T_Order__Created__31B762FC" FromRole="T_User" ToRole="T_Order" />
         </EntityType>
         <EntityType Name="T_UserRole">
           <Key>
@@ -2175,18 +2144,6 @@
           <Property Name="DeletedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="T_RoLe" Relationship="VINASICModel.FK__T_UserRol__RoleI__55F4C372" FromRole="T_UserRole" ToRole="T_RoLe" />
         </EntityType>
-        <Association Name="FK__T_Order__Custome__2A164134">
-          <End Type="VINASICModel.T_Customer" Role="T_Customer" Multiplicity="1" />
-          <End Type="VINASICModel.T_Order" Role="T_Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="T_Customer">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="T_Order">
-              <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__T_Quittan__Custo__395884C4">
           <End Type="VINASICModel.T_Customer" Role="T_Customer" Multiplicity="1" />
           <End Type="VINASICModel.T_Quittance" Role="T_Quittance" Multiplicity="*" />
@@ -2268,42 +2225,6 @@
             </Principal>
             <Dependent Role="T_Menu">
               <PropertyRef Name="MenuCategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__T_Order__Created__282DF8C2">
-          <End Type="VINASICModel.T_User" Role="T_User" Multiplicity="1" />
-          <End Type="VINASICModel.T_Order" Role="T_Order" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="T_User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="T_Order">
-              <PropertyRef Name="CreatedForUser" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__T_Quittan__Order__3B40CD36">
-          <End Type="VINASICModel.T_Order" Role="T_Order" Multiplicity="1" />
-          <End Type="VINASICModel.T_Quittance" Role="T_Quittance" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="T_Order">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="T_Quittance">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__T_Receipt__Order__3F115E1A">
-          <End Type="VINASICModel.T_Order" Role="T_Order" Multiplicity="0..1" />
-          <End Type="VINASICModel.T_ReceiptVoucher" Role="T_ReceiptVoucher" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="T_Order">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="T_ReceiptVoucher">
-              <PropertyRef Name="OrderId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2513,7 +2434,6 @@
           <Property Name="PrintView" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Square" Type="Decimal" Precision="18" Scale="6" />
           <Property Name="SumSquare" Type="Decimal" Precision="18" Scale="6" />
-          <NavigationProperty Name="T_Order" Relationship="VINASICModel.FK__T_OrderDe__Order__19DFD96B" FromRole="T_OrderDetail" ToRole="T_Order" />
           <NavigationProperty Name="T_Product" Relationship="VINASICModel.FK__T_OrderDe__Commo__17F790F9" FromRole="T_OrderDetail" ToRole="T_Product" />
           <NavigationProperty Name="T_User" Relationship="VINASICModel.FK__T_OrderDe__Desig__18EBB532" FromRole="T_OrderDetail" ToRole="T_User" />
           <NavigationProperty Name="T_User1" Relationship="VINASICModel.FK__T_OrderDe__Print__1AD3FDA4" FromRole="T_OrderDetail" ToRole="T_User" />
@@ -2521,19 +2441,8 @@
           <Property Name="DetailStatus" Type="Double" />
           <Property Name="AddonUser" Type="Int32" />
           <Property Name="AddOnView" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="T_Order" Relationship="VINASICModel.FK__T_OrderDe__Order__3587F3E0" FromRole="T_OrderDetail" ToRole="T_Order" />
         </EntityType>
-        <Association Name="FK__T_OrderDe__Order__19DFD96B">
-          <End Type="VINASICModel.T_Order" Role="T_Order" Multiplicity="1" />
-          <End Type="VINASICModel.T_OrderDetail" Role="T_OrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="T_Order">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="T_OrderDetail">
-              <PropertyRef Name="OrderId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__T_OrderDe__Commo__17F790F9">
           <End Type="VINASICModel.T_Product" Role="T_Product" Multiplicity="1" />
           <End Type="VINASICModel.T_OrderDetail" Role="T_OrderDetail" Multiplicity="*" />
@@ -2811,6 +2720,101 @@
           <Property Name="DeletedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="T_Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
+          <Property Name="SubTotal" Type="Double" Nullable="false" />
+          <Property Name="IsPayment" Type="Boolean" Nullable="false" />
+          <Property Name="IsApproval" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedUser" Type="Int32" />
+          <Property Name="UpatedDate" Type="DateTime" Precision="3" />
+          <Property Name="DeletedUser" Type="Int32" />
+          <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+          <Property Name="HasPay" Type="Double" />
+          <Property Name="CreatedForUser" Type="Int32" Nullable="false" />
+          <Property Name="HasTax" Type="Boolean" />
+          <Property Name="OrderView" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentMethol" Type="Int32" Nullable="false" />
+          <Property Name="IsDelivery" Type="Int32" Nullable="false" />
+          <Property Name="Process" Type="Boolean" Nullable="false" />
+          <Property Name="OrderStatus" Type="Double" />
+          <Property Name="HaspayTransfer" Type="Double" />
+          <Property Name="IsQuittance" Type="Boolean" />
+          <NavigationProperty Name="T_Customer" Relationship="VINASICModel.FK__T_Order__Custome__32AB8735" FromRole="T_Order" ToRole="T_Customer" />
+          <NavigationProperty Name="T_User" Relationship="VINASICModel.FK__T_Order__Created__31B762FC" FromRole="T_Order" ToRole="T_User" />
+          <NavigationProperty Name="T_OrderDetail" Relationship="VINASICModel.FK__T_OrderDe__Order__3587F3E0" FromRole="T_Order" ToRole="T_OrderDetail" />
+          <NavigationProperty Name="T_Quittance" Relationship="VINASICModel.FK__T_Quittan__Order__3D2915A8" FromRole="T_Order" ToRole="T_Quittance" />
+          <NavigationProperty Name="T_ReceiptVoucher" Relationship="VINASICModel.FK__T_Receipt__Order__3F115E1A" FromRole="T_Order" ToRole="T_ReceiptVoucher" />
+        </EntityType>
+        <Association Name="FK__T_Order__Custome__32AB8735">
+          <End Type="VINASICModel.T_Customer" Role="T_Customer" Multiplicity="1" />
+          <End Type="VINASICModel.T_Order" Role="T_Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="T_Order">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__T_Order__Created__31B762FC">
+          <End Type="VINASICModel.T_User" Role="T_User" Multiplicity="1" />
+          <End Type="VINASICModel.T_Order" Role="T_Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="T_Order">
+              <PropertyRef Name="CreatedForUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__T_OrderDe__Order__3587F3E0">
+          <End Type="VINASICModel.T_Order" Role="T_Order" Multiplicity="1" />
+          <End Type="VINASICModel.T_OrderDetail" Role="T_OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="T_OrderDetail">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__T_Quittan__Order__3D2915A8">
+          <End Type="VINASICModel.T_Order" Role="T_Order" Multiplicity="1" />
+          <End Type="VINASICModel.T_Quittance" Role="T_Quittance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="T_Quittance">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__T_Receipt__Order__3F115E1A">
+          <End Type="VINASICModel.T_Order" Role="T_Order" Multiplicity="0..1" />
+          <End Type="VINASICModel.T_ReceiptVoucher" Role="T_ReceiptVoucher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="T_ReceiptVoucher">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3020,35 +3024,6 @@
                 <ScalarProperty Name="IsRead" ColumnName="IsRead" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="T_Order">
-            <EntityTypeMapping TypeName="VINASICModel.T_Order">
-              <MappingFragment StoreEntitySet="T_Order">
-                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
-                <ScalarProperty Name="Process" ColumnName="Process" />
-                <ScalarProperty Name="PaymentMethol" ColumnName="PaymentMethol" />
-                <ScalarProperty Name="IsDelivery" ColumnName="IsDelivery" />
-                <ScalarProperty Name="OrderView" ColumnName="OrderView" />
-                <ScalarProperty Name="HasTax" ColumnName="HasTax" />
-                <ScalarProperty Name="CreatedForUser" ColumnName="CreatedForUser" />
-                <ScalarProperty Name="HasPay" ColumnName="HasPay" />
-                <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
-                <ScalarProperty Name="DeletedUser" ColumnName="DeletedUser" />
-                <ScalarProperty Name="UpatedDate" ColumnName="UpatedDate" />
-                <ScalarProperty Name="UpdatedUser" ColumnName="UpdatedUser" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="IsApproval" ColumnName="IsApproval" />
-                <ScalarProperty Name="IsPayment" ColumnName="IsPayment" />
-                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
-                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
-                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -3611,6 +3586,37 @@
                 <ScalarProperty Name="Percent" ColumnName="Percent" />
                 <ScalarProperty Name="Sales" ColumnName="Sales" />
                 <ScalarProperty Name="BaseSalary" ColumnName="BaseSalary" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Order">
+            <EntityTypeMapping TypeName="VINASICModel.T_Order">
+              <MappingFragment StoreEntitySet="T_Order">
+                <ScalarProperty Name="IsQuittance" ColumnName="IsQuittance" />
+                <ScalarProperty Name="HaspayTransfer" ColumnName="HaspayTransfer" />
+                <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+                <ScalarProperty Name="Process" ColumnName="Process" />
+                <ScalarProperty Name="IsDelivery" ColumnName="IsDelivery" />
+                <ScalarProperty Name="PaymentMethol" ColumnName="PaymentMethol" />
+                <ScalarProperty Name="OrderView" ColumnName="OrderView" />
+                <ScalarProperty Name="HasTax" ColumnName="HasTax" />
+                <ScalarProperty Name="CreatedForUser" ColumnName="CreatedForUser" />
+                <ScalarProperty Name="HasPay" ColumnName="HasPay" />
+                <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
+                <ScalarProperty Name="DeletedUser" ColumnName="DeletedUser" />
+                <ScalarProperty Name="UpatedDate" ColumnName="UpatedDate" />
+                <ScalarProperty Name="UpdatedUser" ColumnName="UpdatedUser" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsApproval" ColumnName="IsApproval" />
+                <ScalarProperty Name="IsPayment" ColumnName="IsPayment" />
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -16,7 +16,6 @@
         <EntityTypeShape EntityType="VINASICModel.T_Menu" Width="1.5" PointX="17" PointY="1.375" />
         <EntityTypeShape EntityType="VINASICModel.T_MenuCategory" Width="1.5" PointX="14.75" PointY="1.5" />
         <EntityTypeShape EntityType="VINASICModel.T_Notification" Width="1.5" PointX="18.75" PointY="12.125" />
-        <EntityTypeShape EntityType="VINASICModel.T_Order" Width="1.5" PointX="3" PointY="8" />
         <EntityTypeShape EntityType="VINASICModel.T_Organization" Width="1.5" PointX="1.5" PointY="20.25" />
         <EntityTypeShape EntityType="VINASICModel.T_Partner" Width="1.5" PointX="10.75" PointY="21.75" />
         <EntityTypeShape EntityType="VINASICModel.T_PaymentVoucher" Width="1.5" PointX="18.75" PointY="16.125" />
@@ -33,7 +32,6 @@
         <EntityTypeShape EntityType="VINASICModel.T_StockInDetail" Width="1.5" PointX="15.25" PointY="7.375" />
         <EntityTypeShape EntityType="VINASICModel.T_User" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="VINASICModel.T_UserRole" Width="1.5" PointX="12.25" PointY="16.875" />
-        <AssociationConnector Association="VINASICModel.FK__T_Order__Custome__2A164134" />
         <AssociationConnector Association="VINASICModel.FK__T_Quittan__Custo__395884C4" />
         <AssociationConnector Association="VINASICModel.FK__T_Receipt__Custo__3D2915A8" />
         <AssociationConnector Association="VINASICModel.FK__T_Permiss__Featu__339FAB6E" />
@@ -41,9 +39,6 @@
         <AssociationConnector Association="VINASICModel.FK__T_Materia__Mater__245D67DE" />
         <AssociationConnector Association="VINASICModel.FK__T_StockIn__Mater__4E53A1AA" />
         <AssociationConnector Association="VINASICModel.FK__T_Menu__MenuCate__2645B050" />
-        <AssociationConnector Association="VINASICModel.FK__T_Order__Created__282DF8C2" />
-        <AssociationConnector Association="VINASICModel.FK__T_Quittan__Order__3B40CD36" />
-        <AssociationConnector Association="VINASICModel.FK__T_Receipt__Order__3F115E1A" />
         <AssociationConnector Association="VINASICModel.FK__T_Positio__Organ__3587F3E0" />
         <AssociationConnector Association="VINASICModel.FK__T_Staff__Organiz__46B27FE2" />
         <AssociationConnector Association="VINASICModel.FK__T_StockIn__Partn__4C6B5938" />
@@ -56,7 +51,6 @@
         <AssociationConnector Association="VINASICModel.FK__T_StockIn__Stock__5224328E" />
         <EntityTypeShape EntityType="VINASICModel.T_Timing" Width="1.5" PointX="20.375" PointY="0.75" />
         <EntityTypeShape EntityType="VINASICModel.T_OrderDetail" Width="1.5" PointX="8.25" PointY="6.75" />
-        <AssociationConnector Association="VINASICModel.FK__T_OrderDe__Order__19DFD96B" />
         <AssociationConnector Association="VINASICModel.FK__T_OrderDe__Commo__17F790F9" />
         <AssociationConnector Association="VINASICModel.FK__T_OrderDe__Desig__18EBB532" />
         <AssociationConnector Association="VINASICModel.FK__T_OrderDe__Print__1AD3FDA4" />
@@ -76,6 +70,12 @@
         <AssociationConnector Association="VINASICModel.FK__T_Product__Proce__5E8A0973" />
         <AssociationConnector Association="VINASICModel.FK__T_Process__RoleI__5BAD9CC8" />
         <EntityTypeShape EntityType="VINASICModel.T_StandardSale" Width="1.5" PointX="21.375" PointY="11.75" />
+        <EntityTypeShape EntityType="VINASICModel.T_Order" Width="1.5" PointX="3" PointY="7.625" />
+        <AssociationConnector Association="VINASICModel.FK__T_Order__Custome__32AB8735" />
+        <AssociationConnector Association="VINASICModel.FK__T_Order__Created__31B762FC" />
+        <AssociationConnector Association="VINASICModel.FK__T_OrderDe__Order__3587F3E0" />
+        <AssociationConnector Association="VINASICModel.FK__T_Quittan__Order__3D2915A8" />
+        <AssociationConnector Association="VINASICModel.FK__T_Receipt__Order__3F115E1A" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

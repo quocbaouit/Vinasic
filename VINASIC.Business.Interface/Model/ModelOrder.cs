@@ -11,6 +11,7 @@ namespace VINASIC.Business.Interface.Model
         public string CreateUserName { get; set; }
         public double PrintfPecent { get; set; }
         public string strHaspay { get; set; }
+        public string strHaspayTransfer { get; set; }
         public string strHasTax { get; set; }
         public string strOrderStatus { get; set; }
 
@@ -58,11 +59,15 @@ namespace VINASIC.Business.Interface.Model
 
         public double Total { get; set; }
         public double Total1 { get; set; }
-        public double HasPay { get; set; }
+      
         public double HasExist { get; set; }
         public string strTotal { get; set; }
-
+        public double HasPay { get; set; }
         public string strHaspay { get; set; }
+
+
+        public double HasPayTransfer { get; set; }
+        public string strHaspayTransfer { get; set; }
 
         public string isExist { get; set; }
 

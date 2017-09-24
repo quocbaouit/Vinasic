@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using System;
 using Dynamic.Framework.Infrastructure.Data;
 using VINASIC.App_Global;
+using Autofac.Integration.WebApi;
+using System.Web.Http;
 
 namespace VINASIC.App_Start
 {
@@ -32,9 +34,10 @@ namespace VINASIC.App_Start
         {
             try
             {
+
                 var builder = new ContainerBuilder();
                 builder.RegisterControllers(Assembly.GetExecutingAssembly());
-
+                builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
                 builder.RegisterType<UnitOfWork<VINASICEntities>>().As<IUnitOfWork<VINASICEntities>>()
                    .WithParameter(new NamedParameter("connectionString", AppGlobal.VinasicConnectionstring))
                    .InstancePerHttpRequest();
@@ -50,6 +53,7 @@ namespace VINASIC.App_Start
 
                 _container = builder.Build();
                 DependencyResolver.SetResolver(new AutofacDependencyResolver(_container));
+                GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(_container);
             }
             catch (Exception)
             {

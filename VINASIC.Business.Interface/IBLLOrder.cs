@@ -12,7 +12,7 @@ namespace VINASIC.Business.Interface
         List<ModelOrderDetail> GetListOrderDetailByOrderId(int orderId);
         ResponseBase UpdateApproval(int orderId,bool isAppvroval, int userId);
         ResponseBase UpdateDelivery(int orderId, int status, int userId);
-        ResponseBase UpdatePayment(int orderId,float payment,int paymentType, int userId);
+        ResponseBase UpdatePayment(int orderId,float payment,int paymentType, int userId,string tranferDescription);
         ResponseBase UpdateHasTax(int orderId, int id, int userId);
         ResponseBase UpdatedOrder(ModelSaveOrder obj,int userId,bool isAdmin);
         ResponseBase CreateOrder(ModelSaveOrder obj,int userId);
