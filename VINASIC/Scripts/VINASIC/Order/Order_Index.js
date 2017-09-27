@@ -394,7 +394,7 @@ VINASIC.Order = function () {
                 GlobalCommon.CallbackProcess(result, function () {
                     if (result.Result === "OK") {
                         reloadListOrder();
-                        reloadViewDetail();
+                        $('#jtableOrder').jtable('getRowByKey', global.Data.OrderId).find("a#newdetail").trigger('click');
                         toastr.success("Thành Công");
                     }
                 }, false, global.Element.PopupOrder, true, true, function () {
@@ -628,7 +628,7 @@ VINASIC.Order = function () {
                     sorting: false,
                     edit: false,
                     display: function (orderDetailData) {
-                        var $img = $('<a style="color: red;" id="newdetail" href="javascript:void(0)">' + orderDetailData.record.Id + '</a>');
+                        var $img = $('<a detailKey style="color: red;" id="newdetail" href="javascript:void(0)">' + orderDetailData.record.Id + '</a>');
                         $img.click(function () {
                             $('#OrderId').val(orderDetailData.record.Id);
 
@@ -697,8 +697,9 @@ VINASIC.Order = function () {
                                                 display: function (data) {
                                                     var text = "";
                                                     var strStatus = getOrderDetailStatus(data.record.DetailStatus);
-                                                    var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu"><li><a class="detailstatus1" href="javascript:void(0)">Chuyển cho thiết kế</a></li><li><a class="detailstatus3" href="javascript:void(0)">Chuyển cho in ấn</a></li><li><a class="detailstatus5" href="javascript:void(0)">chuyển cho gia công</a></li><li><a class="detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
+                                                    var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus +'</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho thiết kế</a><ul class="dropdown-menu"><li><a class="detailstatus1" href="#">Second level</a></li></ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu"><li><a class="detailstatus3" href="#">Second level</a></li></ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">chuyển cho gia công</a><ul class="dropdown-menu"><li><a class="detailstatus5"  href="#">Second level</a></li></ul></li><li class="dropdown"><a tabindex="-1" href="#" class=" detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
                                                     text.click(function () {
+                                                        global.Data.OrderId = orderDetailData.record.Id;
                                                         global.Data.IdDetailStatus = data.record.Id;
                                                     });
                                                     return text;
@@ -1644,19 +1645,19 @@ VINASIC.Order = function () {
 
         $("body").delegate(".detailstatus1", "click", function (event) {
             event.preventDefault();
-            updateDetailStatus(global.Data.IdDetailStatus, 1);
+           updateDetailStatus(global.Data.IdDetailStatus, 1);
         });
         $("body").delegate(".detailstatus3", "click", function (event) {
             event.preventDefault();
-            updateDetailStatus(global.Data.IdDetailStatus, 3);
+           updateDetailStatus(global.Data.IdDetailStatus, 3);
         });
         $("body").delegate(".detailstatus5", "click", function (event) {
             event.preventDefault();
-            updateDetailStatus(global.Data.IdDetailStatus, 5);
+          updateDetailStatus(global.Data.IdDetailStatus, 5);
         });
         $("body").delegate(".detailstatus7", "click", function (event) {
             event.preventDefault();
-            updateDetailStatus(global.Data.IdDetailStatus, 7);
+           updateDetailStatus(global.Data.IdDetailStatus, 7);
         });
         $("#canelOrder").click(function () {
             resetAll();
