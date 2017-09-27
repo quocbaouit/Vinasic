@@ -161,6 +161,13 @@ namespace VINASIC.Controllers
         {
             try
             {
+                var IsAdmin = UserContext.Permissions.Contains("/Order/GetCustomerByOrganization");
+                if (!IsAdmin)
+                {
+
+                    JsonDataResult.Result = "ERROR";
+                    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
+                }
                 if (IsAuthenticate)
                 {
                     var pay = float.Parse(payment);
@@ -813,11 +820,11 @@ namespace VINASIC.Controllers
             ws.Cells["M9"].Style.Numberformat.Format = "#,##0";
             ws.Cells["M9"].Value = result[0].Total;
             ws.Cells["N9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells["N9"].Value = "";//result.Sum(x => x.Total1);
+            ws.Cells["N9"].Value = ""; //result[0].HasPayTotal;//result.Sum(x => x.Total1);
             ws.Cells["O9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells["O9"].Value = "";//result.Sum(x=>x.HasPay);
+            ws.Cells["O9"].Value = "";// result[0].HasPayTransferTotal;//result.Sum(x=>x.HasPay);
             ws.Cells["P9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells["P9"].Value = "";//result.Sum(x=>x.HasExist);
+            ws.Cells["P9"].Value = "";// result[0].HasExistTotal;//result.Sum(x=>x.HasExist);
             foreach (var c in ws.Cells["A9:P9"])
             {
                 c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
@@ -857,7 +864,7 @@ namespace VINASIC.Controllers
                         ws.Cells[endRow, 15].Style.Numberformat.Format = "#,##0";
                         ws.Cells[endRow, 15].Value = result[i].HasPayTransfer;
                         ws.Cells[endRow, 16].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, 16].Value = result[i].SubTotal - (result[i].HasPay + result[i].HasPayTransfer);
+                        ws.Cells[endRow, 16].Value = result[i].Total1 - (result[i].HasPay + result[i].HasPayTransfer);
                     }
                     else
                     {
@@ -876,7 +883,7 @@ namespace VINASIC.Controllers
                     ws.Cells[endRow, 15].Style.Numberformat.Format = "#,##0";
                     ws.Cells[endRow, 15].Value = result[i].HasPayTransfer;
                     ws.Cells[endRow, 16].Style.Numberformat.Format = "#,##0";
-                    ws.Cells[endRow, 16].Value = result[i].SubTotal - ( result[i].HasPay + result[i].HasPayTransfer);
+                    ws.Cells[endRow, 16].Value = result[i].Total1 - ( result[i].HasPay + result[i].HasPayTransfer);
                 }
                 if (i == numRows - 1)
                     continue;

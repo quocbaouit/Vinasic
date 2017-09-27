@@ -59,29 +59,26 @@ namespace VINASIC.Business.Interface.Model
 
         public double Total { get; set; }
         public double Total1 { get; set; }
-      
-        public double HasExist { get; set; }
-        public string strTotal { get; set; }
+
+
         public double HasPay { get; set; }
-        public string strHaspay { get; set; }
-
-
+        public double HasExist { get; set; }
         public double HasPayTransfer { get; set; }
+        public double HasPayTotal { get; set; }
+        public double HasExistTotal { get; set; }
+        public double HasPayTransferTotal { get; set; }
+        public string strTotal { get; set; }
+        public string strHaspay { get; set; }      
         public string strHaspayTransfer { get; set; }
-
         public string isExist { get; set; }
-
         public string strPrinStatus { get; set; }
         public string strDesignStatus { get; set; }
-
         public string DesignUserName { get; set; }
         public string PrintUserName { get; set; }
         public int CreatedForUser { get; set; }
-
         public string CustomerPhone { get; set; }
         public string CustomerName { get; set; }
         public string CustomerAddress { get; set; }
-
         public string CreateForUserName { get; set; }
         public string CreateForUserMobile { get; set; }
         public string UserProcess { get; set; }

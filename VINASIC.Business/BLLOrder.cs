@@ -123,7 +123,7 @@ namespace VINASIC.Business
         {
             var responResult = new ResponseBase();
             var partner = _repOrder.GetMany(c => !c.IsDeleted && c.Id == id).FirstOrDefault();
-            if (partner.OrderStatus >= 3 && !isAdmin)
+            if (partner.OrderStatus >= 2 && !isAdmin)
             {
                 responResult.IsSuccess = false;
                 responResult.Errors.Add(new Error() { MemberName = "Delete", Message = "Đơn hàng này không thể xóa. Vui lòng liên hệ với quản trị" });
@@ -316,7 +316,7 @@ namespace VINASIC.Business
 
 
                 var order = _repOrder.Get(x => x.Id == obj.OrderId);
-                if (order.OrderStatus >= 3 && !isAdmin)
+                if (order.OrderStatus >= 2 && !isAdmin)
                 {
                     result.IsSuccess = false;
                     result.Errors.Add(new Error() { MemberName = "Delete", Message = "Đơn hàng này không thể cập nhật. Vui lòng liên hệ với quản trị" });
@@ -735,6 +735,9 @@ namespace VINASIC.Business
                         HasPay = c.T_Order.HasPay ?? 0,
                         HasPayTransfer=c.T_Order.HaspayTransfer??0,
                         IsCompleted = c.IsCompleted,
+                        HasPayTotal=0,
+                        HasExistTotal=0,
+                        HasPayTransferTotal=0,
                         strIsComplete = c.IsCompleted ? "Đã Xong" : "Chưa Xong",
                         strDesignStatus = c.DesignStatus == null ? "Chưa Làm" : (c.DesignStatus == 1 ? "Đang Làm" : (c.DesignStatus == 2 ? "Đã Xong" : "Chưa Làm")),
                         strPrinStatus = c.PrintStatus == null ? "Chưa Làm" : (c.PrintStatus == 1 ? "Đang Làm" : (c.PrintStatus == 2 ? "Đã Xong" : "Chưa Làm"))

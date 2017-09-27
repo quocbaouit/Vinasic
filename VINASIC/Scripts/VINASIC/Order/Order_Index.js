@@ -87,10 +87,10 @@ VINASIC.Order = function () {
             if (Table[row].Description == null) {
                 Table[row].Description = '';
             }
-            if (Table[row].Height == null) {
+            if (Table[row].Height == null || Table[row].Height == 0) {
                 Table[row].Height = '';
             }
-            if (Table[row].Width == null) {
+            if (Table[row].Width == null || Table[row].Width == 0) {
                 Table[row].Width = '';
             }
             tableString += "<td style=\"padding-left: 5px;\">" + Table[row].CommodityName + "</td>";
@@ -144,6 +144,7 @@ VINASIC.Order = function () {
         printWindow.document.close();
         setTimeout(function () {
             printWindow.print();
+            updateOrderStatus(global.Data.IdOrderStatus, 2);
         }, 500);
         return false;
     }
@@ -374,7 +375,7 @@ VINASIC.Order = function () {
                 GlobalCommon.CallbackProcess(result, function () {
                     if (result.Result === "OK") {
                         reloadListOrder();
-                        toastr.success("Thành Công");
+                        toastr.success("Cập nhật trạng thái đơn hàng thành công");
                     }
                 }, false, global.Element.PopupOrder, true, true, function () {
 
@@ -861,12 +862,13 @@ VINASIC.Order = function () {
                             text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật thanh toán.\"><span class=\"fa fa-money fa-lg\" aria-hidden=\"true\"></span></a>");
                         }
                         text.click(function () {
+                            global.Data.IdOrderStatus = data.record.Id;
                             global.Data.NumberDetail = data.record.T_OrderDetail.length;
                             $("#type2").prop("checked", true);
                             $("#ppay").val("");
                             $("#prest").val("");
-                            $('#transferId').val("");
                             $("#ptotal").val(data.record.strSubTotal);
+                            $("#transferId").val(data.record.Description);
                             $("#phaspay").val((data.record.HasPay + data.record.HaspayTransfer).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                             var a1 = data.record.SubTotal - (data.record.HasPay + data.record.HaspayTransfer);
                             var b = a1.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
