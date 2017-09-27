@@ -579,8 +579,8 @@ namespace VINASIC.Controllers
         {
             try
             {
-                if (IsAuthenticate)
-                {
+                //if (IsAuthenticate)
+                //{
                     var responseResult = _bllOrder.UpdateDetailStatus(detailId, status);
                     if (responseResult.IsSuccess)
                         JsonDataResult.Result = "OK";
@@ -589,12 +589,12 @@ namespace VINASIC.Controllers
                         JsonDataResult.Result = "ERROR";
                         JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
                     }
-                }
-                else
-                {
-                    JsonDataResult.Result = "ERROR";
-                    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
-                }
+                //}
+                //else
+                //{
+                //    JsonDataResult.Result = "ERROR";
+                //    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
+                //}
             }
             catch (Exception ex)
             {
