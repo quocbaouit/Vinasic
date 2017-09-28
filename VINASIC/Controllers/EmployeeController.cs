@@ -10,6 +10,7 @@ using VINASIC.Business.Interface.Model;
 using VINASIC.Hubs;
 using Dynamic.Framework.Mvc;
 using VINASIC.Models;
+using System.Threading;
 
 namespace VINASIC.Controllers
 {
@@ -360,6 +361,20 @@ namespace VINASIC.Controllers
 
             }
             return Json(JsonDataResult);
+        }
+        [System.Web.Mvc.HttpPost]
+        public JsonResult GetSimpleEmployee()
+        {
+            try
+            {
+                Thread.Sleep(200);
+                var employees = _bllEmployee.GetSimpleEmployee();
+                return Json(new { Result = "OK", Records = employees });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "ERROR", ex.Message });
+            }
         }
         [HttpPost]
         public JsonResult SaveUserProduct(ListSelectProductModel userRole)

@@ -40,22 +40,7 @@ namespace VINASIC.Business
             {
                 sorting = "CreatedDate DESC";
             }
-            //var customeEmployee = _repUser.GetMany(x => !x.IsDeleted && !x.IsLock).ToList();
-            //var designUser = customeEmployee.Where(x => x.OrganizationId==3).Select(x => new SimpleEmployee()
-            //{
-            //    Id=x.Id,
-            //    Name=x.Name,
-            //}).ToList();
-            //var printingUser = customeEmployee.Where(x => x.OrganizationId==1006).Select(x => new SimpleEmployee()
-            //{
-            //    Id = x.Id,
-            //    Name = x.Name,
-            //}).ToList();
-            //var addOnUser = customeEmployee.Where(x => x.OrganizationId==2).Select(x => new SimpleEmployee()
-            //{
-            //    Id = x.Id,
-            //    Name = x.Name,
-            //}).ToList();
+            
             var realfromDate = DateTime.Parse(fromDate);
             var realtoDate = DateTime.Parse(toDate);
 

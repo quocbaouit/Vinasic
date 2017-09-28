@@ -712,13 +712,23 @@ VINASIC.Order = function () {
                                                 width: "10%",
                                                 display: function (data) {
                                                     var text = "";
-                                                    var arrayNVTK = [{ Id: 1, Name: 'Long Nhi' }, { Id: 2, Name: 'Ngọc Tùng' }];
+                                                    var arrayNVTK = global.Data.ListEmployeeDesign;
+                                                    var arrayNVIN = global.Data.ListEmployeePrint;
+                                                    var arrayNVGC = global.Data.ListEmployeeAddon;
                                                     var textNVTK = '';
+                                                    var textNVIN = '';
+                                                    var textNVGC = '';
                                                     var strStatus = getOrderDetailStatus(data.record.DetailStatus);
                                                     for (var i = 0; i < arrayNVTK.length; i++) {
-                                                        textNVTK = textNVTK + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVTK[i].Id + ' class="detailstatus1" href="#">' + arrayNVTK[i].Name + '</a></li>'
+                                                        textNVTK = textNVTK + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVTK[i].Id + ' class="detailstatus1" href="#">' + arrayNVTK[i].Name + '</a></li>';                                                   
                                                     };
-                                                    var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus +'</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho thiết kế</a><ul class="dropdown-menu">'+textNVTK+'</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu"><li><a class="detailstatus3" href="#">Second level</a></li></ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">chuyển cho gia công</a><ul class="dropdown-menu"><li><a class="detailstatus5"  href="#">Second level</a></li></ul></li><li class="dropdown"><a tabindex="-1" href="#" class=" detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
+                                                    for (var i = 0; i < arrayNVIN.length; i++) {
+                                                        textNVIN = textNVIN + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVIN[i].Id + ' class="detailstatus1" href="#">' + arrayNVIN[i].Name + '</a></li>'                                                     
+                                                    };
+                                                    for (var i = 0; i < arrayNVGC.length; i++) {                                                    
+                                                        textNVGC = textNVGC + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVGC[i].Id + ' class="detailstatus1" href="#">' + arrayNVGC[i].Name + '</a></li>'
+                                                    };
+                                                    var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho thiết kế</a><ul class="dropdown-menu">' + textNVTK + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu">' + textNVIN + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">chuyển cho gia công</a><ul class="dropdown-menu">' + textNVGC + '</ul></li><li class="dropdown"><a tabindex="-1" href="#" class=" detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
                                                     text.click(function () {
                                                         global.Data.OrderId = orderDetailData.record.Id;
                                                         global.Data.IdDetailStatus = data.record.Id;
@@ -1964,25 +1974,25 @@ VINASIC.Order = function () {
                 });
             }
         });
-        //$.ajax({
-        //    url: "/Order/GetSimpleCustomer",
-        //    type: 'post',
-        //    contentType: 'application/json',
-        //    success: function (result) {
-        //        GlobalCommon.CallbackProcess(result, function () {
-        //            if (1 < 2) {
-                        
-        //                global.Data.ListEmployeeDesign = result.designUser;
-        //                global.Data.ListEmployeePrint = result.printingUser;
-        //                global.Data.ListEmployeeAddon = result.addOnUser;
-        //            }
+        $.ajax({
+            url: "/Employee/GetSimpleEmployee",
+            type: 'post',
+            contentType: 'application/json',
+            success: function (result) {
+                GlobalCommon.CallbackProcess(result, function () {
+                    if (result.Result == 'OK') {
+                        debugger;
+                        global.Data.ListEmployeeDesign = result.Records.designUser;
+                        global.Data.ListEmployeePrint = result.Records.printingUser;
+                        global.Data.ListEmployeeAddon = result.Records.addOnUser;
+                    }
 
-        //        }, false, global.Element.PopupOrder, true, true, function () {
-        //            var msg = GlobalCommon.GetErrorMessage(result);
-        //            GlobalCommon.ShowMessageDialog(msg, function () { }, "Đã có lỗi xảy ra trong quá trình sử lý.");
-        //        });
-        //    }
-        //});
+                }, false, global.Element.PopupOrder, true, true, function () {
+                    var msg = GlobalCommon.GetErrorMessage(result);
+                    GlobalCommon.ShowMessageDialog(msg, function () { }, "Đã có lỗi xảy ra trong quá trình sử lý.");
+                });
+            }
+        });
     };
 };
 /*End Region*/

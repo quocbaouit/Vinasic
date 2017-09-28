@@ -285,6 +285,7 @@ namespace VINASIC.Business
 
             return responResult;
         }
+        
         public List<ModelSelectItem> GetListEmployee()
         {
             List<ModelSelectItem> listModelSelect = new List<ModelSelectItem>
@@ -301,6 +302,32 @@ namespace VINASIC.Business
                 throw ex;
             }
             return listModelSelect;
+        }
+
+        public ModelSimpleEmployee GetSimpleEmployee()
+        {
+            ModelSimpleEmployee modelSimpleEmployee = new ModelSimpleEmployee();
+            var customeEmployee = _repUser.GetMany(x => !x.IsDeleted && !x.IsLock).ToList();
+            var designUser = customeEmployee.Where(x => x.OrganizationId == 3).Select(x => new SimpleEmployee()
+            {
+                Id = x.Id,
+                Name = x.Name,
+            }).ToList();
+            var printingUser = customeEmployee.Where(x => x.OrganizationId == 1006).Select(x => new SimpleEmployee()
+            {
+                Id = x.Id,
+                Name = x.Name,
+            }).ToList();
+            var addOnUser = customeEmployee.Where(x => x.OrganizationId == 2).Select(x => new SimpleEmployee()
+            {
+                Id = x.Id,
+                Name = x.Name,
+            }).ToList();
+            modelSimpleEmployee.designUser = designUser;
+            modelSimpleEmployee.printingUser = printingUser;
+            modelSimpleEmployee.addOnUser = addOnUser;
+
+            return modelSimpleEmployee;
         }
 
         public T_User GetUserById(int id)
@@ -679,11 +706,6 @@ namespace VINASIC.Business
             {
                 return false;
             }
-        }
-
-        public List<string> GetSimpleCustomer()
-        {
-            throw new NotImplementedException();
         }
     }
 }

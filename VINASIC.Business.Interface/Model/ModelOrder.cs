@@ -26,11 +26,6 @@ namespace VINASIC.Business.Interface.Model
         public string CustomerAddress { get; set; }
         public string CustomerTaxCode { get; set; }
     }
-    public class SimpleEmployee
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
     public class BusinessOrder {
         public string BusinessName { get; set; }
 

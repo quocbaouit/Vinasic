@@ -314,21 +314,7 @@ namespace VINASIC.Controllers
             {
                 return Json(new { Result = "ERROR", ex.Message });
             }
-        }
-        [System.Web.Mvc.HttpPost]
-        public JsonResult GetSimpleCustomer()
-        {
-            try
-            {
-                Thread.Sleep(200);
-                var customers = _bllCustomer.GetAllCustomerName();
-                return Json(new { Result = "OK", Records = customers });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Result = "ERROR", ex.Message });
-            }
-        }
+        }      
         public JsonResult GetListProductType()
         {
             try
