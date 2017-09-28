@@ -27,5 +27,6 @@ namespace VINASIC.Business.Interface
         List<int> GetProductByUserId(int userId);
         ResponseBase UpdateUserProduct(int userId, List<int> products);
         ResponseBase UpdateLock(int userId, bool isLock, int contextUser);
+        List<string> GetSimpleCustomer();
     }
 }

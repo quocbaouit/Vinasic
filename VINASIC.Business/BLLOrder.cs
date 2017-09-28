@@ -40,7 +40,22 @@ namespace VINASIC.Business
             {
                 sorting = "CreatedDate DESC";
             }
-
+            //var customeEmployee = _repUser.GetMany(x => !x.IsDeleted && !x.IsLock).ToList();
+            //var designUser = customeEmployee.Where(x => x.OrganizationId==3).Select(x => new SimpleEmployee()
+            //{
+            //    Id=x.Id,
+            //    Name=x.Name,
+            //}).ToList();
+            //var printingUser = customeEmployee.Where(x => x.OrganizationId==1006).Select(x => new SimpleEmployee()
+            //{
+            //    Id = x.Id,
+            //    Name = x.Name,
+            //}).ToList();
+            //var addOnUser = customeEmployee.Where(x => x.OrganizationId==2).Select(x => new SimpleEmployee()
+            //{
+            //    Id = x.Id,
+            //    Name = x.Name,
+            //}).ToList();
             var realfromDate = DateTime.Parse(fromDate);
             var realtoDate = DateTime.Parse(toDate);
 
@@ -75,9 +90,9 @@ namespace VINASIC.Business
                 CreateUserName = c.T_User.Name,
                 CreatedDate = c.CreatedDate,
                 HasPay = c.HasPay ?? 0,
-                HaspayTransfer=c.HaspayTransfer??0,
+                HaspayTransfer = c.HaspayTransfer ?? 0,
                 OrderStatus = c.OrderStatus,
-                T_OrderDetail = c.T_OrderDetail
+                T_OrderDetail = c.T_OrderDetail,
             }).OrderBy(sorting);
 
 
@@ -107,7 +122,6 @@ namespace VINASIC.Business
             var pageNumber = (startIndexRecord / pageSize) + 1;
 
             var result = new PagedList<ModelOrder>(orders, pageNumber, pageSize);
-
             foreach (var order in result)
             {
                 order.strHaspay = $"{order.HasPay ?? 0:0,0}";
@@ -184,7 +198,7 @@ namespace VINASIC.Business
             }).ToList();
             foreach (var order in ordeDetails)
             {
-                if (order.DetailStatus == 2 || order.DetailStatus == 3)
+                if (order.DetailStatus == 1 || order.DetailStatus == 2 || order.DetailStatus == 3)
                 {
                     order.UserProcess = order.DesignView;
                 }
@@ -573,13 +587,29 @@ namespace VINASIC.Business
             return responResult;
         }
 
-        public ResponseBase UpdateDetailStatus(int detailId, int status)
+        public ResponseBase UpdateDetailStatus(int detailId, int status,int employeeId)
         {
             var responResult = new ResponseBase();
             var orderDetail = _repOrderDetail.GetMany(c => !c.IsDeleted && c.Id == detailId).FirstOrDefault();
             if (orderDetail != null)
             {
+                var employe = _repUser.GetById(employeeId);
                 orderDetail.DetailStatus = status;
+                if (status == 1)
+                {
+                    orderDetail.DesignUser = employe.Id;
+                    orderDetail.DesignView = employe.FisrtName;
+                }
+                if (status == 3)
+                {
+                    orderDetail.PrintUser = employe.Id;
+                    orderDetail.PrintView = employe.FisrtName;
+                }
+                if (status == 5)
+                {
+                    orderDetail.AddonUser = employe.Id;
+                    orderDetail.AddOnView = employe.FisrtName;
+                }
                 orderDetail.UpatedDate = DateTime.UtcNow;
                 _repOrderDetail.Update(orderDetail);
                 SaveChange();
@@ -879,7 +909,7 @@ namespace VINASIC.Business
             var result = new PagedList<ModelViewDetail>(orders, pageNumber, pageSize);
             foreach (var order in result)
             {
-                if (order.DetailStatus == 2 || order.DetailStatus == 3)
+                if (order.DetailStatus == 1 || order.DetailStatus == 2 || order.DetailStatus == 3)
                 {
                     order.UserProcess = order.DesignView;
                 }

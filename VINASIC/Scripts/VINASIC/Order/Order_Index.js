@@ -41,6 +41,9 @@ VINASIC.Order = function () {
             ModelOrderDetail: [],
             ModelConfig: {},
             ListCustomerName: [],
+            ListEmployeePrint: [],
+            ListEmployeeDesign: [],
+            ListEmployeeAddon: [],
             ProductTypeId: 0,
             CustomerId: 0,
             OrderId: 0,
@@ -172,6 +175,20 @@ VINASIC.Order = function () {
         var employee = $("#cemployee1").val();
         var delivery = $("#DeliveryType").val();
         $("#" + global.Element.JtableOrder).jtable("load", { 'keyword': keySearch, 'employee': employee, 'fromDate': fromDate, 'toDate': toDate, 'orderStatus': orderStatus });
+    }
+    function reloadListOrderSpecial(orderStatus) {
+        var keySearch = $("#keyword").val();
+        //var fromDate = $("#datefrom").val();
+        //var toDate = $("#dateto").val();
+        moment.utc($("#datefrom").val()).toJSON().slice(0, 10);
+        moment.utc($("#dateto").val()).toJSON().slice(0, 10);
+        var fromDate = $("#datefrom").val();
+        var toDate = $("#dateto").val();
+        var employee = $("#cemployee1").val();
+        var delivery = $("#DeliveryType").val();
+        $("#" + global.Element.JtableOrder).jtable("load", { 'keyword': keySearch, 'employee': employee, 'fromDate': fromDate, 'toDate': toDate, 'orderStatus': orderStatus });
+        setTimeout(function () { $('#jtableOrder').jtable('getRowByKey', global.Data.OrderId).find("a#newdetail").trigger('click'); },1000);
+        
     }
     function reloadViewDetail() {
         var keySearch = '';
@@ -384,17 +401,17 @@ VINASIC.Order = function () {
             }
         });
     }
-    function updateDetailStatus(detailId, status) {
+    function updateDetailStatus(detailId, status, employeeUpdateId) {
         $.ajax({
-            url: "/Order/UpdateDetailStatus?detailId=" + detailId + "&status=" + status,
+            url: "/Order/UpdateDetailStatus?detailId=" + detailId + "&status=" + status + "&employeeId=" + employeeUpdateId,
             type: 'post',
             contentType: 'application/json',
             success: function (result) {
                 $('#loading').hide();
                 GlobalCommon.CallbackProcess(result, function () {
                     if (result.Result === "OK") {
-                        reloadListOrder();
-                        $('#jtableOrder').jtable('getRowByKey', global.Data.OrderId).find("a#newdetail").trigger('click');
+                        reloadListOrderSpecial();
+                        
                         toastr.success("Thành Công");
                     }
                 }, false, global.Element.PopupOrder, true, true, function () {
@@ -696,8 +713,13 @@ VINASIC.Order = function () {
                                                 width: "10%",
                                                 display: function (data) {
                                                     var text = "";
+                                                    var arrayNVTK = [{ Id: 1, Name: 'Long Nhi' }, { Id: 2, Name: 'Ngọc Tùng' }];
+                                                    var textNVTK = '';
                                                     var strStatus = getOrderDetailStatus(data.record.DetailStatus);
-                                                    var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus +'</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho thiết kế</a><ul class="dropdown-menu"><li><a class="detailstatus1" href="#">Second level</a></li></ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu"><li><a class="detailstatus3" href="#">Second level</a></li></ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">chuyển cho gia công</a><ul class="dropdown-menu"><li><a class="detailstatus5"  href="#">Second level</a></li></ul></li><li class="dropdown"><a tabindex="-1" href="#" class=" detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
+                                                    for (var i = 0; i < arrayNVTK.length; i++) {
+                                                        textNVTK = textNVTK + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVTK[i].Id + ' class="detailstatus1" href="#">' + arrayNVTK[i].Name + '</a></li>'
+                                                    };
+                                                    var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus +'</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho thiết kế</a><ul class="dropdown-menu">'+textNVTK+'</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu"><li><a class="detailstatus3" href="#">Second level</a></li></ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">chuyển cho gia công</a><ul class="dropdown-menu"><li><a class="detailstatus5"  href="#">Second level</a></li></ul></li><li class="dropdown"><a tabindex="-1" href="#" class=" detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
                                                     text.click(function () {
                                                         global.Data.OrderId = orderDetailData.record.Id;
                                                         global.Data.IdDetailStatus = data.record.Id;
@@ -1645,19 +1667,19 @@ VINASIC.Order = function () {
 
         $("body").delegate(".detailstatus1", "click", function (event) {
             event.preventDefault();
-           updateDetailStatus(global.Data.IdDetailStatus, 1);
+            updateDetailStatus(global.Data.IdDetailStatus, 1, employeeUpdateId);
         });
         $("body").delegate(".detailstatus3", "click", function (event) {
             event.preventDefault();
-           updateDetailStatus(global.Data.IdDetailStatus, 3);
+            updateDetailStatus(global.Data.IdDetailStatus, 3, employeeUpdateId);
         });
         $("body").delegate(".detailstatus5", "click", function (event) {
             event.preventDefault();
-          updateDetailStatus(global.Data.IdDetailStatus, 5);
+            updateDetailStatus(global.Data.IdDetailStatus, 5, employeeUpdateId);
         });
         $("body").delegate(".detailstatus7", "click", function (event) {
             event.preventDefault();
-           updateDetailStatus(global.Data.IdDetailStatus, 7);
+            updateDetailStatus(global.Data.IdDetailStatus, 7, employeeUpdateId);
         });
         $("#canelOrder").click(function () {
             resetAll();
@@ -1943,10 +1965,30 @@ VINASIC.Order = function () {
                 });
             }
         });
+        $.ajax({
+            url: "/Order/GetSimpleCustomer",
+            type: 'post',
+            contentType: 'application/json',
+            success: function (result) {
+                GlobalCommon.CallbackProcess(result, function () {
+                    if (1 < 2) {
+                        
+                        global.Data.ListEmployeeDesign = result.designUser;
+                        global.Data.ListEmployeePrint = result.printingUser;
+                        global.Data.ListEmployeeAddon = result.addOnUser;
+                    }
+
+                }, false, global.Element.PopupOrder, true, true, function () {
+                    var msg = GlobalCommon.GetErrorMessage(result);
+                    GlobalCommon.ShowMessageDialog(msg, function () { }, "Đã có lỗi xảy ra trong quá trình sử lý.");
+                });
+            }
+        });
     };
 };
 /*End Region*/
 $(document).ready(function () {
+    var employeeUpdateId = 0;
     var order = new VINASIC.Order();
     order.Init();
 });
@@ -1958,5 +2000,7 @@ function isNumberKey(evt) {
         toastr.warning("Vui lòng chỉ nhập số.");
         return false;
     }
-
+}
+function GetdataId(obj) {
+    employeeUpdateId = $(obj).data("id");
 }

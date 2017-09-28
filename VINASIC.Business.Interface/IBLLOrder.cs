@@ -25,6 +25,6 @@ namespace VINASIC.Business.Interface
         List<ModelViewDetail> GetOrderComplex(int orderId);
         double GetPriceForCustomerAndProduct(int customerId, int productId);
         ResponseBase UpdateOrderStatus(int orderId, float status, int userId,bool isAdmin);
-        ResponseBase UpdateDetailStatus(int detailId, int status);
+        ResponseBase UpdateDetailStatus(int detailId, int status, int employeeId);
     }
 }

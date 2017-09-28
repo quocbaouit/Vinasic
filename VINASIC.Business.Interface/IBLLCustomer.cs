@@ -14,6 +14,7 @@ namespace VINASIC.Business.Interface
         List<ModelSelectItem> GetListCustomer();
         List<ModelCustomer> GetListProduct();
         List<string> GetAllCustomerName();
+        List<string> GetSimpleCustomer();
         T_Customer GetCustomerById(int id);
         T_Customer GetCustomerByName(string name);
         T_Customer GetCustomerByPhone(string phone);

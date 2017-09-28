@@ -315,6 +315,20 @@ namespace VINASIC.Controllers
                 return Json(new { Result = "ERROR", ex.Message });
             }
         }
+        [System.Web.Mvc.HttpPost]
+        public JsonResult GetSimpleCustomer()
+        {
+            try
+            {
+                Thread.Sleep(200);
+                var customers = _bllCustomer.GetAllCustomerName();
+                return Json(new { Result = "OK", Records = customers });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "ERROR", ex.Message });
+            }
+        }
         public JsonResult GetListProductType()
         {
             try
@@ -582,13 +596,13 @@ namespace VINASIC.Controllers
             }
             return Json(JsonDataResult);
         }
-        public JsonResult UpdateDetailStatus(int detailId, int status)
+        public JsonResult UpdateDetailStatus(int detailId, int status,int employeeId)
         {
             try
             {
                 //if (IsAuthenticate)
                 //{
-                    var responseResult = _bllOrder.UpdateDetailStatus(detailId, status);
+                    var responseResult = _bllOrder.UpdateDetailStatus(detailId, status, employeeId);
                     if (responseResult.IsSuccess)
                         JsonDataResult.Result = "OK";
                     else
