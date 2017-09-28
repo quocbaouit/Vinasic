@@ -410,8 +410,7 @@ VINASIC.Order = function () {
                 $('#loading').hide();
                 GlobalCommon.CallbackProcess(result, function () {
                     if (result.Result === "OK") {
-                        reloadListOrderSpecial();
-                        
+                        $('#jtableOrder').jtable('getRowByKey', global.Data.OrderId).find("a#newdetail").trigger('click');                       
                         toastr.success("Thành Công");
                     }
                 }, false, global.Element.PopupOrder, true, true, function () {
@@ -1965,25 +1964,25 @@ VINASIC.Order = function () {
                 });
             }
         });
-        $.ajax({
-            url: "/Order/GetSimpleCustomer",
-            type: 'post',
-            contentType: 'application/json',
-            success: function (result) {
-                GlobalCommon.CallbackProcess(result, function () {
-                    if (1 < 2) {
+        //$.ajax({
+        //    url: "/Order/GetSimpleCustomer",
+        //    type: 'post',
+        //    contentType: 'application/json',
+        //    success: function (result) {
+        //        GlobalCommon.CallbackProcess(result, function () {
+        //            if (1 < 2) {
                         
-                        global.Data.ListEmployeeDesign = result.designUser;
-                        global.Data.ListEmployeePrint = result.printingUser;
-                        global.Data.ListEmployeeAddon = result.addOnUser;
-                    }
+        //                global.Data.ListEmployeeDesign = result.designUser;
+        //                global.Data.ListEmployeePrint = result.printingUser;
+        //                global.Data.ListEmployeeAddon = result.addOnUser;
+        //            }
 
-                }, false, global.Element.PopupOrder, true, true, function () {
-                    var msg = GlobalCommon.GetErrorMessage(result);
-                    GlobalCommon.ShowMessageDialog(msg, function () { }, "Đã có lỗi xảy ra trong quá trình sử lý.");
-                });
-            }
-        });
+        //        }, false, global.Element.PopupOrder, true, true, function () {
+        //            var msg = GlobalCommon.GetErrorMessage(result);
+        //            GlobalCommon.ShowMessageDialog(msg, function () { }, "Đã có lỗi xảy ra trong quá trình sử lý.");
+        //        });
+        //    }
+        //});
     };
 };
 /*End Region*/

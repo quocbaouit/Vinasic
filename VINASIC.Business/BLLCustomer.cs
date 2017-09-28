@@ -235,7 +235,11 @@ namespace VINASIC.Business
             var customer = _repCustomer.Get(x => !x.IsDeleted && x.Mobile.Trim() == phone.Trim());
             return customer;
         }
-        
+
+        public List<string> GetSimpleCustomer()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

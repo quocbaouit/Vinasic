@@ -680,6 +680,11 @@ namespace VINASIC.Business
                 return false;
             }
         }
+
+        public List<string> GetSimpleCustomer()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
