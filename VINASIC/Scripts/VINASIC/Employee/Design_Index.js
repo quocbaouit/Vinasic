@@ -48,7 +48,7 @@ VINASIC.Design = function () {
         $("#" + global.Element.PopupDesign).modal("show");
     }
 
-    function updateStatus(id, status) {
+    function updateStatus(id, status,returnString) {
         $.ajax({
             url: "/Employee/DesignUpdateOrderDeatail?id=" + id + "&status=" + status,
             type: 'post',
@@ -61,7 +61,7 @@ VINASIC.Design = function () {
                         reloadListDesign();
                         global.Data.ClientId = document.getElementById("ClientName").innerHTML;
                         var realTimeHub = $.connection.realTimeJTableDemoHub;
-                        realTimeHub.server.sendUpdateEvent("jtableOrder", global.Data.ClientId, "Cập nhật");
+                        realTimeHub.server.sendUpdateEvent("jtableOrder", global.Data.ClientId, "Cập nhật thiết kế: "+returnString+"");
                         $.connection.hub.start();
                         toastr.success("Cập nhật Thành Công");
                     } else {
@@ -165,7 +165,8 @@ VINASIC.Design = function () {
                     display: function (data) {
                         var text = $("<a href=\"#\" class=\"clickable\" title=\"Cập nhật Trạng Thái.\">" + data.record.StrdesignStatus + "</a>");
                         text.click(function () {
-                            updateStatus(data.record.Id, data.record.DetailStatus);
+                            returnString = data.record.OrderId + '</br>' + data.record.CustomerName + ':' + data.record.Width + '*' + data.record.Height + '-NVKD:' + data.record.EmployeeName;
+                            updateStatus(data.record.Id, data.record.DetailStatus, returnString);
                         });
                         return text;
                     }

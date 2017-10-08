@@ -40,7 +40,6 @@ namespace VINASIC.Business
             {
                 sorting = "CreatedDate DESC";
             }
-            
             var realfromDate = DateTime.Parse(fromDate);
             var realtoDate = DateTime.Parse(toDate);
 
@@ -496,9 +495,13 @@ namespace VINASIC.Business
                 }
                 if (paymentType == 2)
                 {
-                    total = order.HaspayTransfer??0 + payment;
-                    if (total > order.SubTotal)
+                    if (order.HaspayTransfer == null)
                     {
+                        order.HaspayTransfer = 0;
+                    }
+                    total = order.HaspayTransfer + payment;
+                    if (total > order.SubTotal)
+                    {                      
                         order.HaspayTransfer = order.SubTotal;
                     }
                     order.HaspayTransfer = total;

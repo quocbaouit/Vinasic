@@ -48,7 +48,7 @@ VINASIC.Print = function () {
         $("#" + global.Element.PopupPrint).modal("show");
     }
     /*End*/
-    function updateStatus(id,status) {
+    function updateStatus(id, status, returnString) {
         $.ajax({
             url: "/Employee/PrintUpdateOrderDeatail?id=" + id + "&status=" + status,
             type: 'post',
@@ -59,6 +59,10 @@ VINASIC.Print = function () {
                 GlobalCommon.CallbackProcess(result, function () {
                     if (result.Result === "OK") {
                         reloadListPrint();
+                        global.Data.ClientId = document.getElementById("ClientName").innerHTML;
+                        var realTimeHub = $.connection.realTimeJTableDemoHub;
+                        realTimeHub.server.sendUpdateEvent("jtableOrder", global.Data.ClientId, "Cập nhật in: " + returnString + "");
+                        $.connection.hub.start();
                         toastr.success("Cập nhật Thành Công");
                     } else {
                         toastr.warning("Đã In Xong");
@@ -159,11 +163,8 @@ VINASIC.Print = function () {
                     display: function (data) {
                         var text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật Trạng Thái.\">" + data.record.StrPrintStatus + "</a>");
                         text.click(function () {
-                            updateStatus(data.record.Id, data.record.DetailStatus);
-                            global.Data.ClientId = document.getElementById("ClientName").innerHTML;
-                            var realTimeHub = $.connection.realTimeJTableDemoHub;
-                            realTimeHub.server.sendUpdateEvent("jtablePrint", global.Data.ClientId, "Cập nhật hàng in</br> " + data.record.CustomerName);
-                            $.connection.hub.start();
+                            returnString = data.record.OrderId + '</br>' + data.record.CustomerName + ':' + data.record.Width + '*' + data.record.Height + '-NVKD:' + data.record.EmployeeName;
+                            updateStatus(data.record.Id, data.record.DetailStatus, returnString);                         
                         });
                         return text;
                     }

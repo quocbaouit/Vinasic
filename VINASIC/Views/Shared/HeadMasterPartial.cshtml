@@ -263,9 +263,12 @@
         //};
         realTimeHub.client.GetUpdateEvent = function (jtableName, user, message) {
             if (myClientName !== user) {
-                $("#" + jtableName).jtable("load", { 'keyword': "" });
-                $("#" + jtableName).jtable("load", { 'keyword': "" });
-                $("#" + jtableName).jtable("load", { 'keyword': "" });
+                if (jtableName != 'jtableOrder')
+                {
+                    $("#" + jtableName).jtable("load", { 'keyword': "" });
+                    $("#" + jtableName).jtable("load", { 'keyword': "" });
+                    $("#" + jtableName).jtable("load", { 'keyword': "" });
+                }          
                 writeEvent1('<b>' + user + '</b> : ' + message, 'event-message');
                 document.getElementById("bellBar").innerHTML = $(".notification li").length;
                 $("#bellBar").css({ "display": "inline" });

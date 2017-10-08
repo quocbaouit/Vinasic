@@ -65,7 +65,7 @@ namespace VINASIC.Controllers
             try
             {
 
-                IsAuthenticate = UserContext.Permissions.Contains("/Employee/GetJobForDesign");
+                IsAuthenticate = UserContext.Permissions.Contains("isSystem");
                 var listEmployee = _bllEmployee.GetListForDesign(keyword, jtStartIndex, jtPageSize, jtSorting, UserContext.UserID, fromDate, toDate,IsAuthenticate, employee);
                 JsonDataResult.Records = listEmployee;
                 JsonDataResult.Result = "OK";
@@ -114,7 +114,7 @@ namespace VINASIC.Controllers
         {
             try
             {
-                var auth = true;
+                var auth = UserContext.Permissions.Contains("isSystem");
                 var listEmployee = _bllEmployee.GetListForPrint(keyword, jtStartIndex, jtPageSize, jtSorting, UserContext.UserID, fromDate, toDate, auth, employee);
                 JsonDataResult.Records = listEmployee;
                 JsonDataResult.Result = "OK";

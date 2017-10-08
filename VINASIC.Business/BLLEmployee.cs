@@ -56,7 +56,7 @@ namespace VINASIC.Business
             var checkResult = false;
             try
             {
-                var checkName = _repUser.GetMany(c => !c.IsDeleted  && c.Id != id && c.UserName.Trim().ToUpper().Equals(employeeName.Trim().ToUpper())).FirstOrDefault();
+                var checkName = _repUser.GetMany(c => !c.IsDeleted && c.Id != id && c.UserName.Trim().ToUpper().Equals(employeeName.Trim().ToUpper())).FirstOrDefault();
                 if (checkName == null)
                     checkResult = true;
             }
@@ -142,7 +142,7 @@ namespace VINASIC.Business
                         employee.Email = obj.Email;
                         if (!string.IsNullOrEmpty(obj.UserName))
                         {
-                            employee.UserName = obj.UserName; 
+                            employee.UserName = obj.UserName;
                         }
                         employee.FisrtName = obj.Name;
                         employee.OrganizationId = obj.OrganizationId;
@@ -175,7 +175,7 @@ namespace VINASIC.Business
             try
             {
                 responResult = new ResponseBase();
-                var employee = _repUser.GetMany(c => !c.IsDeleted  && c.Id == id).FirstOrDefault();
+                var employee = _repUser.GetMany(c => !c.IsDeleted && c.Id == id).FirstOrDefault();
                 if (employee != null)
                 {
 
@@ -219,22 +219,22 @@ namespace VINASIC.Business
                 {
                     sorting = "CreatedDate DESC";
                 }
-                var employees = _repUser.GetMany(c => !c.IsDeleted ).Select(c => new ModelUser()
+                var employees = _repUser.GetMany(c => !c.IsDeleted).Select(c => new ModelUser()
                 {
                     Id = c.Id,
                     Name = c.Name,
                     Address = c.Address,
-                    stringRoleName="Chưa chọn nhóm quyền",
+                    stringRoleName = "Chưa chọn nhóm quyền",
                     Mobile = c.Mobile,
                     Email = c.Email,
                     UserName = c.UserName,
-                    IsLock=c.IsLock,
-                    PassWord=c.PassWord,
+                    IsLock = c.IsLock,
+                    PassWord = c.PassWord,
                     PositionId = c.PositionId,
                     PositionName = c.T_Position.Name,
                     CreatedDate = c.CreatedDate,
                 }).OrderBy(sorting).ToList();
-                
+
                 foreach (var employ in employees)
                 {
                     var listRole = bllRole.GetListRoleByUser(employ.Id);
@@ -252,7 +252,7 @@ namespace VINASIC.Business
                             {
                                 employ.stringRoleName = roleName;
                             }
-                            
+
                         }
                     }
                 }
@@ -267,25 +267,25 @@ namespace VINASIC.Business
         public ResponseBase UpdateLock(int userId, bool isLock, int contextUser)
         {
             var responResult = new ResponseBase();
-            var user = _repUser.GetMany(c => !c.IsDeleted && c.Id==userId).FirstOrDefault();
-                if (user != null)
-                {
-                    user.IsLock = !isLock;
-                    user.UpdatedUser = contextUser;
-                    user.UpdatedDate = DateTime.Now.AddHours(14);
-                    _repUser.Update(user);
-                    SaveChange();
-                    responResult.IsSuccess = true;
-                }
-                else
-                {
-                    responResult.IsSuccess = false;
-                    responResult.Errors.Add(new Error() { MemberName = "Update", Message = "Lỗi" });
-                }
+            var user = _repUser.GetMany(c => !c.IsDeleted && c.Id == userId).FirstOrDefault();
+            if (user != null)
+            {
+                user.IsLock = !isLock;
+                user.UpdatedUser = contextUser;
+                user.UpdatedDate = DateTime.Now.AddHours(14);
+                _repUser.Update(user);
+                SaveChange();
+                responResult.IsSuccess = true;
+            }
+            else
+            {
+                responResult.IsSuccess = false;
+                responResult.Errors.Add(new Error() { MemberName = "Update", Message = "Lỗi" });
+            }
 
             return responResult;
         }
-        
+
         public List<ModelSelectItem> GetListEmployee()
         {
             List<ModelSelectItem> listModelSelect = new List<ModelSelectItem>
@@ -295,7 +295,7 @@ namespace VINASIC.Business
 
             try
             {
-                listModelSelect.AddRange(_repUser.GetMany(x => !x.IsDeleted && !x.IsLock ).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
+                listModelSelect.AddRange(_repUser.GetMany(x => !x.IsDeleted && !x.IsLock).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
             }
             catch (Exception ex)
             {
@@ -335,14 +335,14 @@ namespace VINASIC.Business
             return _repUser.Get(x => x.Id == id);
         }
 
-        public List<ModelSelectItem> GetCustomerByOrganization(string shortName,bool isAuthor,int userId)
+        public List<ModelSelectItem> GetCustomerByOrganization(string shortName, bool isAuthor, int userId)
         {
             List<ModelSelectItem> listModelSelect = new List<ModelSelectItem> { };
             if (shortName == "PKD" && isAuthor == false)
             {
                 try
                 {
-                    listModelSelect.AddRange(_repUser.GetMany(x => !x.IsDeleted &&x.Id== userId && x.T_Position.T_Organization.ShortName.Contains(shortName) && !x.IsLock).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
+                    listModelSelect.AddRange(_repUser.GetMany(x => !x.IsDeleted && x.Id == userId && x.T_Position.T_Organization.ShortName.Contains(shortName) && !x.IsLock).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
                 }
                 catch (Exception ex)
                 {
@@ -353,7 +353,7 @@ namespace VINASIC.Business
             {
                 try
                 {
-                    listModelSelect.Add( new ModelSelectItem() { Value = 0, Name = "---Chọn Hết----" });
+                    listModelSelect.Add(new ModelSelectItem() { Value = 0, Name = "---Chọn Hết----" });
                     listModelSelect.AddRange(_repUser.GetMany(x => !x.IsDeleted && x.T_Position.T_Organization.ShortName.Contains(shortName) && !x.IsLock).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
                 }
                 catch (Exception ex)
@@ -365,7 +365,7 @@ namespace VINASIC.Business
             return listModelSelect;
         }
 
-        public PagedList<ModelForDesign> GetListForDesign(string keyWord, int startIndexRecord, int pageSize, string sorting, int userId, string fromDate, string toDate,bool auth,int emp)
+        public PagedList<ModelForDesign> GetListForDesign(string keyWord, int startIndexRecord, int pageSize, string sorting, int userId, string fromDate, string toDate, bool auth, int emp)
         {
             try
             {
@@ -373,49 +373,52 @@ namespace VINASIC.Business
                 {
                     sorting = "CreatedDate DESC";
                 }
-                    var realfromDate = DateTime.Parse(fromDate);
-                    var realtoDate = DateTime.Parse(toDate);
-                    var frDate = new DateTime(realfromDate.Year, realfromDate.Month, realfromDate.Day, 0, 0, 0, 0);
-                    var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
-                    var listDesignProcess =
-                        _repOrderDetailRepository.GetMany(c => !c.IsDeleted&&(c.DetailStatus==1 || c.DetailStatus == 2 ||!string.IsNullOrEmpty(c.DesignView)) && c.CreatedDate >= frDate && c.CreatedDate <= tDate)
-                            .Select(c => new ModelForDesign()
-                            {
-                                T_Order=c.T_Order,
-                                CustomerName = c.T_Order.Name,
-                                Id = c.Id,
-                                EmployeeName = c.T_Order.T_User.Name,
-                                CommodityName = c.CommodityName,
-                                FileName = c.FileName,
-                                Height = c.Height,
-                                Width = c.Width,
-                                DesignFrom = c.DesignFrom,
-                                DesignTo = c.DesignTo,
-                                DesignStatus = c.DesignStatus ?? 0,
-                                DesignDescription = c.DesignDescription,
-                                DetailStatus=c.DetailStatus,
-                                StrdesignStatus =
-                                    c.DetailStatus == 1
-                                        ? "Chưa Thiết kế"
-                                        : (c.DetailStatus == 2
-                                            ? "Đang Thiết Kế"
-                                            : (c.DetailStatus == 3 ? "Đã Xong" : "Đã Xong")),
-                                CreatedDate = c.CreatedDate,
-                            }).OrderBy(sorting).ToList();
-                    if (!auth)
-                    {
-                        listDesignProcess = listDesignProcess.Where(x => x.DesignUser == userId).ToList();
-                    }
-                    if (!string.IsNullOrEmpty(keyWord))
-                    {
-                        listDesignProcess = listDesignProcess.Where(x => x.CustomerName.Contains(keyWord) ).ToList();
-                    }
-                if (emp!=0)
+                var realfromDate = DateTime.Parse(fromDate);
+                var realtoDate = DateTime.Parse(toDate);
+                var frDate = new DateTime(realfromDate.Year, realfromDate.Month, realfromDate.Day, 0, 0, 0, 0);
+                var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
+                var listDesignProcess =
+                    _repOrderDetailRepository.GetMany(c => !c.IsDeleted && (c.DetailStatus == 1 || c.DetailStatus == 2 || !string.IsNullOrEmpty(c.DesignView)) && c.CreatedDate >= frDate && c.CreatedDate <= tDate)
+                        .Select(c => new ModelForDesign()
+                        {
+                            T_Order = c.T_Order,
+                            OrderId=c.OrderId,
+                            CustomerName = c.T_Order.Name,
+                            Id = c.Id,
+                            EmployeeName = c.T_Order.T_User.Name,
+                            CommodityName = c.CommodityName,
+                            FileName = c.FileName,
+                            Height = c.Height,
+                            Width = c.Width,
+                            DesignFrom = c.DesignFrom,
+                            DesignTo = c.DesignTo,
+                            DesignStatus = c.DesignStatus ?? 0,
+                            DesignDescription = c.DesignDescription,
+                            DetailStatus = c.DetailStatus,
+                            DesignUser = c.DesignUser,
+                            DesignView = c.DesignView,
+                            StrdesignStatus =
+                                c.DetailStatus == 1
+                                    ? "Chưa Thiết kế"
+                                    : (c.DetailStatus == 2
+                                        ? "Đang Thiết Kế"
+                                        : (c.DetailStatus == 3 ? "Đã Xong" : "Bộ phận khác đang xử lý.")),
+                            CreatedDate = c.CreatedDate,
+                        }).OrderBy(sorting).ToList();
+                if (!auth)
                 {
-                    listDesignProcess = listDesignProcess.Where(x => x.T_Order.CreatedForUser== emp).ToList();
+                    listDesignProcess = listDesignProcess.Where(x => x.DesignUser == userId).ToList();
+                }
+                if (!string.IsNullOrEmpty(keyWord))
+                {
+                    listDesignProcess = listDesignProcess.Where(x => x.CustomerName.Contains(keyWord)).ToList();
+                }
+                if (emp != 0)
+                {
+                    listDesignProcess = listDesignProcess.Where(x => x.T_Order.CreatedForUser == emp).ToList();
                 }
                 var pageNumber = (startIndexRecord / pageSize) + 1;
-                    return new PagedList<ModelForDesign>(listDesignProcess, pageNumber, pageSize);
+                return new PagedList<ModelForDesign>(listDesignProcess, pageNumber, pageSize);
             }
             catch (Exception ex)
             {
@@ -423,7 +426,7 @@ namespace VINASIC.Business
             }
         }
 
-        public PagedList<ModelForPrint> GetListForPrint(string keyWord, int startIndexRecord, int pageSize, string sorting, int userId, string fromDate, string toDate,bool auth,int emp)
+        public PagedList<ModelForPrint> GetListForPrint(string keyWord, int startIndexRecord, int pageSize, string sorting, int userId, string fromDate, string toDate, bool auth, int emp)
         {
             try
             {
@@ -431,48 +434,50 @@ namespace VINASIC.Business
                 {
                     sorting = "CreatedDate DESC";
                 }
-                 List < int > listUserRole = bllUserRole.GetUserRolesIdByUserId(userId);
-                var userProduct =
-                    _repUserProduct.GetMany(x => !x.IsDeleted && listUserRole.Contains(x.UserId)).Select(x => x.ProductId).ToList();
-                    var realfromDate = DateTime.Parse(fromDate);
-                    var realtoDate = DateTime.Parse(toDate);
-                    var frDate = new DateTime(realfromDate.Year, realfromDate.Month, realfromDate.Day, 0, 0, 0, 0);
-                    var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
-                    var listPrintProcess =
-                        _repOrderDetailRepository.GetMany(c =>!c.IsDeleted && c.CreatedDate >= frDate && (c.DetailStatus==3 || !string.IsNullOrEmpty(c.PrintView) ) && c.CreatedDate <= tDate && userProduct.Contains(c.CommodityId))
-                            .Select(c => new ModelForPrint()
-                            {
-                                T_Order = c.T_Order,
-                                PrintUser =c.PrintUser,
-                                CommodityId = c.CommodityId,
-                                CustomerName = c.T_Order.Name,
-                                Id = c.Id,
-                                PrintStatus = c.PrintStatus ?? 0,
-                                EmployeeName = c.T_Order.T_User.Name,
-                                CommodityName = c.CommodityName,
-                                FileName = c.FileName,
-                                Height = c.Height,
-                                Width = c.Width,
-                                PrintDescription = c.PrintDescription,
-                                PrintFrom = c.PrintFrom,
-                                PrintTo = c.PrintTo,
-                                DetailStatus=c.DetailStatus,
-                                CreatedDate = c.CreatedDate,
-                                StrPrintStatus= c.DetailStatus == 3? "Chưa In": (c.DetailStatus == 4 ? "Đang In":
-                                (c.DetailStatus == 5 ? "Đã Xong" : (c.DetailStatus == 6 ? "Đang gia công" : "Đã gia công xong"))),
-                            }).OrderBy(sorting);
+                var realfromDate = DateTime.Parse(fromDate);
+                var realtoDate = DateTime.Parse(toDate);
+                var frDate = new DateTime(realfromDate.Year, realfromDate.Month, realfromDate.Day, 0, 0, 0, 0);
+                var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
+                var listPrintProcess =
+                    _repOrderDetailRepository.GetMany(c => !c.IsDeleted && c.CreatedDate >= frDate && (c.DetailStatus == 3 || !string.IsNullOrEmpty(c.PrintView)) && c.CreatedDate <= tDate)
+                        .Select(c => new ModelForPrint()
+                        {
+                            T_Order = c.T_Order,
+                            PrintUser = c.PrintUser,
+                            CommodityId = c.CommodityId,
+                            CustomerName = c.T_Order.Name,
+                            Id = c.Id,
+                            OrderId = c.OrderId,
+                            PrintStatus = c.PrintStatus ?? 0,
+                            EmployeeName = c.T_Order.T_User.Name,
+                            CommodityName = c.CommodityName,
+                            FileName = c.FileName,
+                            Height = c.Height,
+                            Width = c.Width,
+                            PrintDescription = c.PrintDescription,
+                            PrintFrom = c.PrintFrom,
+                            PrintTo = c.PrintTo,
+                            DetailStatus = c.DetailStatus,
+                            CreatedDate = c.CreatedDate,
+                            StrPrintStatus = c.DetailStatus == 3 ? "Chưa In" : (c.DetailStatus == 4 ? "Đang In" :
+                            (c.DetailStatus == 5 ? "Đã Xong" : (c.DetailStatus == 6 ? "Đang gia công" : "Đã gia công xong"))),
+                        }).OrderBy(sorting);
 
                 if (!string.IsNullOrEmpty(keyWord))
-                    {
-                        listPrintProcess = listPrintProcess.Where(x => x.CustomerName.Contains(keyWord));
-                    }
+                {
+                    listPrintProcess = listPrintProcess.Where(x => x.CustomerName.Contains(keyWord));
+                }
+                if (!auth)
+                {
+                    listPrintProcess = listPrintProcess.Where(x => x.PrintUser == userId);
+                }
                 if (emp != 0)
                 {
                     listPrintProcess = listPrintProcess.Where(x => x.T_Order.CreatedForUser == emp);
                 }
                 var pageNumber = (startIndexRecord / pageSize) + 1;
-                    return new PagedList<ModelForPrint>(listPrintProcess, pageNumber, pageSize);
-                
+                return new PagedList<ModelForPrint>(listPrintProcess, pageNumber, pageSize);
+
             }
             catch (Exception ex)
             {
@@ -610,16 +615,16 @@ namespace VINASIC.Business
             {
                 sorting = "CreatedDate DESC";
             }
-            var listProduct = _repProduct.GetMany(x=>!x.IsDeleted).Select(x=>new UserProduct()
+            var listProduct = _repProduct.GetMany(x => !x.IsDeleted).Select(x => new UserProduct()
             {
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
                 CreatedDate = x.CreatedDate,
-                Selected = false,              
+                Selected = false,
                 ProductTypeName = x.T_ProductType.Name,
             }).ToList();
-            var listProductIdByUserId= _repUserProduct.GetMany(x => !x.IsDeleted && x.UserId == userId).Select(x=>x.ProductId).ToList();
+            var listProductIdByUserId = _repUserProduct.GetMany(x => !x.IsDeleted && x.UserId == userId).Select(x => x.ProductId).ToList();
             foreach (var product in listProduct)
             {
                 if (listProductIdByUserId.Contains(product.Id))

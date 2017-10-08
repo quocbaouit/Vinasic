@@ -48,6 +48,11 @@ namespace VINASIC.Controllers
         {
             try
             {
+                if (fromDate == string.Empty || toDate == string.Empty)
+                {
+                    JsonDataResult.Result = "OK";
+                    return Json(JsonDataResult);
+                }
                 if (employee == 0 && !UserContext.Permissions.Contains("/Order/GetCustomerByOrganization"))
                 {
                     employee = UserContext.UserID;
@@ -167,6 +172,7 @@ namespace VINASIC.Controllers
 
                     JsonDataResult.Result = "ERROR";
                     JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
+                    return Json(JsonDataResult);
                 }
                 if (IsAuthenticate)
                 {

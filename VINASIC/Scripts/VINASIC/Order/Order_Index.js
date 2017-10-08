@@ -723,10 +723,10 @@ VINASIC.Order = function () {
                                                         textNVTK = textNVTK + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVTK[i].Id + ' class="detailstatus1" href="#">' + arrayNVTK[i].Name + '</a></li>';                                                   
                                                     };
                                                     for (var i = 0; i < arrayNVIN.length; i++) {
-                                                        textNVIN = textNVIN + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVIN[i].Id + ' class="detailstatus1" href="#">' + arrayNVIN[i].Name + '</a></li>'                                                     
+                                                        textNVIN = textNVIN + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVIN[i].Id + ' class="detailstatus3" href="#">' + arrayNVIN[i].Name + '</a></li>'                                                     
                                                     };
                                                     for (var i = 0; i < arrayNVGC.length; i++) {                                                    
-                                                        textNVGC = textNVGC + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVGC[i].Id + ' class="detailstatus1" href="#">' + arrayNVGC[i].Name + '</a></li>'
+                                                        textNVGC = textNVGC + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVGC[i].Id + ' class="detailstatus5" href="#">' + arrayNVGC[i].Name + '</a></li>'
                                                     };
                                                     var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho thiết kế</a><ul class="dropdown-menu">' + textNVTK + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu">' + textNVIN + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">chuyển cho gia công</a><ul class="dropdown-menu">' + textNVGC + '</ul></li><li class="dropdown"><a tabindex="-1" href="#" class=" detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
                                                     text.click(function () {
@@ -1088,8 +1088,27 @@ VINASIC.Order = function () {
                     title: "Nhân Viên",
                     width: "10%",
                     display: function (data) {
-                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + data.record.UserProcess + '</a></span></button><ul class="dropdown-menu"><li><a class="user1" href="javascript:void(0)">Thiết Kế: ' + data.record.DesignView + '</a></li><li><a class="user2" href="javascript:void(0)">In: ' + data.record.PrintView + '</a></li><li><a class="user3" href="javascript:void(0)">Gia Công:' + data.record.AddOnView + '</a></li></ul></div>');
+                        var text = "";
+                        var arrayNVTK = global.Data.ListEmployeeDesign;
+                        var arrayNVIN = global.Data.ListEmployeePrint;
+                        var arrayNVGC = global.Data.ListEmployeeAddon;
+                        var textNVTK = '';
+                        var textNVIN = '';
+                        var textNVGC = '';
+                        var strStatus = getOrderDetailStatus(data.record.DetailStatus);
+                        for (var i = 0; i < arrayNVTK.length; i++) {
+                            textNVTK = textNVTK + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVTK[i].Id + ' class="detailstatus1" href="#">' + arrayNVTK[i].Name + '</a></li>';
+                        };
+                        for (var i = 0; i < arrayNVIN.length; i++) {
+                            textNVIN = textNVIN + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVIN[i].Id + ' class="detailstatus3" href="#">' + arrayNVIN[i].Name + '</a></li>'
+                        };
+                        for (var i = 0; i < arrayNVGC.length; i++) {
+                            textNVGC = textNVGC + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVGC[i].Id + ' class="detailstatus5" href="#">' + arrayNVGC[i].Name + '</a></li>'
+                        };
+                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho thiết kế</a><ul class="dropdown-menu">' + textNVTK + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu">' + textNVIN + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">chuyển cho gia công</a><ul class="dropdown-menu">' + textNVGC + '</ul></li><li class="dropdown"><a tabindex="-1" href="#" class=" detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
                         text.click(function () {
+                            global.Data.OrderId = orderDetailData.record.Id;
+                            global.Data.IdDetailStatus = data.record.Id;
                         });
                         return text;
                     }

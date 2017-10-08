@@ -355,7 +355,6 @@ VINASIC.Role = function () {
                     sorting: false,
                     display: function (data) {
                         var text = '';
-                        if (!data.record.IsSystem) {
                             text = $('<button title="chỉnh sửa" class="jtable-command-button jtable-edit-command-button"><span>Phân Quyền</span></button>');
                             text.click(function () {
                                 Global.Data.RoleId = data.record.Id;
@@ -364,7 +363,6 @@ VINASIC.Role = function () {
                                 document.getElementById("roleTemp").innerHTML = "Nhóm Quyền " + data.record.RoleName;
                                 reloadListPermission();
                             });
-                        }
                         return text;
                     }
                 },
