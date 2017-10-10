@@ -1679,7 +1679,7 @@ VINASIC.Order = function () {
         $("body").delegate(".orderstatus2", "click", function (event) {
             event.preventDefault();
             updateOrderStatus(global.Data.IdOrderStatus, 2);
-        });
+        });            
         $("body").delegate(".orderstatus3", "click", function (event) {
             event.preventDefault();
             updateOrderStatus(global.Data.IdOrderStatus, 3);
@@ -1708,6 +1708,12 @@ VINASIC.Order = function () {
         $("body").delegate(".detailstatus7", "click", function (event) {
             event.preventDefault();
             updateDetailStatus(global.Data.IdDetailStatus, 7, employeeUpdateId);
+        });
+        $("body").delegate(".viewUpdateDetail", "click", function (event) {
+            var orderId = $(this).data("id");
+            $('html, body').animate({ scrollTop: $('tr[data-record-key="' + orderId + '"]').offset().top - 100 }, 'slow');
+            $('#jtableOrder').jtable('getRowByKey', orderId).find("a#newdetail").trigger('click');
+            event.preventDefault();
         });
         $("#canelOrder").click(function () {
             resetAll();
@@ -2000,7 +2006,6 @@ VINASIC.Order = function () {
             success: function (result) {
                 GlobalCommon.CallbackProcess(result, function () {
                     if (result.Result == 'OK') {
-                        debugger;
                         global.Data.ListEmployeeDesign = result.Records.designUser;
                         global.Data.ListEmployeePrint = result.Records.printingUser;
                         global.Data.ListEmployeeAddon = result.Records.addOnUser;
