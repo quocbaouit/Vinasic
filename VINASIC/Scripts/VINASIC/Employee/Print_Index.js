@@ -164,7 +164,8 @@ VINASIC.Print = function () {
                         var text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật Trạng Thái.\">" + data.record.StrPrintStatus + "</a>");
                         text.click(function () {
                             returnString = '<span data-id="' + data.record.OrderId + '" class="viewUpdateDetail">' + data.record.OrderId + '</br>' + data.record.CustomerName + ':' + data.record.Width + '*' + data.record.Height + '-NVKD:' + data.record.EmployeeName;
-                            updateStatus(data.record.Id, data.record.DetailStatus, returnString);                         
+                            updateStatus(data.record.Id, data.record.DetailStatus, returnString);
+
                         });
                         return text;
                     }
