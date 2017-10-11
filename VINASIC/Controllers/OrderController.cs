@@ -53,7 +53,7 @@ namespace VINASIC.Controllers
                     JsonDataResult.Result = "OK";
                     return Json(JsonDataResult);
                 }
-                if (employee == 0 && !UserContext.Permissions.Contains("/Order/GetCustomerByOrganization"))
+                if (employee == 0 && !UserContext.Permissions.Contains("isAdmin"))
                 {
                     employee = UserContext.UserID;
                 }
@@ -93,7 +93,7 @@ namespace VINASIC.Controllers
         [System.Web.Mvc.HttpPost]
         public JsonResult DeleteOrder(int id)
         {
-            var IsAdmin = UserContext.Permissions.Contains("/Order/GetCustomerByOrganization");
+            var IsAdmin = UserContext.Permissions.Contains("isAdmin");
             try
             {
                 if (IsAuthenticate)
@@ -166,7 +166,7 @@ namespace VINASIC.Controllers
         {
             try
             {
-                var IsAdmin = UserContext.Permissions.Contains("/Order/GetCustomerByOrganization");
+                var IsAdmin = UserContext.Permissions.Contains("isAdmin");
                 if (!IsAdmin)
                 {
 
@@ -263,7 +263,7 @@ namespace VINASIC.Controllers
         {
             try
             {
-                var IsAdmin = UserContext.Permissions.Contains("/Order/GetCustomerByOrganization");
+                var IsAdmin = UserContext.Permissions.Contains("isAdmin");
                 if (IsAuthenticate)
                 {
                     var saveOrder = new ModelSaveOrder
@@ -424,7 +424,8 @@ namespace VINASIC.Controllers
             try
             {
                 List<SelectListItem> listValues = new List<SelectListItem>();
-                var listProductType = _bllEmployee.GetCustomerByOrganization(shortName,IsAuthenticate,UserContext.UserID);
+                var IsViewAll = UserContext.Permissions.Contains("IsViewAll");
+                var listProductType = _bllEmployee.GetCustomerByOrganization(shortName, IsViewAll, UserContext.UserID);
                 if (listProductType != null)
                 {
                     listValues = listProductType.Select(c => new SelectListItem()
@@ -504,7 +505,7 @@ namespace VINASIC.Controllers
         {
             try
             {
-                var IsAdmin = UserContext.Permissions.Contains("/Order/GetCustomerByOrganization");
+                var IsAdmin = UserContext.Permissions.Contains("IsAdmin");
                 //if (IsAuthenticate)
                 //{
                     var responseResult = _bllOrder.UpdateOrderStatus(orderId, status,UserContext.UserID, IsAdmin);
@@ -1112,6 +1113,27 @@ namespace VINASIC.Controllers
             {
                 return Json(new { Result = "ERROR", ex.Message });
             }
+        }
+        public JsonResult DesignUpdateOrderDetail(int Id,string FileName, string DesignDescription)
+        {
+            try
+            {
+                var responseResult = _bllOrder.DesignUpdateOrderDetail(Id, FileName, DesignDescription);
+                if (responseResult.IsSuccess)
+                    JsonDataResult.Result = "OK";
+                else
+                {
+                    JsonDataResult.Result = "ERROR";
+                    JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
+                }
+            }
+            catch (Exception ex)
+            {
+                //add error
+                JsonDataResult.Result = "ERROR";
+                JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update", Message = "Lỗi: " + ex.Message });
+            }
+            return Json(JsonDataResult);
         }
 
     }

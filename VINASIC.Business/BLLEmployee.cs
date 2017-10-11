@@ -397,6 +397,10 @@ namespace VINASIC.Business
                             DetailStatus = c.DetailStatus,
                             DesignUser = c.DesignUser,
                             DesignView = c.DesignView,
+                            PrintView=c.PrintView,
+                            AddOnView=c.AddOnView,
+                            PrintUser=c.PrintUser,
+                            AddonUser=c.AddonUser,
                             StrdesignStatus =
                                 c.DetailStatus == 1
                                     ? "Chưa Thiết kế"

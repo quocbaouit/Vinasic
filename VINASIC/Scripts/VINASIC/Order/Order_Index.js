@@ -402,6 +402,7 @@ VINASIC.Order = function () {
         });
     }
     function updateDetailStatus(detailId, status, employeeUpdateId) {
+        debugger;
         $.ajax({
             url: "/Order/UpdateDetailStatus?detailId=" + detailId + "&status=" + status + "&employeeId=" + employeeUpdateId,
             type: 'post',
@@ -718,6 +719,7 @@ VINASIC.Order = function () {
                                                     var textNVTK = '';
                                                     var textNVIN = '';
                                                     var textNVGC = '';
+                                                    debugger;
                                                     var strStatus = getOrderDetailStatus(data.record.DetailStatus);
                                                     for (var i = 0; i < arrayNVTK.length; i++) {
                                                         textNVTK = textNVTK + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVTK[i].Id + ' class="detailstatus1" href="#">' + arrayNVTK[i].Name + '</a></li>';                                                   
@@ -1707,7 +1709,7 @@ VINASIC.Order = function () {
         });
         $("body").delegate(".detailstatus7", "click", function (event) {
             event.preventDefault();
-            updateDetailStatus(global.Data.IdDetailStatus, 7, employeeUpdateId);
+            updateDetailStatus(global.Data.IdDetailStatus, 7,0);
         });
         $("body").delegate(".viewUpdateDetail", "click", function (event) {
             var orderId = $(this).data("id");
@@ -1977,11 +1979,7 @@ VINASIC.Order = function () {
         initPopupPaymentProcess();
         initPopupHasPay();
         initPopupSearch();
-
         bindData(null);
-
-
-
         $.ajax({
             url: "/Order/GetAllCustomer",
             type: 'post',

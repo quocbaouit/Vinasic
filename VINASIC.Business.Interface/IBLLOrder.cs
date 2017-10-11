@@ -26,5 +26,6 @@ namespace VINASIC.Business.Interface
         double GetPriceForCustomerAndProduct(int customerId, int productId);
         ResponseBase UpdateOrderStatus(int orderId, float status, int userId,bool isAdmin);
         ResponseBase UpdateDetailStatus(int detailId, int status, int employeeId);
+        ResponseBase DesignUpdateOrderDetail(int orderId, string fileName, string description);
     }
 }
