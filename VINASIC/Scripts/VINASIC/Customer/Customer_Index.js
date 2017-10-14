@@ -125,7 +125,7 @@ VINASIC.Customer = function () {
                 },
                 Name: {
                     visibility: "fixed",
-                    title: "Tên Loại",
+                    title: "Tên Khách Hàng",
                     width: "25%",
                     display: function (data) {
                         var text = $("<a href=\"#\" class=\"clickable\" title=\"Chỉnh sửa thông tin.\">" + data.record.Name + "</a>");

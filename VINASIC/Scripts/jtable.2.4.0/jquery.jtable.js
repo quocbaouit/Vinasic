@@ -3822,7 +3822,7 @@ THE SOFTWARE.
             paging: false,
             pageList: 'normal', //possible values: 'minimal', 'normal'
             pageSize: 10,
-            pageSizes: [10, 25, 50, 100, 250, 500,1000,2000],
+            pageSizes: [10, 25, 50, 100, 250, 500],
             pageSizeChangeArea: true,
             gotoPageArea: 'combobox', //possible values: 'textbox', 'combobox', 'none'
 

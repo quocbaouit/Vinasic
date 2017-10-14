@@ -44,9 +44,9 @@ namespace VINASIC.Business
             var realtoDate = DateTime.Parse(toDate);
 
             var frDate = new DateTime(realfromDate.Year, realfromDate.Month, realfromDate.Day, 0, 0, 0, 0);
-            frDate = TimeZoneInfo.ConvertTimeToUtc(frDate);
+            frDate = TimeZoneInfo.ConvertTimeToUtc(frDate, curentZone);
             var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
-            tDate = TimeZoneInfo.ConvertTimeToUtc(tDate);
+            tDate = TimeZoneInfo.ConvertTimeToUtc(tDate, curentZone);
             var orders = _repOrder.GetMany(c => !c.IsDeleted).Select(c => new ModelOrder()
             {
                 CustomerPhone = c.T_Customer.Mobile,
@@ -501,7 +501,12 @@ namespace VINASIC.Business
                     {
                         order.HasPay = order.SubTotal;
                     }
+                   
                     order.HasPay = total;
+                    if (payment == 0)
+                    {
+                        order.HasPay = 0;
+                    }
                 }
                 if (paymentType == 2)
                 {
@@ -514,7 +519,12 @@ namespace VINASIC.Business
                     {
                         order.HaspayTransfer = order.SubTotal;
                     }
+                    
                     order.HaspayTransfer = total;
+                    if (payment == 0)
+                    {
+                        order.HaspayTransfer = 0;
+                    }
                     order.Description = transferDescription;
                 }
                 order.UpdatedUser = userId;
@@ -733,8 +743,8 @@ namespace VINASIC.Business
         {
             var frDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0, 0);
             var tDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59, 999);
-            frDate = TimeZoneInfo.ConvertTimeToUtc(frDate);
-            tDate = TimeZoneInfo.ConvertTimeToUtc(tDate);
+            frDate = TimeZoneInfo.ConvertTimeToUtc(frDate, curentZone);
+            tDate = TimeZoneInfo.ConvertTimeToUtc(tDate, curentZone);
             var orders =
                 _repOrderDetail.GetMany(c => !c.IsDeleted && !c.T_Order.IsDeleted && c.T_Order.CreatedDate >= frDate && c.T_Order.CreatedDate <= tDate)
                     .Select(c => new ModelViewDetail()

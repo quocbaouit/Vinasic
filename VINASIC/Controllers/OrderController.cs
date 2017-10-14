@@ -53,7 +53,7 @@ namespace VINASIC.Controllers
                     JsonDataResult.Result = "OK";
                     return Json(JsonDataResult);
                 }
-                if (employee == 0 && !UserContext.Permissions.Contains("isAdmin"))
+                if (employee == 0 && !UserContext.Permissions.Contains("IsViewAll"))
                 {
                     employee = UserContext.UserID;
                 }
@@ -166,14 +166,6 @@ namespace VINASIC.Controllers
         {
             try
             {
-                var IsAdmin = UserContext.Permissions.Contains("isAdmin");
-                if (!IsAdmin)
-                {
-
-                    JsonDataResult.Result = "ERROR";
-                    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
-                    return Json(JsonDataResult);
-                }
                 if (IsAuthenticate)
                 {
                     var pay = float.Parse(payment);
@@ -505,9 +497,9 @@ namespace VINASIC.Controllers
         {
             try
             {
-                var IsAdmin = UserContext.Permissions.Contains("IsAdmin");
-                //if (IsAuthenticate)
-                //{
+                var IsAdmin = UserContext.Permissions.Contains("isAdmin");
+                if (IsAuthenticate)
+                {
                     var responseResult = _bllOrder.UpdateOrderStatus(orderId, status,UserContext.UserID, IsAdmin);
                     if (responseResult.IsSuccess)
                         JsonDataResult.Result = "OK";
@@ -516,12 +508,12 @@ namespace VINASIC.Controllers
                         JsonDataResult.Result = "ERROR";
                         JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
                     }
-                //}
-                //else
-                //{
-                //    JsonDataResult.Result = "ERROR";
-                //    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
-                //}
+                }
+                else
+                {
+                    JsonDataResult.Result = "ERROR";
+                    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
+                }
             }
             catch (Exception ex)
             {

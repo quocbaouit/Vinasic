@@ -1752,7 +1752,12 @@ VINASIC.Order = function () {
             $("#dprice").val(tempValue.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
         });
         $("#prealpay").keyup(function () {
+            debugger;
             var tempValue = $(this).val().replace(/[^0-9-.]/g, '');
+            if (parseFloat($(this).val().replace(/[^0-9-.]/g, '')) > parseFloat($('#ppayment').val().replace(/[^0-9-.]/g, '')))
+            {
+                tempValue = $('#ppayment').val().replace(/[^0-9-.]/g, '');
+            }        
             $("#prealpay").val(tempValue.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
         });
         $("#ppay").keyup(function () {
