@@ -47,6 +47,7 @@ VINASIC.Order = function () {
             ProductTypeId: 0,
             CustomerId: 0,
             OrderId: 0,
+            OrderDetailId:0,
             Idnew: 0,
             Index: 1,
             CurenIndex: 0,
@@ -1180,6 +1181,7 @@ VINASIC.Order = function () {
                             $("#dprice").val(data.record.Price);
                             $("#dsubtotal").val(data.record.SubTotal);
                             global.Data.CurenIndex = data.record.Index;
+                            global.Data.OrderDetailId = data.record.Id;
                         });
                         return text;
                     }
@@ -1500,6 +1502,36 @@ VINASIC.Order = function () {
             $("#" + global.Element.PopupPrintProcess).modal("hide");
         });
     }
+    function calculatorPrice() {
+        var width = $("#dwidth").val();
+        var height = $("#dheignt").val();
+        var quantity = $("#dquantity").val();
+        var sqare = calculatorSquare(width, height);
+        if (!checkNumber(sqare) && sqare !== 0) {
+            var roundSquare = decimalAdjust('round', sqare, -6);
+            $("#dsquare").val(roundSquare);
+        } else {
+            $("#dsquare").val("");
+        }
+        var sumsquare = calculatorSumSquare(width, height, quantity);
+        if (!checkNumber(sumsquare) && sqare !== 0) {
+            var roundSumSquare = decimalAdjust('round', sumsquare, -6);
+            $("#dsumsquare").val(roundSumSquare);
+        } else {
+            $("#dsumsquare").val("");
+        }
+        var price = $("#dprice").val();
+        if (!checkNumber(quantity) && quantity !== "" && price !== "") {
+            var total = calculatorSubTotal(sqare, quantity, price.replace(/[^0-9-.]/g, ''));
+            if (!checkNumber(total)) {
+                var roundtotal = decimalAdjust('round', total, 0);
+                $("#dsubtotal").val(roundtotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            }
+            else {
+                $("#dsubtotal").val("");
+            }
+        }
+    }
     function initPopupSearch() {
         $("#" + global.Element.PopupSearch).modal({
             keyboard: false,
@@ -1570,6 +1602,7 @@ VINASIC.Order = function () {
                         if (result.Records != 0) {
                             var temp = result.Records.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                             $('#dprice').val(temp);
+                            calculatorPrice();
                         } else {
                             $('#dprice').val('');
                         }
@@ -1774,36 +1807,9 @@ VINASIC.Order = function () {
                 $("#prest").val(c.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
             }
         });
+        
         $('.caculator').keyup(function () {
-            var width = $("#dwidth").val();
-            var height = $("#dheignt").val();
-            var quantity = $("#dquantity").val();
-            var sqare = calculatorSquare(width, height);
-            if (!checkNumber(sqare) && sqare !== 0) {
-                var roundSquare = decimalAdjust('round', sqare, -6);
-                $("#dsquare").val(roundSquare);
-            } else {
-                $("#dsquare").val("");
-            }
-            var sumsquare = calculatorSumSquare(width, height, quantity);
-            if (!checkNumber(sumsquare) && sqare !== 0) {
-                var roundSumSquare = decimalAdjust('round', sumsquare, -6);
-                $("#dsumsquare").val(roundSumSquare);
-            } else {
-                $("#dsumsquare").val("");
-            }
-            var price = $("#dprice").val();
-            if (!checkNumber(quantity) && quantity !== "" && price !== "") {
-                var total = calculatorSubTotal(sqare, quantity, price.replace(/[^0-9-.]/g, ''));
-                if (!checkNumber(total)) {
-                    var roundtotal = decimalAdjust('round', total, 0);
-                    $("#dsubtotal").val(roundtotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                }
-                else {
-                    $("#dsubtotal").val("");
-                }
-            }
-
+            calculatorPrice();         
         });
         $('#cphone').keydown(function (e) {
             if (e.which === 13) { //Enter
@@ -1850,7 +1856,7 @@ VINASIC.Order = function () {
                     var objectIndex = global.Data.Index;
                     if (global.Data.CurenIndex !== 0) {
                         objectIndex = global.Data.CurenIndex;
-                        var object = { Index: objectIndex, CommodityId: $("#dproduct").val(), CommodityName: $("#dproduct option:selected").text(), FileName: $("#dfilename").val(), Description: $("#dnote").val(), Width: $("#dwidth").val(), Height: $("#dheignt").val(), Square: $("#dsquare").val(), Quantity: $("#dquantity").val(), SumSquare: $("#dsumsquare").val(), Price: $("#dprice").val(), SubTotal: $("#dsubtotal").val() }
+                        var object = {Id: global.Data.OrderDetailId, Index: objectIndex, CommodityId: $("#dproduct").val(), CommodityName: $("#dproduct option:selected").text(), FileName: $("#dfilename").val(), Description: $("#dnote").val(), Width: $("#dwidth").val(), Height: $("#dheignt").val(), Square: $("#dsquare").val(), Quantity: $("#dquantity").val(), SumSquare: $("#dsumsquare").val(), Price: $("#dprice").val(), SubTotal: $("#dsubtotal").val() }
                         for (var i = 0; i < global.Data.ModelOrderDetail.length; i++) {
                             if (global.Data.ModelOrderDetail[i].Index === global.Data.CurenIndex) {
                                 global.Data.ModelOrderDetail.splice(i, 1, object);
@@ -1864,7 +1870,7 @@ VINASIC.Order = function () {
                         //global.Data.OrderTotal = global.Data.OrderTotal.replace(/[^0-9-.]/g, '');
 
                     } else {
-                        var object1 = { Index: objectIndex, CommodityId: $("#dproduct").val(), CommodityName: $("#dproduct option:selected").text(), FileName: $("#dfilename").val(), Description: $("#dnote").val(), Width: $("#dwidth").val(), Height: $("#dheignt").val(), Square: $("#dsquare").val(), Quantity: $("#dquantity").val(), SumSquare: $("#dsumsquare").val(), Price: $("#dprice").val(), SubTotal: $("#dsubtotal").val() }
+                        var object1 = {Id:0, Index: objectIndex, CommodityId: $("#dproduct").val(), CommodityName: $("#dproduct option:selected").text(), FileName: $("#dfilename").val(), Description: $("#dnote").val(), Width: $("#dwidth").val(), Height: $("#dheignt").val(), Square: $("#dsquare").val(), Quantity: $("#dquantity").val(), SumSquare: $("#dsumsquare").val(), Price: $("#dprice").val(), SubTotal: $("#dsubtotal").val() }
                         global.Data.ModelOrderDetail.push(object1);
                         global.Data.Index = global.Data.Index + 1;
                         for (var k = 0; k < global.Data.ModelOrderDetail.length; k++) {

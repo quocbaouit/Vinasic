@@ -345,36 +345,68 @@ namespace VINASIC.Business
                 _repOrder.Update(order);
                 SaveChange();
                 var baseOrderDetail = _repOrderDetail.GetMany(x => x.OrderId == order.Id).ToList();
-                foreach (var detail in baseOrderDetail)
+                var deleteDetail = baseOrderDetail.Where(x =>!obj.Detail.Select(y => y.Id).Contains(x.Id)).ToList();
+                foreach (var detail in deleteDetail)
                 {
                     _repOrderDetail.Delete(detail);
                     SaveChange();
                 }
                 foreach (var detail in obj.Detail)
                 {
-                    var orderDetail = new T_OrderDetail
+                    var detailUpdate = baseOrderDetail.Where(x => x.Id == detail.Id).FirstOrDefault();
+                    if (detailUpdate != null && detail.Id != 0 && detailUpdate.CommodityId == int.Parse(detail.CommodityId))
+                    {        
+                            detailUpdate.OrderId = order.Id;
+                            detailUpdate.Index = detail.Index;
+                            detailUpdate.CommodityId = int.Parse(detail.CommodityId);
+                            detailUpdate.CommodityName = detail.CommodityName;
+                            detailUpdate.Height = detail.Height;
+                            detailUpdate.Width = detail.Width;
+                            detailUpdate.Square = detail.Square;
+                            detailUpdate.SumSquare = detail.SumSquare;
+                            detailUpdate.Quantity = detail.Quantity;
+                            detailUpdate.Price = detail.Price;
+                            detailUpdate.SubTotal = detail.Subtotal;
+                            detailUpdate.Description = detail.Description;
+                            detailUpdate.IsCompleted = false;
+                            detailUpdate.IsDeleted = false;
+                            detailUpdate.CreatedUser = userId;
+                            detailUpdate.CreatedDate = order.CreatedDate;
+                            detailUpdate.FileName = detail.FileName;
+                            _repOrderDetail.Update(detailUpdate);
+                            SaveChange();
+                    }
+                    else
                     {
-                        OrderId = order.Id,
-                        Index = detail.Index,
-                        CommodityId = int.Parse(detail.CommodityId),
-                        CommodityName = detail.CommodityName,
-                        Height = detail.Height,
-                        Width = detail.Width,
-                        Square = detail.Square,
-                        SumSquare = detail.SumSquare,
-                        Quantity = detail.Quantity,
-                        Price = detail.Price,
-                        SubTotal = detail.Subtotal,
-                        Description = detail.Description,
-                        IsCompleted = false,
-                        IsDeleted = false,
-                        CreatedUser = userId,
-                        DetailStatus = 0,
-                        CreatedDate = order.CreatedDate,
-                        FileName = detail.FileName
-                    };
-                    _repOrderDetail.Add(orderDetail);
-                    SaveChange();
+                        if (detailUpdate != null)
+                        {
+                            _repOrderDetail.Delete(detailUpdate);
+                            SaveChange();
+                        }                       
+                        var orderDetail = new T_OrderDetail
+                        {
+                            OrderId = order.Id,
+                            Index = detail.Index,
+                            CommodityId = int.Parse(detail.CommodityId),
+                            CommodityName = detail.CommodityName,
+                            Height = detail.Height,
+                            Width = detail.Width,
+                            Square = detail.Square,
+                            SumSquare = detail.SumSquare,
+                            Quantity = detail.Quantity,
+                            Price = detail.Price,
+                            SubTotal = detail.Subtotal,
+                            Description = detail.Description,
+                            IsCompleted = false,
+                            IsDeleted = false,
+                            CreatedUser = userId,
+                            DetailStatus = 0,
+                            CreatedDate = order.CreatedDate,
+                            FileName = detail.FileName
+                        };
+                        _repOrderDetail.Add(orderDetail);
+                        SaveChange();
+                    }                  
                 }
                 result.IsSuccess = true;
 

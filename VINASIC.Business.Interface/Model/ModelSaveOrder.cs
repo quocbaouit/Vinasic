@@ -27,6 +27,7 @@ namespace VINASIC.Business.Interface.Model
 
     public class ModelDetail
     {
+        public int Id { get; set; }
         public string CommodityId { get; set; }
         public string CommodityName { get; set; }
         public string Name { get; set; }

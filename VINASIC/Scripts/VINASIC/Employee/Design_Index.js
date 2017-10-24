@@ -209,6 +209,11 @@ VINASIC.Design = function () {
                     title: "Chiều Rộng",
                     width: "2%"
                 },
+                Quantity: {
+                    visibility: "fixed",
+                    title: "số Lượng",
+                    width: "2%"
+                },
                 DesignDescription: {
                     title: "Mô Tả",
                     width: "15%"
@@ -356,14 +361,6 @@ VINASIC.Design = function () {
 
     };
     this.Init = function () {
-        initComboBoxBusiness1();
-        global.Data.ClientId = document.getElementById("ClientName").innerHTML;
-        document.getElementById("datefrom").defaultValue = new Date(new Date() - 24 * 60 * 60 * 1000).toISOString().substring(0, 10);
-        document.getElementById("dateto").defaultValue = new Date().toISOString().substring(0, 10);
-        registerEvent();
-        initListDesign();
-        reloadListDesign();
-        initPopupDesign();
         $.ajax({
             url: "/Employee/GetSimpleEmployee",
             type: 'post',
@@ -382,6 +379,16 @@ VINASIC.Design = function () {
                 });
             }
         });
+        setTimeout(function () {
+            initComboBoxBusiness1();
+            global.Data.ClientId = document.getElementById("ClientName").innerHTML;
+            document.getElementById("datefrom").defaultValue = new Date(new Date() - 24 * 60 * 60 * 1000).toISOString().substring(0, 10);
+            document.getElementById("dateto").defaultValue = new Date().toISOString().substring(0, 10);
+            registerEvent();
+            initListDesign();
+            reloadListDesign();
+            initPopupDesign();
+        });        
     };  
 };
 this.initViewModel = function (design) {

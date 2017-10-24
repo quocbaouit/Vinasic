@@ -148,6 +148,11 @@ VINASIC.Print = function () {
                     title: "Chiều Rộng",
                     width: "5%"
                 },
+                Quantity: {
+                    visibility: "fixed",
+                    title: "số Lượng",
+                    width: "5%"
+                },
                 PrintDescription: {
                     title: "Mô Tả",
                     width: "10%"

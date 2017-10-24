@@ -114,7 +114,7 @@ namespace VINASIC.Controllers
         {
             try
             {
-                var auth = UserContext.Permissions.Contains("isSystem");
+                var auth = UserContext.Permissions.Contains("isAdmin");
                 var listEmployee = _bllEmployee.GetListForPrint(keyword, jtStartIndex, jtPageSize, jtSorting, UserContext.UserID, fromDate, toDate, auth, employee);
                 JsonDataResult.Records = listEmployee;
                 JsonDataResult.Result = "OK";

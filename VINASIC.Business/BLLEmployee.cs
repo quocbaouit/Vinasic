@@ -378,7 +378,7 @@ namespace VINASIC.Business
                 var frDate = new DateTime(realfromDate.Year, realfromDate.Month, realfromDate.Day, 0, 0, 0, 0);
                 var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
                 var listDesignProcess =
-                    _repOrderDetailRepository.GetMany(c => !c.IsDeleted && (c.DetailStatus == 1 || c.DetailStatus == 2 || !string.IsNullOrEmpty(c.DesignView)) && c.CreatedDate >= frDate && c.CreatedDate <= tDate)
+                    _repOrderDetailRepository.GetMany(c => !c.IsDeleted && !c.T_Order.IsDeleted && (c.DetailStatus == 1 || c.DetailStatus == 2 || !string.IsNullOrEmpty(c.DesignView)) && c.CreatedDate >= frDate && c.CreatedDate <= tDate)
                         .Select(c => new ModelForDesign()
                         {
                             T_Order = c.T_Order,
@@ -390,6 +390,7 @@ namespace VINASIC.Business
                             FileName = c.FileName,
                             Height = c.Height,
                             Width = c.Width,
+                            Quantity=c.Quantity,
                             DesignFrom = c.DesignFrom,
                             DesignTo = c.DesignTo,
                             DesignStatus = c.DesignStatus ?? 0,
@@ -443,7 +444,7 @@ namespace VINASIC.Business
                 var frDate = new DateTime(realfromDate.Year, realfromDate.Month, realfromDate.Day, 0, 0, 0, 0);
                 var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
                 var listPrintProcess =
-                    _repOrderDetailRepository.GetMany(c => !c.IsDeleted && c.CreatedDate >= frDate && (c.DetailStatus == 3 || !string.IsNullOrEmpty(c.PrintView)) && c.CreatedDate <= tDate)
+                    _repOrderDetailRepository.GetMany(c => !c.IsDeleted &&!c.T_Order.IsDeleted && c.CreatedDate >= frDate && (c.DetailStatus == 3 || !string.IsNullOrEmpty(c.PrintView)) && c.CreatedDate <= tDate)
                         .Select(c => new ModelForPrint()
                         {
                             T_Order = c.T_Order,
@@ -455,6 +456,7 @@ namespace VINASIC.Business
                             PrintStatus = c.PrintStatus ?? 0,
                             EmployeeName = c.T_Order.T_User.Name,
                             CommodityName = c.CommodityName,
+                            Quantity=c.Quantity,
                             FileName = c.FileName,
                             Height = c.Height,
                             Width = c.Width,
