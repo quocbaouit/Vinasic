@@ -153,7 +153,7 @@ VINASIC.Print = function () {
                     title: "số Lượng",
                     width: "5%"
                 },
-                PrintDescription: {
+                DesignDescription: {
                     title: "Mô Tả",
                     width: "10%"
                 },

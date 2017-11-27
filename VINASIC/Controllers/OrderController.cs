@@ -497,7 +497,7 @@ namespace VINASIC.Controllers
         {
             try
             {
-                var IsAdmin = UserContext.Permissions.Contains("isAdmin");
+                var IsAdmin = true;
                 if (IsAuthenticate)
                 {
                     var responseResult = _bllOrder.UpdateOrderStatus(orderId, status,UserContext.UserID, IsAdmin);

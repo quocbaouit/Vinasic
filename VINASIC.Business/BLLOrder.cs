@@ -467,13 +467,13 @@ namespace VINASIC.Business
         {
             var responResult = new ResponseBase();
             var order = _repOrder.GetMany(c => !c.IsDeleted && c.Id == orderId).FirstOrDefault();
-            if (order.OrderStatus >= 3 && !isAdmin && status < order.OrderStatus)
-            {
-                responResult.IsSuccess = false;
-                responResult.Errors.Add(new Error() { MemberName = "Tài khoản không có quyền thay đổi đơn hàng sau khi giao hàng", Message = "Lỗi" });
-                return responResult;
+            //if (order.OrderStatus >= 3 && !isAdmin && status < order.OrderStatus)
+            //{
+            //    responResult.IsSuccess = false;
+            //    responResult.Errors.Add(new Error() { MemberName = "Tài khoản không có quyền thay đổi đơn hàng sau khi giao hàng", Message = "Lỗi" });
+            //    return responResult;
 
-            }
+            //}
             if (order != null)
             {
                 order.OrderStatus = status;

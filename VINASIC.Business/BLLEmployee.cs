@@ -461,6 +461,7 @@ namespace VINASIC.Business
                             Height = c.Height,
                             Width = c.Width,
                             PrintDescription = c.PrintDescription,
+                            DesignDescription=c.DesignDescription,
                             PrintFrom = c.PrintFrom,
                             PrintTo = c.PrintTo,
                             DetailStatus = c.DetailStatus,
