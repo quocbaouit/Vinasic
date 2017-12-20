@@ -127,6 +127,12 @@
                             Xem Chi Tiết
                         </a>
                     </li>
+                    <li class="">
+                        <a data-toggle="tab" href="#ViewSubDetail">
+                            <i class="icon-envelope"></i>
+                            Chi Tiết Thiết Kế/In Ấn
+                        </a>
+                    </li>
                     <li id="CreateOrder" class="">
                         <a data-toggle="tab" href="#edit-profile">
                             <i class="icon-envelope"></i>
@@ -154,22 +160,6 @@
                                         <option value="0">Nhân Viên Kinh Doanh </option>
                                     </select>
                                 </div>
-                                @*<div class="col-md-2 col-sm-4 col-xs-12">
-                                    <label for="DeliveryType">Giao Hàng</label>
-                                    <select id="DeliveryType" class="form-control">
-                                        <option value="0">Tất Cả </option>
-                                        <option value="1">Chưa Giao Hàng </option>
-                                        <option value="2">Đã Giao Hàng </option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2 col-sm-4 col-xs-12">
-                                    <label for="PaymentStatus">Thanh Toán</label>
-                                    <select id="PaymentStatus" class="form-control">
-                                        <option value="0">Tất Cả</option>
-                                        <option value="1">Đã Thanh Toán</option>
-                                        <option value="2">Còn Nợ</option>
-                                    </select>
-                                </div>*@
                                 <div class="col-md-3 col-sm-4 col-xs-12">
                                     <label for="keyword">Từ Khóa</label>
                                     <input type="text" class="form-control" id="keyword" placeholder="">
@@ -198,34 +188,41 @@
                         </div>*@
                     </div>
                     <div id="ViewDetail" class="tab-pane">
-                        @*<div style="margin-bottom: 15px;" class="row">
+                        <div id="jtableViewDetail"></div>
+                    </div>
+                    <div id="ViewSubDetail" class="tab-pane">
+                        <div style="margin-bottom: 15px;" class="row">
                             <div class="form-group">
                                 <div class="col-md-3 col-sm-4 col-xs-12">
                                     <label for="datefrom">Từ Ngày</label>
-                                    <input type="date" class="form-control" name="datefrom" value="" id="vdatefrom" />
+                                    <input type="date" class="form-control" name="subdatefrom" value="" id="subdatefrom" />
                                 </div>
                                 <div class="col-md-3 col-sm-4 col-xs-12">
                                     <label for="dateto">Đến Ngày</label>
-                                    <input type="date" class="form-control" name="dateto" value="" id="vdateto" />
+                                    <input type="date" class="form-control" name="subdateto" value="" id="subdateto" />
                                 </div>
                                 <div class="col-md-3 col-sm-4 col-xs-12">
                                     <label for="cname">Nhân Viên Kinh Doanh</label>
-                                    <select id="cemployee2" class="form-control">
+                                    <select id="subcemployee1" class="form-control">
                                         <option value="0">Nhân Viên Kinh Doanh </option>
                                     </select>
                                 </div>
                                 <div class="col-md-3 col-sm-4 col-xs-12">
                                     <label for="keyword">Từ Khóa</label>
-                                    <input type="text" class="form-control" id="vkeyword" placeholder="">
-                                </div>
-                                <div class="col-md-2 col-sm-4 col-xs-12">
-                                    <a id="vsearch" style="margin-top: 25px" class="btn btn-primary" href="javascript:void(0)" title="Bootstrap 3 themes generator"><span class="icon_lightbulb_alt"></span>Tìm Kiếm</a>
+                                    <input type="text" class="form-control" id="subkeyword" placeholder="">
                                 </div>
                             </div>
-                        </div>*@
-                        <div id="jtableViewDetail"></div>
+                        </div>
+                        <div style="margin-left: 5px;margin-bottom: 10px;" class="row">
+                            <button id="subsearch" class="btn button button1">Tìm Kiếm</button>                         
+                            @*<button id="subinprogess" class="btn button button0">Thiết Kế</button>
+                            <button id="subnoDelivery" class="btn button button2">In Ấn</button>
+                            <button id="subdeliveried" class="btn button button3">Gia Công</button>*@
+                            @*<button id="subpaid" class="btn button button4">Đã Thanh Toán</button>*@
+                            @*<button id="subapproval" class="btn button button5">Đã Xong</button>*@
+                        </div>
+                        <div class="=rows" id="jtableSubOrder"></div>
                     </div>
-
                     <div id="edit-profile" class="tab-pane">
                         <section class="panel">
                             <div class="panel-body bio-graph-info">

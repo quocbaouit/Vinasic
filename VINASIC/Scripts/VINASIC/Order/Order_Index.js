@@ -23,12 +23,14 @@ VINASIC.Order = function () {
             GetListViewDetail: "/Order/GetListViewDetail",
             SaveOrder: "/Order/SaveOrder",
             UpdateHaspay: "/Order/UpdateHaspay",
-            DeleteOrder: "/Order/DeleteOrder"
+            DeleteOrder: "/Order/DeleteOrder",
+            GetListDesign: "/Employee/GetListDetailForBusiness",
         },
         Element: {
             JtableOrder: "jtableOrder",
             JtableOrderDetail: "jtableOrderDetail",
             jtableViewDetail: "jtableViewDetail",
+            JtableDesign: "jtableSubOrder",
             PopupOrder: "popup_Order",
             PopupSearch: "popup_SearchOrder",
             PopupDesignProcess: "popup_DesignProcess",
@@ -164,6 +166,13 @@ VINASIC.Order = function () {
         var delivery = $("#DeliveryType").val();
         var paymentStatus = $("#PaymentStatus").val();
         $("#" + global.Element.JtableOrder).jtable("load", { 'keyword': keySearch, 'employee': employee, 'fromDate': fromDate, 'toDate': toDate, 'orderStatus': -1 });
+    }
+    function reloadListDesign() {
+        var keySearch = $("#subkeyword").val();
+        var fromDate = $("#subdatefrom").val();
+        var toDate = $("#subdateto").val();
+        var employee = $("#subcemployee1").val();
+        $("#" + global.Element.JtableDesign).jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'employee': employee });
     }
     function reloadListOrder(orderStatus) {
         var keySearch = $("#keyword").val();
@@ -531,11 +540,13 @@ VINASIC.Order = function () {
             if (datas.length > 0) {
                 for (var i = 0; i < datas.length; i++) {
                     $('#cemployee1').append('<option value="' + datas[i].Value + '">' + datas[i].Text + '</option>');
+                    $('#subcemployee1').append('<option value="' + datas[i].Value + '">' + datas[i].Text + '</option>');
                 }
                 return datas[0].Value;
             }
             else {
                 $('#cemployee1').append('<option value="0">Không Có Dữ Liệu </option>');
+                $('#subcemployee1').append('<option value="0">Không Có Dữ Liệu </option>');
                 return 0;
             }
         });
@@ -578,6 +589,120 @@ VINASIC.Order = function () {
         }
     }
     /*function Init List Using Jtable */
+    function initListDesign() {
+        $("#" + global.Element.JtableDesign).jtable({
+            title: "Danh sách file thiết kế/in ấn",
+            paging: true,
+            pageSize: 10,
+            pageSizeChangeDesign: true,
+            sorting: true,
+            selectShow: true,
+            actions: {
+                listAction: global.UrlAction.GetListDesign,
+                createAction: global.Element.PopupDesign
+            },
+            messages: {
+                selectShow: "Ẩn hiện cột"
+            },
+            fields: {
+                Id: {
+                    key: true,
+                    create: false,
+                    edit: false,
+                    list: false
+                },
+                CreatedDate: {
+                    title: 'Ngày Tạo',
+                    width: "5%",
+                    type: 'date',
+                    displayFormat: 'dd-mm-yy'
+                },
+                CustomerName: {
+                    title: "Tên Khách Hàng",
+                    width: "15%",
+                    display: function (data) {
+                        var text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Chỉnh sửa thông tin.\">" + data.record.CustomerName + "</a>");
+                        text.click(function () {
+                            debugger;
+                            bindData(data.record);
+                            showPopupDesign();
+                        });
+                        return text;
+                    }
+                },
+                CommodityName: {
+                    title: "Dịch Vụ",
+                    width: "15%"
+                },
+                FileName: {
+                    title: "Tên File",
+                    width: "15%"
+                },
+                Width: {
+                    visibility: "fixed",
+                    title: "Chiều dài",
+                    width: "2%"
+                },
+                Height: {
+                    visibility: "fixed",
+                    title: "Chiều Rộng",
+                    width: "2%"
+                },
+                Quantity: {
+                    visibility: "fixed",
+                    title: "số Lượng",
+                    width: "2%"
+                },
+                Description: {
+                    title: "Mô Tả",
+                    width: "15%"
+                },
+                StrdesignStatus: {
+                    visibility: "fixed",
+                    title: "Xử Lý",
+                    width: "20%",
+                    display: function (data) {
+                        //var text = $("<a href=\"#\" class=\"clickable\" title=\"Cập nhật Trạng Thái.\">" + data.record.StrdesignStatus + "</a>");
+                        //text.click(function () {
+                        //    returnString = '<span data-id="'+data.record.OrderId+'" class="viewUpdateDetail">' + data.record.OrderId + '</br>' + data.record.CustomerName + ':' + data.record.Width + '*' + data.record.Height + '-NVKD:' + data.record.EmployeeName;
+                        //    updateStatus(data.record.Id, data.record.DetailStatus, returnString);
+                        //});
+                        var text = "";
+                        var arrayNVIN = global.Data.ListEmployeePrint;
+                        var arrayNVGC = global.Data.ListEmployeeAddon;
+                        var textNVTK = '';
+                        var textNVIN = '';
+                        var textNVGC = '';
+                        var strStatus = '';
+                        strStatus = getOrderDetailStatus(data.record.DetailStatus);
+                        if (data.record.DetailStatus == 3) {
+                            if (data.record.PrintUser == null) { strStatus = 'Đã Thiết Kế Xong'; }
+                            else { strStatus = 'Đã Chuyển Cho In Ấn:' + data.record.PrintView; }
+                        }
+                        if (data.record.DetailStatus == 5) { strStatus = 'Đã Chuyển Cho Gia Công:' + data.record.AddOnView; }
+                        for (var i = 0; i < arrayNVIN.length; i++) {
+                            textNVIN = textNVIN + '<li><a onclick="GetDetaildataId(this)" data-id=' + arrayNVIN[i].Id + ' class="detailstatus3" href="#">' + arrayNVIN[i].Name + '</a></li>'
+                        };
+                        for (var i = 0; i < arrayNVGC.length; i++) {
+                            textNVGC = textNVGC + '<li><a onclick="GetDetaildataId(this)" data-id=' + arrayNVGC[i].Id + ' class="detailstatus5" href="#">' + arrayNVGC[i].Name + '</a></li>'
+                        };
+                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown"><a tabindex="-1" href="#" class="detailstatus1" href="javascript:void(0)">Đang thiết kế</a></li><li class="dropdown"><a tabindex="-1" href="#" class=" detailstatus2" href="javascript:void(0)">Đã thiết kế xong</a></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu">' + textNVIN + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">chuyển cho gia công</a><ul class="dropdown-menu">' + textNVGC + '</ul></li></ul></div>');
+                        text.click(function () {
+                            global.Data.returnString = '<span data-id="' + data.record.OrderId + '" class="viewUpdateDetail">' + data.record.OrderId + '</br>' + data.record.CustomerName + ':' + data.record.Width + '*' + data.record.Height + '-NVKD:' + data.record.EmployeeName;
+                            global.Data.OrderId = data.record.OrderId;
+                            global.Data.IdDetailStatus = data.record.Id;
+                        });
+
+                        return text;
+                    }
+                },
+                EmployeeName: {
+                    title: "Nhân Viên Kinh Doanh",
+                    width: "20%"
+                },
+            }
+        });
+    }
     function initListOrder() {
         $('#' + global.Element.JtableOrder).jtable({
             title: 'Danh Sách Đơn Hàng',
@@ -1673,6 +1798,9 @@ VINASIC.Order = function () {
         $("#search").click(function () {
             reloadListOrder();
         });
+        $("#subsearch").click(function () {
+            reloadListDesign();
+        });
         $("#inprogess").click(function () {
             reloadListOrder(1);
         });
@@ -1971,6 +2099,8 @@ VINASIC.Order = function () {
         registerEvent();
         document.getElementById("datefrom").defaultValue = new Date(new Date() - 24 * 60 * 60 * 1000).toISOString().substring(0, 10);
         document.getElementById("dateto").defaultValue = new Date().toISOString().substring(0, 10);
+        document.getElementById("subdatefrom").defaultValue = new Date(new Date() - 24 * 60 * 60 * 1000).toISOString().substring(0, 10);
+        document.getElementById("subdateto").defaultValue = new Date().toISOString().substring(0, 10);
         initComboBoxBusiness();
         initComboBoxBusiness1();
         initComboBoxBusiness2();
@@ -1980,7 +2110,8 @@ VINASIC.Order = function () {
         initListViewDetail();
         reloadListOrder();
         initComboBox();
-
+        initListDesign();
+        reloadListDesign();
         initListOrderDetail();
         reloadViewDetail();
         reloadListOrderDetail();
@@ -2044,5 +2175,8 @@ function isNumberKey(evt) {
     }
 }
 function GetdataId(obj) {
+    employeeUpdateId = $(obj).data("id");
+}
+function GetDetaildataId(obj) {
     employeeUpdateId = $(obj).data("id");
 }

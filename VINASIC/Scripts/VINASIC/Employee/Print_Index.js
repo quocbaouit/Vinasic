@@ -100,7 +100,7 @@ VINASIC.Print = function () {
     /*function Init List Using Jtable */
     function initListPrint() {
         $("#" + global.Element.JtablePrint).jtable({
-            title: "Danh sách Loại Dịch Vụ",
+            title: "Danh sách file in ấn/gia công",
             paging: true,
             pageSize: 50,
             pageSizeChangePrint: true,
@@ -153,7 +153,7 @@ VINASIC.Print = function () {
                     title: "số Lượng",
                     width: "5%"
                 },
-                DesignDescription: {
+                Description: {
                     title: "Mô Tả",
                     width: "10%"
                 },

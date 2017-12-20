@@ -152,7 +152,7 @@ VINASIC.Design = function () {
     /*function Init List Using Jtable */
     function initListDesign() {
         $("#" + global.Element.JtableDesign).jtable({
-            title: "Danh sách Loại Dịch Vụ",
+            title: "Danh sách file thiết kế",
             paging: true,
             pageSize: 10,
             pageSizeChangeDesign: true,
@@ -214,7 +214,7 @@ VINASIC.Design = function () {
                     title: "số Lượng",
                     width: "2%"
                 },
-                DesignDescription: {
+                Description: {
                     title: "Mô Tả",
                     width: "15%"
                 },

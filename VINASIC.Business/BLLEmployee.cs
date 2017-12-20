@@ -395,6 +395,7 @@ namespace VINASIC.Business
                             DesignTo = c.DesignTo,
                             DesignStatus = c.DesignStatus ?? 0,
                             DesignDescription = c.DesignDescription,
+                            Description=c.Description,
                             DetailStatus = c.DetailStatus,
                             DesignUser = c.DesignUser,
                             DesignView = c.DesignView,
@@ -402,6 +403,72 @@ namespace VINASIC.Business
                             AddOnView=c.AddOnView,
                             PrintUser=c.PrintUser,
                             AddonUser=c.AddonUser,
+                            StrdesignStatus =
+                                c.DetailStatus == 1
+                                    ? "Chưa Thiết kế"
+                                    : (c.DetailStatus == 2
+                                        ? "Đang Thiết Kế"
+                                        : (c.DetailStatus == 3 ? "Đã Xong" : "Bộ phận khác đang xử lý.")),
+                            CreatedDate = c.CreatedDate,
+                        }).OrderBy(sorting).ToList();
+                if (!auth)
+                {
+                    listDesignProcess = listDesignProcess.Where(x => x.DesignUser == userId).ToList();
+                }
+                if (!string.IsNullOrEmpty(keyWord))
+                {
+                    listDesignProcess = listDesignProcess.Where(x => x.CustomerName.Contains(keyWord)).ToList();
+                }
+                if (emp != 0)
+                {
+                    listDesignProcess = listDesignProcess.Where(x => x.T_Order.CreatedForUser == emp).ToList();
+                }
+                var pageNumber = (startIndexRecord / pageSize) + 1;
+                return new PagedList<ModelForDesign>(listDesignProcess, pageNumber, pageSize);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public PagedList<ModelForDesign> GetListDetailForBusiness(string keyWord, int startIndexRecord, int pageSize, string sorting, int userId, string fromDate, string toDate, bool auth, int emp)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(sorting))
+                {
+                    sorting = "CreatedDate DESC";
+                }
+                var realfromDate = DateTime.Parse(fromDate);
+                var realtoDate = DateTime.Parse(toDate);
+                var frDate = new DateTime(realfromDate.Year, realfromDate.Month, realfromDate.Day, 0, 0, 0, 0);
+                var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
+                var listDesignProcess =
+                    _repOrderDetailRepository.GetMany(c => !c.IsDeleted && !c.T_Order.IsDeleted && (!string.IsNullOrEmpty(c.PrintView) || !string.IsNullOrEmpty(c.DesignView) || !string.IsNullOrEmpty(c.AddOnView)) && c.CreatedDate >= frDate && c.CreatedDate <= tDate)
+                        .Select(c => new ModelForDesign()
+                        {
+                            T_Order = c.T_Order,
+                            OrderId = c.OrderId,
+                            CustomerName = c.T_Order.Name,
+                            Id = c.Id,
+                            EmployeeName = c.T_Order.T_User.Name,
+                            CommodityName = c.CommodityName,
+                            FileName = c.FileName,
+                            Height = c.Height,
+                            Width = c.Width,
+                            Quantity = c.Quantity,
+                            DesignFrom = c.DesignFrom,
+                            DesignTo = c.DesignTo,
+                            DesignStatus = c.DesignStatus ?? 0,
+                            DesignDescription = c.DesignDescription,
+                            Description = c.Description,
+                            DetailStatus = c.DetailStatus,
+                            DesignUser = c.DesignUser,
+                            DesignView = c.DesignView,
+                            PrintView = c.PrintView,
+                            AddOnView = c.AddOnView,
+                            PrintUser = c.PrintUser,
+                            AddonUser = c.AddonUser,
                             StrdesignStatus =
                                 c.DetailStatus == 1
                                     ? "Chưa Thiết kế"
@@ -462,6 +529,7 @@ namespace VINASIC.Business
                             Width = c.Width,
                             PrintDescription = c.PrintDescription,
                             DesignDescription=c.DesignDescription,
+                            Description=c.Description,
                             PrintFrom = c.PrintFrom,
                             PrintTo = c.PrintTo,
                             DetailStatus = c.DetailStatus,

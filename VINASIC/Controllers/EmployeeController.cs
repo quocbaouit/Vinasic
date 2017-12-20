@@ -80,6 +80,27 @@ namespace VINASIC.Controllers
             }
             return Json(JsonDataResult);
         }
+        [HttpPost]
+        public JsonResult GetListDetailForBusiness(string keyword, int jtStartIndex, int jtPageSize, string jtSorting, string fromDate = "", string toDate = "", int employee = 0)
+        {
+            try
+            {
+
+                IsAuthenticate = UserContext.Permissions.Contains("isAdmin");
+                var listEmployee = _bllEmployee.GetListDetailForBusiness(keyword, jtStartIndex, jtPageSize, jtSorting, UserContext.UserID, fromDate, toDate, IsAuthenticate, employee);
+                JsonDataResult.Records = listEmployee;
+                JsonDataResult.Result = "OK";
+                JsonDataResult.TotalRecordCount = listEmployee.TotalItemCount;
+
+            }
+            catch (Exception ex)
+            {
+                JsonDataResult.Result = "ERROR";
+                JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Get List ObjectType", Message = "Lỗi: " + ex.Message });
+
+            }
+            return Json(JsonDataResult);
+        }
         public JsonResult ResetPass(int empId)
         {
             try
