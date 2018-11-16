@@ -199,7 +199,7 @@ namespace VINASIC.Business
                 var customers = _repCustomer.GetMany(c => !c.IsDeleted).Select(c => new ModelCustomer()
                 {
                     Id = c.Id,
-                    Email = c.Address,
+                    Email = c.Email,
                     Address = c.Address,
                     Name = c.Name,
                     Mobile = c.Mobile,

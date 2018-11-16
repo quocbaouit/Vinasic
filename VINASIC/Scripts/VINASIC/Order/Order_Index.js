@@ -80,8 +80,8 @@ VINASIC.Order = function () {
         tableString += "<tr>";
         tableString += "<th style=\"padding-left: 5px;text-align: left;\">" + "Dịch Vụ" + "</th>";
         tableString += "<th style=\"padding-left: 5px;text-align: left;\">" + "Ghi Chú" + "</th>";
-        tableString += "<th>" + "CDài" + "</th>";
-        tableString += "<th>" + "CRộng" + "</th>";
+        tableString += "<th>" + "CNgang" + "</th>";
+        tableString += "<th>" + "CCao" + "</th>";
         tableString += "<th>" + "SLượng" + "</th>";
         tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Đơn Giá" + "</th>";
         tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Thành Tiền" + "</th>";
@@ -101,8 +101,8 @@ VINASIC.Order = function () {
             }
             tableString += "<td style=\"padding-left: 5px;\">" + Table[row].CommodityName + "</td>";
             tableString += "<td style=\"padding-left: 5px;\">" + Table[row].Description + "</td>";
-            tableString += "<td style=\"padding-center: 5px;text-align: center;\">" + Table[row].Height + "</td>";
             tableString += "<td style=\"padding-center: 5px;text-align: center;\">" + Table[row].Width + "</td>";
+            tableString += "<td style=\"padding-center: 5px;text-align: center;\">" + Table[row].Height + "</td>";
             tableString += "<td style=\"padding-center: 5px;text-align: center;\">" + Table[row].Quantity + "</td>";
             tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strPrice + "</td>";
             tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strSubTotal + "</td>";
@@ -1320,11 +1320,11 @@ VINASIC.Order = function () {
                     width: "10%"
                 },
                 Width: {
-                    title: "Chiều dài",
+                    title: "Chiều Ngang",
                     width: "5%"
                 },
                 Height: {
-                    title: "Chiều Rộng",
+                    title: "Chiều Cao",
                     width: "5%"
                 },
                 Square: {
