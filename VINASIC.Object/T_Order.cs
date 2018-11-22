@@ -17,9 +17,9 @@ namespace VINASIC.Object
     {
         public T_Order()
         {
+            this.T_OrderDetail = new Collection<T_OrderDetail>();
             this.T_Quittance = new Collection<T_Quittance>();
             this.T_ReceiptVoucher = new Collection<T_ReceiptVoucher>();
-            this.T_OrderDetail = new Collection<T_OrderDetail>();
         }
     
         public int Id { get; set; }
@@ -41,8 +41,8 @@ namespace VINASIC.Object
         public int CreatedForUser { get; set; }
         public Nullable<bool> HasTax { get; set; }
         public string OrderView { get; set; }
-        public int IsDelivery { get; set; }
         public int PaymentMethol { get; set; }
+        public int IsDelivery { get; set; }
         public bool Process { get; set; }
         public Nullable<double> OrderStatus { get; set; }
         public Nullable<double> HaspayTransfer { get; set; }
@@ -50,9 +50,9 @@ namespace VINASIC.Object
     
         public virtual T_Customer T_Customer { get; set; }
         public virtual T_User T_User { get; set; }
+        public virtual Collection<T_OrderDetail> T_OrderDetail { get; set; }
         public virtual Collection<T_Quittance> T_Quittance { get; set; }
         public virtual Collection<T_ReceiptVoucher> T_ReceiptVoucher { get; set; }
-        public virtual Collection<T_OrderDetail> T_OrderDetail { get; set; }
     }
     
 }

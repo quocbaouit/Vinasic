@@ -45,9 +45,11 @@ VINASIC.Customer = function () {
     function initViewModel(customer) {
         var customerViewModel = {
             Id: 0,
-            Code: "",
             Name: "",
-            Description: ""
+            Address: "",
+            Mobile: "",
+            Email: "",
+            TaxCode:"",
         };
         if (customer != null) {
             customerViewModel = {
@@ -109,11 +111,11 @@ VINASIC.Customer = function () {
                 listAction: global.UrlAction.GetListCustomer,
                 createAction: global.Element.PopupCustomer,
                 createObjDefault: initViewModel(null),
-                searchAction: global.Element.PopupSearch
+                //searchAction: global.Element.PopupSearch
             },
             messages: {
                 addNewRecord: "Thêm mới",
-                searchRecord: "Tìm kiếm",
+                //searchRecord: "Tìm kiếm",
                 selectShow: "Ẩn hiện cột"
             },
             fields: {
@@ -177,7 +179,7 @@ VINASIC.Customer = function () {
     /*function Check Validate */
     function checkValidate() {
         if ($('#Name').val().trim() === "") {
-            GlobalCommon.ShowMessageDialog("Vui lòng nhập Tên Ngân Hàng.", function () { }, "Lỗi Nhập liệu");
+            GlobalCommon.ShowMessageDialog("Vui lòng nhập Tên.", function () { }, "Lỗi Nhập liệu");
             $("#Name").focus();
             return false;
         }
@@ -241,6 +243,12 @@ VINASIC.Customer = function () {
         bindData(customer);
     };
     var registerEvent = function () {
+        $("[search]").click(function () {
+            reloadListCustomer();
+        });
+        $("#search").click(function () {
+            reloadListCustomer();
+        });
         $("[cancel]").click(function () {
             bindData(null);
         });

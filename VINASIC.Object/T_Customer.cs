@@ -17,9 +17,9 @@ namespace VINASIC.Object
     {
         public T_Customer()
         {
-            this.T_Order = new Collection<T_Order>();
             this.T_Quittance = new Collection<T_Quittance>();
             this.T_ReceiptVoucher = new Collection<T_ReceiptVoucher>();
+            this.T_Order = new Collection<T_Order>();
         }
     
         public int Id { get; set; }
@@ -37,9 +37,9 @@ namespace VINASIC.Object
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public string CompanyName { get; set; }
     
-        public virtual Collection<T_Order> T_Order { get; set; }
         public virtual Collection<T_Quittance> T_Quittance { get; set; }
         public virtual Collection<T_ReceiptVoucher> T_ReceiptVoucher { get; set; }
+        public virtual Collection<T_Order> T_Order { get; set; }
     }
     
 }

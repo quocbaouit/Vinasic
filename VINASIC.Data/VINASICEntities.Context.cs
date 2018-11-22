@@ -68,5 +68,6 @@ namespace VINASIC.Data
         public DbSet<T_ProcessDetail> T_ProcessDetail { get; set; }
         public DbSet<T_StandardSale> T_StandardSale { get; set; }
         public DbSet<T_Order> T_Order { get; set; }
+        public DbSet<T_Status> T_Status { get; set; }
     }
 }

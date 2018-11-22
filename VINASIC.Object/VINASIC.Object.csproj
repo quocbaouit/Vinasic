@@ -130,6 +130,9 @@
     <Compile Include="T_StandardSale.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="T_Status.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="T_StockIn.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>

@@ -76,6 +76,7 @@
         <AssociationConnector Association="VINASICModel.FK__T_OrderDe__Order__3587F3E0" />
         <AssociationConnector Association="VINASICModel.FK__T_Quittan__Order__3D2915A8" />
         <AssociationConnector Association="VINASICModel.FK__T_Receipt__Order__3F115E1A" />
+        <EntityTypeShape EntityType="VINASICModel.T_Status" Width="1.5" PointX="15.375" PointY="21.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

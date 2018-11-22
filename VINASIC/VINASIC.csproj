@@ -27,6 +27,7 @@
     </UpgradeBackupLocation>
     <OldToolsVersion>4.6</OldToolsVersion>
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -234,6 +235,7 @@
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Controllers\ElementFormularController .cs" />
     <Compile Include="Controllers\FormularController.cs" />
+    <Compile Include="Controllers\SysStatusController.cs" />
     <Compile Include="Controllers\StandardSaleController.cs" />
     <Compile Include="Controllers\ProductTypeController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
@@ -2008,6 +2010,7 @@
     <Content Include="Scripts\VINASIC\Position\Position_Index.js" />
     <Content Include="Scripts\VINASIC\ElementFormular\ElementFormular_Index.js" />
     <Content Include="Scripts\VINASIC\Formular\Formular_Index.js" />
+    <Content Include="Scripts\VINASIC\SysStatus\SysStatus_Index.js" />
     <Content Include="Scripts\VINASIC\StandardSale\StandardSale_Index.js" />
     <Content Include="Scripts\VINASIC\ProductType\ProductType_Index.js" />
     <Content Include="Scripts\VINASIC\Product\Product_Index.js" />
@@ -2075,6 +2078,7 @@
     <Content Include="Views\StandardSale\Index.cshtml" />
     <Content Include="Views\ElementFormular\Index.cshtml" />
     <Content Include="Views\Formular\Index.cshtml" />
+    <Content Include="Views\SysStatus\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

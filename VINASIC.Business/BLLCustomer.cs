@@ -206,6 +206,10 @@ namespace VINASIC.Business
                     TaxCode = c.TaxCode,
                     CreatedDate = c.CreatedDate
                 }).OrderBy(sorting);
+                if (!string.IsNullOrEmpty(keyWord))
+                {
+                    customers = customers.Where(x => x.Name.Contains(keyWord));
+                }
                 var pageNumber = (startIndexRecord / pageSize) + 1;
                 return new PagedList<ModelCustomer>(customers, pageNumber, pageSize);
             }

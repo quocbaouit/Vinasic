@@ -48,7 +48,7 @@ namespace VINASIC.Controllers
                     var havePermissions = false;
                     if (permissions.Any())
                     {
-                        havePermissions = permissions.Select(x => x.Trim().ToLower().Contains(accessingResource.Trim().ToLower())).FirstOrDefault(x => x);
+                        havePermissions = permissions.Select(x => x.Trim().ToLower().Contains(accessingResource.Trim().ToLower())).FirstOrDefault(x => x) || permissions.Contains("isAdmin");
                     }
                     if (havePermissions == false)
                     {

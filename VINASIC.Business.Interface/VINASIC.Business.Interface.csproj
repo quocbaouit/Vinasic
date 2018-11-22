@@ -75,6 +75,7 @@
     <Compile Include="IBLLProduct.cs" />
     <Compile Include="IBLLElementFormular.cs" />
     <Compile Include="IBLLFormular.cs" />
+    <Compile Include="IBLLSysStatus.cs" />
     <Compile Include="IBLLStandardSale.cs" />
     <Compile Include="IBLLProductType.cs" />
     <Compile Include="IBLLRole.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="IBLLUserRole.cs" />
     <Compile Include="Model\ModelElementFormular.cs" />
     <Compile Include="Model\ModelFormular.cs" />
+    <Compile Include="Model\ModelSysStatus.cs" />
     <Compile Include="Model\ModelStandardSale.cs" />
     <Compile Include="Model\ModelCountLoginFail.cs" />
     <Compile Include="Model\ModelErrorLog.cs" />
