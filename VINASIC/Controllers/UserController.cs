@@ -258,5 +258,31 @@ namespace SystemAccount.Controllers
             return Json(JsonDataResult);
         }
 
+
+        [HttpPost]
+        public JsonResult UserSubscribe(PushNotificationSubscribe request)
+        {
+            ResponseBase responseResult;
+            try
+            {
+                //if (!IsAuthenticate)
+                //{
+                responseResult = ibllUser.UserSubscribe(request, UserContext.UserID);
+                if (!responseResult.IsSuccess)
+                {
+                    JsonDataResult.Result = "ERROR";
+                    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = responseResult.Errors.First().MemberName, Message = "Lỗi: " + responseResult.Errors.First().Message });
+                }
+                JsonDataResult.Result = "OK";
+                //}
+            }
+            catch (Exception ex)
+            {
+                JsonDataResult.Result = "ERROR";
+                JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Lỗi Dữ Liệu", Message = "Lỗi: " + ex.Message });
+            }
+            return Json(JsonDataResult);
+        }
+
     }
 }

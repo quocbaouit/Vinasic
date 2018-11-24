@@ -55,6 +55,7 @@
     <Compile Include="Enum\eTableName.cs" />
     <Compile Include="Enum\OrderEnum.cs" />
     <Compile Include="IBLLErrorLog.cs" />
+    <Compile Include="IBLLContent.cs" />
     <Compile Include="IBLLNotification.cs" />
     <Compile Include="IBLLPermission.cs" />
     <Compile Include="IBLLPosition.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="IBLLUser.cs" />
     <Compile Include="IBLLUserRole.cs" />
     <Compile Include="Model\ModelElementFormular.cs" />
+    <Compile Include="Model\ModelContent.cs" />
     <Compile Include="Model\ModelFormular.cs" />
     <Compile Include="Model\ModelSysStatus.cs" />
     <Compile Include="Model\ModelStandardSale.cs" />
@@ -145,7 +147,9 @@
       <Name>VINASIC.Object</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

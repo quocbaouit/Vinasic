@@ -56,12 +56,8 @@
         <AssociationConnector Association="VINASICModel.FK__T_OrderDe__Print__1AD3FDA4" />
         <EntityTypeShape EntityType="VINASICModel.T_UserProduct" Width="1.5" PointX="8.25" PointY="21.5" />
         <AssociationConnector Association="VINASICModel.FK__T_UserPro__Produ__3E1D39E1" />
-        <EntityTypeShape EntityType="VINASICModel.T_ElementFormular" Width="1.5" PointX="0.75" PointY="30.5" />
         <EntityTypeShape EntityType="VINASICModel.T_Formular" Width="1.5" PointX="0.75" PointY="25.5" />
-        <EntityTypeShape EntityType="VINASICModel.T_FormularDetail" Width="1.5" PointX="3" PointY="26.375" />
         <EntityTypeShape EntityType="VINASICModel.T_UserFormular" Width="1.5" PointX="3" PointY="2.375" />
-        <AssociationConnector Association="VINASICModel.FK__T_Formula__Eleme__7D0E9093" />
-        <AssociationConnector Association="VINASICModel.FK__T_Formula__Formu__7C1A6C5A" />
         <AssociationConnector Association="VINASICModel.FK__T_UserFor__Formu__01D345B0" />
         <AssociationConnector Association="VINASICModel.FK__T_UserFor__UserI__02C769E9" />
         <EntityTypeShape EntityType="VINASICModel.T_Process" Width="1.5" PointX="0.75" PointY="15.75" />
@@ -77,6 +73,9 @@
         <AssociationConnector Association="VINASICModel.FK__T_Quittan__Order__3D2915A8" />
         <AssociationConnector Association="VINASICModel.FK__T_Receipt__Order__3F115E1A" />
         <EntityTypeShape EntityType="VINASICModel.T_Status" Width="1.5" PointX="15.375" PointY="21.75" />
+        <EntityTypeShape EntityType="VINASICModel.T_Content" Width="1.5" PointX="21.375" PointY="16.75" />
+        <EntityTypeShape EntityType="VINASICModel.T_FormularDetail" Width="1.5" PointX="3" PointY="26.375" />
+        <AssociationConnector Association="VINASICModel.FK__T_Formula__Formu__0880433F" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

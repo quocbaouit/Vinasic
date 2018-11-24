@@ -161,7 +161,75 @@
 
     </div>
 </div>
+<div class="modal fade" id="popup_salary" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-pencil"></span>Bảng Lương</h4>
+            </div>
+            <div class="modal-body" style="padding: 40px 50px;">
+                <div id="jtableSalary"></div>
+            </div>
+            <div class="modal-footer">
+                <a id="printSalary" class="btn btn-danger" href="javascript:void(0)" title=""><span class="icon_target"></span>In Phiếu</a>
+                <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
+                    <div class="button-image image-close"></div>
+                    Đóng
+                </button>
+                <button id="saveSalary" saveSalary class="btn btn-primary">
+                    <div class="button-image image-save"></div>
+                    Lưu
+                </button>
+            </div>
+        </div>
 
+    </div>
+</div>
+<div class="modal fade" id="popup_salary_edit" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-pencil"></span>Sửa Bảng Lương</h4>
+            </div>
+            <div class="modal-body" style="padding: 40px 50px;">
+                <input id="salary-id" type="hidden" />
+                <form role="form">
+                    <div class="form-group">
+                        <label for="salary-index"><span class="glyphicon glyphicon-list-alt"></span>Thứ Tự</label>
+                        <input id="salary-index" type="text" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="salary-content"><span class="glyphicon glyphicon-list-alt"></span>Nội Dung</label>
+                        <input id="salary-content" type="text" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="salary-amount"><span class="glyphicon glyphicon-list-alt"></span>Số Tiền</label>
+                        <input id="salary-amount" type="text" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="salary-unit"><span class="glyphicon glyphicon-list-alt"></span>Đơn Vị</label>
+                        <input id="salary-unit" type="text" class="form-control" placeholder="">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="printSalary" aria-hidden="true" data-dismiss="modal" class="btn">
+                    <div class="button-image"></div>
+                    In Phiếu
+                </button>
+                <button id="save-salary-edit" class="btn btn-primary">
+                    <div class="button-image save-salary"></div>
+                    Lưu
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <div class="modal fade" id="popup_MainTiming" role="dialog">
     <div class="modal-dialog modal-lg">
@@ -218,5 +286,116 @@
             </div>
         </div>
 
+    </div>
+</div>
+
+<div style="width: 210mm; height: 148.5mm; color: red; display: none" id="paymentvoucher1">
+    <div class="Block1" style="width:68%;float:left;margin-left:10px">
+        <p style="margin-bottom:0px">CÔNG TY TNHH THƯƠNG MẠI QUẢNG CÁO PDCA</p>
+        <p style="margin-bottom:0px;margin-top: 0px;font-size:smaller">
+            Địa chỉ văn phòng: 118/15 Bàu Cát 2, Phường 12, Quận Tân Bình, Tp.HCM<br>
+            Di động: 091.346.1539 - 090.269.7586 - 090.932.1586
+        </p>
+    </div>
+    <div class="Block2" style="width:30%;float:left;">
+        <p style="margin-bottom:0px;font-size:smaller">
+            Quyển số: PC 001<br>
+            Số:<span id="no1">01</span><br>
+            <em><span id="vdate3">Ngày:11/05/2016</span> </em>
+        </p>
+    </div>
+    <div>
+        <h2 style="width:85%;float:left;text-align: center;margin-top: 5px;margin-left:10px;margin-bottom:5px">Bảng Lương</h2>
+    </div>
+    <div class="Block3" style="width:100%;float:left;margin-left:10px">
+        <p style="margin-top:0px;margin-bottom:4px">
+            Họ Và Tên Người Nhận: &nbsp; <span id="vcustomer1"> Trần Quốc Bảo</span><br>
+            Địa Chỉ: <span id="vaddress1">56/5/6 Văn Chung ,phường 13, quận Tân Bình</span>.<br>
+            Số ĐT: <span id="vphone1">0909242096</span>
+        </p>
+    </div>
+    <div class="Block4" id="Block4" style="width:86%;float:left;margin-left:10px">
+        <table id="renderTable" border="1" style="width:100%" cellspacing="0" cellpadding="0">
+            <tr>
+                <th>Nội Dung</th>
+                <th>Số Lượng</th>
+                <th>Đơn Vị</th>
+            </tr>
+            <tr>
+                <td>Chân X cường lực 80 x 180</td>
+                <td>cán bóng đóng khoen 4 góc</td>
+                <td>0.55</td>
+            </tr>
+            <tr>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+            </tr>
+            <tr>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+            </tr>
+            <tr>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+            </tr>
+            <tr>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+            </tr>
+            <tr>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+            </tr>
+            <tr>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+            </tr>
+            <tr>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+            </tr>
+            @*<tr>
+                <td colspan="6">Tổng Tiền</td>
+                <td><span id="vtotal1">55577854</span></td>
+            </tr>*@
+            <tr>
+                <td colspan="7">Bằng Chữ:<span id="strtotal1"> Một triệu năm trăm bảy mươi lăm ngàn bốn trăm lẻ sáu đồng</span></td>
+            </tr>
+        </table>
+    </div>
+    <div class="Block5" style="width:90%;float:left;margin-top:10px;margin-left:10px">
+        <table style="width:100%" cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr>
+                    <td>
+                        <strong>&nbsp; &nbsp; &nbsp;&nbsp;Giám đốc</strong><br>
+                        (Ký, họ tên, đóng dấu)
+                    </td>
+                    <td>
+                        <strong>Kế toán trưởng</strong><br>
+                        &nbsp;&nbsp;&nbsp;(Ký, họ tên)
+                    </td>
+                    <td>
+                        <strong>Người nộp tiền</strong><br>
+                        &nbsp;&nbsp;(Ký, họ tên)
+                    </td>
+                    <td>
+                        <strong>Người lập phiếu</strong><br>
+                        &nbsp;&nbsp;&nbsp;(Ký, họ tên)
+                    </td>
+                    <td>
+                        <strong>&nbsp;&nbsp;Thủ quỹ</strong><br>
+                        (Ký, họ tên)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>

@@ -2,6 +2,8 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <link rel="manifest" href="/manifest.json">
+    <meta name="_token" content="ZNE4I7MD5VY1Yw2akKB7pSNBwNAlEfQCwhfFNO16">
     <script src="~/Scripts/jquery-1.10.2.js"></script>
     <script src="~/Scripts/modernizr-2.5.3.js"></script>
     @*boostrap references*@
@@ -26,7 +28,7 @@
     <!-- Bootstrap CSS -->
     @*<link href="~/css/bootstrap.min.css" rel="stylesheet">*@
     <!-- bootstrap theme -->
-   @* <link href="~/css/bootstrap-theme.css" rel="stylesheet">*@
+    @* <link href="~/css/bootstrap-theme.css" rel="stylesheet">*@
     <!--external css-->
     <!-- font icon -->
     <link href="~/css/elegant-icons-style.css" rel="stylesheet" />
@@ -47,7 +49,9 @@
     <link href="~/css/xcharts.min.css" rel="stylesheet">
     <link href="~/css/jquery-ui-1.10.4.min.css" rel="stylesheet">
     <link href="~/Content/toastr.css" rel="stylesheet" />
-   
+
+    <link href="~/Content/Common.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
     <!--[if lt IE 9]>
       <script src="~/js/html5shiv.js"></script>
@@ -55,16 +59,20 @@
     <![endif]-->
 </head>
 <body>
+    <div id="note">
+        Hệ thống sẽ gởi thông báo khi có việc được giao. Bạn hãy <a href="javascript:void(0)" id="subscribe">Cho phép nhận thông báo </a> trên trình duyệt.<br />. <a id="close">[close]</a>
+    </div>
     <section id="container" class="">
         @Html.Action("HeadMasterPartial", "Shared")
+
         <!--sidebar start-->
         @Html.Action("MenuLeftMasterPartial", "Shared")
         <!--sidebar end-->
-
         <!--main content start-->
+
         <section id="main-content">
             <section class="wrapper">
-               
+
                 @RenderBody()
             </section>
         </section>
@@ -89,7 +97,8 @@
     <script src="~/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js"></script>
     <script src="~/js/owl.carousel.js"></script>
     <!-- jQuery full calendar -->
-    <<script src="~/js/fullcalendar.min.js"></script>
+    <
+    <script src="~/js/fullcalendar.min.js"></script>
     <!-- Full Google Calendar - Calendar -->
     <script src="~/assets/fullcalendar/fullcalendar/fullcalendar.js"></script>
     <script src="~/fullcalendar/libCalendar/moment.min.js"></script>
@@ -121,6 +130,7 @@
     <script src="/Scripts/jquery.signalR-2.2.0.js"></script>
     <script src="@Url.Content("~/signalr/hubs")" type="text/javascript"></script>
     <script src="~/Scripts/toastr.js"></script>
-
+    <script src="~/service-worker.js"></script>
+    <script src="~/Scripts/VINASIC/push-notification.js"></script>
 </body>
 </html>

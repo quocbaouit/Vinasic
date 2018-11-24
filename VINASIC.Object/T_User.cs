@@ -49,6 +49,8 @@ namespace VINASIC.Object
         public Nullable<int> OrganizationId { get; set; }
         public string Address { get; set; }
         public string ColorString { get; set; }
+        public string Subscription { get; set; }
+        public string Salary { get; set; }
     
         public virtual T_Position T_Position { get; set; }
         public virtual Collection<T_OrderDetail> T_OrderDetail { get; set; }

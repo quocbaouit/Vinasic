@@ -11,6 +11,8 @@ using VINASIC.Data;
 using VINASIC.Data.Repositories;
 using VINASIC.Object;
 using System.Configuration;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace VINASIC.Business
 {
@@ -466,6 +468,7 @@ namespace VINASIC.Business
         public ResponseBase UpdateOrderStatus(int orderId, float status, int userId, bool isAdmin)
         {
             var responResult = new ResponseBase();
+            var customerId = 0;
             var order = _repOrder.GetMany(c => !c.IsDeleted && c.Id == orderId).FirstOrDefault();
             //if (order.OrderStatus >= 3 && !isAdmin && status < order.OrderStatus)
             //{
@@ -479,9 +482,24 @@ namespace VINASIC.Business
                 order.OrderStatus = status;
                 order.UpdatedUser = userId;
                 order.UpatedDate = DateTime.UtcNow;
+                customerId = order.CustomerId;
                 _repOrder.Update(order);
                 SaveChange();
                 responResult.IsSuccess = true;
+                if (status == 2)
+                {
+                    var customer = _repCus.GetById(customerId);
+                    if (customer != null)
+                    {
+                        var phone = customer.Mobile;
+                        if (!String.IsNullOrEmpty(phone))
+                        {
+                            Task.Run(() => Send(phone));
+                        }
+                        
+                    }
+                    
+                }
             }
             else
             {
@@ -489,6 +507,13 @@ namespace VINASIC.Business
                 responResult.Errors.Add(new Error() { MemberName = "Update", Message = "Lỗi" });
             }
             return responResult;
+        }
+        public void Send(string phone)
+        {
+            SpeedSMSAPI api = new SpeedSMSAPI("zg0WCSR_yUIjz3z7iWARLvEp3IEXhnKg");
+            String[] phones = new String[] { phone };
+            String str = ConfigurationManager.AppSettings["SMS_CONTENT"];
+            String response = api.sendSMS(phones, str, 2, "");
         }
         public ResponseBase UpdateDelivery(int orderId, int status, int userId)
         {
@@ -662,6 +687,7 @@ namespace VINASIC.Business
                 _repOrderDetail.Update(orderDetail);
                 SaveChange();
                 var order = _repOrder.GetById(orderDetail.OrderId);
+                string notificationContent ="Khách Hàng:"+ order.Name + ",Dịch Vụ:" + orderDetail.CommodityName+",Số Lượng: "+ orderDetail.Quantity;
                 var isComplete = _repOrderDetail.GetMany(x => x.OrderId == order.Id && x.DetailStatus != 0 && x.DetailStatus != 7).ToList();
                 if (isComplete.Count == 0)
                 {
@@ -673,6 +699,23 @@ namespace VINASIC.Business
                 }
                 _repOrder.Update(order);
                 SaveChange();
+                List<Notification> listSubcription = new List<Notification>();
+                var userGetPush = _repUser.GetById(employeeId);
+                if (!string.IsNullOrEmpty(userGetPush.Subscription))
+                {
+                    listSubcription = JsonConvert.DeserializeObject<List<Notification>>(userGetPush.Subscription);
+                    var endPoint = listSubcription.Select(x => new Dynamic.Framework.Subscription()
+                    {
+                        Id = x.Guid,
+                        BrowserName = x.BrowserName,
+                        BrowserVersion = x.BrowserVersion,
+                        endpoint = x.Endpoint,
+                        OsName = x.OsName,
+                        OsVersion = x.OsVersion,
+                        keys = x.Keys,
+                    }).ToList();
+                    PushNotificationHelper.SendNotification(endPoint, "Thông Báo Cho: "+ userGetPush.FisrtName, notificationContent, "/", 2);
+                }
                 responResult.IsSuccess = true;
             }
             else

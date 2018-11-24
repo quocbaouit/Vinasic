@@ -153,8 +153,11 @@ VINASIC.PaymentVoucher = function () {
                     }
                 },
                 Money: {
-                    title: "Số Tiền",
-                    width: "25%"
+                    title: "Số Tiền(VND)",
+                    width: "25%",
+                    display: function (data) {
+                        return data.record.Money.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                    }
                 },
                 Note: {
                     title: "Mô Tả",

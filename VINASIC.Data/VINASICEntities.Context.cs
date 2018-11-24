@@ -60,14 +60,14 @@ namespace VINASIC.Data
         public DbSet<T_Timing> T_Timing { get; set; }
         public DbSet<T_OrderDetail> T_OrderDetail { get; set; }
         public DbSet<T_UserProduct> T_UserProduct { get; set; }
-        public DbSet<T_ElementFormular> T_ElementFormular { get; set; }
         public DbSet<T_Formular> T_Formular { get; set; }
-        public DbSet<T_FormularDetail> T_FormularDetail { get; set; }
         public DbSet<T_UserFormular> T_UserFormular { get; set; }
         public DbSet<T_Process> T_Process { get; set; }
         public DbSet<T_ProcessDetail> T_ProcessDetail { get; set; }
         public DbSet<T_StandardSale> T_StandardSale { get; set; }
         public DbSet<T_Order> T_Order { get; set; }
         public DbSet<T_Status> T_Status { get; set; }
+        public DbSet<T_Content> T_Content { get; set; }
+        public DbSet<T_FormularDetail> T_FormularDetail { get; set; }
     }
 }

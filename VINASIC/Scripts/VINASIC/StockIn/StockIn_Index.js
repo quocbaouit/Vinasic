@@ -269,12 +269,18 @@ VINASIC.StockIn = function () {
                                                 width: '5%'
                                             },
                                             Price: {
-                                                title: 'Đơn Giá',
-                                                width: '5%'
+                                                title: 'Đơn Giá(VND)',
+                                                width: '5%',
+                                                display: function (data) {
+                                                    return data.record.Price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                                                }
                                             },
                                             SubTotal: {
-                                                title: 'Thành Tiền',
-                                                width: '5%'
+                                                title: 'Thành Tiền(VND)',
+                                                width: '5%',
+                                                display: function (data) {
+                                                    return data.record.SubTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                                                }
                                             },
                                             Edit: {
                                                 title: 'Sửa',
@@ -362,8 +368,11 @@ VINASIC.StockIn = function () {
                     width: "15%"
                 },
                 SubTotal: {
-                    title: "Tổng Tiền",
-                    width: "7%"
+                    title: "Tổng Tiền(VND)",
+                    width: "7%",
+                    display: function (data) {
+                        return data.record.SubTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                    }
                 },
                 StockInDate: {
                     title: 'Ngày Nhập',

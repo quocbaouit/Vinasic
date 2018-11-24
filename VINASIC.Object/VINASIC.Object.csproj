@@ -43,10 +43,10 @@
     <Compile Include="T_CommodityDictionary.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="T_Customer.cs">
+    <Compile Include="T_Content.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="T_ElementFormular.cs">
+    <Compile Include="T_Customer.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>
     <Compile Include="T_ErrorLog.cs">

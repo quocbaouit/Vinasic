@@ -2,6 +2,8 @@
 using PagedList;
 using System.Collections.Generic;
 using VINASIC.Business.Interface.Model;
+using System.Threading.Tasks;
+
 namespace VINASIC.Business.Interface
 {
     public interface IBllOrder
@@ -24,8 +26,10 @@ namespace VINASIC.Business.Interface
         ResponseBase UpdateHaspayCustom(int orderId, string haspay, int paymentType);
         List<ModelViewDetail> GetOrderComplex(int orderId);
         double GetPriceForCustomerAndProduct(int customerId, int productId);
-        ResponseBase UpdateOrderStatus(int orderId, float status, int userId,bool isAdmin);
+        //ResponseBase UpdateOrderStatusAsync(int orderId, float status, int userId,bool isAdmin);
         ResponseBase UpdateDetailStatus(int detailId, int status, int employeeId);
         ResponseBase DesignUpdateOrderDetail(int orderId, string fileName, string description);
+        ResponseBase UpdateOrderStatus(int orderId, float status, int userId, bool isAdmin);
+        //ResponseBase UpdateOrderStatus(int orderId, float status, int userId, bool isAdmin);
     }
 }

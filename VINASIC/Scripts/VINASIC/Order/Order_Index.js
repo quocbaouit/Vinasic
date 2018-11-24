@@ -150,7 +150,7 @@ VINASIC.Order = function () {
         printWindow.document.close();
         setTimeout(function () {
             printWindow.print();
-            updateOrderStatus(global.Data.IdOrderStatus, 2);
+            //updateOrderStatus(global.Data.IdOrderStatus, 2);
         }, 500);
         return false;
     }

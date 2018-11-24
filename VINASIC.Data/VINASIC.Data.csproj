@@ -58,10 +58,10 @@
     <Compile Include="Repositories\T_CommodityDictionaryRepository.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
-    <Compile Include="Repositories\T_CustomerRepository.cs">
+    <Compile Include="Repositories\T_ContentRepository.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
-    <Compile Include="Repositories\T_ElementFormularRepository.cs">
+    <Compile Include="Repositories\T_CustomerRepository.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
     <Compile Include="Repositories\T_ErrorLogRepository.cs">

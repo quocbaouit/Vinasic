@@ -12,6 +12,7 @@ using VINASIC.Business.Interface.Model;
 using VINASIC.Data;
 using VINASIC.Data.Repositories;
 using VINASIC.Object;
+using Newtonsoft.Json;
 
 namespace VINASIC.Business
 {
@@ -594,7 +595,7 @@ namespace VINASIC.Business
                    CreatedDate = x.CreatedDate,
                    //T_UserRole = x.T_UserRole,
                }).OrderBy(sorting).ToList();
-
+                
                 if ((roles != null && roles.Count > 0) || users != null && users.Count > 0)
                 {
                     //foreach (var item in users)
@@ -644,7 +645,57 @@ namespace VINASIC.Business
                 throw ex;
             }
         }
-
+        
+        public ResponseBase UserSubscribe(PushNotificationSubscribe request, int userId)
+        {
+            ResponseBase userResult = null;
+            try
+            {
+              
+                userResult = new ResponseBase();
+                T_User user = repUser.GetMany(x => x.Id == userId).FirstOrDefault();
+                if (user == null)
+                {
+                    userResult.IsSuccess = false;
+                    userResult.Errors.Add(new Error() { MemberName = "Thay Đổi Trạng Thái", Message = "Tài Khoản đang thao tác không tồn tại. Vui lòng kiểm tra lại." });
+                }
+                else
+                {
+                    List<Notification> listSubcription = new List<Notification>();
+                    if (!string.IsNullOrEmpty(user.Subscription))
+                    {
+                        listSubcription = JsonConvert.DeserializeObject<List<Notification>>(user.Subscription);
+                    }                   
+                    var isExist = listSubcription.Where(x => x.Endpoint.Contains(request.Subscription.endpoint)).FirstOrDefault();
+                    if (isExist==null)
+                    {
+                        listSubcription.Add(new Notification()
+                        {
+                            BrowserName = request.Subscription.BrowserName,
+                            Keys = request.Subscription.keys,
+                            BrowserVersion = request.Subscription.BrowserVersion,
+                            OsName = request.Subscription.OsName,
+                            OsVersion = request.Subscription.OsVersion,
+                            Endpoint = request.Subscription.endpoint,
+                            Guid = Guid.NewGuid(),
+                            Unsubscribed = false,
+                        });
+                    }
+                    user.Subscription = JsonConvert.SerializeObject(listSubcription);
+                    user.UpdatedUser = userId;
+                    user.UpdatedDate = DateTime.Now.AddHours(14);
+                    repUser.Update(user);
+                    SaveChange();
+                    userResult.IsSuccess = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                //add Error
+                throw ex;
+            }
+            return userResult;
+        }
         public ResponseBase ChangeUserStateByAccountId(int userId, int accountId)
         {
             ResponseBase userResult = null;
