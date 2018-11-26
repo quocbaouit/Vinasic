@@ -17,7 +17,7 @@ namespace VINASIC
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Timing", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "DashBoard", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

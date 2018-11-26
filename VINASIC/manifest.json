@@ -1,0 +1,5 @@
+{
+  "name": "Push notification",
+  "gcm_sender_id": "53869522942",
+  "permissions": [ "gcm","storage","pushMessaging","notifications" ]
+}

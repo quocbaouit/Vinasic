@@ -11,6 +11,7 @@ using VINASIC.Hubs;
 using Dynamic.Framework.Mvc;
 using VINASIC.Models;
 using System.Threading;
+//using System.Web.Http;
 
 namespace VINASIC.Controllers
 {
@@ -147,6 +148,36 @@ namespace VINASIC.Controllers
                 JsonDataResult.Result = "ERROR";
                 JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Get List ObjectType", Message = "Lỗi: " + ex.Message });
 
+            }
+            return Json(JsonDataResult);
+        }
+        [HttpPost]
+        public JsonResult SaveUserSalery([System.Web.Http.FromBody]List<SalaryObj> SalaryObj,[System.Web.Http.FromUri] int employId)
+        {
+            try
+            {
+                if (IsAuthenticate)
+                {
+                    var responseResult = _bllEmployee.SaveUserSalery(SalaryObj, employId, UserContext.UserID);
+                    if (responseResult.IsSuccess)
+                        JsonDataResult.Result = "OK";
+                    else
+                    {
+                        JsonDataResult.Result = "ERROR";
+                        JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
+                    }
+                }
+                else
+                {
+                    JsonDataResult.Result = "ERROR";
+                    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
+                }
+            }
+            catch (Exception ex)
+            {
+                //add error
+                JsonDataResult.Result = "ERROR";
+                JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update", Message = "Lỗi: " + ex.Message });
             }
             return Json(JsonDataResult);
         }

@@ -10,6 +10,7 @@ namespace VINASIC.Business.Interface
         ResponseBase Create(ModelUser obj);
         ResponseBase Update(ModelUser obj);
         ResponseBase DeleteById(int id, int userId);
+        ResponseBase SaveUserSalery(List<SalaryObj> SalaryObj, int employId, int userID);
         ResponseBase DeleteByListId(List<int> listId, int userId);
         PagedList<ModelUser> GetList(string keyWord, int startIndexRecord, int pageSize, string sorting);
         List<ModelSelectItem> GetListEmployee();

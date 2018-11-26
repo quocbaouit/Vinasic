@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "Index";
 }
-<script src="~/Scripts/VINASIC/Dashboard/DashBoard_Index.js"></script>
+@*<script src="~/Scripts/VINASIC/Dashboard/DashBoard_Index.js"></script>*@
 <body>
     <!--overview start-->
     <div class="row">
@@ -13,199 +13,215 @@
                 <img style="width: 200px" src="~/Files/logovinasic.png" />
             </h3>
             <ol class="breadcrumb">
-                <li><i class="fa fa-home"></i><a href="/Dashboard/Index">Home</a></li>
+                <li><i class="fa fa-home"></i><a href="/DashBoard/Index">Home</a></li>
             </ol>
         </div>
     </div>
-
-    <div class="row">
-        <!-- Line -->
-        <div class="col-lg-6">
-            <section class="panel">
-                <header class="panel-heading">
-                    Kinh Doanh Trong Tháng
-                </header>
-                <div class="panel-body text-center">
-                    <canvas id="linebusiness" height="300" width="450"></canvas>
-                </div>
-            </section>
-        </div>
-
-        <div class="col-lg-6">
-            <section class="panel">
-                <header class="panel-heading">
-                    Hàng In Trong Tháng
-                </header>
-                <div class="panel-body text-center">
-                    <canvas id="lineproduct" height="300" width="450"></canvas>
-                </div>
-            </section>
-        </div>
+    <div style="margin-left:10px;margin-right:20px" id="view-content">
     </div>
-    <!--/.row-->
-
-
-    <div class="row">
-        <div class="col-lg-9 col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h2><i></i><strong>Trạng Thái Máy In</strong></h2>
-                    <div class="panel-actions">
-                        <a href="/Dashboard/Index" class="btn-setting"><i class="fa fa-rotate-right"></i></a>                   
+    @*<div class="row">
+            <!-- Line -->
+            <div class="col-lg-6">
+                <section class="panel">
+                    <header class="panel-heading">
+                        Kinh Doanh Trong Tháng
+                    </header>
+                    <div class="panel-body text-center">
+                        <canvas id="linebusiness" height="300" width="450"></canvas>
                     </div>
-                </div>
-                <div class="panel-body">
-                    <table class="table bootstrap-datatable countries">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Tên Máy</th>
-                                <th>Nhân Viên</th>
-                                <th>Tổng In Trong Ngày(m)</th>
-                                <th>Trạng Thái</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="icon-task-l">
-                                    </td>
-                                <td>Máy Trong nhà 1</td>
-                                <td>Xuân Cương</td>
-                                <td>0</td>
-                                <td>
-                                    <div class="progress thin">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100" style="width: 73%">
-                                        </div>
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100" style="width: 27%">
-                                        </div>
-                                    </div>
-                                    <span class="sr-only">73%</span>
-                                </td>
-                            </tr>
-                            <tr>
-                              <td class="icon-task-l">
-                                    </td>
-                                <td>Máy Trong Nhà 2</td>
-                                <td>Công Thiện</td>
-                                <td>0</td>
-                                <td>
-                                    <div class="progress thin">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100" style="width: 57%">
-                                        </div>
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100" style="width: 43%">
-                                        </div>
-                                    </div>
-                                    <span class="sr-only">57%</span>
-                                </td>
-                            </tr>
-                            <tr>
-                               <td class="icon-task-l">
-                                   </td>
-                                <td>Máy Ngoài Trời 1</td>
-                                <td>Công Thiện</td>
-                                <td>0</td>
-                                <td>
-                                    <div class="progress thin">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="93" aria-valuemin="0" aria-valuemax="100" style="width: 93%">
-                                        </div>
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="7" aria-valuemin="0" aria-valuemax="100" style="width: 7%">
-                                        </div>
-                                    </div>
-                                    <span class="sr-only">93%</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                 <td class="icon-task-l"></td>
-                                <td>Máy ngoài trời 2</td>
-                                <td>Thành Xuân</td>
-                                <td>0</td>
-                                <td>
-                                    <div class="progress thin">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                        </div>
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                        </div>
-                                    </div>
-                                    <span class="sr-only">20%</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                 <td class="icon-task-l"></td>
-                                <td>Máy Ngoài Trời 3</td>
-                                <td>Thành Xuân</td>
-                                <td>0</td>
-                                <td>
-                                    <div class="progress thin">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                        </div>
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                        </div>
-                                    </div>
-                                    <span class="sr-only">20%</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                 <td class="icon-task-l"></td>
-                                <td>Máy Hiflex1</td>
-                                <td>Công Huy</td>
-                                <td>0</td>
-                                <td>
-                                    <div class="progress thin">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                        </div>
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                        </div>
-                                    </div>
-                                    <span class="sr-only">20%</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                 <td class="icon-task-l"></td>
-                                <td>Máy Hixlex 2</td>
-                                <td>Công Huy</td>
-                                <td>0</td>
-                                <td>
-                                    <div class="progress thin">
-                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                        </div>
-                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                        </div>
-                                    </div>
-                                    <span class="sr-only">20%</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                </section>
+            </div>
 
+            <div class="col-lg-6">
+                <section class="panel">
+                    <header class="panel-heading">
+                        Hàng In Trong Tháng
+                    </header>
+                    <div class="panel-body text-center">
+                        <canvas id="lineproduct" height="300" width="450"></canvas>
+                    </div>
+                </section>
             </div>
         </div>
-        <div class="col-md-3">
-            <!-- List starts -->
-            <span>Kinh doanh trong ngày </span>
-            <ul class="today-datas">
-                <!-- List #1 -->
-                <li>
-                    <!-- Graph -->
-                    <div><span id="todayspark1" class="spark"></span></div>
-                    <!-- Text -->
-                    <div class="datas-text">Xuân An:0 Khách</div>
-                </li>
-                <li>
-                    <div><span id="todayspark2" class="spark"></span></div>
-                    <div class="datas-text">Huyền Trang:0 Khách</div>
-                </li>
-                <li>
-                    <div><span id="todayspark3" class="spark"></span></div>
-                    <div class="datas-text">Kim Vấn:0 Khách</div>
-                </li>
-                <li>
-                    <div><span id="todayspark4" class="spark"></span></div>
-                    <div class="datas-text">Minh Ngọc:0 Khách</div>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <br>
-    <br>
+        <!--/.row-->
+
+
+        <div class="row">
+            <div class="col-lg-9 col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2><i></i><strong>Trạng Thái Máy In</strong></h2>
+                        <div class="panel-actions">
+                            <a href="/Dashboard/Index" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table bootstrap-datatable countries">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Tên Máy</th>
+                                    <th>Nhân Viên</th>
+                                    <th>Tổng In Trong Ngày(m)</th>
+                                    <th>Trạng Thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="icon-task-l">
+                                        </td>
+                                    <td>Máy Trong nhà 1</td>
+                                    <td>Xuân Cương</td>
+                                    <td>0</td>
+                                    <td>
+                                        <div class="progress thin">
+                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100" style="width: 73%">
+                                            </div>
+                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100" style="width: 27%">
+                                            </div>
+                                        </div>
+                                        <span class="sr-only">73%</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                  <td class="icon-task-l">
+                                        </td>
+                                    <td>Máy Trong Nhà 2</td>
+                                    <td>Công Thiện</td>
+                                    <td>0</td>
+                                    <td>
+                                        <div class="progress thin">
+                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100" style="width: 57%">
+                                            </div>
+                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100" style="width: 43%">
+                                            </div>
+                                        </div>
+                                        <span class="sr-only">57%</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                   <td class="icon-task-l">
+                                       </td>
+                                    <td>Máy Ngoài Trời 1</td>
+                                    <td>Công Thiện</td>
+                                    <td>0</td>
+                                    <td>
+                                        <div class="progress thin">
+                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="93" aria-valuemin="0" aria-valuemax="100" style="width: 93%">
+                                            </div>
+                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="7" aria-valuemin="0" aria-valuemax="100" style="width: 7%">
+                                            </div>
+                                        </div>
+                                        <span class="sr-only">93%</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                     <td class="icon-task-l"></td>
+                                    <td>Máy ngoài trời 2</td>
+                                    <td>Thành Xuân</td>
+                                    <td>0</td>
+                                    <td>
+                                        <div class="progress thin">
+                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                            </div>
+                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                                            </div>
+                                        </div>
+                                        <span class="sr-only">20%</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                     <td class="icon-task-l"></td>
+                                    <td>Máy Ngoài Trời 3</td>
+                                    <td>Thành Xuân</td>
+                                    <td>0</td>
+                                    <td>
+                                        <div class="progress thin">
+                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                            </div>
+                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                                            </div>
+                                        </div>
+                                        <span class="sr-only">20%</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                     <td class="icon-task-l"></td>
+                                    <td>Máy Hiflex1</td>
+                                    <td>Công Huy</td>
+                                    <td>0</td>
+                                    <td>
+                                        <div class="progress thin">
+                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                            </div>
+                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                                            </div>
+                                        </div>
+                                        <span class="sr-only">20%</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                     <td class="icon-task-l"></td>
+                                    <td>Máy Hixlex 2</td>
+                                    <td>Công Huy</td>
+                                    <td>0</td>
+                                    <td>
+                                        <div class="progress thin">
+                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                            </div>
+                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                                            </div>
+                                        </div>
+                                        <span class="sr-only">20%</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <!-- List starts -->
+                <span>Kinh doanh trong ngày </span>
+                <ul class="today-datas">
+                    <!-- List #1 -->
+                    <li>
+                        <!-- Graph -->
+                        <div><span id="todayspark1" class="spark"></span></div>
+                        <!-- Text -->
+                        <div class="datas-text">Xuân An:0 Khách</div>
+                    </li>
+                    <li>
+                        <div><span id="todayspark2" class="spark"></span></div>
+                        <div class="datas-text">Huyền Trang:0 Khách</div>
+                    </li>
+                    <li>
+                        <div><span id="todayspark3" class="spark"></span></div>
+                        <div class="datas-text">Kim Vấn:0 Khách</div>
+                    </li>
+                    <li>
+                        <div><span id="todayspark4" class="spark"></span></div>
+                        <div class="datas-text">Minh Ngọc:0 Khách</div>
+                    </li>
+                </ul>
+            </div>
+        </div>*@
 </body>
+<script>
+    function initContent() {
+        $.ajax({
+            url: "/ContentPage/GetContent?code=1",
+            type: 'post',
+            contentType: 'application/json',
+            success: function (result) {
+                debugger;
+                var content = result.Records.Content;
+                $("#view-content").empty();
+                $("#view-content").append(content);
+            }
+        });
+    }
+    initContent();
+
+</script>

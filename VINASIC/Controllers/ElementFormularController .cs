@@ -40,44 +40,44 @@ namespace VINASIC.Controllers
      
         public JsonResult SaveElementFormular(ModelElementFormular modelElementFormular)
         {
-            try
-            {
-                if (IsAuthenticate)
-                {
-                    ResponseBase responseResult;
-                    if (modelElementFormular.Id == 0)
-                    {
-                        modelElementFormular.CreatedUser = UserContext.UserID;
-                        responseResult = _bllElementFormular.Create(modelElementFormular);
-                    }
-                    else
-                    {
-                        modelElementFormular.UpdatedUser = UserContext.UserID;
-                        responseResult = _bllElementFormular.Update(modelElementFormular);                    
-                    }
-                    if (!responseResult.IsSuccess)
-                    {
-                        JsonDataResult.Result = "ERROR";
-                        JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
-                    }
-                    else
-                    {
-                        JsonDataResult.Result = "OK";
-                    }
-                }
-                else
-                {
-                    JsonDataResult.Result = "ERROR";
-                    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
-                }
-            }
-            catch (Exception ex)
-            {
-                //add error
-                JsonDataResult.Result = "ERROR";
-                JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Lỗi: " + ex.Message });
-            }
-            return Json(JsonDataResult);
+            //try
+            //{
+            //    if (IsAuthenticate)
+            //    {
+            //        ResponseBase responseResult;
+            //        if (modelElementFormular.Id == 0)
+            //        {
+            //            modelElementFormular.CreatedUser = UserContext.UserID;
+            //            responseResult = _bllElementFormular.Create(modelElementFormular);
+            //        }
+            //        else
+            //        {
+            //            modelElementFormular.UpdatedUser = UserContext.UserID;
+            //            responseResult = _bllElementFormular.Update(modelElementFormular);                    
+            //        }
+            //        if (!responseResult.IsSuccess)
+            //        {
+            //            JsonDataResult.Result = "ERROR";
+            //            JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
+            //        }
+            //        else
+            //        {
+            //            JsonDataResult.Result = "OK";
+            //        }
+            //    }
+            //    else
+            //    {
+            //        JsonDataResult.Result = "ERROR";
+            //        JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    //add error
+            //    JsonDataResult.Result = "ERROR";
+            //    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Lỗi: " + ex.Message });
+            //}
+            return Json(null);
         }
 
         [HttpPost]

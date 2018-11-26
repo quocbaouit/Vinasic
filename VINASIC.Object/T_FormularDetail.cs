@@ -18,7 +18,6 @@ namespace VINASIC.Object
         public int Id { get; set; }
         public int Index { get; set; }
         public int FormularId { get; set; }
-        public Nullable<int> ElementFormularId { get; set; }
         public string Prefix { get; set; }
         public bool IsDeleted { get; set; }
         public int CreatedUser { get; set; }
@@ -27,8 +26,9 @@ namespace VINASIC.Object
         public System.DateTime CreatedDate { get; set; }
         public Nullable<System.DateTime> DeletedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
+        public string Name { get; set; }
+        public Nullable<double> Value { get; set; }
     
-        public virtual T_ElementFormular T_ElementFormular { get; set; }
         public virtual T_Formular T_Formular { get; set; }
     }
     

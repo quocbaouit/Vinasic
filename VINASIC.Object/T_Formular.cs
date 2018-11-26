@@ -17,8 +17,8 @@ namespace VINASIC.Object
     {
         public T_Formular()
         {
-            this.T_FormularDetail = new Collection<T_FormularDetail>();
             this.T_UserFormular = new Collection<T_UserFormular>();
+            this.T_FormularDetail = new Collection<T_FormularDetail>();
         }
     
         public int Id { get; set; }
@@ -33,8 +33,8 @@ namespace VINASIC.Object
         public Nullable<System.DateTime> DeletedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
     
-        public virtual Collection<T_FormularDetail> T_FormularDetail { get; set; }
         public virtual Collection<T_UserFormular> T_UserFormular { get; set; }
+        public virtual Collection<T_FormularDetail> T_FormularDetail { get; set; }
     }
     
 }

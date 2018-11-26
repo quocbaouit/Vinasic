@@ -12,6 +12,7 @@ using VINASIC.Business.Interface.Model;
 using VINASIC.Data;
 using VINASIC.Data.Repositories;
 using VINASIC.Object;
+using Newtonsoft.Json;
 
 namespace VINASIC.Business
 {
@@ -211,6 +212,33 @@ namespace VINASIC.Business
             }
             return responResult;
         }
+        public ResponseBase SaveUserSalery(List<SalaryObj> SalaryObj, int employId, int userID)
+        {
+            ResponseBase result = new ResponseBase { IsSuccess = false };
+            try
+            {
+                    var employee = _repUser.Get(x => x.Id == employId && !x.IsDeleted);
+                    if (employee != null)
+                    {
+                        employee.Salary = JsonConvert.SerializeObject(SalaryObj);
+                        employee.UpdatedDate = DateTime.Now.AddHours(14);
+                        employee.UpdatedUser = userID;
+                        _repUser.Update(employee);
+                        SaveChange();
+                        result.IsSuccess = true;
+                    }
+                    else
+                    {
+                        result.IsSuccess = false;
+                    }
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return result;
+        }
         public PagedList<ModelUser> GetList(string keyWord, int startIndexRecord, int pageSize, string sorting)
         {
             try
@@ -226,6 +254,7 @@ namespace VINASIC.Business
                     Address = c.Address,
                     stringRoleName = "Chưa chọn nhóm quyền",
                     Mobile = c.Mobile,
+                    Salary=c.Salary,
                     Email = c.Email,
                     UserName = c.UserName,
                     IsLock = c.IsLock,
@@ -254,6 +283,22 @@ namespace VINASIC.Business
                             }
 
                         }
+                    }
+
+
+                    if (employ.Salary == null)
+                    {
+                        employ.SalaryObj = new List<SalaryObj>() {
+                            new SalaryObj { Content = "Số ngày làm trong tháng",Amount=0,Index=1,Id=Guid.NewGuid(),Unit="Ngày" },
+                            new SalaryObj { Content = "Lương căn bản",Amount=0,Index=2,Id=Guid.NewGuid(),Unit="VND"  },
+                            new SalaryObj { Content = "Phụ Cấp",Amount=0,Index=3,Id=Guid.NewGuid(),Unit="VND"  },
+                            new SalaryObj { Content = "Giảm trừ",Amount=0 ,Index=4,Id=Guid.NewGuid(),Unit="VND" },
+                            new SalaryObj { Content = "Tổng",Amount=0,Index=5,Id=Guid.NewGuid(),Unit="VND" },
+                        };
+                    }
+                    else
+                    {
+                        employ.SalaryObj = JsonConvert.DeserializeObject<List<SalaryObj>>(employ.Salary);
                     }
                 }
                 var pageNumber = (startIndexRecord / pageSize) + 1;

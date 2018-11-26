@@ -18,6 +18,7 @@ namespace VINASIC.Business.Interface
         ResponseBase DeleteByListId(List<int> listId, int userId);
         List<ModelUser> GetListUserByUserId(int userId, int companyId, string sorting);
         PagedList<ModelUser> GetListUser(string keyWord, int startIndexRecord, int pageSize, string sorting, int userId);
+        ResponseBase UserSubscribe(PushNotificationSubscribe request, int userId);
         UserService GetUserService(int userId);
         ModelUser GetUserByCompanyId();
         ModelUser GetUserInfoByUserId(int userId);

@@ -55,6 +55,7 @@
     <Compile Include="Enum\eTableName.cs" />
     <Compile Include="Enum\OrderEnum.cs" />
     <Compile Include="IBLLErrorLog.cs" />
+    <Compile Include="IBLLContent.cs" />
     <Compile Include="IBLLNotification.cs" />
     <Compile Include="IBLLPermission.cs" />
     <Compile Include="IBLLPosition.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="IBLLProduct.cs" />
     <Compile Include="IBLLElementFormular.cs" />
     <Compile Include="IBLLFormular.cs" />
+    <Compile Include="IBLLSysStatus.cs" />
     <Compile Include="IBLLStandardSale.cs" />
     <Compile Include="IBLLProductType.cs" />
     <Compile Include="IBLLRole.cs" />
@@ -84,7 +86,9 @@
     <Compile Include="IBLLUser.cs" />
     <Compile Include="IBLLUserRole.cs" />
     <Compile Include="Model\ModelElementFormular.cs" />
+    <Compile Include="Model\ModelContent.cs" />
     <Compile Include="Model\ModelFormular.cs" />
+    <Compile Include="Model\ModelSysStatus.cs" />
     <Compile Include="Model\ModelStandardSale.cs" />
     <Compile Include="Model\ModelCountLoginFail.cs" />
     <Compile Include="Model\ModelErrorLog.cs" />
@@ -143,7 +147,9 @@
       <Name>VINASIC.Object</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

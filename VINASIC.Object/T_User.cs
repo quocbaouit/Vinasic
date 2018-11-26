@@ -17,10 +17,10 @@ namespace VINASIC.Object
     {
         public T_User()
         {
-            this.T_Order = new Collection<T_Order>();
             this.T_OrderDetail = new Collection<T_OrderDetail>();
             this.T_OrderDetail1 = new Collection<T_OrderDetail>();
             this.T_UserFormular = new Collection<T_UserFormular>();
+            this.T_Order = new Collection<T_Order>();
         }
     
         public int Id { get; set; }
@@ -49,12 +49,14 @@ namespace VINASIC.Object
         public Nullable<int> OrganizationId { get; set; }
         public string Address { get; set; }
         public string ColorString { get; set; }
+        public string Subscription { get; set; }
+        public string Salary { get; set; }
     
-        public virtual Collection<T_Order> T_Order { get; set; }
         public virtual T_Position T_Position { get; set; }
         public virtual Collection<T_OrderDetail> T_OrderDetail { get; set; }
         public virtual Collection<T_OrderDetail> T_OrderDetail1 { get; set; }
         public virtual Collection<T_UserFormular> T_UserFormular { get; set; }
+        public virtual Collection<T_Order> T_Order { get; set; }
     }
     
 }
