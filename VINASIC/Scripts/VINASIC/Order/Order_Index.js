@@ -2124,9 +2124,11 @@ VINASIC.Order = function () {
     this.Init = function () {
         registerEvent();
         document.getElementById("datefrom").defaultValue = new Date(new Date() - 24 * 60 * 60 * 1000).toISOString().substring(0, 10);
-        document.getElementById("dateto").defaultValue = new Date().toISOString().substring(0, 10);
+        var dateTo = new Date();
+        dateTo.setDate(dateTo.getDate() + 1);
+        document.getElementById("dateto").defaultValue = dateTo.toISOString().substring(0, 10);
         document.getElementById("subdatefrom").defaultValue = new Date(new Date() - 24 * 60 * 60 * 1000).toISOString().substring(0, 10);
-        document.getElementById("subdateto").defaultValue = new Date().toISOString().substring(0, 10);
+        document.getElementById("subdateto").defaultValue = dateTo.toISOString().substring(0, 10);
         initComboBoxBusiness();
         initComboBoxBusiness1();
         initComboBoxBusiness2();

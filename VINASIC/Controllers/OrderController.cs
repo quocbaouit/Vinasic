@@ -711,7 +711,7 @@ namespace VINASIC.Controllers
             ws.Column(14).Width = 14;
             ws.Column(15).Width = 14;
             ws.Column(16).Width = 14;
-            const string path = "~/Files/logovinasic.png";
+            const string path = "~/Files/logo.jpg";
             var logo = Image.FromFile(Server.MapPath(path));
             ws.Row(0 * 5).Height = 39.00D;
             var picture = ws.Drawings.AddPicture(0.ToString(), logo);
@@ -721,23 +721,23 @@ namespace VINASIC.Controllers
             picture.To.Row = 0;
             picture.SetSize(280, 104);
 
-            ws.Cells["G1"].Value = "CÔNG TY TNHH THƯƠNG MẠI QUẢNG CÁO PDCA";
+            ws.Cells["G1"].Value = "CÔNG TY TNHH PHÁT TRIỂN TRUYỀN THÔNG ADVISER";
             ws.Cells["G1"].Style.Font.Bold = true;
             ws.Cells["G1"].Style.Font.Size = 16;
             ws.Cells["G1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-            ws.Cells["G2"].Value = "Vinasic.com - Thicong24h.com - Inppgiare.info";
+            ws.Cells["G2"].Value = "Inlichgo.com";
             ws.Cells["G2"].Style.Font.Bold = true;
             ws.Cells["G2"].Style.Font.Size = 14;
             ws.Cells["G2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
             ws.Cells["G2"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            ws.Cells["G3"].Value = "Địa chỉ văn phòng: 118/15 Bàu Cát 2, Phường 12, Quận Tân Bình, Tp.HCM";
+            ws.Cells["G3"].Value = "Địa chỉ văn phòng: 748/70/10 Thống Nhất, Phường 15, Quận Gò Vấp,TP Hồ Chí Minh";
             ws.Cells["G3"].Style.Font.Bold = true;
             ws.Cells["G3"].Style.Font.Size = 14;
             ws.Cells["G3"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-            ws.Cells["G4"].Value = "Di động: 091.346.1539 - 090.269.7586 - 090.932.1586";
+            ws.Cells["G4"].Value = "Di động: 0901.333.151 - 0963.763.079 - 0168.565.5505";
             ws.Cells["G4"].Style.Font.Bold = true;
             ws.Cells["G4"].Style.Font.Size = 14;
             ws.Cells["G4"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
@@ -936,7 +936,7 @@ namespace VINASIC.Controllers
             ws.Column(10).Width = 30;
             ws.Column(11).Width = 30;
 
-            const string path = "~/Files/logovinasic.png";
+            const string path = "~/Files/logo.jpg";
             var logo = Image.FromFile(Server.MapPath(path));
             ws.Row(0 * 5).Height = 39.00D;
             var picture = ws.Drawings.AddPicture(0.ToString(), logo);
@@ -946,23 +946,23 @@ namespace VINASIC.Controllers
             picture.To.Row = 0;
             picture.SetSize(280, 104);
 
-            ws.Cells["G1"].Value = "CÔNG TY TNHH THƯƠNG MẠI QUẢNG CÁO PDCA";
+            ws.Cells["G1"].Value = "CÔNG TY TNHH PHÁT TRIỂN TRUYỀN THÔNG ADVISER";
             ws.Cells["G1"].Style.Font.Bold = true;
             ws.Cells["G1"].Style.Font.Size = 16;
             ws.Cells["G1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-            ws.Cells["G2"].Value = "Vinasic.com - Thicong24h.com - Inppgiare.info";
+            ws.Cells["G2"].Value = "Inlichgo.com";
             ws.Cells["G2"].Style.Font.Bold = true;
             ws.Cells["G2"].Style.Font.Size = 14;
             ws.Cells["G2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
             ws.Cells["G2"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            ws.Cells["G3"].Value = "Địa chỉ văn phòng: 118/15 Bàu Cát 2, Phường 12, Quận Tân Bình, Tp.HCM";
+            ws.Cells["G3"].Value = "Địa chỉ văn phòng: 748/70/10 Thống Nhất, Phường 15, Quận Gò Vấp,TP Hồ Chí Minh";
             ws.Cells["G3"].Style.Font.Bold = true;
             ws.Cells["G3"].Style.Font.Size = 14;
             ws.Cells["G3"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-            ws.Cells["G4"].Value = "Di động: 091.346.1539 - 090.269.7586 - 090.932.1586";
+            ws.Cells["G4"].Value = "Di động: 0901.333.151 - 0963.763.079 - 0168.565.5505";
             ws.Cells["G4"].Style.Font.Bold = true;
             ws.Cells["G4"].Style.Font.Size = 14;
             ws.Cells["G4"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;

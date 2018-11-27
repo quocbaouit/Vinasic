@@ -989,6 +989,7 @@
     <Content Include="css\style.css" />
     <Content Include="css\widgets.css" />
     <Content Include="css\xcharts.min.css" />
+    <Content Include="Files\logo.jpg" />
     <Content Include="Files\logovinasic.png" />
     <Content Include="Files\xuanan.jpg" />
     <Content Include="fonts\ElegantIcons.svg" />
