@@ -15,7 +15,7 @@
     <AssemblyName>VINASIC</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort>57659</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
@@ -64,14 +64,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Autofac.Configuration">
-      <HintPath>E:\GPRO\IEDNew\trunk\SourceCode\IED\Library\Autofac.Configuration.dll</HintPath>
+      <HintPath>..\lib\Autofac.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Integration.Mvc">
-      <HintPath>E:\GPRO\IEDNew\trunk\SourceCode\IED\Library\Autofac.Integration.Mvc.dll</HintPath>
+      <HintPath>..\lib\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Integration.WebApi, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Autofac.WebApi.3.1.0\lib\net40\Autofac.Integration.WebApi.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
@@ -2153,9 +2153,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51843</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost</IISUrl>
-          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://localhost/VINASIC</IISAppRootUrl>
+          <IISUrl>http://localhost:51843/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
