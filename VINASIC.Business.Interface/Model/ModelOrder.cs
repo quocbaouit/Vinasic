@@ -25,6 +25,8 @@ namespace VINASIC.Business.Interface.Model
         public string CustomerEmail { get; set; }
         public string CustomerAddress { get; set; }
         public string CustomerTaxCode { get; set; }
+
+        public string strFileName { get; set; }
     }
     public class BusinessOrder {
         public string BusinessName { get; set; }

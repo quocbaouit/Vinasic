@@ -139,6 +139,9 @@
     <Compile Include="Repositories\T_RoLeRepository.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\T_SiteSettingRepository.cs">
+      <DependentUpon>Repositories.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repositories\T_StaffRepository.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>

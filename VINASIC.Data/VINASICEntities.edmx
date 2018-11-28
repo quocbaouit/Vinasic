@@ -281,6 +281,7 @@
           <Property Name="OrderStatus" Type="float" />
           <Property Name="HaspayTransfer" Type="float" />
           <Property Name="IsQuittance" Type="bit" />
+          <Property Name="SubTotalExcludeTax" Type="float" />
         </EntityType>
         <EntityType Name="T_OrderDetail">
           <Key>
@@ -554,6 +555,22 @@
           <Property Name="UpdatedDate" Type="datetime" />
           <Property Name="DeletedUser" Type="int" />
           <Property Name="DeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="T_SiteSetting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="Value" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="CreatedUser" Type="int" Nullable="false" />
+          <Property Name="DeletedUser" Type="int" />
+          <Property Name="UpdatedUser" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="DeletedDate" Type="datetime" />
+          <Property Name="UpdatedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="T_Staff">
           <Key>
@@ -2017,6 +2034,7 @@
           <EntitySet Name="T_ReceiptVoucher" EntityType="Self.T_ReceiptVoucher" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_RoLe" EntityType="Self.T_RoLe" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_RolePermission" EntityType="Self.T_RolePermission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_SiteSetting" EntityType="Self.T_SiteSetting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_Staff" EntityType="Self.T_Staff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_StandardSale" EntityType="Self.T_StandardSale" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_Status" EntityType="Self.T_Status" Schema="dbo" store:Type="Tables" />
@@ -2600,6 +2618,7 @@
             <End Role="T_Formular" EntitySet="T_Formular" />
             <End Role="T_FormularDetail" EntitySet="T_FormularDetail" />
           </AssociationSet>
+          <EntitySet Name="T_SiteSetting" EntityType="VINASICModel.T_SiteSetting" />
         </EntityContainer>
         <EntityType Name="T__Remind">
           <Key>
@@ -3705,6 +3724,7 @@
           <NavigationProperty Name="T_OrderDetail" Relationship="VINASICModel.FK__T_OrderDe__Order__3587F3E0" FromRole="T_Order" ToRole="T_OrderDetail" />
           <NavigationProperty Name="T_Quittance" Relationship="VINASICModel.FK__T_Quittan__Order__3D2915A8" FromRole="T_Order" ToRole="T_Quittance" />
           <NavigationProperty Name="T_ReceiptVoucher" Relationship="VINASICModel.FK__T_Receipt__Order__3F115E1A" FromRole="T_Order" ToRole="T_ReceiptVoucher" />
+          <Property Name="SubTotalExcludeTax" Type="Double" />
         </EntityType>
         <Association Name="FK__T_Order__Custome__32AB8735">
           <End Type="VINASICModel.T_Customer" Role="T_Customer" Multiplicity="1" />
@@ -3831,6 +3851,22 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="T_SiteSetting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+          <Property Name="DeletedUser" Type="Int32" />
+          <Property Name="UpdatedUser" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4575,6 +4611,7 @@
           <EntitySetMapping Name="T_Order">
             <EntityTypeMapping TypeName="VINASICModel.T_Order">
               <MappingFragment StoreEntitySet="T_Order">
+                <ScalarProperty Name="SubTotalExcludeTax" ColumnName="SubTotalExcludeTax" />
                 <ScalarProperty Name="IsQuittance" ColumnName="IsQuittance" />
                 <ScalarProperty Name="HaspayTransfer" ColumnName="HaspayTransfer" />
                 <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
@@ -4654,6 +4691,23 @@
                 <ScalarProperty Name="Prefix" ColumnName="Prefix" />
                 <ScalarProperty Name="FormularId" ColumnName="FormularId" />
                 <ScalarProperty Name="Index" ColumnName="Index" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_SiteSetting">
+            <EntityTypeMapping TypeName="VINASICModel.T_SiteSetting">
+              <MappingFragment StoreEntitySet="T_SiteSetting">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedUser" ColumnName="UpdatedUser" />
+                <ScalarProperty Name="DeletedUser" ColumnName="DeletedUser" />
+                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

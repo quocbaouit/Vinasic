@@ -251,7 +251,7 @@ namespace VINASIC.Controllers
             return Json(JsonDataResult);
         }
         [System.Web.Mvc.HttpPost]
-        public JsonResult SaveOrder(int orderId, int employeeId, int customerId, string customerName, string customerPhone, string customerMail, string customerAddress, string customerTaxCode, string dateDelivery, float orderTotal, List<ModelDetail> listDetail)
+        public JsonResult SaveOrder(int orderId, int employeeId, int customerId, string customerName, string customerPhone, string customerMail, string customerAddress, string customerTaxCode, string dateDelivery, float orderTotal, List<ModelDetail> listDetail,bool tax,float orderTotalTax)
         {
             try
             {
@@ -262,13 +262,15 @@ namespace VINASIC.Controllers
                     {
                         OrderId = orderId,
                         EmployeeId = employeeId,
-                        OrderTotal = orderTotal,
+                        OrderTotal = orderTotalTax,
                         CustomerId = customerId,
                         CustomerName = customerName,
                         CustomerPhone = customerPhone,
                         CustomerMail = customerMail,
                         CustomerAddress = customerAddress,
                         CustomerTaxCode = customerTaxCode,
+                        Tax = tax,
+                        OrderTotalExcludeTax = orderTotal,
                         DateDelivery = DateTime.Parse(dateDelivery ?? DateTime.Now.AddHours(14).ToString(CultureInfo.InvariantCulture)),
                         Detail = listDetail
                     };

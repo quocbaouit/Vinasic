@@ -236,6 +236,7 @@
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Controllers\ElementFormularController .cs" />
     <Compile Include="Controllers\FormularController.cs" />
+    <Compile Include="Controllers\SiteSettingController.cs" />
     <Compile Include="Controllers\SysStatusController.cs" />
     <Compile Include="Controllers\StandardSaleController.cs" />
     <Compile Include="Controllers\ProductTypeController.cs" />
@@ -646,7 +647,9 @@
     <Content Include="assets\morris.js-0.4.3\spec\vendor\raphael-2.1.0.min.js" />
     <Content Include="assets\morris.js-0.4.3\spec\vendor\sinon-1.5.0.js" />
     <Content Include="assets\morris.js-0.4.3\spec\vendor\sinon-chai-2.1.2.js" />
+    <Content Include="Content\bootstrap-theme3.3.7.min.css" />
     <Content Include="Content\bootstrap3.3.5.css" />
+    <Content Include="Content\bootstrap3.3.7.min.css" />
     <Content Include="Content\Bootstrap\css\bootstrap-responsive.css" />
     <Content Include="Content\Bootstrap\css\bootstrap-responsive.min.css" />
     <Content Include="Content\Bootstrap\css\bootstrap.css" />
@@ -773,6 +776,7 @@
     <Content Include="Content\Modal_3_Column.css" />
     <Content Include="Content\profile.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\summernote-lite.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -1174,6 +1178,7 @@
     <Content Include="js\bootstrap-wysiwyg.js" />
     <Content Include="js\bootstrap.js" />
     <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\bootstrap3.3.7.min.js" />
     <Content Include="js\calendar-custom.js" />
     <Content Include="js\chartjs-custom.js" />
     <Content Include="js\charts-flot.js" />
@@ -2018,6 +2023,7 @@
     <Content Include="Scripts\VINASIC\Position\Position_Index.js" />
     <Content Include="Scripts\VINASIC\ElementFormular\ElementFormular_Index.js" />
     <Content Include="Scripts\VINASIC\Formular\Formular_Index.js" />
+    <Content Include="Scripts\VINASIC\SiteSetting\SiteSetting_Index.js" />
     <Content Include="Scripts\VINASIC\push-notification.js" />
     <Content Include="Scripts\VINASIC\SysStatus\SysStatus_Index.js" />
     <Content Include="Scripts\VINASIC\StandardSale\StandardSale_Index.js" />
@@ -2091,6 +2097,7 @@
     <Content Include="Views\SysStatus\Index.cshtml" />
     <Content Include="Views\ContentPage\Index.cshtml" />
     <Content Include="Views\ContentPage\IndexView.cshtml" />
+    <Content Include="Views\SiteSetting\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

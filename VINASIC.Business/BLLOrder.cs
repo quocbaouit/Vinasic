@@ -20,16 +20,18 @@ namespace VINASIC.Business
     {
         private readonly IT_OrderRepository _repOrder;
         private readonly IT_CustomerRepository _repCus;
+        private readonly IT_SiteSettingRepository _repSite;
         private readonly IT_UserRepository _repUser;
         private readonly IT_OrderDetailRepository _repOrderDetail;
         private readonly IUnitOfWork<VINASICEntities> _unitOfWork;
         private readonly TimeZoneInfo curentZone = TimeZoneInfo.FindSystemTimeZoneById(ConfigurationManager.AppSettings["WEBSITE_TIME_ZONE"]);
-        public BllOrder(IUnitOfWork<VINASICEntities> unitOfWork, IT_OrderRepository repOrder, IT_OrderDetailRepository repOrderDetail, IT_CustomerRepository repCus, IT_UserRepository repUserRepository)
+        public BllOrder(IUnitOfWork<VINASICEntities> unitOfWork, IT_OrderRepository repOrder, IT_OrderDetailRepository repOrderDetail, IT_CustomerRepository repCus, IT_UserRepository repUserRepository, IT_SiteSettingRepository repSite)
         {
             _unitOfWork = unitOfWork;
             _repOrder = repOrder;
             _repOrderDetail = repOrderDetail;
             _repUser = repUserRepository;
+            _repSite = repSite;
             _repCus = repCus;
         }
         private void SaveChange()
@@ -114,6 +116,7 @@ namespace VINASIC.Business
                 order.strHaspayTransfer = $"{order.HaspayTransfer ?? 0:0,0}";
                 order.strSubTotal = $"{order.SubTotal:0,0}";
                 order.StrCreatedDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(order.CreatedDate, curentZone):d/M/yyyy HH:mm}";
+                order.strFileName  = string.Join(", ", order.T_OrderDetail.Select(x => x.FileName).ToArray());
             }
             var sum = result.Sum(x => x.SubTotal);
             result.ToList().Add(new ModelOrder() { Name = "Tổng Cộng", SubTotal = sum });
@@ -262,6 +265,8 @@ namespace VINASIC.Business
                     IsApproval = false,
                     IsDeleted = false,
                     CreatedForUser = obj.EmployeeId,
+                    SubTotalExcludeTax=obj.OrderTotalExcludeTax,
+                    HasTax=obj.Tax,
                     CreatedUser = userId,
                     IsDelivery = 1,
                     OrderStatus = 1,
@@ -332,6 +337,8 @@ namespace VINASIC.Business
                     return result;
                 }
                 order.Name = obj.CustomerName;
+                order.HasTax = obj.Tax;
+                order.SubTotalExcludeTax = obj.OrderTotalExcludeTax;
                 order.Description = "";
                 order.SubTotal = obj.OrderTotal;
                 order.CustomerId = obj.CustomerId;
@@ -492,9 +499,10 @@ namespace VINASIC.Business
                     if (customer != null)
                     {
                         var phone = customer.Mobile;
+                        string mess = _repSite.GetById(1).Value;
                         if (!String.IsNullOrEmpty(phone))
                         {
-                            Task.Run(() => Send(phone));
+                            Task.Run(() => Send(phone,mess));
                         }
                         
                     }
@@ -508,12 +516,12 @@ namespace VINASIC.Business
             }
             return responResult;
         }
-        public void Send(string phone)
+        public void Send(string phone,string mess)
         {
             SpeedSMSAPI api = new SpeedSMSAPI("zg0WCSR_yUIjz3z7iWARLvEp3IEXhnKg");
             String[] phones = new String[] { phone };
-            String str = ConfigurationManager.AppSettings["SMS_CONTENT"];
-            String response = api.sendSMS(phones, str, 2, "");
+            //String str = ConfigurationManager.AppSettings["SMS_CONTENT"];
+            String response = api.sendSMS(phones, mess, 2, "");
         }
         public ResponseBase UpdateDelivery(int orderId, int status, int userId)
         {

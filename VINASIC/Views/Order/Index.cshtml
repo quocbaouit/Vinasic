@@ -350,12 +350,17 @@
                                             <br />
                                             <div id="jtableOrderDetail"></div>
                                             <div class="row">
-                                                <div class="col-lg-6">
-                                                    <h4>Tổng Tiền Hàng:</h4>
-                                                </div>
-                                                <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 500px; float: right" id="dtotal" type="text" class="form-control dsubtotal" placeholder="">
-                                                <strong style="margin-top: 10px; width: 50px; float: right">VND</strong>
+                                                <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="dtotal" type="text" class="form-control dsubtotal" placeholder="">
+                                                <strong style="margin-top: 10px; width: 200px; float: right">Tiền Trước Thuế (VND)</strong>
                                             </div>
+                                            <div class="row">
+                                                <input id="dtax" style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" type="checkbox" />                          
+                                                <strong style="margin-top: 10px; width: 200px; float: right">Xuất Hóa Đơn (Thuế 10%)</strong>
+                                            </div>
+                                            <div class="row">
+                                            <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="dtotaltax" type="text" class="form-control dsubtotal" placeholder="">
+                                            <strong style="margin-top: 10px; width: 200px; float: right">Tổng Tiền(VND)</strong>
+                                        </div>
                                             <a id="saveOrder" style="margin-left: 20px; margin-top: 20px" title="" class="btn btn-primary btn-sm" href="javascript:void(0)">Lưu Đơn Hàng</a>
                                             <a id="resetOrder" style="margin-top: 20px" title="" class="btn btn-warning btn-sm" href="javascript:void(0)">Reset</a>
                                             <a id="canelOrder" style="margin-top: 20px" title="" class="btn btn-danger btn-sm" href="javascript:void(0)">Hủy Bỏ</a>
@@ -489,6 +494,7 @@
                 <h4><span class="glyphicon glyphicon-pencil"></span>Thanh Toán</h4>
             </div>
             <div class="modal-body" style="padding: 40px 50px;">
+                <p id="hastaxnote" style="color:red;margin-left: 10px;display:none">Đơn hàng có xuất hóa đơn. Tổng tiền đã bao gồm thuế 10% </p><br />
                 <div class="col-lg-4">
                     <div class="form-group">
                         <label for="ptotal">Tổng Tiền(VND)</label>

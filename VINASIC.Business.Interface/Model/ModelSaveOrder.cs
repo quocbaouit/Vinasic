@@ -20,7 +20,9 @@ namespace VINASIC.Business.Interface.Model
         public string CustomerMail { get; set; }
         public string CustomerAddress { get; set; }
         public string CustomerTaxCode { get; set; }
+        public bool Tax { get; set; }
         public float OrderTotal { get; set; }
+        public float OrderTotalExcludeTax { get; set; }
         public DateTime? DateDelivery { get; set; }
         public List<ModelDetail> Detail { get; set; }
     }

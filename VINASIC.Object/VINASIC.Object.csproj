@@ -124,6 +124,9 @@
     <Compile Include="T_RolePermission.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="T_SiteSetting.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="T_Staff.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>

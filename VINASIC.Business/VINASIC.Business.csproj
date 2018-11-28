@@ -72,6 +72,7 @@
     <Compile Include="BLLProduct.cs" />
     <Compile Include="BLLElementFormular.cs" />
     <Compile Include="BLLFormular.cs" />
+    <Compile Include="BLLSiteSetting.cs" />
     <Compile Include="BLLSysStatus.cs" />
     <Compile Include="BLLStandardSale.cs" />
     <Compile Include="BLLProductType.cs" />
