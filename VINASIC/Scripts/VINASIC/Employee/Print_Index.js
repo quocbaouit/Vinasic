@@ -153,9 +153,22 @@ VINASIC.Print = function () {
                     title: "số Lượng",
                     width: "5%"
                 },
-                Description: {
-                    title: "Mô Tả",
-                    width: "10%"
+                //Description: {
+                //    title: "Mô Tả",
+                //    width: "10%"
+                //},
+                strJob: {
+                    visibility: 'fixed',
+                    title: "Công Việc",
+                    width: "10%",
+                    display: function (data) {
+                        var text = $('<a href="javascript:void(0)" class="clickable"  data-target="#popup_Print" title="">' + "Chi Tiết" + '</a>');
+                        text.click(function () {
+                            $("#dDescription").val(data.record.PrintDescription);
+                            showPopupPrint();
+                        });
+                        return text;
+                    }
                 },
                 EmployeeName: {
                     title: "Nhân Viên Kinh Doanh",

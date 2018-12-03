@@ -4,13 +4,13 @@ self.addEventListener('push', function (event) {
     var payload = JSON.parse(event.data.text());
     var title = (payload.Title != '') ? payload.Title : 'Notification';
     var message = payload.Message;
-    //var icon = (payload.Icon != '') ?payload.Icon : 'Content/images/logo-paypal.jpg';
+    var icon = (payload.Icon != '') ? payload.Icon : 'Files/fileNotification.jpg';
     var data = {
         url: (payload.Url!='')?payload.Url:'/'
     };
     const options = {
         body: message,
-        icon: '',
+        icon: icon,
         data: data
     };
     event.waitUntil(self.registration.showNotification(title, options));

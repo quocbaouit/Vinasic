@@ -26,6 +26,7 @@ namespace VINASIC.Object
         public System.DateTime CreatedDate { get; set; }
         public Nullable<System.DateTime> DeletedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
+        public string Code { get; set; }
     }
     
 }

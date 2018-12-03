@@ -28,73 +28,91 @@
         .closebtn:hover {
             color: black;
         }
-        .button {
-    border: none;
-    color: #0c1ce6;
-    font-weight:bold;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-}
-.button1 {background-color: #008CBA;} 
 
-.button0 {background-color:#cef5da;} /* */
-.button2 {background-color:#d2ec6a;} /* */
-.button3 {background-color:#F5ECCE;} /* */ 
-.button4 {background-color:#dacfcf ;} 
-.button5 {background-color: #f5cece;} 
+    .button {
+        border: none;
+        color: #0c1ce6;
+        font-weight: bold;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
 
-.dropdown-submenu {
-    position: relative;
-}
+    .button1 {
+        background-color: #008CBA;
+    }
 
-.dropdown-submenu>.dropdown-menu {
-    top: 0;
-    left: 100%;
-    margin-top: -6px;
-    margin-left: -1px;
-    -webkit-border-radius: 0 6px 6px 6px;
-    -moz-border-radius: 0 6px 6px;
-    border-radius: 0 6px 6px 6px;
-}
+    .button0 {
+        background-color: #cef5da;
+    }
+    /* */
+    .button2 {
+        background-color: #d2ec6a;
+    }
+    /* */
+    .button3 {
+        background-color: #F5ECCE;
+    }
+    /* */
+    .button4 {
+        background-color: #dacfcf;
+    }
 
-.dropdown-submenu:hover>.dropdown-menu {
-    display: block;
-}
+    .button5 {
+        background-color: #f5cece;
+    }
 
-.dropdown-submenu>a:after {
-    display: block;
-    content: " ";
-    float: right;
-    width: 0;
-    height: 0;
-    border-color: transparent;
-    border-style: solid;
-    border-width: 5px 0 5px 5px;
-    border-left-color: #ccc;
-    margin-top: 5px;
-    margin-right: -10px;
-}
+    .dropdown-submenu {
+        position: relative;
+    }
 
-.dropdown-submenu:hover>a:after {
-    border-left-color: #fff;
-}
+        .dropdown-submenu > .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-top: -6px;
+            margin-left: -1px;
+            -webkit-border-radius: 0 6px 6px 6px;
+            -moz-border-radius: 0 6px 6px;
+            border-radius: 0 6px 6px 6px;
+        }
 
-.dropdown-submenu.pull-left {
-    float: none;
-}
+        .dropdown-submenu:hover > .dropdown-menu {
+            display: block;
+        }
 
-.dropdown-submenu.pull-left>.dropdown-menu {
-    left: -100%;
-    margin-left: 10px;
-    -webkit-border-radius: 6px 0 6px 6px;
-    -moz-border-radius: 6px 0 6px 6px;
-    border-radius: 6px 0 6px 6px;
-}
+        .dropdown-submenu > a:after {
+            display: block;
+            content: " ";
+            float: right;
+            width: 0;
+            height: 0;
+            border-color: transparent;
+            border-style: solid;
+            border-width: 5px 0 5px 5px;
+            border-left-color: #ccc;
+            margin-top: 5px;
+            margin-right: -10px;
+        }
+
+        .dropdown-submenu:hover > a:after {
+            border-left-color: #fff;
+        }
+
+        .dropdown-submenu.pull-left {
+            float: none;
+        }
+
+            .dropdown-submenu.pull-left > .dropdown-menu {
+                left: -100%;
+                margin-left: 10px;
+                -webkit-border-radius: 6px 0 6px 6px;
+                -moz-border-radius: 6px 0 6px 6px;
+                border-radius: 6px 0 6px 6px;
+            }
 </style>
 <div class="row">
     <div class="col-lg-12">
@@ -110,6 +128,7 @@
 </div>
 <div style="display: none" id="defauEmployee">@ViewBag.Employee.Id</div>
 <div style="display: none" id="defauOwner">@ViewBag.Employee.IsOwner</div>
+<input style="display:none" id="show-dim" type="checkbox" value="@ViewBag.ShowDim" checked="@ViewBag.ShowDim" />
 <div class="row">
     <div class="col-lg-12">
         <section class="panel">
@@ -121,7 +140,7 @@
                             Xử Lý Đơn Hàng
                         </a>
                     </li>
-                    <li class="">
+                    @*<li class="">
                         <a data-toggle="tab" href="#ViewDetail">
                             <i class="icon-envelope"></i>
                             Xem Chi Tiết
@@ -132,7 +151,7 @@
                             <i class="icon-envelope"></i>
                             Chi Tiết Thiết Kế/In Ấn
                         </a>
-                    </li>
+                    </li>*@
                     <li id="CreateOrder" class="">
                         <a data-toggle="tab" href="#edit-profile">
                             <i class="icon-envelope"></i>
@@ -183,9 +202,9 @@
                             </div>*@
 
                         @*@*<div class="alert">
-                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                            <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
-                        </div>*@
+                                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                                <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+                            </div>*@
                     </div>
                     <div id="ViewDetail" class="tab-pane">
                         <div id="jtableViewDetail"></div>
@@ -214,10 +233,10 @@
                             </div>
                         </div>
                         <div style="margin-left: 5px;margin-bottom: 10px;" class="row">
-                            <button id="subsearch" class="btn button button1">Tìm Kiếm</button>                         
+                            <button id="subsearch" class="btn button button1">Tìm Kiếm</button>
                             @*<button id="subinprogess" class="btn button button0">Thiết Kế</button>
-                            <button id="subnoDelivery" class="btn button button2">In Ấn</button>
-                            <button id="subdeliveried" class="btn button button3">Gia Công</button>*@
+                                <button id="subnoDelivery" class="btn button button2">In Ấn</button>
+                                <button id="subdeliveried" class="btn button button3">Gia Công</button>*@
                             @*<button id="subpaid" class="btn button button4">Đã Thanh Toán</button>*@
                             @*<button id="subapproval" class="btn button button5">Đã Xong</button>*@
                         </div>
@@ -299,45 +318,57 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6">
-                                                <div class="=rows">
-                                                    <div class="col-lg-3 forPrint">
+                                            <div class="col-lg-12">
+                                                <div class="rows">
+                                                    <div style="display:@ViewBag.CssShowDim" class="col-md-2 forPrint">
                                                         <label for="dwidth">CNgang(m)</label>
                                                         <input id="dwidth" type="text" pattern="[0-9]*" class="form-control detail caculator" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                     </div>
-                                                    <div class="col-lg-3 forPrint">
+                                                    <div style="display:@ViewBag.CssShowDim" class="col-md-2 forPrint">
                                                         <label for="dheignt">CCao(m)</label>
                                                         <input id="dheignt" type="text" class="form-control detail caculator" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                     </div>
-                                                    <div class="col-lg-3 forPrint">
+                                                    <div style="display:none" class="col-md-2 forPrint">
                                                         <label for="dsquare">DTích(m2)</label>
                                                         <input id="dsquare" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                     </div>
-                                                    <div class="col-lg-3">
+                                                    <div class="col-md-2">
                                                         <label for="dquantity">SLượng</label>
                                                         <input id="dquantity" type="text" class="form-control detail caculator caculatorTotal" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                     </div>
-
-                                                </div>
-
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="=rows">
-                                                    <div class="col-lg-4 forPrint">
+                                                    <div style="display:@ViewBag.CssShowDim" class="col-md-2 forPrint">
                                                         <label for="dsumsquare">Tổng DT(m2)</label>
                                                         <input id="dsumsquare" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                     </div>
-                                                    <div class="col-lg-4">
+                                                    <div class="col-md-2">
                                                         <label for="dprice">Đơn Giá(vnd)</label>
                                                         <input id="dprice" type="text" class="form-control detail caculator caculatorTotal" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                     </div>
-                                                    <div class="col-lg-4">
+                                                    <div class="col-md-2">
                                                         <label for="dsubtotal">Thành Tiền(vnd)</label>
                                                         <input id="dsubtotal" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                     </div>
+
                                                 </div>
 
                                             </div>
+                                            @*<div class="col-lg-6">
+                                                    <div class="=rows">
+                                                        <div style="display:@ViewBag.CssShowDim" class="col-lg-4 forPrint">
+                                                            <label for="dsumsquare">Tổng DT(m2)</label>
+                                                            <input id="dsumsquare" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <label for="dprice">Đơn Giá(vnd)</label>
+                                                            <input id="dprice" type="text" class="form-control detail caculator caculatorTotal" placeholder="" onkeypress=" return isNumberKey(event) ">
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <label for="dsubtotal">Thành Tiền(vnd)</label>
+                                                            <input id="dsubtotal" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
+                                                        </div>
+                                                    </div>
+
+                                                </div>*@
                                             <div class="col-lg-6 forPrint">
                                                 <label for="dfilename">Tên File</label>
                                                 <input id="dfilename" type="text" class="form-control detail" placeholder="">
@@ -354,13 +385,13 @@
                                                 <strong style="margin-top: 10px; width: 200px; float: right">Tiền Trước Thuế (VND)</strong>
                                             </div>
                                             <div class="row">
-                                                <input id="dtax" style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" type="checkbox" />                          
+                                                <input id="dtax" style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" type="checkbox" />
                                                 <strong style="margin-top: 10px; width: 200px; float: right">Xuất Hóa Đơn (Thuế 10%)</strong>
                                             </div>
                                             <div class="row">
-                                            <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="dtotaltax" type="text" class="form-control dsubtotal" placeholder="">
-                                            <strong style="margin-top: 10px; width: 200px; float: right">Tổng Tiền(VND)</strong>
-                                        </div>
+                                                <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="dtotaltax" type="text" class="form-control dsubtotal" placeholder="">
+                                                <strong style="margin-top: 10px; width: 200px; float: right">Tổng Tiền(VND)</strong>
+                                            </div>
                                             <a id="saveOrder" style="margin-left: 20px; margin-top: 20px" title="" class="btn btn-primary btn-sm" href="javascript:void(0)">Lưu Đơn Hàng</a>
                                             <a id="resetOrder" style="margin-top: 20px" title="" class="btn btn-warning btn-sm" href="javascript:void(0)">Reset</a>
                                             <a id="canelOrder" style="margin-top: 20px" title="" class="btn btn-danger btn-sm" href="javascript:void(0)">Hủy Bỏ</a>
@@ -389,31 +420,15 @@
             </div>
             <div class="modal-body" style="padding: 40px 50px;">
                 <form role="form">
-                    <input type="hidden" />
                     <div class="form-group">
-                        <label for="dDesignName">Nhân Viên</label>
-                        <select id="dDesignName" class="form-control input-lg m-bot15">
-                            <option value="0">Chọn Thiết Kế</option>
-                        </select>
+                        <label for="caddress">Mô Tả Công Việc</label>
+                        <textarea name="" id="dDescription" class="form-control" cols="30" rows="8"></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="caddress">Mô Tả</label>
-                        <textarea name="" id="dDescription" class="form-control" cols="30" rows="2"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="dStatus">Trạng Thái</label>
-                        <select disabled="disabled" id="dStatus" class="form-control input-lg m-bot15">
-                            <option value="0">Không Xử Lý</option>
-                            <option value="1">Đang Xử Lý</option>
-                            <option value="2">Hoàn Thành</option>
-                            <option value="3">Xử Lý Lỗi</option>
-                        </select>
-                    </div>
-                    <label for="gTimeStart">Thời Gian Bắt Đầu</label>
+                    @*<label for="gTimeStart">Thời Gian Bắt Đầu</label>
                     <p class="form-control" id="dTimeStart">11/04/2015 11:29:30</p>
 
                     <label for="gTimeEnd">Thời Gian Kết Thúc</label>
-                    <p class="form-control" id="dTimeEnd">11/04/2015 11:29:30</p>
+                    <p class="form-control" id="dTimeEnd">11/04/2015 11:29:30</p>*@
                 </form>
             </div>
             <div class="modal-footer">
@@ -537,12 +552,12 @@
                         <option value="1">Tiền Mặt</option>
                         <option value="2">Chuyển Khoản</option>
                         <option value="3">Công Nợ</option>
-                        
+
                     </select>
                 </div>
-                <div id="transferIdShell" style="display:none" class="form-group" >
+                <div id="transferIdShell" style="display:none" class="form-group">
                     <label for="caddress">Thông Tin Chuyển Khoản</label>
-                    <textarea   name="" id="transferId" class="form-control" cols="30" rows="3"></textarea>
+                    <textarea name="" id="transferId" class="form-control" cols="30" rows="3"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
@@ -605,7 +620,7 @@
         <tbody>
             <tr>
                 <td>
-                    Đơn vị: Công Ty ADVISER<br>
+                    Đơn vị: @ViewBag.cpnShortName<br>
                     Bộ phận: Phòng Kế Toán
                 </td>
                 <td>
@@ -675,14 +690,14 @@
     </p>
 </div>
 <div style="width: 210mm; height: 148.5mm; color: red; display: none" id="paymentvoucher1">
-    <div class="Block1" style="width:68%;float:left;margin-left:10px">
-        <p style="margin-bottom:0px">CÔNG TY TNHH PHÁT TRIỂN TRUYỀN THONNG ADVISER </p>
+    <div class="Block1" style="width:70%;float:left;margin-left:25px">
+        <p style="margin-bottom:0px">@ViewBag.cpnName </p>
         <p style="margin-bottom:0px;margin-top: 0px;font-size:smaller">
-            Địa chỉ văn phòng: 748/70/10 Thống Nhất, Phường 15, Quận Gò Vấp, TP Hồ Chí Minh<br>
-            Di động: 0901.333.151 - 0963 763 079 - 0168 565 5505
+            Địa chỉ văn phòng: @ViewBag.cpnAddress<br>
+            Di động: @ViewBag.cpnMobile
         </p>
     </div>
-    <div class="Block2" style="width:30%;float:left;">
+    <div class="Block2" style="width:20%;float:left;">
         <p style="margin-bottom:0px;font-size:smaller">
             Quyển số: PT 001<br>
             Số:<span id="no1">01</span><br>
@@ -690,22 +705,22 @@
         </p>
     </div>
     <div>
-        <h2 style="width:85%;float:left;text-align: center;margin-top: 5px;margin-left:10px;margin-bottom:5px">PHIẾU THU</h2>
+        <h2 style="width:100%;float:left;text-align: center;margin-top: 5px;margin-left:10px;margin-bottom:5px">PHIẾU THU</h2>
     </div>
-    <div class="Block3" style="width:100%;float:left;margin-left:10px">
+    <div class="Block3" style="width:100%;float:left;margin-left:25px">
         <p style="margin-top:0px;margin-bottom:4px">
             Họ và tên người nôp tiền: &nbsp; <span id="vcustomer1"> Trần Quốc Bảo</span><br>
             Địa chỉ: <span id="vaddress1">56/5/6 Văn Chung ,phường 13, quận Tân Bình</span>.<br>
             Số đt: <span id="vphone1">0909242096</span>
         </p>
     </div>
-    <div class="Block4" id="Block4" style="width:86%;float:left;margin-left:10px">
+    <div class="Block4" id="Block4" style="width:86%;float:left;margin-left:20px">
         <table id="renderTable" border="1" style="width:100%" cellspacing="0" cellpadding="0">
             <tr>
                 <th>Dịch Vụ</th>
-                <th>Ghi Chú</th>
-                <th>CDài</th>
-                <th>CRộng</th>
+                <th>Tên File</th>
+                @*<th>CDài</th>
+                    <th>CRộng</th>*@
                 <th>SLượng</th>
                 <th>Đơn Giá</th>
                 <th>Thành Tiền</th>
@@ -713,8 +728,8 @@
             <tr>
                 <td>Chân X cường lực 80 x 180</td>
                 <td>cán bóng đóng khoen 4 góc</td>
-                <td>0.55</td>
-                <td>0.72</td>
+                @*<td>0.55</td>
+                    <td>0.72</td>*@
                 <td>5</td>
                 <td>20,0000</td>
                 <td>120,000</td>
@@ -722,17 +737,8 @@
             <tr>
                 <td> &nbsp;</td>
                 <td> &nbsp;</td>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
-            </tr>
-            <tr>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
+                @*<td> &nbsp;</td>
+                    <td> &nbsp;</td>*@
                 <td> &nbsp;</td>
                 <td> &nbsp;</td>
                 <td> &nbsp;</td>
@@ -740,17 +746,8 @@
             <tr>
                 <td> &nbsp;</td>
                 <td> &nbsp;</td>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
-            </tr>
-            <tr>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
+                @*<td> &nbsp;</td>
+                    <td> &nbsp;</td>*@
                 <td> &nbsp;</td>
                 <td> &nbsp;</td>
                 <td> &nbsp;</td>
@@ -758,17 +755,8 @@
             <tr>
                 <td> &nbsp;</td>
                 <td> &nbsp;</td>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
-            </tr>
-            <tr>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
-                <td> &nbsp;</td>
+                @*<td> &nbsp;</td>
+                    <td> &nbsp;</td>*@
                 <td> &nbsp;</td>
                 <td> &nbsp;</td>
                 <td> &nbsp;</td>
@@ -776,8 +764,35 @@
             <tr>
                 <td> &nbsp;</td>
                 <td> &nbsp;</td>
+                @*<td> &nbsp;</td>
+                    <td> &nbsp;</td>*@
                 <td> &nbsp;</td>
                 <td> &nbsp;</td>
+                <td> &nbsp;</td>
+            </tr>
+            <tr>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                @*<td> &nbsp;</td>
+                    <td> &nbsp;</td>*@
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+            </tr>
+            <tr>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                @*<td> &nbsp;</td>
+                    <td> &nbsp;</td>*@
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+            </tr>
+            <tr>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                @*<td> &nbsp;</td>
+                    <td> &nbsp;</td>*@
                 <td> &nbsp;</td>
                 <td> &nbsp;</td>
                 <td> &nbsp;</td>

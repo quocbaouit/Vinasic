@@ -314,8 +314,8 @@
           <Property Name="PrintFrom" Type="datetime" />
           <Property Name="PrintTo" Type="datetime" />
           <Property Name="FileName" Type="nvarchar" MaxLength="200" />
-          <Property Name="DesignDescription" Type="nvarchar" MaxLength="500" />
-          <Property Name="PrintDescription" Type="nvarchar" MaxLength="500" />
+          <Property Name="DesignDescription" Type="nvarchar(max)" />
+          <Property Name="PrintDescription" Type="nvarchar(max)" />
           <Property Name="Index" Type="int" Nullable="false" />
           <Property Name="DesignView" Type="nvarchar" MaxLength="200" />
           <Property Name="PrintView" Type="nvarchar" MaxLength="200" />
@@ -571,6 +571,7 @@
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="DeletedDate" Type="datetime" />
           <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="T_Staff">
           <Key>
@@ -3458,8 +3459,8 @@
           <Property Name="PrintFrom" Type="DateTime" Precision="3" />
           <Property Name="PrintTo" Type="DateTime" Precision="3" />
           <Property Name="FileName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="DesignDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="PrintDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DesignDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PrintDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Index" Type="Int32" Nullable="false" />
           <Property Name="DesignView" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="PrintView" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -3866,6 +3867,7 @@
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DeletedDate" Type="DateTime" Precision="3" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -4698,6 +4700,7 @@
           <EntitySetMapping Name="T_SiteSetting">
             <EntityTypeMapping TypeName="VINASICModel.T_SiteSetting">
               <MappingFragment StoreEntitySet="T_SiteSetting">
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
                 <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />

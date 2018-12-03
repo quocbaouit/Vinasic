@@ -100,7 +100,7 @@ namespace VINASIC.Business
                 T_Organization organization = _repOrganization.Get(x => x.Id == obj.Id && !x.IsDeleted);
                 if (organization != null)
                 {
-                    organization.ShortName = obj.ShortName;
+                    //organization.ShortName = obj.ShortName;
                     organization.Name = obj.Name;
                     organization.Description = obj.Description;
                     organization.UpdatedDate = DateTime.Now.AddHours(14);

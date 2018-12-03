@@ -1,6 +1,17 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/Content/bootstrap3.3.5.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrapjs3.5.js"></script>
+
+<!-- include codemirror (codemirror.css, codemirror.js, xml.js, formatting.js) -->
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.css">
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/monokai.css">
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/formatting.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-lite.js"></script>
+
 <script src="~/Scripts/VINASIC/SiteSetting/SiteSetting_Index.js"></script>
 <div class="row">
     <div class="col-lg-12">
@@ -13,7 +24,63 @@
         </ol>
     </div>
 </div>
-<div id="jtableSiteSetting"></div>
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading tab-bg-info">
+                <ul class="nav nav-tabs">
+                    <li id="tab1" class="active">
+                        <a data-toggle="tab" href="#tab1-activity">
+                            <i class="icon-home"></i>
+                            Cấu Hình Chung
+                        </a>
+                    </li>
+                    <li id="tab2" class="">
+                        <a data-toggle="tab" href="#tab2-activity">
+                            <i class="icon-envelope"></i>
+                            Chỉnh Sửa Trang Chủ
+                        </a>
+                    </li>
+                    <li id="tab3" class="">
+                        <a data-toggle="tab" href="#tab3-activity">
+                            <i class="icon-envelope"></i>
+                            Chỉnh Sửa Nội Dung Mail
+                        </a>
+                    </li>
+                </ul>
+            </header>
+            <div style="border-style: none" class="panel-body pannel-StockIn">
+                <div class="tab-content">
+                    <div id="tab1-activity" class="tab-pane active">
+                        <div id="jtableSiteSetting"></div>
+                    </div>
+                    <div id="tab2-activity" class="tab-pane">
+                        <input type="hidden" id="tempId" value="0" />
+                        <div class="row">
+                            <div id="summernote"></div>
+                        </div>
+                        <button id="saveContent" save class="btn btn-primary">
+                            <div class="button-image image-save"></div>
+                            Lưu
+                        </button>
+
+                    </div>
+                    <div id="tab3-activity" class="tab-pane">
+                        <input type="hidden" id="tempId1" value="0" />
+                        <div class="row">
+                            <div id="summernote1"></div>
+                        </div>
+                        <button id="saveContent1" save class="btn btn-primary">
+                            <div class="button-image image-save"></div>
+                            Lưu
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
 <!-- Modal -->
 <div class="modal fade" id="popup_SiteSetting" role="dialog">
     <div class="modal-dialog">
@@ -26,7 +93,10 @@
             <div class="modal-body" style="padding: 40px 50px;">
                 <form role="form">
                     <input type="hidden" data-bind="value: Id" />
-
+                    <div class="form-group">
+                        <label for="Code"><span class="glyphicon glyphicon-list-alt"></span>Mã</label>
+                        <input type="text" data-bind="value: Code" class="form-control" id="Code" placeholder="Code">
+                    </div>
                     <div class="form-group">
                         <label for="Name"><span class="glyphicon glyphicon-list-alt"></span>Tên</label>
                         <input type="text" data-bind="value: Name" class="form-control" id="Name" placeholder="Name">
@@ -55,3 +125,98 @@
 
     </div>
 </div>
+<script>
+    $("#saveContent").click(function () {
+        saveContent();
+    });
+    $("#saveContent1").click(function () {
+        saveContent1();
+    });
+    $('#summernote').summernote({
+        placeholder: 'Nội Dung',
+        tabsize: 2,
+        height: 600
+    });
+    $('#summernote1').summernote({
+        placeholder: 'Nội Dung',
+        tabsize: 2,
+        height: 600
+    });
+    function myFunction() {
+        debugger;
+        $('#summernote').summernote('reset');
+        var x = document.getElementById("mySelect").value;
+        initContent(x);
+    }
+    function saveContent() {
+        var ModelContent = { id: 0, Name: "Content", Type: 1, Description: '', Content: $('#summernote').summernote('code') };
+        $.ajax({
+            url: '/ContentPage/SaveContent',
+            type: 'post',
+            data: ko.toJSON(ModelContent),
+            contentType: 'application/json',
+            success: function (result) {
+                $('#loading').hide();
+                GlobalCommon.CallbackProcess(result, function () {
+                    if (result.Result === "OK") {
+                        toastr.success('Thành Công');
+                    }
+                }, false, '', true, true, function () {
+                    var msg = GlobalCommon.GetErrorMessage(result);
+                    GlobalCommon.ShowMessageDialog(msg, function () { }, "Đã có lỗi xảy ra trong quá trình sử lý.");
+                });
+            }
+        });
+    }
+    function saveContent1() {
+        var ModelContent = { id: 0, Name: "Content", Type: 2, Description: '', Content: $('#summernote1').summernote('code') };
+        $.ajax({
+            url: '/ContentPage/SaveContent',
+            type: 'post',
+            data: ko.toJSON(ModelContent),
+            contentType: 'application/json',
+            success: function (result) {
+                $('#loading').hide();
+                GlobalCommon.CallbackProcess(result, function () {
+                    if (result.Result === "OK") {
+                        toastr.success('Thành Công');
+                    }
+                }, false, '', true, true, function () {
+                    var msg = GlobalCommon.GetErrorMessage(result);
+                    GlobalCommon.ShowMessageDialog(msg, function () { }, "Đã có lỗi xảy ra trong quá trình sử lý.");
+                });
+            }
+        });
+    }
+    function initContent(code) {
+        $.ajax({
+            url: "/ContentPage/GetContent?code=1",
+            type: 'post',
+            contentType: 'application/json',
+            success: function (result) {
+                debugger;
+                if (result.Records != null) {
+                    $('#summernote').summernote('code', result.Records.Content);
+                }
+
+            }
+        });
+    }
+    function initContent1(code) {
+        $.ajax({
+            url: "/ContentPage/GetContent?code=2",
+            type: 'post',
+            contentType: 'application/json',
+            success: function (result) {
+                debugger;
+                if (result.Records != null) {
+                    $('#summernote1').summernote('code', result.Records.Content);
+                }
+
+            }
+        });
+    }
+    initContent(1);
+    initContent1(2);
+
+</script>

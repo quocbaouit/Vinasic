@@ -993,6 +993,7 @@
     <Content Include="css\style.css" />
     <Content Include="css\widgets.css" />
     <Content Include="css\xcharts.min.css" />
+    <Content Include="Files\fileNotification.jpg" />
     <Content Include="Files\logo.jpg" />
     <Content Include="Files\logovinasic.png" />
     <Content Include="Files\xuanan.jpg" />
@@ -2037,7 +2038,7 @@
     <Content Include="Scripts\VINASIC\User\User.js" />
     <Content Include="Scripts\VINASIC\User\UserInfo.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="service-worker.js" />
+    <Content Include="service-worker1.1.js" />
     <Content Include="Sounds\NoteSound.mp3" />
     <Content Include="Views\Authenticate\login.css" />
     <Content Include="Views\ProductType\Index.cshtml" />

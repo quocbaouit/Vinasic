@@ -11,5 +11,6 @@ namespace VINASIC.Business.Interface
         PagedList<ModelSiteSetting> GetList(string keyWord, int startIndexRecord, int pageSize, string sorting);
         List<ModelSelectItem> GetListSiteSetting();
         List<ModelSiteSetting> GetListProduct();
+        bool ChecConfig(string code);
     }
 }

@@ -23,19 +23,42 @@ namespace VINASIC.Controllers
         private readonly IBllProduct _bllProduct;
         private readonly IBllEmployee _bllEmployee;
         private readonly IBllCustomer _bllCustomer;
+        private readonly IBllSiteSetting _bllSiteSetting;
 
-        public OrderController(IBllOrder bllOrder, IBllEmployee bllEmployee, IBllCustomer bllCustomer, IBllProductType bllProductType, IBllProduct bllProduct)
+        public OrderController(IBllOrder bllOrder, IBllSiteSetting bllSiteSetting, IBllEmployee bllEmployee, IBllCustomer bllCustomer, IBllProductType bllProductType, IBllProduct bllProduct)
         {
             _bllOrder = bllOrder;
+            _bllSiteSetting = bllSiteSetting;
             _bllEmployee = bllEmployee;
             _bllCustomer = bllCustomer;
             _bllProductType = bllProductType;
             _bllProduct = bllProduct;
+            
         }
         public ActionResult Index()
         {
             var employee = _bllEmployee.GetUserById(UserContext.UserID);
+            var showDim = _bllSiteSetting.ChecConfig("configDimension");
+            var CompanyInfo = _bllSiteSetting.GetListProduct();
             ViewBag.Employee = employee;
+            ViewBag.ShowDim = showDim;
+            if (showDim)
+            {
+                ViewBag.CssShowDim = "inline";
+            }
+            else
+            {
+                ViewBag.CssShowDim = "none";
+            }
+            //company
+            ViewBag.cmpShortName = CompanyInfo.Where(x => x.Code == "cmpShortName").FirstOrDefault()?.Value;
+            ViewBag.cpnWebsite = CompanyInfo.Where(x => x.Code == "cpnWebsite").FirstOrDefault()?.Value;
+            ViewBag.cpnLogo = CompanyInfo.Where(x => x.Code == "cpnLogo").FirstOrDefault()?.Value;
+            ViewBag.cpnMobile = CompanyInfo.Where(x => x.Code == "cpnMobile").FirstOrDefault()?.Value;
+            ViewBag.cpnAddress = CompanyInfo.Where(x => x.Code == "cpnAddress").FirstOrDefault()?.Value;
+            ViewBag.cpnName = CompanyInfo.Where(x => x.Code == "cpnName").FirstOrDefault()?.Value;
+            //company
+
             return View();
         }
 
@@ -583,13 +606,13 @@ namespace VINASIC.Controllers
             }
             return Json(JsonDataResult);
         }
-        public JsonResult UpdateDetailStatus(int detailId, int status,int employeeId)
+        public JsonResult UpdateDetailStatus(int detailId, int status,int employeeId,string content)
         {
             try
             {
                 //if (IsAuthenticate)
                 //{
-                    var responseResult = _bllOrder.UpdateDetailStatus(detailId, status, employeeId);
+                    var responseResult = _bllOrder.UpdateDetailStatus(detailId, status, employeeId, content);
                     if (responseResult.IsSuccess)
                         JsonDataResult.Result = "OK";
                     else
@@ -597,6 +620,38 @@ namespace VINASIC.Controllers
                         JsonDataResult.Result = "ERROR";
                         JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
                     }
+                //}
+                //else
+                //{
+                //    JsonDataResult.Result = "ERROR";
+                //    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
+                //}
+            }
+            catch (Exception ex)
+            {
+                //add error
+                JsonDataResult.Result = "ERROR";
+                JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update", Message = "Lỗi: " + ex.Message });
+            }
+            return Json(JsonDataResult);
+        }
+
+        public JsonResult UpdateDetailStatus2(int detailId, int status, int employeeId)
+        {
+            try
+            {
+                //if (IsAuthenticate)
+                //{
+                if(employeeId==0)
+                employeeId = UserContext.UserID;
+                var responseResult = _bllOrder.UpdateDetailStatus2(detailId, status, employeeId);
+                if (responseResult.IsSuccess)
+                    JsonDataResult.Result = "OK";
+                else
+                {
+                    JsonDataResult.Result = "ERROR";
+                    JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
+                }
                 //}
                 //else
                 //{
@@ -686,7 +741,7 @@ namespace VINASIC.Controllers
             return new ExcelDownload(pck, string.Format("{0}_{1}.xlsx", orderName, DateTime.Now.AddHours(14).ToString("d")));
         }
         //public 
-        public ExcelPackage ExportSum(ExcelPackage package, DateTime fromDate, DateTime toDate, int employee, string keySearch, int delivery, int paymentStatus)
+        public ExcelPackage ExportSum1(ExcelPackage package, DateTime fromDate, DateTime toDate, int employee, string keySearch, int delivery, int paymentStatus)
         {
             var result = _bllOrder.ExportReport(fromDate, toDate, employee, keySearch, delivery, paymentStatus);
             if (result.Count == 0)
@@ -910,6 +965,327 @@ namespace VINASIC.Controllers
                 //{
                 //    c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                 //}
+            }
+
+            return package;
+        }
+        public ExcelPackage ExportSum(ExcelPackage package, DateTime fromDate, DateTime toDate, int employee, string keySearch, int delivery, int paymentStatus)
+        {
+            var CompanyInfo = _bllSiteSetting.GetListProduct();
+            var cmpShortName = CompanyInfo.Where(x => x.Code == "cmpShortName").FirstOrDefault()?.Value;
+            var cpnWebsite = CompanyInfo.Where(x => x.Code == "cpnWebsite").FirstOrDefault()?.Value;
+            var cpnLogo = CompanyInfo.Where(x => x.Code == "cpnLogo").FirstOrDefault()?.Value;
+            var cpnMobile = CompanyInfo.Where(x => x.Code == "cpnMobile").FirstOrDefault()?.Value;
+            var cpnAddress = CompanyInfo.Where(x => x.Code == "cpnAddress").FirstOrDefault()?.Value;
+            var cpnName = CompanyInfo.Where(x => x.Code == "cpnName").FirstOrDefault()?.Value;
+
+            var result = _bllOrder.ExportReport(fromDate, toDate, employee, keySearch, delivery, paymentStatus);
+            var siteSettings = _bllSiteSetting.GetListProduct();
+            var configCustomer = siteSettings.Where(x => x.Code == "configCustomer").FirstOrDefault().Value;
+            var configUnit = siteSettings.Where(x => x.Code == "configUnit").FirstOrDefault().Value;
+            var configDimension = siteSettings.Where(x => x.Code == "configDimension").FirstOrDefault().Value;
+            if (result.Count == 0)
+            {
+                return package;
+            }
+            var ws = package.Workbook.Worksheets.Add("Thống Kê");
+
+            ws.Cells.Style.Font.Size = 14;
+            ws.Cells.Style.Font.Name = "Times New Roman";
+            var columnNumber = 1;
+            ws.Column(columnNumber).Width = 7;
+            columnNumber++;
+            ws.Column(columnNumber).Width = 7;
+            columnNumber++;
+            ws.Column(columnNumber).Width = 15;
+            columnNumber++;
+            if (configCustomer=="true")//customerName
+            {
+                ws.Column(columnNumber).Width = 30;
+                columnNumber++;
+            }
+            
+            ws.Column(columnNumber).Width = 30;
+            columnNumber++;
+            ws.Column(columnNumber).Width = 30;
+            columnNumber++;
+            if (configUnit == "true")
+            {
+                ws.Column(columnNumber).Width = 8;
+                columnNumber++;
+            }
+            if (configDimension == "true")
+            {
+                ws.Column(columnNumber).Width = 8;
+                columnNumber++;
+            }
+            if (configDimension == "true")
+            {
+                ws.Column(columnNumber).Width = 8;
+                columnNumber++;
+            }
+            
+            ws.Column(columnNumber).Width = 14;
+            columnNumber++;
+            ws.Column(columnNumber).Width = 14;
+            columnNumber++;
+            ws.Column(columnNumber).Width = 14;
+            columnNumber++;
+            ws.Column(columnNumber).Width = 14;
+            columnNumber++;
+            ws.Column(columnNumber).Width = 14;
+            columnNumber++;
+            ws.Column(columnNumber).Width = 14;
+            columnNumber++;
+            ws.Column(columnNumber).Width = 14;
+            string path = cpnLogo;
+            var logo = Image.FromFile(Server.MapPath(path));
+            ws.Row(0 * 5).Height = 39.00D;
+            var picture = ws.Drawings.AddPicture(0.ToString(), logo);
+            picture.From.Column = 0;
+            picture.From.Row = 0;
+            picture.To.Column = 0;
+            picture.To.Row = 0;
+            picture.SetSize(280, 104);
+
+            ws.Cells["G1"].Value = cpnName;
+            ws.Cells["G1"].Style.Font.Bold = true;
+            ws.Cells["G1"].Style.Font.Size = 16;
+            ws.Cells["G1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+            ws.Cells["G2"].Value = "Inlichgo.com";
+            ws.Cells["G2"].Style.Font.Bold = true;
+            ws.Cells["G2"].Style.Font.Size = 14;
+            ws.Cells["G2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            ws.Cells["G2"].Style.Font.Color.SetColor(Color.RoyalBlue);
+
+            ws.Cells["G3"].Value = "Địa chỉ văn phòng: "+cpnAddress;
+            ws.Cells["G3"].Style.Font.Bold = true;
+            ws.Cells["G3"].Style.Font.Size = 14;
+            ws.Cells["G3"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+            ws.Cells["G4"].Value = "Di động: "+cpnMobile;
+            ws.Cells["G4"].Style.Font.Bold = true;
+            ws.Cells["G4"].Style.Font.Size = 14;
+            ws.Cells["G4"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+            ws.Cells["G6"].Value = "THỐNG KÊ HÀNG IN";
+            ws.Cells["G6"].Style.Font.Bold = true;
+            ws.Cells["G6"].Style.Font.Size = 18;
+            ws.Cells["G6"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+            char letter = 'a';
+
+            ws.Cells[letter+"8"].Value = "STT";
+            ws.Cells[letter + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
+
+            ws.Cells[(char)(((int)letter))+"8"].Value = "Mã ĐH";
+            ws.Cells[(char)(((int)letter))+"8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
+
+            ws.Cells[(char)(((int)letter))+"8"].Value = "Ngày Tạo";
+            ws.Cells[(char)(((int)letter))+"8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
+            if (configCustomer == "true")
+            {
+                ws.Cells[(char)(((int)letter)) + "8"].Value = "Tên Khách Hàng";
+                ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+                letter = (char)(((int)letter) + 1);
+            }
+            
+
+            ws.Cells[(char)(((int)letter))+"8"].Value = "Hạng mục";
+            ws.Cells[(char)(((int)letter))+"8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
+
+            ws.Cells[(char)(((int)letter))+"8"].Value = "Diễn giải";
+            ws.Cells[(char)(((int)letter))+"8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
+            if (configUnit == "true")
+            {
+                ws.Cells[(char)(((int)letter)) + "8"].Value = "Đơn vị";
+                ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+                letter = (char)(((int)letter) + 1);
+            }
+            if (configDimension == "true")
+            {
+                char mergerLetter = (char)(((int)letter));
+                ws.Cells[(char)(((int)mergerLetter)) + "8:" + (char)(((int)mergerLetter) + 1) + "8"].Merge = true;
+                ws.Cells["H8"].Value = "Kích thước (m)";
+                ws.Cells["H8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+                letter = (char)(((int)letter) + 2);
+            }        
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Số lượng";
+            ws.Cells[(char)(((int)letter)) +"8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
+            if (configDimension == "true")
+            {
+                ws.Cells[(char)(((int)letter)) + "8"].Value = "Diện tích";
+                ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+                letter = (char)(((int)letter) + 1);
+            }          
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Đơn giá (vnd)";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
+
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Thành Tiền (vnd)";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            char mergerTotalLetter = (char)(((int)letter) - 1);
+            letter = (char)(((int)letter) + 1);
+        
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "ThanhToán Tiền Mặt";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
+
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Chuyển Khoản(vnd)";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
+
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Còn Lại (vnd)";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+
+            foreach (var c in ws.Cells["A8:"+ letter+"8"])
+            {
+                c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                c.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                c.Style.WrapText = true;
+                c.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+            }
+            ws.Cells["A9:" + mergerTotalLetter + "9"].Merge = true;
+            ws.Cells["A9:" + mergerTotalLetter + "9"].Value = "Tổng cộng";
+            ws.Cells["A9:" + mergerTotalLetter + "9"].Style.Font.Bold = true;
+            ws.Cells["A9:" + mergerTotalLetter + "9"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+            char totalLetter= (char)(((int)mergerTotalLetter) + 1);
+            ws.Cells[totalLetter+"9"].Style.Numberformat.Format = "#,##0";
+            ws.Cells[totalLetter+"9"].Value = result[0].Total;
+            totalLetter++;
+
+            ws.Cells[totalLetter+"9"].Style.Numberformat.Format = "#,##0";
+            ws.Cells[totalLetter+"9"].Value = "";
+            totalLetter++;
+
+            ws.Cells[totalLetter+"9"].Style.Numberformat.Format = "#,##0";
+            ws.Cells[totalLetter+"9"].Value = "";
+            totalLetter++;
+            ws.Cells[totalLetter+"9"].Style.Numberformat.Format = "#,##0";
+            ws.Cells[totalLetter+"9"].Value = "";
+            foreach (var c in ws.Cells["A9:"+ totalLetter+"9"])
+            {
+                c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                c.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                c.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                c.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            }
+            var startRow = int.Parse(ws.Cells["A8"].Address.Substring(1)) + 1;
+            var endRow = startRow;
+            var numRows = result.Count;
+            for (var i = 0; i < numRows; i++)
+            {
+                ws.InsertRow(endRow, 1);
+                var column = 1;
+                ws.Cells[endRow, column].Value = i + 1;
+                column++;
+                ws.Cells[endRow, column].Value = result[i].OrderId;
+                column++;
+                ws.Cells[endRow, column].Value = result[i].CreatedDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                column++;
+                if (configCustomer == "true")
+                {
+                    ws.Cells[endRow, column].Value = result[i].CustomerName;
+                    column++;
+                }
+                
+                ws.Cells[endRow, column].Value = result[i].FileName;
+                column++;
+                ws.Cells[endRow, column].Value = result[i].CommodityName;
+                column++;
+                if (configUnit == "true")
+                {
+                    ws.Cells[endRow, column].Value = result[i].Unit;
+                    column++;
+                }
+                if (configDimension == "true")
+                {
+                    ws.Cells[endRow, column].Value = result[i].Width == 0 ? null : result[i].Width;
+                    column++;
+                    ws.Cells[endRow, column].Value = result[i].Height == 0 ? null : result[i].Height;
+                    column++;
+                }
+                
+                ws.Cells[endRow, column].Value = result[i].Quantity;
+                column++;
+                if (configDimension == "true")
+                {
+                    ws.Cells[endRow, column].Value = result[i].Square == 0 ? null : result[i].SumSquare;
+                    column++;
+                }
+               
+                ws.Cells[endRow, column].Style.Numberformat.Format = "#,##0";
+                ws.Cells[endRow, column].Value = result[i].Price;
+                column++;
+                ws.Cells[endRow, column].Style.Numberformat.Format = "#,##0";
+                ws.Cells[endRow, column].Value = result[i].SubTotal;
+                column++;
+
+                try
+                {
+                    if ((result[i].OrderId != result[i - 1].OrderId))
+                    {
+                        var tryColumn = column;
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = result[i].HasPay;
+                        tryColumn++;
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = result[i].HasPayTransfer;
+                        tryColumn++;
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = result[i].Total1 - (result[i].HasPay + result[i].HasPayTransfer);
+                        tryColumn++;
+                    }
+                    else
+                    {
+                        var tryColumn = column;
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = "";
+                        tryColumn++;
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = "";
+                        tryColumn++;
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = "";
+                        tryColumn++;
+                    }
+                }
+                catch (Exception)
+                {
+                    var tryColumn = column;
+                    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                    ws.Cells[endRow, tryColumn].Value = result[i].HasPay;
+                    tryColumn++;
+                    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                    ws.Cells[endRow, tryColumn].Value = result[i].HasPayTransfer;
+                    tryColumn++;
+                    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                    ws.Cells[endRow, tryColumn].Value = result[i].Total1 - (result[i].HasPay + result[i].HasPayTransfer);
+                    tryColumn++;
+                }
+                if (i == numRows - 1)
+                    continue;
+                endRow++;
+            }
+            if (numRows != 0)
+            {
+                foreach (var c in ws.Cells["A" + startRow + ":"+letter + endRow])
+                {
+                    c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                    c.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                    c.Style.Border.Left.Style = ExcelBorderStyle.Thin;
+                    c.Style.Border.Right.Style = ExcelBorderStyle.Thin;
+                    c.Style.Border.Bottom.Style = ExcelBorderStyle.Hair;
+                    c.Style.WrapText = true;
+                }
             }
 
             return package;

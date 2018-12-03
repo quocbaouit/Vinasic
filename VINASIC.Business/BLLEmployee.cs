@@ -652,18 +652,18 @@ namespace VINASIC.Business
                 orderDetail.UpdatedUser = userId;
                 _repOrderDetailRepository.Update(orderDetail);
                 SaveChange();
-                var order = _repOrderRepository.GetById(orderDetail.OrderId);
-                var isComplete = _repOrderDetailRepository.GetMany(x => x.OrderId == order.Id && x.DetailStatus != 0 && x.DetailStatus != 7).ToList();
-                if (isComplete.Count == 0)
-                {
-                    order.OrderStatus = 2;
-                }
-                else
-                {
-                    order.OrderStatus = 1;
-                }
-                _repOrderRepository.Update(order);
-                SaveChange();
+                //var order = _repOrderRepository.GetById(orderDetail.OrderId);
+                //var isComplete = _repOrderDetailRepository.GetMany(x => x.OrderId == order.Id && x.DetailStatus != 0 && x.DetailStatus != 7).ToList();
+                //if (isComplete.Count == 0)
+                //{
+                //    order.OrderStatus = 2;
+                //}
+                //else
+                //{
+                //    order.OrderStatus = 1;
+                //}
+                //_repOrderRepository.Update(order);
+                //SaveChange();
                 result.IsSuccess = true;
                 result.Data = DateTime.Now.AddHours(14);
 

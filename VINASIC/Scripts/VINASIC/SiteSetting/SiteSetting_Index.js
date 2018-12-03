@@ -45,13 +45,15 @@ VINASIC.SiteSetting = function () {
     function initViewModel(siteSetting) {
         var siteSettingViewModel = {
             Id: 0,
+            Code:"",
             Name: "",
             Value:"",
             Description: ""
         };
         if (siteSetting != null) {
             siteSettingViewModel = {
-                Id: ko.observable(siteSetting.Id),              
+                Id: ko.observable(siteSetting.Id),   
+                Code: ko.observable(siteSetting.Code),
                 Name: ko.observable(siteSetting.Name),
                 Value: ko.observable(siteSetting.Value),
                 Description: ko.observable(siteSetting.Description)
@@ -121,7 +123,10 @@ VINASIC.SiteSetting = function () {
                     edit: false,
                     list: false
                 },
-                
+                Code: {
+                    title: "Code",
+                    width: "10%"
+                },
                 Name: {
                     visibility: "fixed",
                     title: "Tên",
@@ -142,24 +147,24 @@ VINASIC.SiteSetting = function () {
                 Description: {
                     title: "Mô Tả",
                     width: "20%"
-                },
-                Delete: {
-                    title: "Xóa",
-                    width: "5%",
-                    sorting: false,
-                    display: function (data) {
-                        var text = $('<button title="Xóa" class="jtable-command-button jtable-delete-command-button"><span>Xóa</span></button>');
-                        text.click(function () {
-                            GlobalCommon.ShowConfirmDialog("Bạn có chắc chắn muốn xóa?", function () {
-                                deleteRow(data.record.Id);
-                                var realTimeHub = $.connection.realTimeJTableDemoHub;
-                                realTimeHub.server.sendUpdateEvent("jtableSiteSetting");
-                                $.connection.hub.start();
-                            }, function () { }, "Đồng ý", "Hủy bỏ", "Thông báo");
-                        });
-                        return text;
-                    }
                 }
+                //Delete: {
+                //    title: "Xóa",
+                //    width: "5%",
+                //    sorting: false,
+                //    display: function (data) {
+                //        var text = $('<button title="Xóa" class="jtable-command-button jtable-delete-command-button"><span>Xóa</span></button>');
+                //        text.click(function () {
+                //            GlobalCommon.ShowConfirmDialog("Bạn có chắc chắn muốn xóa?", function () {
+                //                deleteRow(data.record.Id);
+                //                var realTimeHub = $.connection.realTimeJTableDemoHub;
+                //                realTimeHub.server.sendUpdateEvent("jtableSiteSetting");
+                //                $.connection.hub.start();
+                //            }, function () { }, "Đồng ý", "Hủy bỏ", "Thông báo");
+                //        });
+                //        return text;
+                //    }
+                //}
             }
         });
     }

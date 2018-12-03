@@ -20,14 +20,22 @@ namespace VINASIC.Controllers
         private readonly IBllEmployee _bllEmployee;
         private readonly IBLLRole _bllRole;
         private readonly IBllPosition _bllPosition;
-        public EmployeeController(IBllEmployee bllEmployee, IBllPosition bllPosition, IBLLRole bllRole)
+        private readonly IBllSiteSetting _bllSiteSetting;
+        public EmployeeController(IBllEmployee bllEmployee, IBllSiteSetting bllSiteSetting, IBllPosition bllPosition, IBLLRole bllRole)
         {
             _bllEmployee = bllEmployee;
             _bllRole = bllRole;
             _bllPosition = bllPosition;
+            _bllSiteSetting = bllSiteSetting;
         }
         public ActionResult Index()
         {
+            //company
+            var CompanyInfo = _bllSiteSetting.GetListProduct();
+            ViewBag.cpnMobile = CompanyInfo.Where(x => x.Code == "cpnMobile").FirstOrDefault()?.Value;
+            ViewBag.cpnAddress = CompanyInfo.Where(x => x.Code == "cpnAddress").FirstOrDefault()?.Value;
+            ViewBag.cpnName = CompanyInfo.Where(x => x.Code == "cpnName").FirstOrDefault()?.Value;
+            // company
             return View();
         }
         public ActionResult DesignIndex()

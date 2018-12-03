@@ -67,6 +67,7 @@ VINASIC.Order = function () {
             NumberDetail: 0,
             IdOrderStatus: 0,
             IdDetailStatus: 0,
+            DetailStatus: 0,
             IdForView: 0,
         }
     };
@@ -79,9 +80,12 @@ VINASIC.Order = function () {
         document.getElementById("Block4").innerHTML = "";
         tableString += "<tr>";
         tableString += "<th style=\"padding-left: 5px;text-align: left;\">" + "Dịch Vụ" + "</th>";
-        tableString += "<th style=\"padding-left: 5px;text-align: left;\">" + "Ghi Chú" + "</th>";
-        tableString += "<th>" + "CNgang" + "</th>";
-        tableString += "<th>" + "CCao" + "</th>";
+        tableString += "<th style=\"padding-left: 5px;text-align: left;\">" + "Tên File" + "</th>";
+        if (document.getElementById('show-dim').checked) {
+            tableString += "<th>" + "CNgang" + "</th>";
+            tableString += "<th>" + "CCao" + "</th>";
+        }
+
         tableString += "<th>" + "SLượng" + "</th>";
         tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Đơn Giá" + "</th>";
         tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Thành Tiền" + "</th>";
@@ -90,8 +94,8 @@ VINASIC.Order = function () {
             var strPrice = Table[row].Price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
             var strSubTotal = Table[row].SubTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
             tableString += "<tr>";
-            if (Table[row].Description == null) {
-                Table[row].Description = '';
+            if (Table[row].FileName == null) {
+                Table[row].FileName = '';
             }
             if (Table[row].Height == null || Table[row].Height == 0) {
                 Table[row].Height = '';
@@ -100,9 +104,12 @@ VINASIC.Order = function () {
                 Table[row].Width = '';
             }
             tableString += "<td style=\"padding-left: 5px;\">" + Table[row].CommodityName + "</td>";
-            tableString += "<td style=\"padding-left: 5px;\">" + Table[row].Description + "</td>";
-            tableString += "<td style=\"padding-center: 5px;text-align: center;\">" + Table[row].Width + "</td>";
-            tableString += "<td style=\"padding-center: 5px;text-align: center;\">" + Table[row].Height + "</td>";
+            tableString += "<td style=\"padding-left: 5px;\">" + Table[row].FileName + "</td>";
+            if (document.getElementById('show-dim').checked) {
+                tableString += "<td style=\"padding-center: 5px;text-align: center;\">" + Table[row].Width + "</td>";
+                tableString += "<td style=\"padding-center: 5px;text-align: center;\">" + Table[row].Height + "</td>";
+            }
+
             tableString += "<td style=\"padding-center: 5px;text-align: center;\">" + Table[row].Quantity + "</td>";
             tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strPrice + "</td>";
             tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strSubTotal + "</td>";
@@ -115,8 +122,11 @@ VINASIC.Order = function () {
                 tableString += "<tr>";
                 tableString += "<td>" + "&nbsp;" + "</td>";
                 tableString += "<td>" + "&nbsp;" + "</td>";
-                tableString += "<td>" + "&nbsp;" + "</td>";
-                tableString += "<td>" + "&nbsp;" + "</td>";
+
+                if (document.getElementById('show-dim').checked) {
+                    tableString += "<td>" + "&nbsp;" + "</td>";
+                    tableString += "<td>" + "&nbsp;" + "</td>";
+                }
                 tableString += "<td>" + "&nbsp;" + "</td>";
                 tableString += "<td>" + "&nbsp;" + "</td>";
                 tableString += "<td>" + "&nbsp;" + "</td>";
@@ -124,11 +134,14 @@ VINASIC.Order = function () {
             }
         }
         tableString += "<tr>";
-        tableString += "<td colspan=\"6\">Tổng Tiền</td>";
+        var colspan = 4;
+        if (document.getElementById('show-dim').checked)
+            colspan = 6;
+        tableString += "<td colspan=\"" + colspan+"\">Tổng Tiền(bao gồm thuế nếu có):</td>";
         tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal1\">55577854</span></td>";
         tableString += "</tr>";
         tableString += "<tr>";
-        tableString += "<td colspan=\"7\">Bằng Chữ:<span id=\"strtotal1\">Test </span></td>";
+        tableString += "<td colspan=\"" + (colspan+1)+"\">Bằng Chữ:<span id=\"strtotal1\">Test </span></td>";
         tableString += "</tr>";
         tableString += "</table>";
         root.innerHTML = tableString;
@@ -260,6 +273,9 @@ VINASIC.Order = function () {
     /*end function*/
     /*function show Popup*/
     function showPopupDesignProcess() {
+        debugger;
+        //$('#DesignDescription').val('');
+        //$('#DesignDescription').val(content);
         $("#" + global.Element.PopupDesignProcess).modal("show");
     }
     function showPopupPrintProcess() {
@@ -411,10 +427,10 @@ VINASIC.Order = function () {
             }
         });
     }
-    function updateDetailStatus(detailId, status, employeeUpdateId) {
+    function updateDetailStatus(detailId, status, employeeUpdateId,content) {
         debugger;
         $.ajax({
-            url: "/Order/UpdateDetailStatus?detailId=" + detailId + "&status=" + status + "&employeeId=" + employeeUpdateId,
+            url: "/Order/UpdateDetailStatus?detailId=" + detailId + "&status=" + status + "&employeeId=" + employeeUpdateId + "&content=" + content,
             type: 'post',
             contentType: 'application/json',
             success: function (result) {
@@ -771,6 +787,218 @@ VINASIC.Order = function () {
                     sorting: false,
                     edit: false,
                     display: function (orderDetailData) {
+                        var tableObj = {};
+                        if (document.getElementById('show-dim').checked) {
+                            tableObj = {
+                                OrderId: {
+                                    type: 'hidden',
+                                    defaultValue: orderDetailData.record.Id
+                                },
+                                Id: {
+                                    key: true,
+                                    create: false,
+                                    edit: false,
+                                    list: false
+                                },
+                                CommodityName: {
+                                    title: "Tên Mặt Hàng",
+                                    width: "10%"
+                                },
+                                Description: {
+                                    title: "Ghi Chú",
+                                    width: "10%"
+                                },
+                                strDetailStatus: {
+                                    visibility: 'fixed',
+                                    title: "Trạng Thái",
+                                    width: "10%",
+                                    display: function (data) {
+                                        var text = "";
+                                        var arrayNVTK = global.Data.ListEmployeeDesign;
+                                        var arrayNVIN = global.Data.ListEmployeePrint;
+                                        var arrayNVGC = global.Data.ListEmployeeAddon;
+                                        var textNVTK = '';
+                                        var textNVIN = '';
+                                        var textNVGC = '';
+                                        debugger;
+                                        var strStatus = getOrderDetailStatus(data.record.DetailStatus);
+                                        for (var i = 0; i < arrayNVTK.length; i++) {
+                                            textNVTK = textNVTK + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVTK[i].Id + ' class="detailstatus1" href="#">' + arrayNVTK[i].Name + '</a></li>';
+                                        };
+                                        for (var i = 0; i < arrayNVIN.length; i++) {
+                                            textNVIN = textNVIN + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVIN[i].Id + ' class="detailstatus3" href="#">' + arrayNVIN[i].Name + '</a></li>'
+                                        };
+                                        for (var i = 0; i < arrayNVGC.length; i++) {
+                                            textNVGC = textNVGC + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVGC[i].Id + ' class="detailstatus5" href="#">' + arrayNVGC[i].Name + '</a></li>'
+                                        };
+                                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho thiết kế</a><ul class="dropdown-menu">' + textNVTK + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu">' + textNVIN + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">chuyển cho gia công</a><ul class="dropdown-menu">' + textNVGC + '</ul></li><li class="dropdown"><a tabindex="-1" href="#" class=" detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
+                                        text.click(function () {
+                                            global.Data.OrderId = orderDetailData.record.Id;
+                                            global.Data.IdDetailStatus = data.record.Id;
+                                        });
+                                        return text;
+                                    }
+                                },
+                                UserProcess: {
+                                    visibility: 'fixed',
+                                    title: "Nhân Viên",
+                                    width: "10%",
+                                    display: function (data) {
+                                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + data.record.UserProcess + '</a></span></button><ul class="dropdown-menu"><li><a class="user1" href="javascript:void(0)">Thiết Kế: ' + data.record.DesignView + '</a></li><li><a class="user2" href="javascript:void(0)">In: ' + data.record.PrintView + '</a></li><li><a class="user3" href="javascript:void(0)">Gia Công:' + data.record.AddOnView + '</a></li></ul></div>');
+                                        text.click(function () {
+                                        });
+                                        return text;
+                                    }
+                                },
+                                Width: {
+                                    title: "CNgang",
+                                    width: "5%"
+                                },
+                                Height: {
+                                    title: "CCao",
+                                    width: "5%"
+                                },
+                                Square: {
+                                    title: "DTích",
+                                    width: "5%"
+                                },
+                                Quantity: {
+                                    title: 'SLượng',
+                                    width: '5%'
+                                },
+                                SumSquare: {
+                                    title: 'Tổng DT',
+                                    width: '10%'
+                                },
+                                strPrice: {
+                                    title: 'ĐGiá',
+                                    width: '5%'
+                                },
+                                strSubTotal: {
+                                    title: 'Thành Tiền',
+                                    width: '10%'
+                                },
+                                
+                            };
+                        }
+                        else {
+                            tableObj = {
+                                OrderId: {
+                                    type: 'hidden',
+                                    defaultValue: orderDetailData.record.Id
+                                },
+                                Id: {
+                                    key: true,
+                                    create: false,
+                                    edit: false,
+                                    list: false
+                                },
+                                CommodityName: {
+                                    title: "Tên Mặt Hàng",
+                                    width: "10%"
+                                },
+                                Description: {
+                                    title: "Ghi Chú",
+                                    width: "10%"
+                                },
+                                strDetailStatus: {
+                                    visibility: 'fixed',
+                                    title: "Trạng Thái",
+                                    width: "10%",
+                                    display: function (data) {
+                                        var text = "";
+                                        var arrayNVTK = global.Data.ListEmployeeDesign;
+                                        var arrayNVIN = global.Data.ListEmployeePrint;
+                                        var arrayNVGC = global.Data.ListEmployeeAddon;
+                                        var textNVTK = '';
+                                        var textNVIN = '';
+                                        var textNVGC = '';
+                                        debugger;
+                                        var strStatus = getOrderDetailStatus(data.record.DetailStatus);
+                                        for (var i = 0; i < arrayNVTK.length; i++) {
+                                            textNVTK = textNVTK + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVTK[i].Id + ' class="detailstatus1" href="#">' + arrayNVTK[i].Name + '</a></li>';
+                                        };
+                                        for (var i = 0; i < arrayNVIN.length; i++) {
+                                            textNVIN = textNVIN + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVIN[i].Id + ' class="detailstatus3" href="#">' + arrayNVIN[i].Name + '</a></li>'
+                                        };
+                                        for (var i = 0; i < arrayNVGC.length; i++) {
+                                            textNVGC = textNVGC + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVGC[i].Id + ' class="detailstatus5" href="#">' + arrayNVGC[i].Name + '</a></li>'
+                                        };
+                                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho thiết kế</a><ul class="dropdown-menu">' + textNVTK + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu">' + textNVIN + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">chuyển cho gia công</a><ul class="dropdown-menu">' + textNVGC + '</ul></li><li class="dropdown"><a tabindex="-1" href="#" class=" detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
+                                        text.click(function () {
+                                            global.Data.OrderId = orderDetailData.record.Id;
+                                            global.Data.IdDetailStatus = data.record.Id;
+                                        });
+                                        return text;
+                                    }
+                                },
+                                UserProcess: {
+                                    visibility: 'fixed',
+                                    title: "Nhân Viên",
+                                    width: "10%",
+                                    display: function (data) {
+                                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + data.record.UserProcess + '</a></span></button><ul class="dropdown-menu"><li><a class="user1" href="javascript:void(0)">Thiết Kế: ' + data.record.DesignView + '</a></li><li><a class="user2" href="javascript:void(0)">In: ' + data.record.PrintView + '</a></li><li><a class="user3" href="javascript:void(0)">Gia Công:' + data.record.AddOnView + '</a></li></ul></div>');
+                                        text.click(function () {
+                                        });
+                                        return text;
+                                    }
+                                },
+                                Quantity: {
+                                    title: 'SLượng',
+                                    width: '5%'
+                                },
+                                strPrice: {
+                                    title: 'ĐGiá',
+                                    width: '5%'
+                                },
+                                strSubTotal: {
+                                    title: 'Thành Tiền',
+                                    width: '10%'
+                                },
+                                strDetailStatus: {
+                                    visibility: 'fixed',
+                                    title: "Trạng Thái",
+                                    width: "10%",
+                                    display: function (data) {
+                                        var text = "";
+                                        var arrayNVTK = global.Data.ListEmployeeDesign;
+                                        var arrayNVIN = global.Data.ListEmployeePrint;
+                                        var arrayNVGC = global.Data.ListEmployeeAddon;
+                                        var textNVTK = '';
+                                        var textNVIN = '';
+                                        var textNVGC = '';
+                                        debugger;
+                                        var strStatus = getOrderDetailStatus(data.record.DetailStatus);
+                                        for (var i = 0; i < arrayNVTK.length; i++) {
+                                            textNVTK = textNVTK + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVTK[i].Id + ' class="detailstatus1" href="#">' + arrayNVTK[i].Name + '</a></li>';
+                                        };
+                                        for (var i = 0; i < arrayNVIN.length; i++) {
+                                            textNVIN = textNVIN + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVIN[i].Id + ' class="detailstatus3" href="#">' + arrayNVIN[i].Name + '</a></li>'
+                                        };
+                                        for (var i = 0; i < arrayNVGC.length; i++) {
+                                            textNVGC = textNVGC + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVGC[i].Id + ' class="detailstatus5" href="#">' + arrayNVGC[i].Name + '</a></li>'
+                                        };
+                                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho thiết kế</a><ul class="dropdown-menu">' + textNVTK + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu">' + textNVIN + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">chuyển cho gia công</a><ul class="dropdown-menu">' + textNVGC + '</ul></li><li class="dropdown"><a tabindex="-1" href="#" class=" detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
+                                        text.click(function () {
+                                            global.Data.OrderId = orderDetailData.record.Id;
+                                            global.Data.IdDetailStatus = data.record.Id;
+                                        });
+                                        return text;
+                                    }
+                                },
+                                UserProcess: {
+                                    visibility: 'fixed',
+                                    title: "Nhân Viên",
+                                    width: "10%",
+                                    display: function (data) {
+                                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + data.record.UserProcess + '</a></span></button><ul class="dropdown-menu"><li><a class="user1" href="javascript:void(0)">Thiết Kế: ' + data.record.DesignView + '</a></li><li><a class="user2" href="javascript:void(0)">In: ' + data.record.PrintView + '</a></li><li><a class="user3" href="javascript:void(0)">Gia Công:' + data.record.AddOnView + '</a></li></ul></div>');
+                                        text.click(function () {
+                                        });
+                                        return text;
+                                    }
+                                },
+                            };
+                        }
                         var $img = $('<a detailKey style="color: red;" id="newdetail" href="javascript:void(0)">' + orderDetailData.record.Id + '</a>');
                         $img.click(function () {
                             $('#OrderId').val(orderDetailData.record.Id);
@@ -786,96 +1014,7 @@ VINASIC.Order = function () {
                                     messages: {
                                         addNewRecord: 'Thêm Chi Tiết Đơn Hàng'
                                     },
-                                    fields: {
-                                        OrderId: {
-                                            type: 'hidden',
-                                            defaultValue: orderDetailData.record.Id
-                                        },
-                                        Id: {
-                                            key: true,
-                                            create: false,
-                                            edit: false,
-                                            list: false
-                                        },
-                                        CommodityName: {
-                                            title: "Tên Mặt Hàng",
-                                            width: "10%"
-                                        },
-                                        Description: {
-                                            title: "Ghi Chú",
-                                            width: "10%"
-                                        },
-                                        Width: {
-                                            title: "CNgang",
-                                            width: "5%"
-                                        },
-                                        Height: {
-                                            title: "CCao",
-                                            width: "5%"
-                                        },
-                                        Square: {
-                                            title: "DTích",
-                                            width: "5%"
-                                        },
-                                        Quantity: {
-                                            title: 'SLượng',
-                                            width: '5%'
-                                        },
-                                        SumSquare: {
-                                            title: 'Tổng DT',
-                                            width: '10%'
-                                        },
-                                        strPrice: {
-                                            title: 'ĐGiá',
-                                            width: '5%'
-                                        },
-                                        strSubTotal: {
-                                            title: 'Thành Tiền',
-                                            width: '10%'
-                                        },
-                                        strDetailStatus: {
-                                            visibility: 'fixed',
-                                            title: "Trạng Thái",
-                                            width: "10%",
-                                            display: function (data) {
-                                                var text = "";
-                                                var arrayNVTK = global.Data.ListEmployeeDesign;
-                                                var arrayNVIN = global.Data.ListEmployeePrint;
-                                                var arrayNVGC = global.Data.ListEmployeeAddon;
-                                                var textNVTK = '';
-                                                var textNVIN = '';
-                                                var textNVGC = '';
-                                                debugger;
-                                                var strStatus = getOrderDetailStatus(data.record.DetailStatus);
-                                                for (var i = 0; i < arrayNVTK.length; i++) {
-                                                    textNVTK = textNVTK + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVTK[i].Id + ' class="detailstatus1" href="#">' + arrayNVTK[i].Name + '</a></li>';
-                                                };
-                                                for (var i = 0; i < arrayNVIN.length; i++) {
-                                                    textNVIN = textNVIN + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVIN[i].Id + ' class="detailstatus3" href="#">' + arrayNVIN[i].Name + '</a></li>'
-                                                };
-                                                for (var i = 0; i < arrayNVGC.length; i++) {
-                                                    textNVGC = textNVGC + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVGC[i].Id + ' class="detailstatus5" href="#">' + arrayNVGC[i].Name + '</a></li>'
-                                                };
-                                                var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho thiết kế</a><ul class="dropdown-menu">' + textNVTK + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu">' + textNVIN + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">chuyển cho gia công</a><ul class="dropdown-menu">' + textNVGC + '</ul></li><li class="dropdown"><a tabindex="-1" href="#" class=" detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
-                                                text.click(function () {
-                                                    global.Data.OrderId = orderDetailData.record.Id;
-                                                    global.Data.IdDetailStatus = data.record.Id;
-                                                });
-                                                return text;
-                                            }
-                                        },
-                                        UserProcess: {
-                                            visibility: 'fixed',
-                                            title: "Nhân Viên",
-                                            width: "10%",
-                                            display: function (data) {
-                                                var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + data.record.UserProcess + '</a></span></button><ul class="dropdown-menu"><li><a class="user1" href="javascript:void(0)">Thiết Kế: ' + data.record.DesignView + '</a></li><li><a class="user2" href="javascript:void(0)">In: ' + data.record.PrintView + '</a></li><li><a class="user3" href="javascript:void(0)">Gia Công:' + data.record.AddOnView + '</a></li></ul></div>');
-                                                text.click(function () {
-                                                });
-                                                return text;
-                                            }
-                                        },
-                                    }
+                                    fields: tableObj,
                                 }, function (data) { //opened handler
                                     data.childTable.jtable('load');
                                 });
@@ -899,7 +1038,7 @@ VINASIC.Order = function () {
                         }
                         return text;
                     }
-                }, 
+                },
                 Name: {
                     visibility: 'fixed',
                     title: "Tên Khách Hàng",
@@ -955,7 +1094,7 @@ VINASIC.Order = function () {
                         });
                         return text;
                     }
-            },
+                },
                 strFileName: {
                     title: "Tên File",
                     width: "12%"
@@ -1139,7 +1278,7 @@ VINASIC.Order = function () {
             }
         });
     }
-    function initListViewDetail() {
+    function initListViewDetail() {      
         $("#" + global.Element.jtableViewDetail).jtable({
             title: "Danh Sách Chi Tiết Đơn Hàng",
             paging: true,
@@ -1287,22 +1426,9 @@ VINASIC.Order = function () {
         });
     }
     function initListOrderDetail() {
-        $('#' + global.Element.JtableOrderDetail).jtable({
-            title: 'Danh Sách Chi Tiết Đơn Hàng',
-            paging: true,
-            pageSize: 25,
-            pageSizeChangeOrder: true,
-            sorting: true,
-            selectShow: true,
-            actions: {
-                listAction: global.Data.ModelOrderDetail
-            },
-            messages: {
-                addNewRecord: 'Thêm Mới Đơn Hàng',
-                searchRecord: 'Tìm kiếm',
-                selectShow: 'Ẩn hiện cột'
-            },
-            fields: {
+        var tableObj = {};
+        if (document.getElementById('show-dim').checked) {
+            tableObj = {
                 CommodityId: {
                     key: true,
                     create: false,
@@ -1400,7 +1526,109 @@ VINASIC.Order = function () {
 
                     }
                 }
-            }
+            };
+        }
+        else {
+            tableObj = {
+                CommodityId: {
+                    key: true,
+                    create: false,
+                    edit: false,
+                    list: false
+                },
+                Index: {
+                    title: "STT",
+                    width: "5%"
+                },
+                CommodityName: {
+                    visibility: 'fixed',
+                    title: "Tên Dịch Vụ",
+                    width: "10%",
+
+                    display: function (data) {
+                        var text = $('<a href="javascript:void(0)" class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + data.record.CommodityName + '</a>');
+                        text.click(function () {
+                            initComboBoxAllProduct(data.record.CommodityId);
+                            global.Data.Idnew = data.record.CommodityId;
+                            $("#dfilename").val(data.record.FileName);
+                            $("#dnote").val(data.record.Description);
+                            $("#dwidth").val(decimalAdjust('round', data.record.Width, -6));
+                            $("#dheignt").val(decimalAdjust('round', data.record.Height, -6));
+                            $("#dsquare").val(decimalAdjust('round', data.record.Square, -6));
+                            $("#dsumsquare").val(decimalAdjust('round', data.record.SumSquare, -6));
+                            $("#dquantity").val(data.record.Quantity);
+                            $("#dprice").val(data.record.Price);
+                            $("#dsubtotal").val(data.record.SubTotal);
+                            global.Data.CurenIndex = data.record.Index;
+                            global.Data.OrderDetailId = data.record.Id;
+                        });
+                        return text;
+                    }
+                },
+                FileName: {
+                    title: "Tên File",
+                    width: "10%"
+                },
+                Description: {
+                    title: "Ghi Chú",
+                    width: "10%"
+                },
+                Quantity: {
+                    title: "Số Lượng",
+                    width: "5%"
+                },
+                Price: {
+                    title: "Đơn Giá",
+                    width: "15%"
+                },
+                SubTotal: {
+                    title: "Thành Tiền",
+                    width: "5%"
+                },
+                Delete: {
+                    title: 'Xóa',
+                    width: "3%",
+                    sorting: false,
+                    display: function (data) {
+                        var text = $('<button  title="Xóa" class="jtable-command-button jtable-delete-command-button"><span>Xóa</span></button>');
+                        text.click(function () {
+                            GlobalCommon.ShowConfirmDialog('Bạn có chắc chắn muốn xóa?', function () {
+                                removeItemInArray(global.Data.ModelOrderDetail, data.record.Index);
+                                reloadListOrderDetail();
+                                global.Data.OrderTotal = 0;
+                                for (var k = 0; k < global.Data.ModelOrderDetail.length; k++) {
+                                    global.Data.OrderTotal += parseFloat(global.Data.ModelOrderDetail[k].SubTotal.replace(/[^0-9-.]/g, ''));
+                                }
+                                $("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                                $("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                                if (document.getElementById("dtax").checked == true) {
+                                    var totaltax = global.Data.OrderTotal * 0.1 + global.Data.OrderTotal;
+                                    $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                                }
+                            }, function () { }, 'Đồng ý', 'Hủy bỏ', 'Thông báo');
+                        });
+                        return text;
+
+                    }
+                }
+            };
+        }
+        $('#' + global.Element.JtableOrderDetail).jtable({
+            title: 'Danh Sách Chi Tiết Đơn Hàng',
+            paging: true,
+            pageSize: 25,
+            pageSizeChangeOrder: true,
+            sorting: true,
+            selectShow: true,
+            actions: {
+                listAction: global.Data.ModelOrderDetail
+            },
+            messages: {
+                addNewRecord: 'Thêm Mới Đơn Hàng',
+                searchRecord: 'Tìm kiếm',
+                selectShow: 'Ẩn hiện cột'
+            },
+            fields: tableObj,
         });
     }
     /*End init List */
@@ -1442,7 +1670,10 @@ VINASIC.Order = function () {
                     var tax = document.getElementById("dtax").checked;
                     var totalIncludeTax = $("#dtotal").val().replace(/[^0-9-.]/g, '');
                     totalIncludeTax = parseFloat(totalIncludeTax);
-                    totalIncludeTax = totalIncludeTax * 0.1 + totalIncludeTax;
+                    if (tax) {
+                        totalIncludeTax = totalIncludeTax * 0.1 + totalIncludeTax;
+                    }
+
                     $.ajax({
                         url: global.UrlAction.SaveOrder + "?orderId=" + global.Data.OrderId + "&employeeId=" + employeeId + "&customerId=" + global.Data.CustomerId + "&customerName=" + customerName + "&customerPhone=" + customerPhone + "&customerMail=" + customerMail + "&customerAddress=" + customerAddress + "&customerTaxCode=" + customerTaxCode + "&dateDelivery=" + dateDelivery + "&orderTotal=" + global.Data.OrderTotal + "&tax=" + tax + "&orderTotalTax=" + totalIncludeTax,
                         type: 'post',
@@ -1540,10 +1771,11 @@ VINASIC.Order = function () {
             show: false
         });
         $("#" + global.Element.PopupDesignProcess + " button[save]").click(function () {
+            debugger;
             var designId = $("#dDesignName").val();
-
             var description = $("#dDescription").val();
-            updateDesignUser(global.Data.DetailId, designId, description);
+            updateDetailStatus(global.Data.IdDetailStatus, global.Data.DetailStatus, employeeUpdateId, description);
+            //updateDesignUser(global.Data.DetailId, designId, description);
             global.Data.ClientId = document.getElementById("ClientName").innerHTML;
             var realTimeHub = $.connection.realTimeJTableDemoHub;
             realTimeHub.server.sendUpdateEvent("jtableDesign", global.Data.ClientId, "Cập nhật");
@@ -1865,6 +2097,7 @@ VINASIC.Order = function () {
             document.getElementById("date").defaultValue = new Date().toISOString().substring(0, 10);
             $("#cname").attr("disabled", false);
             $("#cphone").attr("disabled", false);
+            document.getElementById("dtax").checked = false;
             resetAll();
             var ClientId = document.getElementById("ClientId").innerHTML;
             global.Data.CurenIndex = 0;
@@ -1900,20 +2133,29 @@ VINASIC.Order = function () {
 
         $("body").delegate(".detailstatus1", "click", function (event) {
             event.preventDefault();
-            updateDetailStatus(global.Data.IdDetailStatus, 1, employeeUpdateId);
+            showPopupDesignProcess();
+            global.Data.DetailStatus = 1;
+           // updateDetailStatus(global.Data.IdDetailStatus, 1, employeeUpdateId);
         });
         $("body").delegate(".detailstatus3", "click", function (event) {
             event.preventDefault();
-            updateDetailStatus(global.Data.IdDetailStatus, 3, employeeUpdateId);
+            showPopupDesignProcess();
+            global.Data.DetailStatus = 3;
+            //updateDetailStatus(global.Data.IdDetailStatus, 3, employeeUpdateId);
         });
         $("body").delegate(".detailstatus5", "click", function (event) {
             event.preventDefault();
-            updateDetailStatus(global.Data.IdDetailStatus, 5, employeeUpdateId);
+            showPopupDesignProcess();
+            global.Data.DetailStatus = 5;
+            //updateDetailStatus(global.Data.IdDetailStatus, 5, employeeUpdateId);
         });
         $("body").delegate(".detailstatus7", "click", function (event) {
             event.preventDefault();
-            updateDetailStatus(global.Data.IdDetailStatus, 7, 0);
+            showPopupDesignProcess();
+            global.Data.DetailStatus = 7;
+            //updateDetailStatus(global.Data.IdDetailStatus, 7, 0);
         });
+
         $("body").delegate(".viewUpdateDetail", "click", function (event) {
             var orderId = $(this).data("id");
             $('html, body').animate({ scrollTop: $('tr[data-record-key="' + orderId + '"]').offset().top - 100 }, 'slow');
@@ -2077,7 +2319,7 @@ VINASIC.Order = function () {
                 } else {
                     $("#dtotaltax").val(subtotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                 }
-            }           
+            }
 
         });
         $('#datefrom').keydown(function (e) {

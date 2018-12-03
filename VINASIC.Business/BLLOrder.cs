@@ -660,7 +660,7 @@ namespace VINASIC.Business
             return responResult;
         }
 
-        public ResponseBase UpdateDetailStatus(int detailId, int status, int employeeId)
+        public ResponseBase UpdateDetailStatus(int detailId, int status, int employeeId,string content)
         {
             var responResult = new ResponseBase();
             var orderDetail = _repOrderDetail.GetMany(c => !c.IsDeleted && c.Id == detailId).FirstOrDefault();
@@ -679,11 +679,13 @@ namespace VINASIC.Business
                     {
                         orderDetail.DesignUser = employe.Id;
                         orderDetail.DesignView = employe.FisrtName;
+                        orderDetail.DesignDescription = content;
                     }
                     if (status == 3)
                     {
                         orderDetail.PrintUser = employe.Id;
                         orderDetail.PrintView = employe.FisrtName;
+                        orderDetail.PrintDescription = content;
                     }
                     if (status == 5)
                     {
@@ -724,6 +726,61 @@ namespace VINASIC.Business
                     }).ToList();
                     PushNotificationHelper.SendNotification(endPoint, "Thông Báo Cho: "+ userGetPush.FisrtName, notificationContent, "/", 2);
                 }
+                responResult.IsSuccess = true;
+            }
+            else
+            {
+                responResult.IsSuccess = false;
+                responResult.Errors.Add(new Error() { MemberName = "Update", Message = "Lỗi" });
+            }
+            return responResult;
+        }
+        public ResponseBase UpdateDetailStatus2(int detailId, int status, int employeeId)
+        {
+            var responResult = new ResponseBase();
+            var orderDetail = _repOrderDetail.GetMany(c => !c.IsDeleted && c.Id == detailId).FirstOrDefault();
+            if (orderDetail != null)
+            {
+                orderDetail.DetailStatus = status;
+                if (employeeId == 0)
+                {
+                    orderDetail.PrintUser = null;
+                    orderDetail.AddonUser = null;
+                }
+                else
+                {
+                    var employe = _repUser.GetById(employeeId);
+                    if (status == 1)
+                    {
+                        orderDetail.DesignUser = employe.Id;
+                        orderDetail.DesignView = employe.FisrtName;
+                    }
+                    if (status == 3)
+                    {
+                        orderDetail.PrintUser = employe.Id;
+                        orderDetail.PrintView = employe.FisrtName;
+                    }
+                    if (status == 5)
+                    {
+                        orderDetail.AddonUser = employe.Id;
+                        orderDetail.AddOnView = employe.FisrtName;
+                    }
+                }
+                orderDetail.UpatedDate = DateTime.UtcNow;
+                _repOrderDetail.Update(orderDetail);
+                SaveChange();
+                var order = _repOrder.GetById(orderDetail.OrderId);
+                var isComplete = _repOrderDetail.GetMany(x => x.OrderId == order.Id && x.DetailStatus != 0 && x.DetailStatus != 7).ToList();
+                if (isComplete.Count == 0)
+                {
+                    order.OrderStatus = 2;
+                }
+                else
+                {
+                    order.OrderStatus = 1;
+                }
+                _repOrder.Update(order);
+                SaveChange();
                 responResult.IsSuccess = true;
             }
             else

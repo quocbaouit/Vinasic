@@ -77,7 +77,7 @@ VINASIC.Design = function () {
     }
     function updateDetailStatus(detailId, status, employeeUpdateId) {
         $.ajax({
-            url: "/Order/UpdateDetailStatus?detailId=" + detailId + "&status=" + status + "&employeeId=" + employeeUpdateId,
+            url: "/Order/UpdateDetailStatus2?detailId=" + detailId + "&status=" + status + "&employeeId=" + employeeUpdateId,
             type: 'post',
             contentType: 'application/json',
             success: function (result) {
@@ -214,9 +214,22 @@ VINASIC.Design = function () {
                     title: "số Lượng",
                     width: "2%"
                 },
-                Description: {
-                    title: "Mô Tả",
-                    width: "15%"
+                //Description: {
+                //    title: "Mô Tả",
+                //    width: "15%"
+                //},
+                strJob: {
+                    visibility: 'fixed',
+                    title: "Công Việc",
+                    width: "10%",
+                    display: function (data) {
+                        var text = $('<a href="javascript:void(0)" class="clickable"  data-target="#popup_Design" title="">' + "Chi Tiết" + '</a>');
+                        text.click(function () {
+                            $("#dDescription").val(data.record.DesignDescription);
+                            showPopupDesign();
+                        });
+                        return text;
+                    }
                 },
                 StrdesignStatus: {
                     visibility: "fixed",
@@ -238,7 +251,10 @@ VINASIC.Design = function () {
                         strStatus = getOrderDetailStatus(data.record.DetailStatus);
                         if (data.record.DetailStatus == 3) {
                             if (data.record.PrintUser == null) { strStatus = 'Đã Thiết Kế Xong'; }
-                            else { strStatus = 'Đã Chuyển Cho In Ấn:' + data.record.PrintView; }
+                            else {
+                                strStatus = 'Đã Thiết Kế Xong';
+                                /*strStatus = 'Đã Chuyển Cho In Ấn:' + data.record.PrintView;*/
+}
                         }
                         if (data.record.DetailStatus == 5) { strStatus = 'Đã Chuyển Cho Gia Công:' + data.record.AddOnView; }
                         for (var i = 0; i < arrayNVIN.length; i++) {
@@ -247,7 +263,7 @@ VINASIC.Design = function () {
                         for (var i = 0; i < arrayNVGC.length; i++) {
                             textNVGC = textNVGC + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVGC[i].Id + ' class="detailstatus5" href="#">' + arrayNVGC[i].Name + '</a></li>'
                         };
-                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown"><a tabindex="-1" href="#" class="detailstatus1" href="javascript:void(0)">Đang thiết kế</a></li><li class="dropdown"><a tabindex="-1" href="#" class=" detailstatus2" href="javascript:void(0)">Đã thiết kế xong</a></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu">' + textNVIN + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">chuyển cho gia công</a><ul class="dropdown-menu">' + textNVGC + '</ul></li></ul></div>');
+                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown"><a tabindex="-1" href="#" class="detailstatus1" href="javascript:void(0)">Đang thiết kế</a></li><li class="dropdown"><a tabindex="-1" href="#" class=" detailstatus2" href="javascript:void(0)">Đã thiết kế xong</a></li></ul></div>');
                         text.click(function () {
                             global.Data.returnString = '<span data-id="' + data.record.OrderId + '" class="viewUpdateDetail">' + data.record.OrderId + '</br>' + data.record.CustomerName + ':' + data.record.Width + '*' + data.record.Height + '-NVKD:' + data.record.EmployeeName;
                             global.Data.OrderId = data.record.OrderId;

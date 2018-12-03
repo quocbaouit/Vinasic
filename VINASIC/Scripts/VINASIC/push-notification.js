@@ -93,7 +93,7 @@ $(window).on('load',
             });
         //when window onload we need register service Worker to handle push event. after register service we need init browser state.
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/service-worker.js')
+            navigator.serviceWorker.register('/service-worker1.1.js')
                 .then(initialiseState);
         } else {
             console.warn('Service workers are not supported in this browser.');
@@ -136,7 +136,7 @@ function initialiseState() {
             globalSubscription.BrowserVersion = BrowserInfo.browser.version;
             globalSubscription.OsName = BrowserInfo.os.name;
             globalSubscription.OsVersion = BrowserInfo.os.version;
-            //sendSubscriptionToBackEnd(globalSubscription,0);
+            sendSubscriptionToBackEnd(globalSubscription,0);
             isPushEnabled = true;
         })
         .catch(function (err) {

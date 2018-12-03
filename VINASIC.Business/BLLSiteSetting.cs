@@ -41,12 +41,18 @@ namespace VINASIC.Business
             var siteSetting = _repSiteSetting.GetMany(c => !c.IsDeleted).Select(c => new ModelSiteSetting()
             {
                 Id = c.Id,
+                Code=c.Code,
                 Name = c.Name,
                 Description = c.Description,
                 Value=c.Value,
                 CreatedDate = c.CreatedDate,
             }).ToList();
             return siteSetting;
+        }
+        public bool ChecConfig(string code)
+        {
+            var siteSetting = _repSiteSetting.GetMany(c => !c.IsDeleted && c.Code == code).FirstOrDefault()?.Value;
+            return siteSetting == "true";
         }
 
         public ResponseBase Create(ModelSiteSetting obj)
@@ -100,6 +106,7 @@ namespace VINASIC.Business
                 T_SiteSetting siteSetting = _repSiteSetting.Get(x => x.Id == obj.Id && !x.IsDeleted);
                 if (siteSetting != null)
                 {
+                    //siteSetting.Code = obj.Code;
                     siteSetting.Value = obj.Value;
                     siteSetting.Name = obj.Name;
                     siteSetting.Description = obj.Description;
@@ -155,6 +162,7 @@ namespace VINASIC.Business
             var siteSettings = _repSiteSetting.GetMany(c => !c.IsDeleted).Select(c => new ModelSiteSetting()
             {
                 Id = c.Id,
+                Code=c.Code,
                 Value = c.Value,
                 Name = c.Name,
                 Description = c.Description,
