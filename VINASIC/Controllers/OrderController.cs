@@ -635,7 +635,39 @@ namespace VINASIC.Controllers
             }
             return Json(JsonDataResult);
         }
-
+        public JsonResult GetJobDescriptionForEmployee(int detailId, int status, int employeeId, string content)
+        {
+            try
+            {
+                //if (IsAuthenticate)
+                //{
+                var responseResult = _bllOrder.GetJobDescriptionForEmployee(detailId, status, employeeId, content);
+                if (responseResult.IsSuccess)
+                {
+                    JsonDataResult.Result = "OK";
+                    JsonDataResult.Data = responseResult.Data;
+                }
+                   
+                else
+                {
+                    JsonDataResult.Result = "ERROR";
+                    JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
+                }
+                //}
+                //else
+                //{
+                //    JsonDataResult.Result = "ERROR";
+                //    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
+                //}
+            }
+            catch (Exception ex)
+            {
+                //add error
+                JsonDataResult.Result = "ERROR";
+                JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update", Message = "Lỗi: " + ex.Message });
+            }
+            return Json(JsonDataResult);
+        }
         public JsonResult UpdateDetailStatus2(int detailId, int status, int employeeId)
         {
             try

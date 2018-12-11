@@ -447,6 +447,27 @@ VINASIC.Order = function () {
             }
         });
     }
+    function GetJobDescriptionForEmployee(detailId, status, employeeUpdateId, content) {
+        debugger;
+        $.ajax({
+            url: "/Order/GetJobDescriptionForEmployee?detailId=" + detailId + "&status=" + status + "&employeeId=" + employeeUpdateId + "&content=" + content,
+            type: 'post',
+            contentType: 'application/json',
+            success: function (result) {
+                $('#loading').hide();
+                GlobalCommon.CallbackProcess(result, function () {
+                    if (result.Result === "OK") {
+                        debugger;
+                        $("#dDescription").val(result.Data);
+                        showPopupDesignProcess();
+                    }
+                }, false, global.Element.PopupOrder, true, true, function () {
+
+                    toastr.error(result.Message);
+                });
+            }
+        });
+    }
     /*function Delete */
     function deleteRow(id) {
         $.ajax({
@@ -2133,27 +2154,27 @@ VINASIC.Order = function () {
 
         $("body").delegate(".detailstatus1", "click", function (event) {
             event.preventDefault();
-            showPopupDesignProcess();
+            //showPopupDesignProcess();
             global.Data.DetailStatus = 1;
-           // updateDetailStatus(global.Data.IdDetailStatus, 1, employeeUpdateId);
+           GetJobDescriptionForEmployee(global.Data.IdDetailStatus, 1, employeeUpdateId);
         });
         $("body").delegate(".detailstatus3", "click", function (event) {
             event.preventDefault();
-            showPopupDesignProcess();
+            //showPopupDesignProcess();
             global.Data.DetailStatus = 3;
-            //updateDetailStatus(global.Data.IdDetailStatus, 3, employeeUpdateId);
+            GetJobDescriptionForEmployee(global.Data.IdDetailStatus, 3, employeeUpdateId);
         });
         $("body").delegate(".detailstatus5", "click", function (event) {
             event.preventDefault();
-            showPopupDesignProcess();
             global.Data.DetailStatus = 5;
-            //updateDetailStatus(global.Data.IdDetailStatus, 5, employeeUpdateId);
+            var description = $("#dDescription").val();
+            updateDetailStatus(global.Data.IdDetailStatus, global.Data.DetailStatus, employeeUpdateId, description);
         });
         $("body").delegate(".detailstatus7", "click", function (event) {
             event.preventDefault();
-            showPopupDesignProcess();
             global.Data.DetailStatus = 7;
-            //updateDetailStatus(global.Data.IdDetailStatus, 7, 0);
+            var description = $("#dDescription").val();
+            updateDetailStatus(global.Data.IdDetailStatus, global.Data.DetailStatus, employeeUpdateId, description);
         });
 
         $("body").delegate(".viewUpdateDetail", "click", function (event) {

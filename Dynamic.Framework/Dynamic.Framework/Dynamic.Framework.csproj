@@ -138,6 +138,7 @@
     <Compile Include="SortDirection.cs" />
     <Compile Include="DynamicEntityNotFound.cs" />
     <Compile Include="DynamicException.cs" />
+    <Compile Include="SendMailSMTP.cs" />
     <Compile Include="SpeedSMSAPI.cs" />
   </ItemGroup>
   <ItemGroup>

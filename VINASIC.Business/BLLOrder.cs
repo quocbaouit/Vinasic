@@ -518,6 +518,10 @@ namespace VINASIC.Business
         }
         public void Send(string phone,string mess)
         {
+            //SendMail
+            SendMailSMTP sendMail = new SendMailSMTP();
+            sendMail.SendMail("quocbao.uit@gmail.com", "quocbao.uit@gmail.com","test","this is test mail");
+            //SendSMS
             SpeedSMSAPI api = new SpeedSMSAPI("zg0WCSR_yUIjz3z7iWARLvEp3IEXhnKg");
             String[] phones = new String[] { phone };
             //String str = ConfigurationManager.AppSettings["SMS_CONTENT"];
@@ -659,7 +663,45 @@ namespace VINASIC.Business
             }
             return responResult;
         }
+        
+           public ResponseBase GetJobDescriptionForEmployee(int detailId, int status, int employeeId, string content)
+        {
+            var responResult = new ResponseBase();
+            var orderDetail = _repOrderDetail.GetMany(c => !c.IsDeleted && c.Id == detailId).FirstOrDefault();
 
+            if (orderDetail != null)
+            {
+                orderDetail.DetailStatus = status;
+                if (employeeId == 0)
+                {
+                    orderDetail.PrintUser = null;
+                    orderDetail.AddonUser = null;
+                }
+                else
+                {
+                    var employe = _repUser.GetById(employeeId);
+                    if (status == 1)
+                    {
+                        responResult.Data = orderDetail.DesignDescription;
+                    }
+                    if (status == 3)
+                    {
+                        responResult.Data = orderDetail.PrintDescription;
+                    }
+                    if (status == 5)
+                    {
+                            responResult.Data = orderDetail.AddOnView;
+                    }
+                }
+                responResult.IsSuccess = true;
+            }
+            else
+            {
+                responResult.IsSuccess = false;
+                responResult.Errors.Add(new Error() { MemberName = "Update", Message = "Lỗi" });
+            }
+            return responResult;
+        }
         public ResponseBase UpdateDetailStatus(int detailId, int status, int employeeId,string content)
         {
             var responResult = new ResponseBase();

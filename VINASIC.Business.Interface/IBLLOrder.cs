@@ -31,6 +31,7 @@ namespace VINASIC.Business.Interface
         ResponseBase UpdateDetailStatus2(int detailId, int status, int employeeId);
         ResponseBase DesignUpdateOrderDetail(int orderId, string fileName, string description);
         ResponseBase UpdateOrderStatus(int orderId, float status, int userId, bool isAdmin);
+        ResponseBase GetJobDescriptionForEmployee(int detailId, int status, int employeeId, string content);
         //ResponseBase UpdateOrderStatus(int orderId, float status, int userId, bool isAdmin);
     }
 }
