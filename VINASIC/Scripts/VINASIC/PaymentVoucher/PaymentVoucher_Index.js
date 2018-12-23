@@ -26,7 +26,8 @@ VINASIC.PaymentVoucher = function () {
         Element: {
             JtablePaymentVoucher: "jtablePaymentVoucher",
             PopupPaymentVoucher: "popup_PaymentVoucher",
-            PopupSearch: "popup_SearchPaymentVoucher"
+            PopupSearch: "popup_SearchPaymentVoucher",
+            JtableOrderDetail: "jtableOrderDetail"
         },
         Data: {
             ModelPaymentVoucher: {},
@@ -50,6 +51,9 @@ VINASIC.PaymentVoucher = function () {
     function reloadListPaymentVoucher() {
         var keySearch = $("#txtSearch").val();
         $("#" + global.Element.JtablePaymentVoucher).jtable("load", { 'keyword': keySearch });
+    }
+    function reloadListOrderDetail() {
+        $('#' + global.Element.JtableOrderDetail).jtable('load', { 'keyword': "" });
     }
     /*function init model using knockout Js*/
     function initViewModel(paymentVoucher) {
@@ -111,6 +115,213 @@ VINASIC.PaymentVoucher = function () {
     /*End Delete */
 
     /*function Init List Using Jtable */
+    function initListOrderDetail() {
+        var tableObj = {};
+        //document.getElementById('show-dim').checked
+        if (true) {
+            tableObj = {
+                CommodityId: {
+                    key: true,
+                    create: false,
+                    edit: false,
+                    list: false
+                },
+                Index: {
+                    title: "STT",
+                    width: "5%"
+                },
+                CommodityName: {
+                    visibility: 'fixed',
+                    title: "Tên Dịch Vụ",
+                    width: "10%",
+
+                    display: function (data) {
+                        var text = $('<a href="javascript:void(0)" class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + data.record.CommodityName + '</a>');
+                        text.click(function () {
+                            initComboBoxAllProduct(data.record.CommodityId);
+                            global.Data.Idnew = data.record.CommodityId;
+                            $("#dfilename").val(data.record.FileName);
+                            $("#dnote").val(data.record.Description);
+                            $("#dwidth").val(decimalAdjust('round', data.record.Width, -6));
+                            $("#dheignt").val(decimalAdjust('round', data.record.Height, -6));
+                            $("#dsquare").val(decimalAdjust('round', data.record.Square, -6));
+                            $("#dsumsquare").val(decimalAdjust('round', data.record.SumSquare, -6));
+                            $("#dquantity").val(data.record.Quantity);
+                            $("#dprice").val(data.record.Price);
+                            $("#dsubtotal").val(data.record.SubTotal);
+                            global.Data.CurenIndex = data.record.Index;
+                            global.Data.OrderDetailId = data.record.Id;
+                        });
+                        return text;
+                    }
+                },
+                FileName: {
+                    title: "Tên File",
+                    width: "10%"
+                },
+                Description: {
+                    title: "Ghi Chú",
+                    width: "10%"
+                },
+                Width: {
+                    title: "Chiều Ngang",
+                    width: "5%"
+                },
+                Height: {
+                    title: "Chiều Cao",
+                    width: "5%"
+                },
+                Square: {
+                    title: "Diện Tích",
+                    width: "5%"
+                },
+                Quantity: {
+                    title: "Số Lượng",
+                    width: "5%"
+                },
+                SumSquare: {
+                    title: "Tổng  Diện Tích",
+                    width: "5%"
+                },
+                Price: {
+                    title: "Đơn Giá",
+                    width: "15%"
+                },
+                SubTotal: {
+                    title: "Thành Tiền",
+                    width: "5%"
+                },
+                Delete: {
+                    title: 'Xóa',
+                    width: "3%",
+                    sorting: false,
+                    display: function (data) {
+                        var text = $('<button  title="Xóa" class="jtable-command-button jtable-delete-command-button"><span>Xóa</span></button>');
+                        text.click(function () {
+                            GlobalCommon.ShowConfirmDialog('Bạn có chắc chắn muốn xóa?', function () {
+                                removeItemInArray(global.Data.ModelOrderDetail, data.record.Index);
+                                reloadListOrderDetail();
+                                global.Data.OrderTotal = 0;
+                                for (var k = 0; k < global.Data.ModelOrderDetail.length; k++) {
+                                    global.Data.OrderTotal += parseFloat(global.Data.ModelOrderDetail[k].SubTotal.replace(/[^0-9-.]/g, ''));
+                                }
+                                $("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                                $("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                                if (document.getElementById("dtax").checked == true) {
+                                    var totaltax = global.Data.OrderTotal * 0.1 + global.Data.OrderTotal;
+                                    $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                                }
+                            }, function () { }, 'Đồng ý', 'Hủy bỏ', 'Thông báo');
+                        });
+                        return text;
+
+                    }
+                }
+            };
+        }
+        else {
+            tableObj = {
+                CommodityId: {
+                    key: true,
+                    create: false,
+                    edit: false,
+                    list: false
+                },
+                Index: {
+                    title: "STT",
+                    width: "5%"
+                },
+                CommodityName: {
+                    visibility: 'fixed',
+                    title: "Tên Dịch Vụ",
+                    width: "10%",
+
+                    display: function (data) {
+                        var text = $('<a href="javascript:void(0)" class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + data.record.CommodityName + '</a>');
+                        text.click(function () {
+                            initComboBoxAllProduct(data.record.CommodityId);
+                            global.Data.Idnew = data.record.CommodityId;
+                            $("#dfilename").val(data.record.FileName);
+                            $("#dnote").val(data.record.Description);
+                            $("#dwidth").val(decimalAdjust('round', data.record.Width, -6));
+                            $("#dheignt").val(decimalAdjust('round', data.record.Height, -6));
+                            $("#dsquare").val(decimalAdjust('round', data.record.Square, -6));
+                            $("#dsumsquare").val(decimalAdjust('round', data.record.SumSquare, -6));
+                            $("#dquantity").val(data.record.Quantity);
+                            $("#dprice").val(data.record.Price);
+                            $("#dsubtotal").val(data.record.SubTotal);
+                            global.Data.CurenIndex = data.record.Index;
+                            global.Data.OrderDetailId = data.record.Id;
+                        });
+                        return text;
+                    }
+                },
+                FileName: {
+                    title: "Tên File",
+                    width: "10%"
+                },
+                Description: {
+                    title: "Ghi Chú",
+                    width: "10%"
+                },
+                Quantity: {
+                    title: "Số Lượng",
+                    width: "5%"
+                },
+                Price: {
+                    title: "Đơn Giá",
+                    width: "15%"
+                },
+                SubTotal: {
+                    title: "Thành Tiền",
+                    width: "5%"
+                },
+                Delete: {
+                    title: 'Xóa',
+                    width: "3%",
+                    sorting: false,
+                    display: function (data) {
+                        var text = $('<button  title="Xóa" class="jtable-command-button jtable-delete-command-button"><span>Xóa</span></button>');
+                        text.click(function () {
+                            GlobalCommon.ShowConfirmDialog('Bạn có chắc chắn muốn xóa?', function () {
+                                removeItemInArray(global.Data.ModelOrderDetail, data.record.Index);
+                                reloadListOrderDetail();
+                                global.Data.OrderTotal = 0;
+                                for (var k = 0; k < global.Data.ModelOrderDetail.length; k++) {
+                                    global.Data.OrderTotal += parseFloat(global.Data.ModelOrderDetail[k].SubTotal.replace(/[^0-9-.]/g, ''));
+                                }
+                                $("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                                $("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                                if (document.getElementById("dtax").checked == true) {
+                                    var totaltax = global.Data.OrderTotal * 0.1 + global.Data.OrderTotal;
+                                    $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                                }
+                            }, function () { }, 'Đồng ý', 'Hủy bỏ', 'Thông báo');
+                        });
+                        return text;
+
+                    }
+                }
+            };
+        }
+        $('#' + global.Element.JtableOrderDetail).jtable({
+            title: 'Danh Sách Chi Tiết Đơn Hàng',
+            paging: true,
+            pageSize: 25,
+            pageSizeChangeOrder: true,
+            sorting: true,
+            selectShow: true,
+            actions: {
+                listAction: global.Data.ModelOrderDetail
+            },
+            messages: {
+                addNewRecord: 'Thêm Mới Đơn Hàng',
+                searchRecord: 'Tìm kiếm',
+                selectShow: 'Ẩn hiện cột'
+            },
+            fields: tableObj,
+        });
+    }
     function initListPaymentVoucher() {
         $("#" + global.Element.JtablePaymentVoucher).jtable({
             title: "Danh sách Phiếu Chi",
@@ -304,6 +515,7 @@ VINASIC.PaymentVoucher = function () {
         initListPaymentVoucher();
         reloadListPaymentVoucher();
         initPopupPaymentVoucher();
+        initListOrderDetail();
         bindData(null);
     };
 };

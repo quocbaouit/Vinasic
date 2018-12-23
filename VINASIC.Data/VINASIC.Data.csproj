@@ -106,6 +106,9 @@
     <Compile Include="Repositories\T_PartnerRepository.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\T_PaymentVoucherDetailRepository.cs">
+      <DependentUpon>Repositories.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repositories\T_PaymentVoucherRepository.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>

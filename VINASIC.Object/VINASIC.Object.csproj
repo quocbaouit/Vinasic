@@ -94,6 +94,9 @@
     <Compile Include="T_PaymentVoucher.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="T_PaymentVoucherDetail.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="T_Permission.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>

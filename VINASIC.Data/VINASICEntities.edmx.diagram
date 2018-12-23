@@ -77,6 +77,8 @@
         <EntityTypeShape EntityType="VINASICModel.T_FormularDetail" Width="1.5" PointX="3" PointY="26.375" />
         <AssociationConnector Association="VINASICModel.FK__T_Formula__Formu__0880433F" />
         <EntityTypeShape EntityType="VINASICModel.T_SiteSetting" Width="1.5" PointX="10.375" PointY="12.75" />
+        <EntityTypeShape EntityType="VINASICModel.T_PaymentVoucherDetail" Width="1.5" PointX="21" PointY="21" />
+        <AssociationConnector Association="VINASICModel.FK__T_Payment__Payme__477199F1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

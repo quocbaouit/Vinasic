@@ -15,6 +15,11 @@ namespace VINASIC.Object
 {
     public partial class T_PaymentVoucher
     {
+        public T_PaymentVoucher()
+        {
+            this.T_PaymentVoucherDetail = new Collection<T_PaymentVoucherDetail>();
+        }
+    
         public int Id { get; set; }
         public string Content { get; set; }
         public string Note { get; set; }
@@ -31,6 +36,8 @@ namespace VINASIC.Object
         public string ReceiptName { get; set; }
         public string ReceiptAddress { get; set; }
         public Nullable<System.DateTime> PaymentDate { get; set; }
+    
+        public virtual Collection<T_PaymentVoucherDetail> T_PaymentVoucherDetail { get; set; }
     }
     
 }

@@ -64,10 +64,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Autofac.Configuration">
-      <HintPath>E:\GPRO\IEDNew\trunk\SourceCode\IED\Library\Autofac.Configuration.dll</HintPath>
+      <HintPath>..\lib\Autofac.Configuration.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Integration.Mvc">
-      <HintPath>E:\GPRO\IEDNew\trunk\SourceCode\IED\Library\Autofac.Integration.Mvc.dll</HintPath>
+      <HintPath>..\lib\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Integration.WebApi, Version=3.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.WebApi.3.1.0\lib\net40\Autofac.Integration.WebApi.dll</HintPath>

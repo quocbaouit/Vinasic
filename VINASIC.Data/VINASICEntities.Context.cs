@@ -70,5 +70,6 @@ namespace VINASIC.Data
         public DbSet<T_Content> T_Content { get; set; }
         public DbSet<T_FormularDetail> T_FormularDetail { get; set; }
         public DbSet<T_SiteSetting> T_SiteSetting { get; set; }
+        public DbSet<T_PaymentVoucherDetail> T_PaymentVoucherDetail { get; set; }
     }
 }

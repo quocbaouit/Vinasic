@@ -382,6 +382,49 @@
           <Property Name="ReceiptAddress" Type="nvarchar" MaxLength="500" />
           <Property Name="PaymentDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="T_PaymentVoucherDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentVoucherId" Type="int" Nullable="false" />
+          <Property Name="CommodityId" Type="int" Nullable="false" />
+          <Property Name="CommodityName" Type="nvarchar" MaxLength="200" />
+          <Property Name="Height" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="Width" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Price" Type="float" />
+          <Property Name="SubTotal" Type="float" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="DesignUser" Type="int" />
+          <Property Name="DesignStatus" Type="int" />
+          <Property Name="PrintUser" Type="int" />
+          <Property Name="PrintStatus" Type="int" />
+          <Property Name="IsCompleted" Type="bit" Nullable="false" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="CreatedUser" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedUser" Type="int" />
+          <Property Name="UpatedDate" Type="datetime" />
+          <Property Name="DeletedUser" Type="int" />
+          <Property Name="DeletedDate" Type="datetime" />
+          <Property Name="DesignFrom" Type="datetime" />
+          <Property Name="DesignTo" Type="datetime" />
+          <Property Name="PrintFrom" Type="datetime" />
+          <Property Name="PrintTo" Type="datetime" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="200" />
+          <Property Name="DesignDescription" Type="nvarchar(max)" />
+          <Property Name="PrintDescription" Type="nvarchar(max)" />
+          <Property Name="Index" Type="int" Nullable="false" />
+          <Property Name="DesignView" Type="nvarchar" MaxLength="200" />
+          <Property Name="PrintView" Type="nvarchar" MaxLength="200" />
+          <Property Name="Square" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="SumSquare" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="DetailProcess" Type="bit" Nullable="false" />
+          <Property Name="DetailStatus" Type="float" />
+          <Property Name="AddonUser" Type="int" />
+          <Property Name="AddOnView" Type="nvarchar" MaxLength="200" />
+        </EntityType>
         <EntityType Name="T_Permission">
           <Key>
             <PropertyRef Name="Id" />
@@ -994,6 +1037,18 @@
             </Principal>
             <Dependent Role="T_OrderDetail">
               <PropertyRef Name="PrintUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__T_Payment__Payme__477199F1">
+          <End Role="T_PaymentVoucher" Type="Self.T_PaymentVoucher" Multiplicity="1" />
+          <End Role="T_PaymentVoucherDetail" Type="Self.T_PaymentVoucherDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_PaymentVoucher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="T_PaymentVoucherDetail">
+              <PropertyRef Name="PaymentVoucherId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2025,6 +2080,7 @@
           <EntitySet Name="T_Organization" EntityType="Self.T_Organization" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_Partner" EntityType="Self.T_Partner" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_PaymentVoucher" EntityType="Self.T_PaymentVoucher" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_PaymentVoucherDetail" EntityType="Self.T_PaymentVoucherDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_Permission" EntityType="Self.T_Permission" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_Position" EntityType="Self.T_Position" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_Process" EntityType="Self.T_Process" Schema="dbo" store:Type="Tables" />
@@ -2109,6 +2165,10 @@
           <AssociationSet Name="FK__T_OrderDe__Print__10216507" Association="Self.FK__T_OrderDe__Print__10216507">
             <End Role="T_User" EntitySet="T_User" />
             <End Role="T_OrderDetail" EntitySet="T_OrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__T_Payment__Payme__477199F1" Association="Self.FK__T_Payment__Payme__477199F1">
+            <End Role="T_PaymentVoucher" EntitySet="T_PaymentVoucher" />
+            <End Role="T_PaymentVoucherDetail" EntitySet="T_PaymentVoucherDetail" />
           </AssociationSet>
           <AssociationSet Name="FK__T_Permiss__Featu__11158940" Association="Self.FK__T_Permiss__Featu__11158940">
             <End Role="T_Feature" EntitySet="T_Feature" />
@@ -2620,6 +2680,11 @@
             <End Role="T_FormularDetail" EntitySet="T_FormularDetail" />
           </AssociationSet>
           <EntitySet Name="T_SiteSetting" EntityType="VINASICModel.T_SiteSetting" />
+          <EntitySet Name="T_PaymentVoucherDetail" EntityType="VINASICModel.T_PaymentVoucherDetail" />
+          <AssociationSet Name="FK__T_Payment__Payme__477199F1" Association="VINASICModel.FK__T_Payment__Payme__477199F1">
+            <End Role="T_PaymentVoucher" EntitySet="T_PaymentVoucher" />
+            <End Role="T_PaymentVoucherDetail" EntitySet="T_PaymentVoucherDetail" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="T__Remind">
           <Key>
@@ -2885,6 +2950,7 @@
           <Property Name="ReceiptName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="ReceiptAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="PaymentDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="T_PaymentVoucherDetail" Relationship="VINASICModel.FK__T_Payment__Payme__477199F1" FromRole="T_PaymentVoucher" ToRole="T_PaymentVoucherDetail" />
         </EntityType>
         <EntityType Name="T_Permission">
           <Key>
@@ -3869,6 +3935,62 @@
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
           <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="T_PaymentVoucherDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentVoucherId" Type="Int32" Nullable="false" />
+          <Property Name="CommodityId" Type="Int32" Nullable="false" />
+          <Property Name="CommodityName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Height" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Width" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="SubTotal" Type="Double" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DesignUser" Type="Int32" />
+          <Property Name="DesignStatus" Type="Int32" />
+          <Property Name="PrintUser" Type="Int32" />
+          <Property Name="PrintStatus" Type="Int32" />
+          <Property Name="IsCompleted" Type="Boolean" Nullable="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedUser" Type="Int32" />
+          <Property Name="UpatedDate" Type="DateTime" Precision="3" />
+          <Property Name="DeletedUser" Type="Int32" />
+          <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+          <Property Name="DesignFrom" Type="DateTime" Precision="3" />
+          <Property Name="DesignTo" Type="DateTime" Precision="3" />
+          <Property Name="PrintFrom" Type="DateTime" Precision="3" />
+          <Property Name="PrintTo" Type="DateTime" Precision="3" />
+          <Property Name="FileName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DesignDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PrintDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Index" Type="Int32" Nullable="false" />
+          <Property Name="DesignView" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="PrintView" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Square" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="SumSquare" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="DetailProcess" Type="Boolean" Nullable="false" />
+          <Property Name="DetailStatus" Type="Double" />
+          <Property Name="AddonUser" Type="Int32" />
+          <Property Name="AddOnView" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="T_PaymentVoucher" Relationship="VINASICModel.FK__T_Payment__Payme__477199F1" FromRole="T_PaymentVoucherDetail" ToRole="T_PaymentVoucher" />
+        </EntityType>
+        <Association Name="FK__T_Payment__Payme__477199F1">
+          <End Type="VINASICModel.T_PaymentVoucher" Role="T_PaymentVoucher" Multiplicity="1" />
+          <End Type="VINASICModel.T_PaymentVoucherDetail" Role="T_PaymentVoucherDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_PaymentVoucher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="T_PaymentVoucherDetail">
+              <PropertyRef Name="PaymentVoucherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -4711,6 +4833,50 @@
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_PaymentVoucherDetail">
+            <EntityTypeMapping TypeName="VINASICModel.T_PaymentVoucherDetail">
+              <MappingFragment StoreEntitySet="T_PaymentVoucherDetail">
+                <ScalarProperty Name="AddOnView" ColumnName="AddOnView" />
+                <ScalarProperty Name="AddonUser" ColumnName="AddonUser" />
+                <ScalarProperty Name="DetailStatus" ColumnName="DetailStatus" />
+                <ScalarProperty Name="DetailProcess" ColumnName="DetailProcess" />
+                <ScalarProperty Name="SumSquare" ColumnName="SumSquare" />
+                <ScalarProperty Name="Square" ColumnName="Square" />
+                <ScalarProperty Name="PrintView" ColumnName="PrintView" />
+                <ScalarProperty Name="DesignView" ColumnName="DesignView" />
+                <ScalarProperty Name="Index" ColumnName="Index" />
+                <ScalarProperty Name="PrintDescription" ColumnName="PrintDescription" />
+                <ScalarProperty Name="DesignDescription" ColumnName="DesignDescription" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="PrintTo" ColumnName="PrintTo" />
+                <ScalarProperty Name="PrintFrom" ColumnName="PrintFrom" />
+                <ScalarProperty Name="DesignTo" ColumnName="DesignTo" />
+                <ScalarProperty Name="DesignFrom" ColumnName="DesignFrom" />
+                <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
+                <ScalarProperty Name="DeletedUser" ColumnName="DeletedUser" />
+                <ScalarProperty Name="UpatedDate" ColumnName="UpatedDate" />
+                <ScalarProperty Name="UpdatedUser" ColumnName="UpdatedUser" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="IsCompleted" ColumnName="IsCompleted" />
+                <ScalarProperty Name="PrintStatus" ColumnName="PrintStatus" />
+                <ScalarProperty Name="PrintUser" ColumnName="PrintUser" />
+                <ScalarProperty Name="DesignStatus" ColumnName="DesignStatus" />
+                <ScalarProperty Name="DesignUser" ColumnName="DesignUser" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Width" ColumnName="Width" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="CommodityName" ColumnName="CommodityName" />
+                <ScalarProperty Name="CommodityId" ColumnName="CommodityId" />
+                <ScalarProperty Name="PaymentVoucherId" ColumnName="PaymentVoucherId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
