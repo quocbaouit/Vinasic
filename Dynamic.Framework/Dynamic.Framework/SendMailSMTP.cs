@@ -4,22 +4,37 @@ using System.IO;
 using System.Net.Mail;
 namespace Dynamic.Framework
 {
-   public class SendMailSMTP
+    public class SendMailSMTP
     {
 
-        public void SendMail(String mailFrom,string mailTo,string subject, string body)
+        public void SendMail(String mailFrom,string passWord, string mailTo, string sujb, string bd)
         {
-            MailMessage mail = new MailMessage(mailFrom, mailTo);
-            SmtpClient client = new SmtpClient();
-            client.Credentials = new System.Net.NetworkCredential(mailFrom.Trim(), "tranquocbaouit@@@");
-            client.EnableSsl = true;
-            client.Port = 587;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
-            client.Host = "smtp.gmail.com";
-            mail.Subject = subject;
-            mail.Body = body;
-            client.Send(mail);
+            var fromAddress = new MailAddress(mailFrom);
+           
+            var fromPassword = passWord;
+            var toAddress = new MailAddress(mailTo);
+
+            string subject = sujb;
+            string body = bd;
+
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+            using (var message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = body,
+                IsBodyHtml=true
+            })
+
+
+                smtp.Send(message);
         }
     }
 }

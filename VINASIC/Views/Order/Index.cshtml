@@ -2,7 +2,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Content/Common.css" rel="stylesheet" />
-<script src="~/Scripts/VINASIC/Order/Order_Index.js"></script>
+<script src="~/Scripts/VINASIC/Order/Order_Index.js?v=1.4"></script>
 <style>
     .alert {
         padding: 20px;
@@ -833,6 +833,44 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="popup_notification" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-pencil"></span>Gởi Thông Tin Tới Khách Hàng</h4>
+            </div>
+            <div class="modal-body" style="padding: 40px 50px;">
+                <form role="form">
+                    <h4>Đơn hàng đợi giao cho khách .Bạn có muốn gởi thông báo tới khách hàng ?</h4>
+                    <div class="form-group">
+                        <label for="haspay">Gởi SMS</label>
+                        <input type="checkbox" class="form-control" id="sendSMS" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="haspay">Gởi Email</label>
+                        <input type="checkbox" class="form-control" id="sendEmail" placeholder="">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
+                    <div class="button-image image-close"></div>
+                    Đóng
+                </button>
+                <button save class="btn btn-primary">
+                    <div class="button-image image-save"></div>
+                    Lưu
+                </button>
+            </div>
+        </div>
+
     </div>
 </div>
 <!-- page end-->

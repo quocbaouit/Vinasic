@@ -518,14 +518,14 @@ namespace VINASIC.Controllers
             }
             return Json(JsonDataResult);
         }
-        public JsonResult UpdateOrderStatus(int orderId, float status)
+        public JsonResult UpdateOrderStatus(int orderId, float status, bool sendSMS = false, bool sendEmail=false)
         {
             try
             {
                 var IsAdmin = true;
-                if (IsAuthenticate)
-                {
-                    var responseResult = _bllOrder.UpdateOrderStatus(orderId, status,UserContext.UserID, IsAdmin);
+                //if (IsAuthenticate)
+                //{
+                    var responseResult = _bllOrder.UpdateOrderStatus(orderId, status,UserContext.UserID, IsAdmin, sendSMS, sendEmail);
                     if (responseResult.IsSuccess)
                         JsonDataResult.Result = "OK";
                     else
@@ -533,12 +533,12 @@ namespace VINASIC.Controllers
                         JsonDataResult.Result = "ERROR";
                         JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
                     }
-                }
-                else
-                {
-                    JsonDataResult.Result = "ERROR";
-                    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
-                }
+                //}
+                //else
+                //{
+                //    JsonDataResult.Result = "ERROR";
+                //    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
+                //}
             }
             catch (Exception ex)
             {
@@ -760,10 +760,10 @@ namespace VINASIC.Controllers
 
             return dt;
         }
-        public ActionResult ExportReport([FromUri] DateTime fromDate, [FromUri]DateTime toDate, [FromUri]int employee, [FromUri]string keySearch, int delivery = 0, int paymentStatus = 0)
+        public ActionResult ExportReport([FromUri] DateTime fromDate, [FromUri]DateTime toDate, [FromUri]int employee, [FromUri]string keySearch, int delivery = 0, int paymentStatus = 0,int type=0)
         {
             var pck = new ExcelPackage();
-            pck = ExportSum(pck, fromDate, toDate, employee, keySearch, delivery, paymentStatus);
+            pck = ExportSum(pck, fromDate, toDate, employee, keySearch, delivery, paymentStatus, type);
             return new ExcelDownload(pck, string.Format("{0}_.xlsx", DateTime.Now.AddHours(14).ToString("d")));
         }
         public ActionResult ExportExcelQuotation(int orderId, string orderName)
@@ -773,235 +773,7 @@ namespace VINASIC.Controllers
             return new ExcelDownload(pck, string.Format("{0}_{1}.xlsx", orderName, DateTime.Now.AddHours(14).ToString("d")));
         }
         //public 
-        public ExcelPackage ExportSum1(ExcelPackage package, DateTime fromDate, DateTime toDate, int employee, string keySearch, int delivery, int paymentStatus)
-        {
-            var result = _bllOrder.ExportReport(fromDate, toDate, employee, keySearch, delivery, paymentStatus);
-            if (result.Count == 0)
-            {
-                return package;
-            }
-            var ws = package.Workbook.Worksheets.Add("Thống Kê");
-
-            ws.Cells.Style.Font.Size = 14;
-            ws.Cells.Style.Font.Name = "Times New Roman";
-            ws.Column(1).Width = 7;
-            ws.Column(2).Width = 7;
-            ws.Column(3).Width = 15;
-            ws.Column(4).Width = 30;
-            ws.Column(5).Width = 30;
-            ws.Column(6).Width = 30;
-            ws.Column(7).Width = 8;
-            ws.Column(8).Width = 8;
-            ws.Column(9).Width = 8;
-            ws.Column(10).Width = 14;
-            ws.Column(11).Width = 14;
-            ws.Column(12).Width = 14;
-            ws.Column(13).Width = 14;
-            ws.Column(14).Width = 14;
-            ws.Column(15).Width = 14;
-            ws.Column(16).Width = 14;
-            const string path = "~/Files/logo.jpg";
-            var logo = Image.FromFile(Server.MapPath(path));
-            ws.Row(0 * 5).Height = 39.00D;
-            var picture = ws.Drawings.AddPicture(0.ToString(), logo);
-            picture.From.Column = 0;
-            picture.From.Row = 0;
-            picture.To.Column = 0;
-            picture.To.Row = 0;
-            picture.SetSize(280, 104);
-
-            ws.Cells["G1"].Value = "CÔNG TY TNHH PHÁT TRIỂN TRUYỀN THÔNG ADVISER";
-            ws.Cells["G1"].Style.Font.Bold = true;
-            ws.Cells["G1"].Style.Font.Size = 16;
-            ws.Cells["G1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-
-            ws.Cells["G2"].Value = "Inlichgo.com";
-            ws.Cells["G2"].Style.Font.Bold = true;
-            ws.Cells["G2"].Style.Font.Size = 14;
-            ws.Cells["G2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-            ws.Cells["G2"].Style.Font.Color.SetColor(Color.RoyalBlue);
-
-            ws.Cells["G3"].Value = "Địa chỉ văn phòng: 748/70/10 Thống Nhất, Phường 15, Quận Gò Vấp,TP Hồ Chí Minh";
-            ws.Cells["G3"].Style.Font.Bold = true;
-            ws.Cells["G3"].Style.Font.Size = 14;
-            ws.Cells["G3"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-
-            ws.Cells["G4"].Value = "Di động: 0901.333.151 - 0963.763.079 - 0168.565.5505";
-            ws.Cells["G4"].Style.Font.Bold = true;
-            ws.Cells["G4"].Style.Font.Size = 14;
-            ws.Cells["G4"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-
-            ws.Cells["G6"].Value = "THỐNG KÊ HÀNG IN";
-            ws.Cells["G6"].Style.Font.Bold = true;
-            ws.Cells["G6"].Style.Font.Size = 18;
-            ws.Cells["G6"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-
-
-            ws.Cells["A8"].Value = "STT";
-            ws.Cells["A8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-
-            ws.Cells["B8"].Value = "Mã ĐH";
-            ws.Cells["B8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-
-            ws.Cells["C8"].Value = "Ngày Tạo";
-            ws.Cells["C8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-
-            ws.Cells["D8"].Value = "Tên Khách Hàng";
-            ws.Cells["D8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-
-            ws.Cells["E8"].Value = "Hạng mục";
-            ws.Cells["E8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-
-            ws.Cells["F8"].Value = "Diễn giải";
-            ws.Cells["F8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-
-            ws.Cells["G8"].Value = "Đơn vị";
-            ws.Cells["G8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-
-            ws.Cells["H8:I8"].Merge = true;
-            ws.Cells["H8"].Value = "Kích thước (m)";
-            ws.Cells["H8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-
-            ws.Cells["J8"].Value = "Số lượng";
-            ws.Cells["J8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-
-            ws.Cells["K8"].Value = "Diện tích";
-            ws.Cells["K8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-
-            ws.Cells["L8"].Value = "Đơn giá (vnd)";
-            ws.Cells["L8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-
-            ws.Cells["M8"].Value = "Thành Tiền (vnd)";
-            ws.Cells["M8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-
-
-            ws.Cells["N8"].Value = "ThanhToán Tiền Mặt";
-            ws.Cells["N8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-
-            ws.Cells["O8"].Value = "ThanhToán Chuyển Khoản";
-            ws.Cells["O8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-
-            ws.Cells["P8"].Value = "Còn Lại (vnd)";
-            ws.Cells["P8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-
-            foreach (var c in ws.Cells["A8:P8"])
-            {
-                c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                c.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                c.Style.WrapText = true;
-                c.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
-            }
-            ws.Cells["A9:L9"].Merge = true;
-            ws.Cells["A9:L9"].Value = "Tổng cộng";
-            ws.Cells["A9:L9"].Style.Font.Bold = true;
-            ws.Cells["A9:L9"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-
-            ws.Cells["D9"].Value = "";
-            ws.Cells["E9"].Value = "";
-            ws.Cells["F9"].Value = "";
-            ws.Cells["G9"].Value = "";
-            ws.Cells["H9"].Value = "";
-            ws.Cells["I9"].Value = "";
-            ws.Cells["J9"].Value = "";
-            ws.Cells["K9"].Value = "";
-            ws.Cells["L9"].Value = "";
-            ws.Cells["M9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells["M9"].Value = result[0].Total;
-            ws.Cells["N9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells["N9"].Value = ""; //result[0].HasPayTotal;//result.Sum(x => x.Total1);
-            ws.Cells["O9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells["O9"].Value = "";// result[0].HasPayTransferTotal;//result.Sum(x=>x.HasPay);
-            ws.Cells["P9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells["P9"].Value = "";// result[0].HasExistTotal;//result.Sum(x=>x.HasExist);
-            foreach (var c in ws.Cells["A9:P9"])
-            {
-                c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                c.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                c.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
-                c.Style.Border.Top.Style = ExcelBorderStyle.Thin;
-            }
-            var startRow = int.Parse(ws.Cells["A8"].Address.Substring(1)) + 1;
-            var endRow = startRow;
-            var numRows = result.Count;
-            for (var i = 0; i < numRows; i++)
-            {
-                ws.InsertRow(endRow, 1);
-
-                ws.Cells[endRow, 1].Value = i + 1;
-                ws.Cells[endRow, 2].Value = result[i].OrderId;
-                ws.Cells[endRow, 3].Value = result[i].CreatedDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
-                ws.Cells[endRow, 4].Value = result[i].CustomerName;
-                ws.Cells[endRow, 5].Value = result[i].FileName;
-                ws.Cells[endRow, 6].Value = result[i].CommodityName;
-                ws.Cells[endRow, 7].Value = result[i].Unit;
-                ws.Cells[endRow, 8].Value = result[i].Width == 0 ? null : result[i].Width;
-                ws.Cells[endRow, 9].Value = result[i].Height == 0 ? null : result[i].Height;
-                ws.Cells[endRow, 10].Value = result[i].Quantity;
-                ws.Cells[endRow, 11].Value = result[i].Square == 0 ? null : result[i].SumSquare;
-                ws.Cells[endRow, 12].Style.Numberformat.Format = "#,##0";
-                ws.Cells[endRow, 12].Value = result[i].Price;
-                ws.Cells[endRow, 13].Style.Numberformat.Format = "#,##0";
-                ws.Cells[endRow, 13].Value = result[i].SubTotal;
-
-                try
-                {
-                    if ((result[i].OrderId != result[i - 1].OrderId))
-                    {
-                        ws.Cells[endRow, 14].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, 14].Value = result[i].HasPay;
-                        ws.Cells[endRow, 15].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, 15].Value = result[i].HasPayTransfer;
-                        ws.Cells[endRow, 16].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, 16].Value = result[i].Total1 - (result[i].HasPay + result[i].HasPayTransfer);
-                    }
-                    else
-                    {
-                        ws.Cells[endRow, 14].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, 14].Value = "";
-                        ws.Cells[endRow, 15].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, 15].Value = "";
-                        ws.Cells[endRow, 16].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, 16].Value = "";
-                    }
-                }
-                catch (Exception)
-                {
-                    ws.Cells[endRow, 14].Style.Numberformat.Format = "#,##0";
-                    ws.Cells[endRow, 14].Value = result[i].HasPay;
-                    ws.Cells[endRow, 15].Style.Numberformat.Format = "#,##0";
-                    ws.Cells[endRow, 15].Value = result[i].HasPayTransfer;
-                    ws.Cells[endRow, 16].Style.Numberformat.Format = "#,##0";
-                    ws.Cells[endRow, 16].Value = result[i].Total1 - ( result[i].HasPay + result[i].HasPayTransfer);
-                }
-                if (i == numRows - 1)
-                    continue;
-                endRow++;
-            }
-            if (numRows != 0)
-            {
-                foreach (var c in ws.Cells["A" + startRow + ":P" + endRow])
-                {
-                    c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                    c.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                    c.Style.Border.Left.Style = ExcelBorderStyle.Thin;
-                    c.Style.Border.Right.Style = ExcelBorderStyle.Thin;
-                    c.Style.Border.Bottom.Style = ExcelBorderStyle.Hair;
-                    c.Style.WrapText = true;
-                }
-
-                //foreach (var c in ws.Cells["B" + startRow + ":B" + endRow])
-                //{
-                //    c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-                //}
-                //foreach (var c in ws.Cells["G" + startRow + ":G" + endRow])
-                //{
-                //    c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-                //}
-            }
-
-            return package;
-        }
-        public ExcelPackage ExportSum(ExcelPackage package, DateTime fromDate, DateTime toDate, int employee, string keySearch, int delivery, int paymentStatus)
+        public ExcelPackage ExportSum(ExcelPackage package, DateTime fromDate, DateTime toDate, int employee, string keySearch, int delivery, int paymentStatus,int type=0)
         {
             var CompanyInfo = _bllSiteSetting.GetListProduct();
             var cmpShortName = CompanyInfo.Where(x => x.Code == "cmpShortName").FirstOrDefault()?.Value;
@@ -1011,7 +783,8 @@ namespace VINASIC.Controllers
             var cpnAddress = CompanyInfo.Where(x => x.Code == "cpnAddress").FirstOrDefault()?.Value;
             var cpnName = CompanyInfo.Where(x => x.Code == "cpnName").FirstOrDefault()?.Value;
 
-            var result = _bllOrder.ExportReport(fromDate, toDate, employee, keySearch, delivery, paymentStatus);
+            var result = _bllOrder.ExportReport(fromDate, toDate, employee, keySearch, delivery, paymentStatus, type);
+
             var siteSettings = _bllSiteSetting.GetListProduct();
             var configCustomer = siteSettings.Where(x => x.Code == "configCustomer").FirstOrDefault().Value;
             var configUnit = siteSettings.Where(x => x.Code == "configUnit").FirstOrDefault().Value;

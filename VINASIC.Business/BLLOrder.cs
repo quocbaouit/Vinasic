@@ -22,15 +22,17 @@ namespace VINASIC.Business
         private readonly IT_CustomerRepository _repCus;
         private readonly IT_SiteSettingRepository _repSite;
         private readonly IT_UserRepository _repUser;
+        private readonly IT_ContentRepository _repContent;
         private readonly IT_OrderDetailRepository _repOrderDetail;
         private readonly IUnitOfWork<VINASICEntities> _unitOfWork;
         private readonly TimeZoneInfo curentZone = TimeZoneInfo.FindSystemTimeZoneById(ConfigurationManager.AppSettings["WEBSITE_TIME_ZONE"]);
-        public BllOrder(IUnitOfWork<VINASICEntities> unitOfWork, IT_OrderRepository repOrder, IT_OrderDetailRepository repOrderDetail, IT_CustomerRepository repCus, IT_UserRepository repUserRepository, IT_SiteSettingRepository repSite)
+        public BllOrder(IUnitOfWork<VINASICEntities> unitOfWork, IT_OrderRepository repOrder, IT_ContentRepository repContent, IT_OrderDetailRepository repOrderDetail, IT_CustomerRepository repCus, IT_UserRepository repUserRepository, IT_SiteSettingRepository repSite)
         {
             _unitOfWork = unitOfWork;
             _repOrder = repOrder;
             _repOrderDetail = repOrderDetail;
             _repUser = repUserRepository;
+            _repContent = repContent;
             _repSite = repSite;
             _repCus = repCus;
         }
@@ -274,6 +276,7 @@ namespace VINASIC.Business
                 };
                 _repOrder.Add(order);
                 SaveChange();
+                var id = 1;
                 foreach (var detail in obj.Detail)
                 {
                     var orderDetail = new T_OrderDetail
@@ -299,8 +302,8 @@ namespace VINASIC.Business
                     };
                     _repOrderDetail.Add(orderDetail);
                     SaveChange();
+                    id++;
                 }
-
                 result.IsSuccess = true;
 
             }
@@ -472,7 +475,7 @@ namespace VINASIC.Business
 
             return responResult;
         }
-        public ResponseBase UpdateOrderStatus(int orderId, float status, int userId, bool isAdmin)
+        public ResponseBase UpdateOrderStatus(int orderId, float status, int userId, bool isAdmin,bool sendSMS=false,bool sendEmail=false)
         {
             var responResult = new ResponseBase();
             var customerId = 0;
@@ -499,12 +502,18 @@ namespace VINASIC.Business
                     if (customer != null)
                     {
                         var phone = customer.Mobile;
+                        var mailTo = customer.Email;
+                        var mailContent = _repContent.GetById(2).Content;
                         string mess = _repSite.GetById(1).Value;
-                        if (!String.IsNullOrEmpty(phone))
+                        if (!String.IsNullOrEmpty(phone) && sendSMS)
                         {
-                            Task.Run(() => Send(phone,mess));
+                            Task.Run(() => SendSMS(phone,mess));
                         }
-                        
+                        if (!String.IsNullOrEmpty(mailTo) && sendEmail)
+                        {
+                            Task.Run(() => SendEmail(mailTo, mailContent));
+                        }
+
                     }
                     
                 }
@@ -516,16 +525,19 @@ namespace VINASIC.Business
             }
             return responResult;
         }
-        public void Send(string phone,string mess)
+        public void SendSMS(string phone,string mess)
         {
-            //SendMail
-            SendMailSMTP sendMail = new SendMailSMTP();
-            sendMail.SendMail("quocbao.uit@gmail.com", "quocbao.uit@gmail.com","test","this is test mail");
             //SendSMS
             SpeedSMSAPI api = new SpeedSMSAPI("zg0WCSR_yUIjz3z7iWARLvEp3IEXhnKg");
             String[] phones = new String[] { phone };
             //String str = ConfigurationManager.AppSettings["SMS_CONTENT"];
             String response = api.sendSMS(phones, mess, 2, "");
+        }
+        public void SendEmail(string email, string mess)
+        {
+            //SendMail
+            SendMailSMTP sendMail = new SendMailSMTP();
+            sendMail.SendMail(ConfigurationManager.AppSettings["EMAIL_SENDER"], ConfigurationManager.AppSettings["EMAIL_PASSWORD"], email, ConfigurationManager.AppSettings["EMAIL_SUBJECT"], mess);
         }
         public ResponseBase UpdateDelivery(int orderId, int status, int userId)
         {
@@ -921,7 +933,7 @@ namespace VINASIC.Business
             var listId = order.Select(x => x.Id).ToList();
             return listId;
         }
-        public List<ModelViewDetail> ExportReport(DateTime fromDate, DateTime toDate, int employee, string keyWord, int delivery, int paymentStatus)
+        public List<ModelViewDetail> ExportReport(DateTime fromDate, DateTime toDate, int employee, string keyWord, int delivery, int paymentStatus, int type = 0)
         {
             var frDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0, 0);
             var tDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59, 999);
@@ -961,6 +973,7 @@ namespace VINASIC.Business
                         SubTotal = c.SubTotal,
                         Total1 = c.T_Order.SubTotal,
                         HasPay = c.T_Order.HasPay ?? 0,
+                      
                         HasPayTransfer = c.T_Order.HaspayTransfer ?? 0,
                         IsCompleted = c.IsCompleted,
                         HasPayTotal = 0,
@@ -970,11 +983,15 @@ namespace VINASIC.Business
                         strDesignStatus = c.DesignStatus == null ? "Chưa Làm" : (c.DesignStatus == 1 ? "Đang Làm" : (c.DesignStatus == 2 ? "Đã Xong" : "Chưa Làm")),
                         strPrinStatus = c.PrintStatus == null ? "Chưa Làm" : (c.PrintStatus == 1 ? "Đang Làm" : (c.PrintStatus == 2 ? "Đã Xong" : "Chưa Làm"))
                     }).OrderBy("CreatedDate DESC").ToList();
-            if (employee != 0)
+            if (type == 1)
+            {
+                orders = orders.Where(x => x.Total1 - (x.HasPay+x.HasPayTransfer)> 0).ToList();
+            }
+            if (employee != 0 && type!=1)
             {
                 orders = orders.Where(c => c.CreatedForUser == employee).ToList();
             }
-            if (!string.IsNullOrEmpty(keyWord))
+            if (!string.IsNullOrEmpty(keyWord) && type != 1)
             {
                 orders = orders.Where(c => c.CustomerName.Trim().ToLower().Contains(keyWord.Trim().ToLower()) || c.CustomerPhone.Contains(keyWord) || c.OrderId.ToString().Contains(keyWord)).ToList();
             }

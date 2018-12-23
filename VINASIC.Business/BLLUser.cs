@@ -144,7 +144,7 @@ namespace VINASIC.Business
             ResponseBase result = new ResponseBase { IsSuccess = false };
             try
             {
-                T_User user = repUser.Get(x => x.Id == userId && !x.IsDeleted);
+                T_User user = repUser.Get(x => x.Id == userId);
                 if (user!=null)
                 {
                     user.FisrtName = firstName;
@@ -175,7 +175,7 @@ namespace VINASIC.Business
             ResponseBase result = new ResponseBase { IsSuccess = false };
             try
             {
-                T_User user = repUser.Get(x => x.Id == userId && !x.IsDeleted);
+                T_User user = repUser.Get(x => x.Id == userId);
                 if (user!=null)
                 {
                     if (oldUser.Trim().ToLower() != user.UserName.Trim().ToLower())
@@ -219,7 +219,7 @@ namespace VINASIC.Business
             ResponseBase result = new ResponseBase { IsSuccess = false };
             try
             {
-                T_User user = repUser.GetMany(x => x.Id == userId && !x.IsDeleted).FirstOrDefault();
+                T_User user = repUser.GetMany(x => x.Id == userId).FirstOrDefault();
                 if (user!=null)
                 {
                     if (GlobalFunction.EncryptMD5(oldPassword.Trim()) != user.PassWord.Trim().ToLower())
@@ -258,7 +258,7 @@ namespace VINASIC.Business
             ResponseBase result = new ResponseBase();
             try
             {
-                T_User user = repUser.GetMany(x => x.Id == modeluser.Id && !x.IsDeleted).FirstOrDefault();
+                T_User user = repUser.GetMany(x => x.Id == modeluser.Id).FirstOrDefault();
                 if (user != null)
                 {
                     if (status == 1)
@@ -317,7 +317,7 @@ namespace VINASIC.Business
             try
             {
                 result = new ResponseBase();
-                T_User user = repUser.GetMany(x => x.Id == Modeluser.Id && !x.IsDeleted).FirstOrDefault();
+                T_User user = repUser.GetMany(x => x.Id == Modeluser.Id).FirstOrDefault();
                 if (user != null)
                 {
                     List<int> listRoleIdNew = null;
@@ -543,7 +543,7 @@ namespace VINASIC.Business
         public ModelUser GetUserInfoByUserId(int userId)
         {
             ModelUser user = null;
-            user = repUser.GetMany(x => x.Id == userId && !x.IsDeleted).Select(x => new ModelUser()
+            user = repUser.GetMany(x => x.Id == userId).Select(x => new ModelUser()
             {
                 Id = x.Id,
                 UserName = x.UserName,

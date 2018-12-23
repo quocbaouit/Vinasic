@@ -36,7 +36,8 @@ VINASIC.Order = function () {
             PopupDesignProcess: "popup_DesignProcess",
             PopupHasPay: "popup_HasPay",
             PopupPaymentProcess: "popup_PaymentProcess",
-            PopupPrintProcess: "popup_PrintProcess"
+            PopupPrintProcess: "popup_PrintProcess",
+            PopupNotification: "popup_notification"
         },
         Data: {
             ModelOrder: {},
@@ -287,6 +288,9 @@ VINASIC.Order = function () {
     function showPopupHaspay() {
         $("#" + global.Element.PopupHasPay).modal("show");
     }
+    function showPopupNotification() {
+        $("#" + global.Element.PopupNotification).modal("show");
+    }
     /*End*/
     function updateDesignUser(id, empId, description) {
         $.ajax({
@@ -411,6 +415,25 @@ VINASIC.Order = function () {
     function updateOrderStatus(orderId, status) {
         $.ajax({
             url: "/Order/UpdateOrderStatus?orderId=" + orderId + "&status=" + status,
+            type: 'post',
+            contentType: 'application/json',
+            success: function (result) {
+                $('#loading').hide();
+                GlobalCommon.CallbackProcess(result, function () {
+                    if (result.Result === "OK") {
+                        reloadListOrder();
+                        toastr.success("Cập nhật trạng thái đơn hàng thành công");
+                    }
+                }, false, global.Element.PopupOrder, true, true, function () {
+
+                    toastr.error(result.Message);
+                });
+            }
+        });
+    }
+    function updateOrderStatus2(orderId, status,sendSMS,sendMail) {
+        $.ajax({
+            url: "/Order/UpdateOrderStatus?orderId=" + orderId + "&status=" + status + "&sendSMS=" + sendSMS + "&sendEmail=" + sendMail,
             type: 'post',
             contentType: 'application/json',
             success: function (result) {
@@ -773,7 +796,7 @@ VINASIC.Order = function () {
             toolbar: {
                 items: [{
                     tooltip: 'Click here to export this table to excel',
-                    text: 'Export to Excel',
+                    text: 'Xuất Excel Các Đơn Hàng Chưa Thanh Toán Hết',
                     click: function () {
                         var keySearch = $("#keyword").val();
                         var fromDate = $("#datefrom").val();
@@ -781,10 +804,24 @@ VINASIC.Order = function () {
                         var employee = $("#cemployee1").val();
                         var delivery = $("#DeliveryType").val();
                         var paymentStatus = $("#PaymentStatus").val();
-                        var url = "/Order/ExportReport?fromDate=" + fromDate + "&toDate=" + toDate + "&employee=" + employee + "&keySearch=" + keySearch + "&delivery=" + delivery + "&paymentStatus=" + paymentStatus;
+                        var url = "/Order/ExportReport?fromDate=" + fromDate + "&toDate=" + toDate + "&employee=" + employee + "&keySearch=" + keySearch + "&delivery=" + delivery + "&paymentStatus=" + paymentStatus + "&type=" + 1;
                         window.location = url;
                     }
-                }]
+                },
+                    {
+                        tooltip: 'Click here to export this table to excel',
+                        text: 'Export to Excel',
+                        click: function () {
+                            var keySearch = $("#keyword").val();
+                            var fromDate = $("#datefrom").val();
+                            var toDate = $("#dateto").val();
+                            var employee = $("#cemployee1").val();
+                            var delivery = $("#DeliveryType").val();
+                            var paymentStatus = $("#PaymentStatus").val();
+                            var url = "/Order/ExportReport?fromDate=" + fromDate + "&toDate=" + toDate + "&employee=" + employee + "&keySearch=" + keySearch + "&delivery=" + delivery + "&paymentStatus=" + paymentStatus + "&type=" + 0;
+                            window.location = url;
+                        }
+                    }]
             },
             actions: {
                 listAction: global.UrlAction.GetListOrder
@@ -1981,6 +2018,24 @@ VINASIC.Order = function () {
             $("#" + global.Element.PopupHasPay).modal("hide");
         });
     }
+    function initPopupNotification() {
+        $("#" + global.Element.PopupNotification).modal({
+            keyboard: false,
+            show: false
+        });
+        $("#" + global.Element.PopupNotification + ' button[save]').click(function () {
+            debugger;
+            var orderId = global.Data.OrderId;
+            var sendSMS = document.getElementById("sendSMS").checked;
+            var sendEmail = document.getElementById("sendEmail").checked;
+            updateOrderStatus2(global.Data.IdOrderStatus, 2, sendSMS, sendEmail);
+            reloadListOrder();
+            $("#" + global.Element.PopupNotification).modal("hide");
+        });
+        $("#" + global.Element.PopupNotification + ' button[cancel]').click(function () {
+            $("#" + global.Element.PopupNotification).modal("hide");
+        });
+    }
     /*End bootrap*/
     /* Region Register and init*/
     this.reloadListOrder = function () {
@@ -2137,7 +2192,8 @@ VINASIC.Order = function () {
         });
         $("body").delegate(".orderstatus2", "click", function (event) {
             event.preventDefault();
-            updateOrderStatus(global.Data.IdOrderStatus, 2);
+            showPopupNotification();
+            //updateOrderStatus(global.Data.IdOrderStatus, 2);
         });
         $("body").delegate(".orderstatus3", "click", function (event) {
             event.preventDefault();
@@ -2448,15 +2504,36 @@ VINASIC.Order = function () {
                     });
                 }
             });
+            $("#keyword").autocomplete({
+                source: global.Data.ListCustomerName,
+                select: function (a, b) {
+                    var cusName = b.item.value;
+                    $.ajax({
+                        url: "/Order/GetCustomerByName?customerName=" + cusName,
+                        type: 'post',
+                        contentType: 'application/json',
+                        success: function (result) {
+                            GlobalCommon.CallbackProcess(result, function () {
+                                var listCustomer = result.Records;
+                                $('#keyword').val(listCustomer.Name);
+                                reloadListOrder();
+                            }, false, global.Element.PopupOrder, true, true, function () {
+                                var msg = GlobalCommon.GetErrorMessage(result);
+                                GlobalCommon.ShowMessageDialog(msg, function () { }, "Đã có lỗi xảy ra trong quá trình sử lý.");
+                            });
+                        }
+                    });
+                }
+            });
         });
     }
     this.Init = function () {
         registerEvent();
-        document.getElementById("datefrom").defaultValue = new Date(new Date() - 24 * 60 * 60 * 1000).toISOString().substring(0, 10);
+        document.getElementById("datefrom").defaultValue = new Date(new Date() - 24*30 * 60 * 60 * 1000).toISOString().substring(0, 10);
         var dateTo = new Date();
         dateTo.setDate(dateTo.getDate() + 1);
         document.getElementById("dateto").defaultValue = dateTo.toISOString().substring(0, 10);
-        document.getElementById("subdatefrom").defaultValue = new Date(new Date() - 24 * 60 * 60 * 1000).toISOString().substring(0, 10);
+        document.getElementById("subdatefrom").defaultValue = new Date(new Date() - 24*30 * 60 * 60 * 1000).toISOString().substring(0, 10);
         document.getElementById("subdateto").defaultValue = dateTo.toISOString().substring(0, 10);
         initComboBoxBusiness();
         initComboBoxBusiness1();
@@ -2477,6 +2554,7 @@ VINASIC.Order = function () {
         initPopupPrintProcess();
         initPopupPaymentProcess();
         initPopupHasPay();
+        initPopupNotification();
         initPopupSearch();
         bindData(null);
         $.ajax({
