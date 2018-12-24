@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<script src="~/Scripts/VINASIC/PaymentVoucher/PaymentVoucher_Index.js"></script>
+<script src="~/Scripts/VINASIC/PaymentVoucher/PaymentVoucher_Index.js?version=1.5"></script>
 <div class="row">
     <div class="col-lg-12">
         <h3 style="background-color: #faf9f8" class="page-header">
@@ -64,7 +64,7 @@
                 <div id="edit-profile" class="tab-pane">
                     <section class="panel">
                         <div class="panel-body bio-graph-info">
-                            <div class="col-lg-6">
+                            <div class="col-lg-5">
                                 <section class="panel">
                                     <header class="panel-heading">
                                         Thông Tin Phiếu Chi
@@ -72,28 +72,37 @@
                                     <div class="panel-body">
                                         <form role="form">
                                             <div class="form-group">
-                                                <label for="cname">Nhân Viên Kinh Doanh</label>
+                                                <label for="cname">Loại Chi</label>
                                                 <select id="cemployee" class="form-control input-lg m-bot15">
-                                                    <option value="0">Nhân Viên Kinh Doanh </option>
+                                                    <option value="0">Thông Thường </option>
+                                                    <option value="1">Nhập Hàng</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="cname">Tên Khách Hàng</label>
-                                                <input type="text" class="form-control" id="cname" placeholder="Nhập Tên Khách Hàng">
+                                                <label for="cname">Người Nhận</label>
+                                                <input type="text" class="form-control" id="cname" placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="cphone">Số Điện Thoại</label>
                                                 <input type="text" class="form-control" id="cphone" placeholder="" onkeypress=" return isNumberKey(event)">
                                             </div>
                                             <div class="form-group">
-                                                <label for="cmail">Email</label>
-                                                <input type="text" class="form-control" id="cmail" placeholder="">
+                                                <label for="caddress">Địa Chỉ</label>
+                                                <input type="text" class="form-control" id="caddress" placeholder="">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="content">Nội Dung</label>
+                                                <input type="text" class="form-control" id="content" placeholder="">
+                                            </div>
+                                            <div class="form-group">
+                                                <label id="dsubtotal2"  for="cmail">Tổng Tiền(VND)</label>
+                                                <input id="dsubtotal1" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
                                             </div>
                                         </form>
                                     </div>
                                 </section>
                             </div>
-                            <div class="col-lg-6">
+                            <div id="viewDetail" class="col-lg-7">
                                 <section class="panel">
                                     <header class="panel-heading">
                                         Thông Tin Chi Tiết
@@ -104,7 +113,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="dproduct">Dịch Vụ</label>
-                                                <input type="text" id="dproduct" class="form-control input-lg m-bot15 detail">
+                                                <input style="min-width:290px" type="text" id="dproduct" class="form-control input-lg m-bot15 detail">
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
@@ -126,28 +135,27 @@
                                                     <input id="dquantity" type="text" class="form-control detail caculator caculatorTotal" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                 </div>
                                                 <div style="display:@ViewBag.CssShowDim" class="col-md-2 forPrint">
-                                                    <label for="dsumsquare">Tổng DT(m2)</label>
+                                                    <label for="dsumsquare">TổngDT</label>
                                                     <input id="dsumsquare" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <label for="dprice">Đơn Giá(vnd)</label>
-                                                    <input id="dprice" type="text" class="form-control detail caculator caculatorTotal" placeholder="" onkeypress=" return isNumberKey(event) ">
+                                                    <label for="dprice">Đơn Giá</label>
+                                                    <input style="min-width:90px" id="dprice" type="text" class="form-control detail caculator caculatorTotal" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                 </div>
                                                 <div class="col-md-2">
-                                                    <label for="dsubtotal">Thành Tiền</label>
+                                                    <label for="dsubtotal">T Tiền</label>
                                                     <input style="width:110px" id="dsubtotal" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                 </div>
 
                                             </div>
-
                                         </div>
-                                        <div class="col-lg-6 forPrint">
+                                        @*<div class="col-lg-6 forPrint">
                                             <label for="dfilename">Tên File</label>
                                             <input id="dfilename" type="text" class="form-control detail" placeholder="">
-                                        </div>
-                                        <div class="col-lg-6">
+                                        </div>*@
+                                        <div class="col-lg-12">
                                             <label for="dnote">Ghi Chú</label>
-                                            <input id="dnote" type="text" class="form-control detail" placeholder="">
+                                            <input style="min-width:290px" id="dnote" type="text" class="form-control detail" placeholder="">
                                         </div>
                                         <a id="resetDetail" style="margin-top: 20px; margin-bottom: 10px; margin-left: 10px" title="" class="btn btn-warning btn-sm" href="javascript:void(0)">Reset</a>
                                         <br />

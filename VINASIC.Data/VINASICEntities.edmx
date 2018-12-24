@@ -381,6 +381,7 @@
           <Property Name="ReceiptName" Type="nvarchar" MaxLength="200" />
           <Property Name="ReceiptAddress" Type="nvarchar" MaxLength="500" />
           <Property Name="PaymentDate" Type="datetime" />
+          <Property Name="ReceiptPhone" Type="nvarchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="T_PaymentVoucherDetail">
           <Key>
@@ -2951,6 +2952,7 @@
           <Property Name="ReceiptAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="PaymentDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="T_PaymentVoucherDetail" Relationship="VINASICModel.FK__T_Payment__Payme__477199F1" FromRole="T_PaymentVoucher" ToRole="T_PaymentVoucherDetail" />
+          <Property Name="ReceiptPhone" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="T_Permission">
           <Key>
@@ -4244,6 +4246,7 @@
           <EntitySetMapping Name="T_PaymentVoucher">
             <EntityTypeMapping TypeName="VINASICModel.T_PaymentVoucher">
               <MappingFragment StoreEntitySet="T_PaymentVoucher">
+                <ScalarProperty Name="ReceiptPhone" ColumnName="ReceiptPhone" />
                 <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
                 <ScalarProperty Name="ReceiptAddress" ColumnName="ReceiptAddress" />
                 <ScalarProperty Name="ReceiptName" ColumnName="ReceiptName" />
