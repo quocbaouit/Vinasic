@@ -862,6 +862,10 @@ VINASIC.Order = function () {
                                     title: "Tên Mặt Hàng",
                                     width: "10%"
                                 },
+                                FileName: {
+                                    title: "Tên File",
+                                    width: "10%"
+                                },
                                 Description: {
                                     title: "Ghi Chú",
                                     width: "10%"
@@ -953,6 +957,10 @@ VINASIC.Order = function () {
                                 },
                                 CommodityName: {
                                     title: "Tên Mặt Hàng",
+                                    width: "10%"
+                                },
+                                FileName: {
+                                    title: "Tên File",
                                     width: "10%"
                                 },
                                 Description: {

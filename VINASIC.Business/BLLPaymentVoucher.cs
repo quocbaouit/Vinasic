@@ -380,12 +380,20 @@ namespace VINASIC.Business
             listModelSelect.AddRange(_repPaymentVoucher.GetMany(x => !x.IsDeleted).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Content }));
             return listModelSelect;
         }
-        public PagedList<ModelPaymentVoucher> GetList(string keyWord, int startIndexRecord, int pageSize, string sorting)
+        public PagedList<ModelPaymentVoucher> GetList(string keyWord, int startIndexRecord, int pageSize, string sorting,string fromDate,string toDate)
         {
             if (string.IsNullOrEmpty(sorting))
             {
                 sorting = "CreatedDate DESC";
             }
+            var realfromDate = DateTime.Parse(fromDate);
+            var realtoDate = DateTime.Parse(toDate);
+
+            var frDate = new DateTime(realfromDate.Year, realfromDate.Month, realfromDate.Day, 0, 0, 0, 0);
+            frDate = TimeZoneInfo.ConvertTimeToUtc(frDate, curentZone);
+            var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
+            tDate = TimeZoneInfo.ConvertTimeToUtc(tDate, curentZone);
+
             var paymentVouchers = _repPaymentVoucher.GetMany(c => !c.IsDeleted).Select(c => new ModelPaymentVoucher()
             {
                 Id = c.Id,
@@ -398,15 +406,26 @@ namespace VINASIC.Business
                 CreatedDate = c.CreatedDate,
                 ReceiptPhone=c.ReceiptPhone,
                 T_PaymentVoucherDetail=c.T_PaymentVoucherDetail,
-            }).OrderBy(sorting).ToList();
-            foreach (var order in paymentVouchers)
+            }).OrderBy(sorting);
+            if (!string.IsNullOrEmpty(keyWord))
+            {
+
+                paymentVouchers = paymentVouchers.Where(c => c.Content.Contains(keyWord.ToLower()) || c.ReceiptAddress == keyWord || c.ReceiptName.Contains(keyWord));
+            }
+            if (!string.IsNullOrEmpty(fromDate) && !string.IsNullOrEmpty(toDate))
+            {
+                paymentVouchers = paymentVouchers.Where(c => c.CreatedDate >= frDate && c.CreatedDate <= tDate);
+            }
+            
+            var pageNumber = (startIndexRecord / pageSize) + 1;
+            var result = new PagedList<ModelPaymentVoucher>(paymentVouchers, pageNumber, pageSize);
+            foreach (var order in result)
             {
 
                 order.StrCreatedDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(order.CreatedDate, curentZone):d/M/yyyy HH:mm}";
-              
+
             }
-            var pageNumber = (startIndexRecord / pageSize) + 1;
-            return new PagedList<ModelPaymentVoucher>(paymentVouchers, pageNumber, pageSize);
+            return result;
         }
     }
 }

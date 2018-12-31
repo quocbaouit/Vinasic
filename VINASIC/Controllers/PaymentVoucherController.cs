@@ -22,12 +22,12 @@ namespace VINASIC.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult GetPaymentVouchers(string keyword, int jtStartIndex, int jtPageSize, string jtSorting)
+        public JsonResult GetPaymentVouchers(string keyword, int jtStartIndex, int jtPageSize, string jtSorting, string fromDate = "", string toDate = "")
         {
             try
             {
 
-                var listPaymentVoucher = _bllPaymentVoucher.GetList(keyword, jtStartIndex, jtPageSize, jtSorting);
+                var listPaymentVoucher = _bllPaymentVoucher.GetList(keyword, jtStartIndex, jtPageSize, jtSorting,fromDate,toDate);
                 JsonDataResult.Records = listPaymentVoucher;
                 JsonDataResult.Result = "OK";
                 JsonDataResult.TotalRecordCount = listPaymentVoucher.TotalItemCount;
