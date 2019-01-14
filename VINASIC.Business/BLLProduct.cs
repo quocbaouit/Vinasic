@@ -107,6 +107,7 @@ namespace VINASIC.Business
                         product.Code = obj.Code;
                         product.Name = obj.Name;
                         product.ProductTypeId = obj.ProductTypeId;
+                        product.OrderIndex = obj.OrderIndex;
                         product.Description = obj.Description;
                         product.UpdatedDate = DateTime.Now.AddHours(14);
                         product.UpdatedUser = obj.UpdatedUser;
@@ -166,11 +167,11 @@ namespace VINASIC.Business
             {
                 if (productTypeId==0)
                 {
-                    listModelSelect.AddRange(_repProduct.GetMany(x => !x.IsDeleted).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
+                    listModelSelect.AddRange(_repProduct.GetMany(x => !x.IsDeleted).OrderBy(c=>c.OrderIndex).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
                 }
                 else
                 {
-                    listModelSelect.AddRange(_repProduct.GetMany(x => !x.IsDeleted && x.ProductTypeId == productTypeId).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
+                    listModelSelect.AddRange(_repProduct.GetMany(x => !x.IsDeleted && x.ProductTypeId == productTypeId).OrderBy(c => c.OrderIndex).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
                 }
                
             }
@@ -193,6 +194,7 @@ namespace VINASIC.Business
                     Id = c.Id,
                     Code = c.Code,
                     Name = c.Name,
+                    OrderIndex=c.OrderIndex,
                     Description = c.Description,
                     ProductTypeName=c.T_ProductType.Name,
                     ProductTypeId = c.ProductTypeId,

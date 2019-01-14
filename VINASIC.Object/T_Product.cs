@@ -35,6 +35,7 @@ namespace VINASIC.Object
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public Nullable<int> Inventory { get; set; }
         public Nullable<int> ProcessId { get; set; }
+        public Nullable<int> OrderIndex { get; set; }
     
         public virtual T_ProductType T_ProductType { get; set; }
         public virtual Collection<T_OrderDetail> T_OrderDetail { get; set; }

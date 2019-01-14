@@ -511,6 +511,7 @@
           <Property Name="UpdatedDate" Type="datetime" />
           <Property Name="Inventory" Type="int" />
           <Property Name="ProcessId" Type="int" />
+          <Property Name="OrderIndex" Type="int" />
         </EntityType>
         <EntityType Name="T_ProductType">
           <Key>
@@ -3016,6 +3017,7 @@
           <NavigationProperty Name="T_UserProduct" Relationship="VINASICModel.FK__T_UserPro__Produ__3E1D39E1" FromRole="T_Product" ToRole="T_UserProduct" />
           <Property Name="ProcessId" Type="Int32" />
           <NavigationProperty Name="T_Process" Relationship="VINASICModel.FK__T_Product__Proce__5E8A0973" FromRole="T_Product" ToRole="T_Process" />
+          <Property Name="OrderIndex" Type="Int32" />
         </EntityType>
         <EntityType Name="T_ProductType">
           <Key>
@@ -4306,6 +4308,7 @@
           <EntitySetMapping Name="T_Product">
             <EntityTypeMapping TypeName="VINASICModel.T_Product">
               <MappingFragment StoreEntitySet="T_Product">
+                <ScalarProperty Name="OrderIndex" ColumnName="OrderIndex" />
                 <ScalarProperty Name="ProcessId" ColumnName="ProcessId" />
                 <ScalarProperty Name="Inventory" ColumnName="Inventory" />
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />

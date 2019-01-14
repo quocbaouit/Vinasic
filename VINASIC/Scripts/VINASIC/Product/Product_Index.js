@@ -47,14 +47,16 @@ VINASIC.Product = function () {
             Id: 0,
             Code: "",
             Name: "",
-            Description: ""
+            Description: "",
+            OrderIndex:0,
         };
         if (product != null) {
             productViewModel = {
                 Id: ko.observable(product.Id),
                 Code: ko.observable(product.Code),
                 Name: ko.observable(product.Name),
-                Description: ko.observable(product.Description)
+                Description: ko.observable(product.Description),
+                OrderIndex: ko.observable(product.OrderIndex)
             };
         }
         return productViewModel;
@@ -159,6 +161,10 @@ VINASIC.Product = function () {
                 Description: {
                     title: "Mô Tả",
                     width: "25%"
+                },
+                OrderIndex: {
+                    title: "Thứ Tự",
+                    width: "10%"
                 },
                 Delete: {
                     title: "Xóa",

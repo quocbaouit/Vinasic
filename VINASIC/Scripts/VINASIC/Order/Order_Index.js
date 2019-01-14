@@ -1164,10 +1164,10 @@ VINASIC.Order = function () {
                         return text;
                     }
                 },
-                strFileName: {
-                    title: "Tên File",
-                    width: "12%"
-                },
+                //strFileName: {
+                //    title: "Tên File",
+                //    width: "12%"
+                //},
                 StrCreatedDate: {
                     title: 'Ngày Tạo',
                     width: "8%"
@@ -2463,32 +2463,32 @@ VINASIC.Order = function () {
         $(function () {
             $("#cname").autocomplete({
                 source: global.Data.ListCustomerName,
-                focus: function (a, b) {
-                    debugger;
-                    var cusName = b.item.value;
-                    $.ajax({
-                        url: "/Order/GetCustomerByName?customerName=" + cusName,
-                        type: 'post',
-                        contentType: 'application/json',
-                        success: function (result) {
-                            GlobalCommon.CallbackProcess(result, function () {
-                                if (1 < 2) {
-                                    var listCustomer = result.Records;
-                                    $('#cname').val(listCustomer.Name);
-                                    $('#cphone').val(listCustomer.Mobile);
-                                    $('#cmail').val(listCustomer.Email);
-                                    $('#caddress').val(listCustomer.Address);
-                                    $('#ctaxcode').val(listCustomer.TaxCode);
-                                    global.Data.CustomerId = listCustomer.Id;
-                                }
+                //focus: function (a, b) {
+                //    debugger;
+                //    var cusName = b.item.value;
+                //    $.ajax({
+                //        url: "/Order/GetCustomerByName?customerName=" + cusName,
+                //        type: 'post',
+                //        contentType: 'application/json',
+                //        success: function (result) {
+                //            GlobalCommon.CallbackProcess(result, function () {
+                //                if (1 < 2) {
+                //                    var listCustomer = result.Records;
+                //                    $('#cname').val(listCustomer.Name);
+                //                    $('#cphone').val(listCustomer.Mobile);
+                //                    $('#cmail').val(listCustomer.Email);
+                //                    $('#caddress').val(listCustomer.Address);
+                //                    $('#ctaxcode').val(listCustomer.TaxCode);
+                //                    global.Data.CustomerId = listCustomer.Id;
+                //                }
 
-                            }, false, global.Element.PopupOrder, true, true, function () {
-                                var msg = GlobalCommon.GetErrorMessage(result);
-                                GlobalCommon.ShowMessageDialog(msg, function () { }, "Đã có lỗi xảy ra trong quá trình sử lý.");
-                            });
-                        }
-                    });
-                },
+                //            }, false, global.Element.PopupOrder, true, true, function () {
+                //                var msg = GlobalCommon.GetErrorMessage(result);
+                //                GlobalCommon.ShowMessageDialog(msg, function () { }, "Đã có lỗi xảy ra trong quá trình sử lý.");
+                //            });
+                //        }
+                //    });
+                //},
                 select: function (a, b) {
                     var cusName = b.item.value;
                     $.ajax({

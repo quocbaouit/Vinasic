@@ -858,7 +858,7 @@ namespace VINASIC.Controllers
             ws.Cells["G1"].Style.Font.Size = 16;
             ws.Cells["G1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-            ws.Cells["G2"].Value = "Inlichgo.com";
+            ws.Cells["G2"].Value = cpnWebsite;
             ws.Cells["G2"].Style.Font.Bold = true;
             ws.Cells["G2"].Style.Font.Size = 14;
             ws.Cells["G2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
@@ -1119,7 +1119,7 @@ namespace VINASIC.Controllers
             ws.Column(10).Width = 30;
             ws.Column(11).Width = 30;
 
-            const string path = "~/Files/logo.jpg";
+            const string path = "~/Files/logo.png";
             var logo = Image.FromFile(Server.MapPath(path));
             ws.Row(0 * 5).Height = 39.00D;
             var picture = ws.Drawings.AddPicture(0.ToString(), logo);

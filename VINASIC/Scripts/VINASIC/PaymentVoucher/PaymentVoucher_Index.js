@@ -740,6 +740,9 @@ VINASIC.PaymentVoucher = function () {
         var dateDelivery = '22/11/2018';
         var content = $("#content").val();
         var totalInclude = $("#dsubtotal1").val().replace(/[^0-9-.]/g, '');
+        if (totalInclude == '' || totalInclude == undefined) {
+            totalInclude = 0;
+        }
         $.ajax({
             url: global.UrlAction.SaveOrder + "?orderId=" + global.Data.OrderId + "&employeeId=" + employeeId + "&customerId=" + 1 + "&customerName=" + customerName + "&customerPhone=" + customerPhone + "&customerMail=" + customerMail + "&customerAddress=" + customerAddress + "&customerTaxCode=" + customerTaxCode + "&orderTotal=" + global.Data.OrderTotal + "&content=" + content + "&totalInclude=" + totalInclude,
             type: 'post',

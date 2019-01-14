@@ -90,6 +90,7 @@ namespace VINASIC.Business
                 orders = orders.Where(c => c.CreatedForUser == employee1);
             if (!string.IsNullOrEmpty(keyWord))
             {
+                keyWord = keyWord.Trim();
                 var intkeywork = 0;
                 try
                 {
@@ -99,7 +100,7 @@ namespace VINASIC.Business
                 {
                     intkeywork = 0;
                 }
-                orders = orders.Where(c => c.Name.Trim().ToLower().Contains(keyWord.ToLower()) || c.CustomerPhone == keyWord || c.Id == intkeywork);
+                orders = orders.Where(c => c.Name.Trim().ToLower().Contains(keyWord.ToLower()) || c.CustomerPhone.Contains(keyWord) || c.CustomerEmail.Contains(keyWord) || c.Id == intkeywork);
             }
             if (!string.IsNullOrEmpty(fromDate) && !string.IsNullOrEmpty(toDate))
             {
@@ -118,7 +119,7 @@ namespace VINASIC.Business
                 order.strHaspayTransfer = $"{order.HaspayTransfer ?? 0:0,0}";
                 order.strSubTotal = $"{order.SubTotal:0,0}";
                 order.StrCreatedDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(order.CreatedDate, curentZone):d/M/yyyy HH:mm}";
-                order.strFileName  = string.Join(", ", order.T_OrderDetail.Select(x => x.FileName).ToArray());
+                //order.strFileName  = string.Join(", ", order.T_OrderDetail.Select(x => x.FileName).ToArray());
             }
             var sum = result.Sum(x => x.SubTotal);
             result.ToList().Add(new ModelOrder() { Name = "Tổng Cộng", SubTotal = sum });
@@ -507,11 +508,11 @@ namespace VINASIC.Business
                         string mess = _repSite.GetById(1).Value;
                         if (!String.IsNullOrEmpty(phone) && sendSMS)
                         {
-                            Task.Run(() => SendSMS(phone,mess));
+                            //Task.Run(() => SendSMS(phone,mess));
                         }
                         if (!String.IsNullOrEmpty(mailTo) && sendEmail)
                         {
-                            Task.Run(() => SendEmail(mailTo, mailContent));
+                            //Task.Run(() => SendEmail(mailTo, mailContent));
                         }
 
                     }
