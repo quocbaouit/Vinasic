@@ -189,6 +189,9 @@ VINASIC.Order = function () {
         $("#" + global.Element.JtableDesign).jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'employee': employee });
     }
     function reloadListOrder(orderStatus) {
+        if (orderStatus == undefined) {
+            orderStatus = -1;
+        }
         var keySearch = $("#keyword").val();
         //var fromDate = $("#datefrom").val();
         //var toDate = $("#dateto").val();
