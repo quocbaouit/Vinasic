@@ -1172,6 +1172,10 @@ VINASIC.Order = function () {
                     title: 'Ngày Tạo',
                     width: "8%"
                 },
+                StrDeliveryDate: {
+                    title: 'Ngày Giao Hàng',
+                    width: "8%"
+                },               
                 HasTax: {
                     title: "Có Thuế",
                     width: "3%",

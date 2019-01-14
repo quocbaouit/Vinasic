@@ -114,10 +114,12 @@ namespace VINASIC.Business
             var result = new PagedList<ModelOrder>(orders, pageNumber, pageSize);
             foreach (var order in result)
             {
+                var deliveryDate = order.DeliveryDate ?? order.CreatedDate;
                 order.strHaspay = $"{order.HasPay ?? 0:0,0}";
                 order.strHaspayTransfer = $"{order.HaspayTransfer ?? 0:0,0}";
                 order.strSubTotal = $"{order.SubTotal:0,0}";
                 order.StrCreatedDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(order.CreatedDate, curentZone):d/M/yyyy HH:mm}";
+                order.StrDeliveryDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(deliveryDate, curentZone):d/M/yyyy}";
                 order.strFileName  = string.Join(", ", order.T_OrderDetail.Select(x => x.FileName).ToArray());
             }
             var sum = result.Sum(x => x.SubTotal);
