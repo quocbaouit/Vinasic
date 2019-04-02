@@ -222,8 +222,8 @@ namespace VINASIC.Business
         public List<string> GetAllCustomerName()
         {
             List<string> strCustomer = _repCustomer.GetMany(x => !x.IsDeleted).Select(x => x.Name).Distinct().ToList();
-            var listPhone= _repCustomer.GetMany(x => !x.IsDeleted).Select(x => x.Mobile).Distinct().ToList();
-            strCustomer.AddRange(listPhone);
+            //var listPhone= _repCustomer.GetMany(x => !x.IsDeleted).Select(x => x.Mobile).Distinct().ToList();
+            //strCustomer.AddRange(listPhone);
             return strCustomer;
         }
         public T_Customer GetCustomerById(int id)

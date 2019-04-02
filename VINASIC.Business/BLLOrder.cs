@@ -994,7 +994,7 @@ namespace VINASIC.Business
             }
             if (!string.IsNullOrEmpty(keyWord) && type != 1)
             {
-                orders = orders.Where(c => c.CustomerName.Trim().ToLower().Contains(keyWord.Trim().ToLower()) || c.CustomerPhone.Contains(keyWord) || c.OrderId.ToString().Contains(keyWord)).ToList();
+                orders = orders.Where(c => c.CustomerName.Trim().ToLower().Contains(keyWord.Trim().ToLower()) || c.OrderId.ToString().Contains(keyWord)).ToList();
             }
             var sum = orders.Sum(x => x.SubTotal);
             if (orders.Count > 0)
