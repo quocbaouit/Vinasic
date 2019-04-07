@@ -66,6 +66,7 @@ namespace VINASIC.Business.Interface.Model
 
         public double Total { get; set; }
         public double Total1 { get; set; }
+        public double Cost { get; set; }
         public double HasPay { get; set; }
         public double HasExist { get; set; }
         public double HasPayTransfer { get; set; }

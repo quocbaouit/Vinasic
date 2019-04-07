@@ -1013,7 +1013,7 @@ namespace VINASIC.Business
                         SubTotal = c.SubTotal,
                         Total1 = c.T_Order.SubTotal,
                         HasPay = c.T_Order.HasPay ?? 0,
-                      
+                        Cost=c.T_Order.Cost??0,                    
                         HasPayTransfer = c.T_Order.HaspayTransfer ?? 0,
                         IsCompleted = c.IsCompleted,
                         HasPayTotal = 0,
