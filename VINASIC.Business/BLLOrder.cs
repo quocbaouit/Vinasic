@@ -81,8 +81,10 @@ namespace VINASIC.Business
                 CreatedDate = c.CreatedDate,
                 HasPay = c.HasPay ?? 0,
                 HaspayTransfer = c.HaspayTransfer ?? 0,
+                Cost=c.Cost,
                 OrderStatus = c.OrderStatus,
                 T_OrderDetail = c.T_OrderDetail,
+                CostDetail=c.CostDetail
             }).OrderBy(sorting);
 
 
@@ -114,13 +116,29 @@ namespace VINASIC.Business
             var result = new PagedList<ModelOrder>(orders, pageNumber, pageSize);
             foreach (var order in result)
             {
+                if (order.Cost==null)
+                {
+                    order.Cost = 0;
+                }
                 var deliveryDate = order.DeliveryDate ?? order.CreatedDate;
                 order.strHaspay = $"{order.HasPay ?? 0:0,0}";
                 order.strHaspayTransfer = $"{order.HaspayTransfer ?? 0:0,0}";
                 order.strSubTotal = $"{order.SubTotal:0,0}";
+                order.strCost= $"{order.Cost:0,0}";
+                var Income = order.SubTotal - order.Cost;
+                order.strIncome = $"{Income:0,0}";
                 order.StrCreatedDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(order.CreatedDate, curentZone):d/M/yyyy HH:mm}";
                 order.StrDeliveryDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(deliveryDate, curentZone):d/M/yyyy}";
                 order.strFileName  = string.Join(", ", order.T_OrderDetail.Select(x => x.FileName).ToArray());
+                if (order.CostDetail!=null)
+                {
+                    order.CostObj = JsonConvert.DeserializeObject<List<CostObj>>(order.CostDetail);
+                }
+                else
+                {
+                    order.CostObj =new List<CostObj>();
+                }
+              
             }
             var sum = result.Sum(x => x.SubTotal);
             result.ToList().Add(new ModelOrder() { Name = "Tổng Cộng", SubTotal = sum });
@@ -874,6 +892,26 @@ namespace VINASIC.Business
             if (order != null)
             {
                 order.HasPay = pay;
+                order.UpatedDate = DateTime.UtcNow;
+                _repOrder.Update(order);
+                SaveChange();
+                responResult.IsSuccess = true;
+            }
+            else
+            {
+                responResult.IsSuccess = false;
+                responResult.Errors.Add(new Error() { MemberName = "Update", Message = "Lỗi" });
+            }
+            return responResult;
+        }
+        public ResponseBase UpdateCost(List<CostObj> costObj, int orderId, float cost)
+        {
+            var responResult = new ResponseBase();
+            var order = _repOrder.Get(c => !c.IsDeleted && c.Id == orderId);
+            if (order != null)
+            {
+                order.Cost = cost;
+                order.CostDetail = JsonConvert.SerializeObject(costObj);
                 order.UpatedDate = DateTime.UtcNow;
                 _repOrder.Update(order);
                 SaveChange();

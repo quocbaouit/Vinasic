@@ -48,6 +48,8 @@ namespace VINASIC.Object
         public Nullable<double> HaspayTransfer { get; set; }
         public Nullable<bool> IsQuittance { get; set; }
         public Nullable<double> SubTotalExcludeTax { get; set; }
+        public Nullable<double> Cost { get; set; }
+        public string CostDetail { get; set; }
     
         public virtual T_Customer T_Customer { get; set; }
         public virtual T_User T_User { get; set; }

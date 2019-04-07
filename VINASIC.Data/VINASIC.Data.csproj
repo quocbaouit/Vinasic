@@ -151,9 +151,6 @@
     <Compile Include="Repositories\T_StandardSaleRepository.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
-    <Compile Include="Repositories\T_StatusRepository.cs">
-      <DependentUpon>Repositories.tt</DependentUpon>
-    </Compile>
     <Compile Include="Repositories\T_StockInDetailRepository.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>

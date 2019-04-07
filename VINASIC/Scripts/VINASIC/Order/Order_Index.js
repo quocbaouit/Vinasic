@@ -35,9 +35,12 @@ VINASIC.Order = function () {
             PopupSearch: "popup_SearchOrder",
             PopupDesignProcess: "popup_DesignProcess",
             PopupHasPay: "popup_HasPay",
+            PopupCost: "popup_Cost",
             PopupPaymentProcess: "popup_PaymentProcess",
             PopupPrintProcess: "popup_PrintProcess",
-            PopupNotification: "popup_notification"
+            PopupNotification: "popup_notification",
+            JtableCost: "jtableCost",
+            PopupCostEdit: "popup_cost_edit"
         },
         Data: {
             ModelOrder: {},
@@ -47,6 +50,7 @@ VINASIC.Order = function () {
             ListEmployeePrint: [],
             ListEmployeeDesign: [],
             ListEmployeeAddon: [],
+            listCost: [],
             ProductTypeId: 0,
             CustomerId: 0,
             OrderId: 0,
@@ -181,6 +185,10 @@ VINASIC.Order = function () {
         var paymentStatus = $("#PaymentStatus").val();
         $("#" + global.Element.JtableOrder).jtable("load", { 'keyword': keySearch, 'employee': employee, 'fromDate': fromDate, 'toDate': toDate, 'orderStatus': -1 });
     }
+    function reloadListCost() {
+        var keySearch = "";
+        $("#" + global.Element.JtableCost).jtable("load", { 'keyword': keySearch });
+    }
     function reloadListDesign() {
         var keySearch = $("#subkeyword").val();
         var fromDate = $("#subdatefrom").val();
@@ -252,6 +260,16 @@ VINASIC.Order = function () {
             };
         }
     }
+    function removeItemInArray1(arr, id) {
+        if (typeof (arr) != "undefined") {
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].Id === id) {
+                    arr.splice(i, 1);
+                    break;
+                }
+            };
+        }
+    }
     /*function init model using knockout Js*/
     function initViewModel(order) {
         var orderViewModel = {
@@ -291,8 +309,17 @@ VINASIC.Order = function () {
     function showPopupHaspay() {
         $("#" + global.Element.PopupHasPay).modal("show");
     }
+    function showPopupCost() {
+        $("#" + global.Element.PopupCost).modal("show");
+    }
     function showPopupNotification() {
         $("#" + global.Element.PopupNotification).modal("show");
+    }
+    function showPopupCost() {
+        $("#" + global.Element.PopupCost).modal("show");
+    }
+    function showPopupCostEdit() {
+        $("#" + global.Element.PopupCostEdit).modal("show");
     }
     /*End*/
     function updateDesignUser(id, empId, description) {
@@ -354,7 +381,62 @@ VINASIC.Order = function () {
                     toastr.error(result.Message);
                 });
             }
+        }); 
+    }
+    function updateCost(orderId, cost) {
+        if (cost == "") cost = 0;
+        $.ajax({
+            url: "/Order/UpdateCost?orderId=" + orderId + "&cost=" + cost,
+            type: 'post',
+            data: JSON.stringify(global.Data.listCost),
+            contentType: 'application/json',
+            success: function (result) {
+                $('#loading').hide();
+                GlobalCommon.CallbackProcess(result, function () {
+                    if (result.Result === "OK") {
+                        toastr.success("Thành Công");
+                    }
+                }, false, global.Element.PopupOrder, true, true, function () {
+
+                    toastr.error(result.Message);
+                });
+            }
         });
+    }
+    function SaveCostEdit() {
+        var cost = { Id: $("#cost-id").val(), Content: $("#cost-content").val(), Amount: $("#cost-amount").val().replace(/[^0-9-.]/g, '') };
+        if ($("#cost-content").val() == '') {
+            toastr.error("Vui lòng nhập tên chi phí");
+            return false;
+        }
+        if ($("#cost-amount").val() == '') {
+            toastr.error("Vui lòng nhập số tiền");
+            return false;
+        }
+        if ($("#cost-id").val() != '') {
+            for (var i = 0; i < global.Data.listCost.length; i++) {
+                if (global.Data.listCost[i].Id === cost.Id) {
+                    global.Data.listCost.splice(i, 1, cost);
+                    break;
+                }
+            };
+        }
+        else {
+            cost.Id = guid();
+            global.Data.listCost.push(cost);
+
+        }
+        //global.Data.listCost.sort(function (a, b) {
+        //    return a.Index == b.Index ? 0 : +(a.Index > b.Index) || -1;
+        //});
+        var totalCost = 0;
+        for (var i = 0; i < global.Data.listCost.length; i++) {
+            totalCost = totalCost + parseFloat(global.Data.listCost[i].Amount);
+        };
+        $('#cost').val(totalCost.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+
+        $("#" + global.Element.PopupCostEdit).modal("hide");
+        reloadListCost();
     }
     function updateHasPay(orderId, payment, transferDescription) {
         if (payment == "") payment = 0;
@@ -561,6 +643,14 @@ VINASIC.Order = function () {
         } else {
             return true;
         }
+    }
+    function guid() {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }
     function checkNumber(values) {
         var isNaN = Number.isNaN(Number(values));
@@ -1174,7 +1264,19 @@ VINASIC.Order = function () {
                 },
                 StrDeliveryDate: {
                     title: 'Ngày Giao Hàng',
-                    width: "8%"
+                    width: "8%",
+                    display: function (data) {
+                        debugger;
+                        var text = '';
+                        if (new Date(data.record.DeliveryDate.match(/\d+/)[0] * 1).getTime() == new Date(moment(new Date()).format("YYYY/MM/DD")).getTime()) {
+                            text = $('<a  href="javascript:void(0)" style="color:red;"  class="clickable"  data-target="#popup_Order" title="Ngày giao hàng.">' + data.record.StrDeliveryDate + '</a>');
+
+                        } else {
+                            text = $('<a  href="javascript:void(0)" style="color:#89798d;"  class="clickable"  data-target="#popup_Order" title="Ngày giao Hàng.">' + data.record.StrDeliveryDate + '</a>');
+                        }
+                        return text;
+                    }
+
                 },               
                 HasTax: {
                     title: "Có Thuế",
@@ -1190,6 +1292,35 @@ VINASIC.Order = function () {
                 },
                 strSubTotal: {
                     title: "Tổng Tiền",
+                    width: "7%"
+                },
+                strCost: {
+                    title: "Chi Phí",
+                    width: "7%",
+                    display: function (data) {
+                        var text = $('<a  href="javascript:void(0)" class="clickable"  data-target="#popup_Order" title="Cập nhật số tiền đã thu.">' + data.record.strCost + '</a>');
+                        text.click(function () {
+                            global.Data.OrderId = data.record.Id;
+                            while (global.Data.listCost.length) {
+                                global.Data.listCost.pop();
+                            }
+                            global.Data.listCost.push.apply(global.Data.listCost, data.record.CostObj);
+                            //global.Data.listCost.sort(function (a, b) {
+                            //    return a.Index == b.Index ? 0 : +(a.Index > b.Index) || -1;
+                            //});
+                            var totalCost = 0;
+                            for (var i = 0; i < global.Data.listCost.length; i++) {
+                                totalCost = totalCost + parseFloat(global.Data.listCost[i].Amount);
+                            };
+                            $('#cost').val(totalCost.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                            reloadListCost();
+                            showPopupCost();
+                        });
+                        return text;
+                    }
+                },
+                strIncome: {
+                    title: "Tiền Lãi",
                     width: "7%"
                 },
                 strHaspay: {
@@ -1480,6 +1611,82 @@ VINASIC.Order = function () {
                         return text;
                     }
                 },
+            }
+        });
+    }
+
+    function initListCost() {
+        debugger;
+        $('#' + global.Element.JtableCost).jtable({
+            title: 'Chi Phí',
+            paging: true,
+            pageSize: 25,
+            pageSizeChangeCost: true,
+            sorting: true,
+            selectShow: false,
+            actions: {
+                listAction: global.Data.listCost,
+                createAction: global.Element.PopupCostEdit,
+            },
+            messages: {
+                addNewRecord: 'Thêm Mới'
+            },
+            fields: {
+                Id: {
+                    key: true,
+                    create: false,
+                    edit: false,
+                    list: false
+                },
+                Content: {
+                    visibility: 'fixed',
+                    title: "Nội Dung",
+                    width: "10%",
+
+                    display: function (data) {
+                        var text = $('<a href="javascript:void(0)" class="clickable"  data-target="#popup_Cost" title="Chỉnh sửa thông tin.">' + data.record.Content + '</a>');
+                        text.click(function () {
+                            $("#cost-id").val(data.record.Id);
+                            $("#cost-content").val(data.record.Content);
+                            $("#cost-amount").val(data.record.Amount);
+                            showPopupCostEdit();
+                        });
+                        return text;
+                    }
+                },
+                Amount: {
+                    title: "Số Tiền",
+                    width: "10%",
+                    display: function (data) {
+                        return data.record.Amount.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                    }
+                },
+                Delete: {
+                    title: 'Xóa',
+                    width: "3%",
+                    sorting: false,
+                    display: function (data) {
+                        var text = $('<button  title="Xóa" class="jtable-command-button jtable-delete-command-button"><span>Xóa</span></button>');
+                        text.click(function () {
+                            GlobalCommon.ShowConfirmDialog('Bạn có chắc chắn muốn xóa?', function () {
+                                removeItemInArray1(global.Data.listCost, data.record.Id);
+                                var totalCost = 0;
+                                for (var i = 0; i < global.Data.listCost.length; i++) {
+                                    totalCost = totalCost + parseFloat(global.Data.listCost[i].Amount);
+                                };
+                                $('#cost').val(totalCost.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                                reloadListCost();
+                                //var total = 0;
+                                //for (var k = 0; k < global.Data.listCost.length; k++) {
+                                //    total += parseFloat(global.Data.listCost[k].Amount.replace(/[^0-9-.]/g, ''));
+                                //}
+                                //$("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                            }, function () { }, 'Đồng ý', 'Hủy bỏ', 'Thông báo');
+                        });
+                        return text;
+
+                    }
+                }
             }
         });
     }
@@ -2033,6 +2240,22 @@ VINASIC.Order = function () {
             $("#" + global.Element.PopupHasPay).modal("hide");
         });
     }
+    function initPopupCost() {
+        $("#" + global.Element.PopupCost).modal({
+            keyboard: false,
+            show: false
+        });
+        $("#" + global.Element.PopupCost + ' button[save]').click(function () {
+            var orderId = global.Data.OrderId;
+            var payment = $("#cost").val();
+            updateCost(orderId, payment);
+            reloadListOrder();
+            $("#" + global.Element.PopupCost).modal("hide");
+        });
+        $("#" + global.Element.PopupCost + ' button[cancel]').click(function () {
+            $("#" + global.Element.PopupCost).modal("hide");
+        });
+    }
     function initPopupNotification() {
         $("#" + global.Element.PopupNotification).modal({
             keyboard: false,
@@ -2462,6 +2685,14 @@ VINASIC.Order = function () {
                 reloadViewDetail();
             }
         });
+        $("#save-cost-edit").click(function () {
+            SaveCostEdit();
+        });
+
+        $("#cost-amount").keyup(function () {
+            var tempValue = $(this).val().replace(/[^0-9-.]/g, '');
+            $("#cost-amount").val(tempValue.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+        });
     };
     function mappingAutoComplete() {
         $(function () {
@@ -2569,8 +2800,11 @@ VINASIC.Order = function () {
         initPopupPrintProcess();
         initPopupPaymentProcess();
         initPopupHasPay();
+        initPopupCost();
         initPopupNotification();
         initPopupSearch();
+        initListCost();
+        reloadListCost();
         bindData(null);
         $.ajax({
             url: "/Order/GetAllCustomer",

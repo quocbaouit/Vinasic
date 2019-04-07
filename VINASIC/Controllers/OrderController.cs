@@ -577,6 +577,35 @@ namespace VINASIC.Controllers
             }
             return Json(JsonDataResult);
         }
+        public JsonResult UpdateCost([System.Web.Http.FromBody]List<CostObj> CostObj, int orderId, float cost)
+        {
+            try
+            {
+                //if (IsAuthenticate)
+                //{
+                    var responseResult = _bllOrder.UpdateCost(CostObj, orderId, cost);
+                    if (responseResult.IsSuccess)
+                        JsonDataResult.Result = "OK";
+                    else
+                    {
+                        JsonDataResult.Result = "ERROR";
+                        JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
+                    }
+                //}
+                //else
+                //{
+                //    JsonDataResult.Result = "ERROR";
+                //    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
+                //}
+            }
+            catch (Exception ex)
+            {
+                //add error
+                JsonDataResult.Result = "ERROR";
+                JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update", Message = "Lỗi: " + ex.Message });
+            }
+            return Json(JsonDataResult);
+        }
         public JsonResult UpdatePrintUser(int detailId, int employeeId, string description)
         {
             try

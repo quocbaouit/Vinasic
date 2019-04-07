@@ -2,7 +2,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Content/Common.css" rel="stylesheet" />
-<script src="~/Scripts/VINASIC/Order/Order_Index.js?v=1.7"></script>
+<script src="~/Scripts/VINASIC/Order/Order_Index.js?v=1.9"></script>
 <style>
     .alert {
         padding: 20px;
@@ -117,8 +117,8 @@
 <div class="row">
     <div class="col-lg-12">
         @*<h3 style="background-color: #faf9f8" class="page-header">
-            <img style="width: 200px" src="~/Files/logo.jpg" />
-        </h3>*@
+                <img style="width: 200px" src="~/Files/logo.jpg" />
+            </h3>*@
         <ol class="breadcrumb">
             <li><i class="fa fa-home"></i><a href="/Dashboard/index">Trang Chủ</a></li>
             <li><i class="icon_documents_alt"></i>Đơn Hàng</li>
@@ -141,17 +141,17 @@
                         </a>
                     </li>
                     @*<li class="">
-                        <a data-toggle="tab" href="#ViewDetail">
-                            <i class="icon-envelope"></i>
-                            Xem Chi Tiết
-                        </a>
-                    </li>
-                    <li class="">
-                        <a data-toggle="tab" href="#ViewSubDetail">
-                            <i class="icon-envelope"></i>
-                            Chi Tiết Thiết Kế/In Ấn
-                        </a>
-                    </li>*@
+                            <a data-toggle="tab" href="#ViewDetail">
+                                <i class="icon-envelope"></i>
+                                Xem Chi Tiết
+                            </a>
+                        </li>
+                        <li class="">
+                            <a data-toggle="tab" href="#ViewSubDetail">
+                                <i class="icon-envelope"></i>
+                                Chi Tiết Thiết Kế/In Ấn
+                            </a>
+                        </li>*@
                     <li id="CreateOrder" class="">
                         <a data-toggle="tab" href="#edit-profile">
                             <i class="icon-envelope"></i>
@@ -425,10 +425,10 @@
                         <textarea name="" id="dDescription" class="form-control" cols="30" rows="8"></textarea>
                     </div>
                     @*<label for="gTimeStart">Thời Gian Bắt Đầu</label>
-                    <p class="form-control" id="dTimeStart">11/04/2015 11:29:30</p>
+                        <p class="form-control" id="dTimeStart">11/04/2015 11:29:30</p>
 
-                    <label for="gTimeEnd">Thời Gian Kết Thúc</label>
-                    <p class="form-control" id="dTimeEnd">11/04/2015 11:29:30</p>*@
+                        <label for="gTimeEnd">Thời Gian Kết Thúc</label>
+                        <p class="form-control" id="dTimeEnd">11/04/2015 11:29:30</p>*@
                 </form>
             </div>
             <div class="modal-footer">
@@ -608,6 +608,71 @@
                 </button>
                 <button save class="btn btn-primary">
                     <div class="button-image image-save"></div>
+                    Lưu
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="popup_Cost" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-pencil"></span>Thống Kê Chi Phí</h4>
+            </div>
+            <div class="modal-body" style="padding: 40px 50px;">
+                <div id="jtableCost"></div>
+                <form role="form">
+                    <div style="margin-top:20px" class="form-group">
+                        <p style="width:40%;float:left">Tổng Chi Phí </p><input disabled="disabled" style="width:43%" type="text" class="form-control" id="cost" placeholder="">                       
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
+                    <div class="button-image image-close"></div>
+                    Đóng
+                </button>
+                <button save class="btn btn-primary">
+                    <div class="button-image image-save"></div>
+                    Lưu
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="popup_cost_edit" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-pencil"></span>Sửa Chi Phí</h4>
+            </div>
+            <div class="modal-body" style="padding: 40px 50px;">
+                <input id="cost-id" type="hidden" />
+                <form role="form">
+                    <div class="form-group">
+                        <label for="cost-content"><span class="glyphicon glyphicon-list-alt"></span>Nội Dung</label>
+                        <input id="cost-content" type="text" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="cost-amount"><span class="glyphicon glyphicon-list-alt"></span>Số Tiền</label>
+                        <input id="cost-amount" type="text" class="form-control" placeholder="">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
+                    <div class="button-image image-close"></div>
+                    Đóng
+                </button>
+                <button id="save-cost-edit" class="btn btn-primary">
+                    <div class="button-image save-cost"></div>
                     Lưu
                 </button>
             </div>

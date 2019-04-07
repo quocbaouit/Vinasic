@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4d098994e098477c8df977aee657c4d5" Name="Diagram1" ZoomLevel="63">
+      <Diagram DiagramId="4d098994e098477c8df977aee657c4d5" Name="Diagram1" ZoomLevel="53">
         <EntityTypeShape EntityType="VINASICModel.T__Remind" Width="1.5" PointX="14.75" PointY="13.125" />
         <EntityTypeShape EntityType="VINASICModel.T_CommodityDictionary" Width="1.5" PointX="16.75" PointY="13.125" />
         <EntityTypeShape EntityType="VINASICModel.T_Customer" Width="1.5" PointX="0.75" PointY="8.875" />
@@ -72,7 +72,6 @@
         <AssociationConnector Association="VINASICModel.FK__T_OrderDe__Order__3587F3E0" />
         <AssociationConnector Association="VINASICModel.FK__T_Quittan__Order__3D2915A8" />
         <AssociationConnector Association="VINASICModel.FK__T_Receipt__Order__3F115E1A" />
-        <EntityTypeShape EntityType="VINASICModel.T_Status" Width="1.5" PointX="15.375" PointY="21.75" />
         <EntityTypeShape EntityType="VINASICModel.T_Content" Width="1.5" PointX="21.375" PointY="16.75" />
         <EntityTypeShape EntityType="VINASICModel.T_FormularDetail" Width="1.5" PointX="3" PointY="26.375" />
         <AssociationConnector Association="VINASICModel.FK__T_Formula__Formu__0880433F" />

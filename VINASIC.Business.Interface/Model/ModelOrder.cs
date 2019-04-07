@@ -28,6 +28,10 @@ namespace VINASIC.Business.Interface.Model
         public string CustomerTaxCode { get; set; }
 
         public string strFileName { get; set; }
+        public string strCost { get; set; }
+        public string strIncome { get; set; }
+
+        public List<CostObj> CostObj { get; set; }
     }
     public class BusinessOrder {
         public string BusinessName { get; set; }
@@ -83,6 +87,14 @@ namespace VINASIC.Business.Interface.Model
         public string CreateForUserName { get; set; }
         public string CreateForUserMobile { get; set; }
         public string UserProcess { get; set; }
+    }
+    public class CostObj
+    {
+        public Guid? Id { get; set; }
+        [System.ComponentModel.DefaultValue(1)]
+        public string Content { get; set; }
+        [System.ComponentModel.DefaultValue(0)]
+        public float? Amount { get; set; }
     }
 }
 

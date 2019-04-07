@@ -282,6 +282,8 @@
           <Property Name="HaspayTransfer" Type="float" />
           <Property Name="IsQuittance" Type="bit" />
           <Property Name="SubTotalExcludeTax" Type="float" />
+          <Property Name="Cost" Type="float" />
+          <Property Name="CostDetail" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="T_OrderDetail">
           <Key>
@@ -660,23 +662,6 @@
           <Property Name="DeletedDate" Type="datetime" />
           <Property Name="UpdatedDate" Type="datetime" />
         </EntityType>
-        <EntityType Name="T_Status">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Type" Type="varchar" MaxLength="50" />
-          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="Description" Type="nvarchar" MaxLength="200" />
-          <Property Name="Index" Type="int" Nullable="false" />
-          <Property Name="IsDeleted" Type="bit" Nullable="false" />
-          <Property Name="CreatedUser" Type="int" Nullable="false" />
-          <Property Name="DeletedUser" Type="int" />
-          <Property Name="UpdatedUser" Type="int" />
-          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-          <Property Name="DeletedDate" Type="datetime" />
-          <Property Name="UpdatedDate" Type="datetime" />
-        </EntityType>
         <EntityType Name="T_StockIn">
           <Key>
             <PropertyRef Name="Id" />
@@ -849,7 +834,7 @@
           <Property Name="DeletedUser" Type="int" />
           <Property Name="DeletedDate" Type="datetime" />
         </EntityType>
-        <Association Name="FK__T_Formula__Formu__0880433F">
+        <Association Name="FK__T_Formula__Formu__078C1F06">
           <End Role="T_Formular" Type="Self.T_Formular" Multiplicity="1" />
           <End Role="T_FormularDetail" Type="Self.T_FormularDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -858,6 +843,18 @@
             </Principal>
             <Dependent Role="T_FormularDetail">
               <PropertyRef Name="FormularId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__T_Materia__Mater__0880433F">
+          <End Role="T_MaterialType" Type="Self.T_MaterialType" Multiplicity="1" />
+          <End Role="T_Material" Type="Self.T_Material" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_MaterialType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="T_Material">
+              <PropertyRef Name="MaterialTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -873,7 +870,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Materia__Mater__40F9A68C">
+        <Association Name="FK__T_Materia__Mater__0A688BB1">
           <End Role="T_MaterialType" Type="Self.T_MaterialType" Multiplicity="1" />
           <End Role="T_Material" Type="Self.T_Material" Multiplicity="*" />
           <ReferentialConstraint>
@@ -885,19 +882,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Materia__Mater__65370702">
-          <End Role="T_MaterialType" Type="Self.T_MaterialType" Multiplicity="1" />
-          <End Role="T_Material" Type="Self.T_Material" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="T_MaterialType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="T_Material">
-              <PropertyRef Name="MaterialTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__T_Menu__MenuCate__0A688BB1">
+        <Association Name="FK__T_Menu__MenuCate__0B5CAFEA">
           <End Role="T_MenuCategory" Type="Self.T_MenuCategory" Multiplicity="1" />
           <End Role="T_Menu" Type="Self.T_Menu" Multiplicity="*" />
           <ReferentialConstraint>
@@ -909,7 +894,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Menu__MenuCate__41EDCAC5">
+        <Association Name="FK__T_Menu__MenuCate__0C50D423">
           <End Role="T_MenuCategory" Type="Self.T_MenuCategory" Multiplicity="1" />
           <End Role="T_Menu" Type="Self.T_Menu" Multiplicity="*" />
           <ReferentialConstraint>
@@ -921,7 +906,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Menu__MenuCate__662B2B3B">
+        <Association Name="FK__T_Menu__MenuCate__0D44F85C">
           <End Role="T_MenuCategory" Type="Self.T_MenuCategory" Multiplicity="1" />
           <End Role="T_Menu" Type="Self.T_Menu" Multiplicity="*" />
           <ReferentialConstraint>
@@ -933,7 +918,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Order__Created__0B5CAFEA">
+        <Association Name="FK__T_Order__Created__0E391C95">
           <End Role="T_User" Type="Self.T_User" Multiplicity="1" />
           <End Role="T_Order" Type="Self.T_Order" Multiplicity="*" />
           <ReferentialConstraint>
@@ -945,7 +930,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Order__Custome__0C50D423">
+        <Association Name="FK__T_Order__Custome__0F2D40CE">
           <End Role="T_Customer" Type="Self.T_Customer" Multiplicity="1" />
           <End Role="T_Order" Type="Self.T_Order" Multiplicity="*" />
           <ReferentialConstraint>
@@ -957,7 +942,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Order__Custome__43D61337">
+        <Association Name="FK__T_Order__Custome__10216507">
           <End Role="T_Customer" Type="Self.T_Customer" Multiplicity="1" />
           <End Role="T_Order" Type="Self.T_Order" Multiplicity="*" />
           <ReferentialConstraint>
@@ -969,7 +954,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Order__Custome__681373AD">
+        <Association Name="FK__T_Order__Custome__11158940">
           <End Role="T_Customer" Type="Self.T_Customer" Multiplicity="1" />
           <End Role="T_Order" Type="Self.T_Order" Multiplicity="*" />
           <ReferentialConstraint>
@@ -981,7 +966,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_OrderDe__Desig__0E391C95">
+        <Association Name="FK__T_OrderDe__Desig__1209AD79">
           <End Role="T_User" Type="Self.T_User" Multiplicity="0..1" />
           <End Role="T_OrderDetail" Type="Self.T_OrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -993,7 +978,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_OrderDe__Order__0F2D40CE">
+        <Association Name="FK__T_OrderDe__Order__12FDD1B2">
           <End Role="T_Order" Type="Self.T_Order" Multiplicity="1" />
           <End Role="T_OrderDetail" Type="Self.T_OrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1005,7 +990,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_OrderDe__Order__46B27FE2">
+        <Association Name="FK__T_OrderDe__Order__13F1F5EB">
           <End Role="T_Order" Type="Self.T_Order" Multiplicity="1" />
           <End Role="T_OrderDetail" Type="Self.T_OrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1017,7 +1002,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_OrderDe__Order__6AEFE058">
+        <Association Name="FK__T_OrderDe__Order__14E61A24">
           <End Role="T_Order" Type="Self.T_Order" Multiplicity="1" />
           <End Role="T_OrderDetail" Type="Self.T_OrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1029,7 +1014,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_OrderDe__Print__10216507">
+        <Association Name="FK__T_OrderDe__Print__15DA3E5D">
           <End Role="T_User" Type="Self.T_User" Multiplicity="0..1" />
           <End Role="T_OrderDetail" Type="Self.T_OrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1041,7 +1026,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Payment__Payme__477199F1">
+        <Association Name="FK__T_Payment__Payme__16CE6296">
           <End Role="T_PaymentVoucher" Type="Self.T_PaymentVoucher" Multiplicity="1" />
           <End Role="T_PaymentVoucherDetail" Type="Self.T_PaymentVoucherDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1053,7 +1038,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Permiss__Featu__11158940">
+        <Association Name="FK__T_Permiss__Featu__17C286CF">
           <End Role="T_Feature" Type="Self.T_Feature" Multiplicity="1" />
           <End Role="T_Permission" Type="Self.T_Permission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1065,7 +1050,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Permiss__Featu__1209AD79">
+        <Association Name="FK__T_Permiss__Featu__18B6AB08">
           <End Role="T_Feature" Type="Self.T_Feature" Multiplicity="1" />
           <End Role="T_Permission" Type="Self.T_Permission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1077,7 +1062,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Permiss__Featu__12FDD1B2">
+        <Association Name="FK__T_Permiss__Featu__19AACF41">
           <End Role="T_Feature" Type="Self.T_Feature" Multiplicity="1" />
           <End Role="T_Permission" Type="Self.T_Permission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1089,7 +1074,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Permiss__Featu__489AC854">
+        <Association Name="FK__T_Permiss__Featu__1A9EF37A">
           <End Role="T_Feature" Type="Self.T_Feature" Multiplicity="1" />
           <End Role="T_Permission" Type="Self.T_Permission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1101,7 +1086,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Permiss__Featu__498EEC8D">
+        <Association Name="FK__T_Permiss__Featu__1B9317B3">
           <End Role="T_Feature" Type="Self.T_Feature" Multiplicity="1" />
           <End Role="T_Permission" Type="Self.T_Permission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1113,7 +1098,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Permiss__Featu__4A8310C6">
+        <Association Name="FK__T_Permiss__Featu__1C873BEC">
           <End Role="T_Feature" Type="Self.T_Feature" Multiplicity="1" />
           <End Role="T_Permission" Type="Self.T_Permission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1125,7 +1110,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Permiss__Featu__6CD828CA">
+        <Association Name="FK__T_Permiss__Featu__1D7B6025">
           <End Role="T_Feature" Type="Self.T_Feature" Multiplicity="1" />
           <End Role="T_Permission" Type="Self.T_Permission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1137,7 +1122,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Permiss__Featu__6DCC4D03">
+        <Association Name="FK__T_Permiss__Featu__1E6F845E">
           <End Role="T_Feature" Type="Self.T_Feature" Multiplicity="1" />
           <End Role="T_Permission" Type="Self.T_Permission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1149,7 +1134,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Permiss__Featu__6EC0713C">
+        <Association Name="FK__T_Permiss__Featu__1F63A897">
           <End Role="T_Feature" Type="Self.T_Feature" Multiplicity="1" />
           <End Role="T_Permission" Type="Self.T_Permission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1161,7 +1146,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Positio__Organ__13F1F5EB">
+        <Association Name="FK__T_Positio__Organ__2057CCD0">
           <End Role="T_Organization" Type="Self.T_Organization" Multiplicity="1" />
           <End Role="T_Position" Type="Self.T_Position" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1173,7 +1158,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Positio__Organ__4B7734FF">
+        <Association Name="FK__T_Positio__Organ__214BF109">
           <End Role="T_Organization" Type="Self.T_Organization" Multiplicity="1" />
           <End Role="T_Position" Type="Self.T_Position" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1185,7 +1170,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Positio__Organ__6FB49575">
+        <Association Name="FK__T_Positio__Organ__22401542">
           <End Role="T_Organization" Type="Self.T_Organization" Multiplicity="1" />
           <End Role="T_Position" Type="Self.T_Position" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1197,7 +1182,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Process__Proce__14E61A24">
+        <Association Name="FK__T_Process__Proce__2334397B">
           <End Role="T_Process" Type="Self.T_Process" Multiplicity="1" />
           <End Role="T_ProcessDetail" Type="Self.T_ProcessDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1209,7 +1194,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Process__Proce__4C6B5938">
+        <Association Name="FK__T_Process__Proce__24285DB4">
           <End Role="T_Process" Type="Self.T_Process" Multiplicity="1" />
           <End Role="T_ProcessDetail" Type="Self.T_ProcessDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1221,7 +1206,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Process__Proce__70A8B9AE">
+        <Association Name="FK__T_Process__Proce__251C81ED">
           <End Role="T_Process" Type="Self.T_Process" Multiplicity="1" />
           <End Role="T_ProcessDetail" Type="Self.T_ProcessDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1233,7 +1218,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Process__RoleI__15DA3E5D">
+        <Association Name="FK__T_Process__RoleI__2610A626">
           <End Role="T_RoLe" Type="Self.T_RoLe" Multiplicity="1" />
           <End Role="T_ProcessDetail" Type="Self.T_ProcessDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1245,7 +1230,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Process__RoleI__4D5F7D71">
+        <Association Name="FK__T_Process__RoleI__2704CA5F">
           <End Role="T_RoLe" Type="Self.T_RoLe" Multiplicity="1" />
           <End Role="T_ProcessDetail" Type="Self.T_ProcessDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1257,7 +1242,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Process__RoleI__719CDDE7">
+        <Association Name="FK__T_Process__RoleI__27F8EE98">
           <End Role="T_RoLe" Type="Self.T_RoLe" Multiplicity="1" />
           <End Role="T_ProcessDetail" Type="Self.T_ProcessDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1269,7 +1254,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Product__Proce__16CE6296">
+        <Association Name="FK__T_Product__Proce__28ED12D1">
           <End Role="T_Process" Type="Self.T_Process" Multiplicity="0..1" />
           <End Role="T_Product" Type="Self.T_Product" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1281,7 +1266,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Product__Proce__4E53A1AA">
+        <Association Name="FK__T_Product__Proce__29E1370A">
           <End Role="T_Process" Type="Self.T_Process" Multiplicity="0..1" />
           <End Role="T_Product" Type="Self.T_Product" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1293,7 +1278,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Product__Proce__72910220">
+        <Association Name="FK__T_Product__Proce__2AD55B43">
           <End Role="T_Process" Type="Self.T_Process" Multiplicity="0..1" />
           <End Role="T_Product" Type="Self.T_Product" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1305,7 +1290,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Product__Produ__17C286CF">
+        <Association Name="FK__T_Product__Produ__2BC97F7C">
           <End Role="T_ProductType" Type="Self.T_ProductType" Multiplicity="1" />
           <End Role="T_Product" Type="Self.T_Product" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1317,7 +1302,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Product__Produ__4F47C5E3">
+        <Association Name="FK__T_Product__Produ__2CBDA3B5">
           <End Role="T_ProductType" Type="Self.T_ProductType" Multiplicity="1" />
           <End Role="T_Product" Type="Self.T_Product" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1329,7 +1314,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Product__Produ__73852659">
+        <Association Name="FK__T_Product__Produ__2DB1C7EE">
           <End Role="T_ProductType" Type="Self.T_ProductType" Multiplicity="1" />
           <End Role="T_Product" Type="Self.T_Product" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1341,7 +1326,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Quittan__Custo__18B6AB08">
+        <Association Name="FK__T_Quittan__Custo__2EA5EC27">
           <End Role="T_Customer" Type="Self.T_Customer" Multiplicity="1" />
           <End Role="T_Quittance" Type="Self.T_Quittance" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1353,7 +1338,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Quittan__Custo__503BEA1C">
+        <Association Name="FK__T_Quittan__Custo__2F9A1060">
           <End Role="T_Customer" Type="Self.T_Customer" Multiplicity="1" />
           <End Role="T_Quittance" Type="Self.T_Quittance" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1365,7 +1350,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Quittan__Custo__74794A92">
+        <Association Name="FK__T_Quittan__Custo__308E3499">
           <End Role="T_Customer" Type="Self.T_Customer" Multiplicity="1" />
           <End Role="T_Quittance" Type="Self.T_Quittance" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1377,7 +1362,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Quittan__Order__19AACF41">
+        <Association Name="FK__T_Quittan__Order__318258D2">
           <End Role="T_Order" Type="Self.T_Order" Multiplicity="1" />
           <End Role="T_Quittance" Type="Self.T_Quittance" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1389,7 +1374,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Quittan__Order__51300E55">
+        <Association Name="FK__T_Quittan__Order__32767D0B">
           <End Role="T_Order" Type="Self.T_Order" Multiplicity="1" />
           <End Role="T_Quittance" Type="Self.T_Quittance" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1401,7 +1386,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Quittan__Order__756D6ECB">
+        <Association Name="FK__T_Quittan__Order__336AA144">
           <End Role="T_Order" Type="Self.T_Order" Multiplicity="1" />
           <End Role="T_Quittance" Type="Self.T_Quittance" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1413,7 +1398,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Receipt__Custo__1A9EF37A">
+        <Association Name="FK__T_Receipt__Custo__345EC57D">
           <End Role="T_Customer" Type="Self.T_Customer" Multiplicity="0..1" />
           <End Role="T_ReceiptVoucher" Type="Self.T_ReceiptVoucher" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1425,7 +1410,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Receipt__Custo__5224328E">
+        <Association Name="FK__T_Receipt__Custo__3552E9B6">
           <End Role="T_Customer" Type="Self.T_Customer" Multiplicity="0..1" />
           <End Role="T_ReceiptVoucher" Type="Self.T_ReceiptVoucher" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1437,7 +1422,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Receipt__Custo__76619304">
+        <Association Name="FK__T_Receipt__Custo__36470DEF">
           <End Role="T_Customer" Type="Self.T_Customer" Multiplicity="0..1" />
           <End Role="T_ReceiptVoucher" Type="Self.T_ReceiptVoucher" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1449,7 +1434,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Receipt__Order__1B9317B3">
+        <Association Name="FK__T_Receipt__Order__373B3228">
           <End Role="T_Order" Type="Self.T_Order" Multiplicity="0..1" />
           <End Role="T_ReceiptVoucher" Type="Self.T_ReceiptVoucher" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1461,7 +1446,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Receipt__Order__531856C7">
+        <Association Name="FK__T_Receipt__Order__382F5661">
           <End Role="T_Order" Type="Self.T_Order" Multiplicity="0..1" />
           <End Role="T_ReceiptVoucher" Type="Self.T_ReceiptVoucher" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1473,7 +1458,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Receipt__Order__7755B73D">
+        <Association Name="FK__T_Receipt__Order__39237A9A">
           <End Role="T_Order" Type="Self.T_Order" Multiplicity="0..1" />
           <End Role="T_ReceiptVoucher" Type="Self.T_ReceiptVoucher" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1485,7 +1470,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_RolePer__Featu__1C873BEC">
+        <Association Name="FK__T_RolePer__Featu__3A179ED3">
           <End Role="T_Feature" Type="Self.T_Feature" Multiplicity="1" />
           <End Role="T_RolePermission" Type="Self.T_RolePermission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1497,7 +1482,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_RolePer__Featu__1D7B6025">
+        <Association Name="FK__T_RolePer__Featu__3B0BC30C">
           <End Role="T_Feature" Type="Self.T_Feature" Multiplicity="1" />
           <End Role="T_RolePermission" Type="Self.T_RolePermission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1509,7 +1494,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_RolePer__Featu__1E6F845E">
+        <Association Name="FK__T_RolePer__Featu__3BFFE745">
           <End Role="T_Feature" Type="Self.T_Feature" Multiplicity="1" />
           <End Role="T_RolePermission" Type="Self.T_RolePermission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1521,7 +1506,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_RolePer__Featu__540C7B00">
+        <Association Name="FK__T_RolePer__Featu__3CF40B7E">
           <End Role="T_Feature" Type="Self.T_Feature" Multiplicity="1" />
           <End Role="T_RolePermission" Type="Self.T_RolePermission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1533,7 +1518,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_RolePer__Featu__55009F39">
+        <Association Name="FK__T_RolePer__Featu__3DE82FB7">
           <End Role="T_Feature" Type="Self.T_Feature" Multiplicity="1" />
           <End Role="T_RolePermission" Type="Self.T_RolePermission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1545,7 +1530,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_RolePer__Featu__55F4C372">
+        <Association Name="FK__T_RolePer__Featu__3EDC53F0">
           <End Role="T_Feature" Type="Self.T_Feature" Multiplicity="1" />
           <End Role="T_RolePermission" Type="Self.T_RolePermission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1557,7 +1542,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_RolePer__Featu__7849DB76">
+        <Association Name="FK__T_RolePer__Featu__3FD07829">
           <End Role="T_Feature" Type="Self.T_Feature" Multiplicity="1" />
           <End Role="T_RolePermission" Type="Self.T_RolePermission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1569,7 +1554,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_RolePer__Featu__793DFFAF">
+        <Association Name="FK__T_RolePer__Featu__40C49C62">
           <End Role="T_Feature" Type="Self.T_Feature" Multiplicity="1" />
           <End Role="T_RolePermission" Type="Self.T_RolePermission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1581,7 +1566,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_RolePer__Featu__7A3223E8">
+        <Association Name="FK__T_RolePer__Featu__41B8C09B">
           <End Role="T_Feature" Type="Self.T_Feature" Multiplicity="1" />
           <End Role="T_RolePermission" Type="Self.T_RolePermission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1593,7 +1578,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_RolePer__Permi__1F63A897">
+        <Association Name="FK__T_RolePer__Permi__42ACE4D4">
           <End Role="T_Permission" Type="Self.T_Permission" Multiplicity="1" />
           <End Role="T_RolePermission" Type="Self.T_RolePermission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1605,7 +1590,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_RolePer__Permi__2057CCD0">
+        <Association Name="FK__T_RolePer__Permi__43A1090D">
           <End Role="T_Permission" Type="Self.T_Permission" Multiplicity="1" />
           <End Role="T_RolePermission" Type="Self.T_RolePermission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1617,7 +1602,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_RolePer__Permi__214BF109">
+        <Association Name="FK__T_RolePer__Permi__44952D46">
           <End Role="T_Permission" Type="Self.T_Permission" Multiplicity="1" />
           <End Role="T_RolePermission" Type="Self.T_RolePermission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1629,7 +1614,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_RolePer__Permi__56E8E7AB">
+        <Association Name="FK__T_RolePer__Permi__4589517F">
           <End Role="T_Permission" Type="Self.T_Permission" Multiplicity="1" />
           <End Role="T_RolePermission" Type="Self.T_RolePermission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1641,7 +1626,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_RolePer__Permi__57DD0BE4">
+        <Association Name="FK__T_RolePer__Permi__467D75B8">
           <End Role="T_Permission" Type="Self.T_Permission" Multiplicity="1" />
           <End Role="T_RolePermission" Type="Self.T_RolePermission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1653,7 +1638,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_RolePer__Permi__58D1301D">
+        <Association Name="FK__T_RolePer__Permi__477199F1">
           <End Role="T_Permission" Type="Self.T_Permission" Multiplicity="1" />
           <End Role="T_RolePermission" Type="Self.T_RolePermission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1665,7 +1650,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_RolePer__Permi__7B264821">
+        <Association Name="FK__T_RolePer__Permi__4865BE2A">
           <End Role="T_Permission" Type="Self.T_Permission" Multiplicity="1" />
           <End Role="T_RolePermission" Type="Self.T_RolePermission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1677,7 +1662,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_RolePer__Permi__7C1A6C5A">
+        <Association Name="FK__T_RolePer__Permi__4959E263">
           <End Role="T_Permission" Type="Self.T_Permission" Multiplicity="1" />
           <End Role="T_RolePermission" Type="Self.T_RolePermission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1689,7 +1674,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_RolePer__Permi__7D0E9093">
+        <Association Name="FK__T_RolePer__Permi__4A4E069C">
           <End Role="T_Permission" Type="Self.T_Permission" Multiplicity="1" />
           <End Role="T_RolePermission" Type="Self.T_RolePermission" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1701,7 +1686,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Staff__Organiz__22401542">
+        <Association Name="FK__T_Staff__Organiz__4B422AD5">
           <End Role="T_Organization" Type="Self.T_Organization" Multiplicity="1" />
           <End Role="T_Staff" Type="Self.T_Staff" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1713,7 +1698,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Staff__Organiz__59C55456">
+        <Association Name="FK__T_Staff__Organiz__4C364F0E">
           <End Role="T_Organization" Type="Self.T_Organization" Multiplicity="1" />
           <End Role="T_Staff" Type="Self.T_Staff" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1725,7 +1710,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Staff__Organiz__7E02B4CC">
+        <Association Name="FK__T_Staff__Organiz__4D2A7347">
           <End Role="T_Organization" Type="Self.T_Organization" Multiplicity="1" />
           <End Role="T_Staff" Type="Self.T_Staff" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1737,7 +1722,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Staff__Positio__2334397B">
+        <Association Name="FK__T_Staff__Positio__4E1E9780">
           <End Role="T_Position" Type="Self.T_Position" Multiplicity="1" />
           <End Role="T_Staff" Type="Self.T_Staff" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1749,7 +1734,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Staff__Positio__5AB9788F">
+        <Association Name="FK__T_Staff__Positio__4F12BBB9">
           <End Role="T_Position" Type="Self.T_Position" Multiplicity="1" />
           <End Role="T_Staff" Type="Self.T_Staff" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1761,7 +1746,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_Staff__Positio__7EF6D905">
+        <Association Name="FK__T_Staff__Positio__5006DFF2">
           <End Role="T_Position" Type="Self.T_Position" Multiplicity="1" />
           <End Role="T_Staff" Type="Self.T_Staff" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1773,7 +1758,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_StockIn__Mater__00DF2177">
+        <Association Name="FK__T_StockIn__Mater__53D770D6">
           <End Role="T_Material" Type="Self.T_Material" Multiplicity="1" />
           <End Role="T_StockInDetail" Type="Self.T_StockInDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1785,7 +1770,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_StockIn__Mater__251C81ED">
+        <Association Name="FK__T_StockIn__Mater__54CB950F">
           <End Role="T_Material" Type="Self.T_Material" Multiplicity="1" />
           <End Role="T_StockInDetail" Type="Self.T_StockInDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1797,7 +1782,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_StockIn__Mater__5CA1C101">
+        <Association Name="FK__T_StockIn__Mater__55BFB948">
           <End Role="T_Material" Type="Self.T_Material" Multiplicity="1" />
           <End Role="T_StockInDetail" Type="Self.T_StockInDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1809,7 +1794,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_StockIn__Partn__24285DB4">
+        <Association Name="FK__T_StockIn__Partn__50FB042B">
           <End Role="T_Partner" Type="Self.T_Partner" Multiplicity="1" />
           <End Role="T_StockIn" Type="Self.T_StockIn" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1821,7 +1806,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_StockIn__Partn__5BAD9CC8">
+        <Association Name="FK__T_StockIn__Partn__51EF2864">
           <End Role="T_Partner" Type="Self.T_Partner" Multiplicity="1" />
           <End Role="T_StockIn" Type="Self.T_StockIn" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1833,7 +1818,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_StockIn__Partn__7FEAFD3E">
+        <Association Name="FK__T_StockIn__Partn__52E34C9D">
           <End Role="T_Partner" Type="Self.T_Partner" Multiplicity="1" />
           <End Role="T_StockIn" Type="Self.T_StockIn" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1845,7 +1830,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_StockIn__Stock__01D345B0">
+        <Association Name="FK__T_StockIn__Stock__56B3DD81">
           <End Role="T_StockIn" Type="Self.T_StockIn" Multiplicity="1" />
           <End Role="T_StockInDetail" Type="Self.T_StockInDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1857,7 +1842,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_StockIn__Stock__2610A626">
+        <Association Name="FK__T_StockIn__Stock__57A801BA">
           <End Role="T_StockIn" Type="Self.T_StockIn" Multiplicity="1" />
           <End Role="T_StockInDetail" Type="Self.T_StockInDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1869,7 +1854,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_StockIn__Stock__5D95E53A">
+        <Association Name="FK__T_StockIn__Stock__589C25F3">
           <End Role="T_StockIn" Type="Self.T_StockIn" Multiplicity="1" />
           <End Role="T_StockInDetail" Type="Self.T_StockInDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1881,7 +1866,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_User__Position__02C769E9">
+        <Association Name="FK__T_User__Position__59904A2C">
           <End Role="T_Position" Type="Self.T_Position" Multiplicity="1" />
           <End Role="T_User" Type="Self.T_User" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1893,7 +1878,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_User__Position__2704CA5F">
+        <Association Name="FK__T_User__Position__5A846E65">
           <End Role="T_Position" Type="Self.T_Position" Multiplicity="1" />
           <End Role="T_User" Type="Self.T_User" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1905,7 +1890,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_User__Position__5E8A0973">
+        <Association Name="FK__T_User__Position__5B78929E">
           <End Role="T_Position" Type="Self.T_Position" Multiplicity="1" />
           <End Role="T_User" Type="Self.T_User" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1917,7 +1902,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_UserFor__Formu__03BB8E22">
+        <Association Name="FK__T_UserFor__Formu__5C6CB6D7">
           <End Role="T_Formular" Type="Self.T_Formular" Multiplicity="1" />
           <End Role="T_UserFormular" Type="Self.T_UserFormular" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1929,7 +1914,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_UserFor__Formu__27F8EE98">
+        <Association Name="FK__T_UserFor__Formu__5D60DB10">
           <End Role="T_Formular" Type="Self.T_Formular" Multiplicity="1" />
           <End Role="T_UserFormular" Type="Self.T_UserFormular" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1941,7 +1926,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_UserFor__Formu__5F7E2DAC">
+        <Association Name="FK__T_UserFor__Formu__5E54FF49">
           <End Role="T_Formular" Type="Self.T_Formular" Multiplicity="1" />
           <End Role="T_UserFormular" Type="Self.T_UserFormular" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1953,7 +1938,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_UserFor__UserI__04AFB25B">
+        <Association Name="FK__T_UserFor__UserI__5F492382">
           <End Role="T_User" Type="Self.T_User" Multiplicity="1" />
           <End Role="T_UserFormular" Type="Self.T_UserFormular" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1965,7 +1950,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_UserFor__UserI__28ED12D1">
+        <Association Name="FK__T_UserFor__UserI__603D47BB">
           <End Role="T_User" Type="Self.T_User" Multiplicity="1" />
           <End Role="T_UserFormular" Type="Self.T_UserFormular" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1977,7 +1962,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_UserFor__UserI__607251E5">
+        <Association Name="FK__T_UserFor__UserI__61316BF4">
           <End Role="T_User" Type="Self.T_User" Multiplicity="1" />
           <End Role="T_UserFormular" Type="Self.T_UserFormular" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1989,7 +1974,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_UserPro__Produ__05A3D694">
+        <Association Name="FK__T_UserPro__Produ__6225902D">
           <End Role="T_Product" Type="Self.T_Product" Multiplicity="1" />
           <End Role="T_UserProduct" Type="Self.T_UserProduct" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2001,7 +1986,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_UserPro__Produ__29E1370A">
+        <Association Name="FK__T_UserPro__Produ__6319B466">
           <End Role="T_Product" Type="Self.T_Product" Multiplicity="1" />
           <End Role="T_UserProduct" Type="Self.T_UserProduct" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2013,7 +1998,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_UserPro__Produ__6166761E">
+        <Association Name="FK__T_UserPro__Produ__640DD89F">
           <End Role="T_Product" Type="Self.T_Product" Multiplicity="1" />
           <End Role="T_UserProduct" Type="Self.T_UserProduct" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2025,7 +2010,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_UserRol__RoleI__0697FACD">
+        <Association Name="FK__T_UserRol__RoleI__6501FCD8">
           <End Role="T_RoLe" Type="Self.T_RoLe" Multiplicity="1" />
           <End Role="T_UserRole" Type="Self.T_UserRole" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2037,7 +2022,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_UserRol__RoleI__2AD55B43">
+        <Association Name="FK__T_UserRol__RoleI__65F62111">
           <End Role="T_RoLe" Type="Self.T_RoLe" Multiplicity="1" />
           <End Role="T_UserRole" Type="Self.T_UserRole" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2049,7 +2034,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_UserRol__RoleI__625A9A57">
+        <Association Name="FK__T_UserRol__RoleI__66EA454A">
           <End Role="T_RoLe" Type="Self.T_RoLe" Multiplicity="1" />
           <End Role="T_UserRole" Type="Self.T_UserRole" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2095,7 +2080,6 @@
           <EntitySet Name="T_SiteSetting" EntityType="Self.T_SiteSetting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_Staff" EntityType="Self.T_Staff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_StandardSale" EntityType="Self.T_StandardSale" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="T_Status" EntityType="Self.T_Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_StockIn" EntityType="Self.T_StockIn" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_StockInDetail" EntityType="Self.T_StockInDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_Timing" EntityType="Self.T_Timing" Schema="dbo" store:Type="Tables" />
@@ -2103,407 +2087,407 @@
           <EntitySet Name="T_UserFormular" EntityType="Self.T_UserFormular" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_UserProduct" EntityType="Self.T_UserProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_UserRole" EntityType="Self.T_UserRole" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__T_Formula__Formu__0880433F" Association="Self.FK__T_Formula__Formu__0880433F">
+          <AssociationSet Name="FK__T_Formula__Formu__078C1F06" Association="Self.FK__T_Formula__Formu__078C1F06">
             <End Role="T_Formular" EntitySet="T_Formular" />
             <End Role="T_FormularDetail" EntitySet="T_FormularDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__T_Materia__Mater__0880433F" Association="Self.FK__T_Materia__Mater__0880433F">
+            <End Role="T_MaterialType" EntitySet="T_MaterialType" />
+            <End Role="T_Material" EntitySet="T_Material" />
           </AssociationSet>
           <AssociationSet Name="FK__T_Materia__Mater__09746778" Association="Self.FK__T_Materia__Mater__09746778">
             <End Role="T_MaterialType" EntitySet="T_MaterialType" />
             <End Role="T_Material" EntitySet="T_Material" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Materia__Mater__40F9A68C" Association="Self.FK__T_Materia__Mater__40F9A68C">
+          <AssociationSet Name="FK__T_Materia__Mater__0A688BB1" Association="Self.FK__T_Materia__Mater__0A688BB1">
             <End Role="T_MaterialType" EntitySet="T_MaterialType" />
             <End Role="T_Material" EntitySet="T_Material" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Materia__Mater__65370702" Association="Self.FK__T_Materia__Mater__65370702">
-            <End Role="T_MaterialType" EntitySet="T_MaterialType" />
-            <End Role="T_Material" EntitySet="T_Material" />
-          </AssociationSet>
-          <AssociationSet Name="FK__T_Menu__MenuCate__0A688BB1" Association="Self.FK__T_Menu__MenuCate__0A688BB1">
+          <AssociationSet Name="FK__T_Menu__MenuCate__0B5CAFEA" Association="Self.FK__T_Menu__MenuCate__0B5CAFEA">
             <End Role="T_MenuCategory" EntitySet="T_MenuCategory" />
             <End Role="T_Menu" EntitySet="T_Menu" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Menu__MenuCate__41EDCAC5" Association="Self.FK__T_Menu__MenuCate__41EDCAC5">
+          <AssociationSet Name="FK__T_Menu__MenuCate__0C50D423" Association="Self.FK__T_Menu__MenuCate__0C50D423">
             <End Role="T_MenuCategory" EntitySet="T_MenuCategory" />
             <End Role="T_Menu" EntitySet="T_Menu" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Menu__MenuCate__662B2B3B" Association="Self.FK__T_Menu__MenuCate__662B2B3B">
+          <AssociationSet Name="FK__T_Menu__MenuCate__0D44F85C" Association="Self.FK__T_Menu__MenuCate__0D44F85C">
             <End Role="T_MenuCategory" EntitySet="T_MenuCategory" />
             <End Role="T_Menu" EntitySet="T_Menu" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Order__Created__0B5CAFEA" Association="Self.FK__T_Order__Created__0B5CAFEA">
+          <AssociationSet Name="FK__T_Order__Created__0E391C95" Association="Self.FK__T_Order__Created__0E391C95">
             <End Role="T_User" EntitySet="T_User" />
             <End Role="T_Order" EntitySet="T_Order" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Order__Custome__0C50D423" Association="Self.FK__T_Order__Custome__0C50D423">
+          <AssociationSet Name="FK__T_Order__Custome__0F2D40CE" Association="Self.FK__T_Order__Custome__0F2D40CE">
             <End Role="T_Customer" EntitySet="T_Customer" />
             <End Role="T_Order" EntitySet="T_Order" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Order__Custome__43D61337" Association="Self.FK__T_Order__Custome__43D61337">
+          <AssociationSet Name="FK__T_Order__Custome__10216507" Association="Self.FK__T_Order__Custome__10216507">
             <End Role="T_Customer" EntitySet="T_Customer" />
             <End Role="T_Order" EntitySet="T_Order" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Order__Custome__681373AD" Association="Self.FK__T_Order__Custome__681373AD">
+          <AssociationSet Name="FK__T_Order__Custome__11158940" Association="Self.FK__T_Order__Custome__11158940">
             <End Role="T_Customer" EntitySet="T_Customer" />
             <End Role="T_Order" EntitySet="T_Order" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_OrderDe__Desig__0E391C95" Association="Self.FK__T_OrderDe__Desig__0E391C95">
+          <AssociationSet Name="FK__T_OrderDe__Desig__1209AD79" Association="Self.FK__T_OrderDe__Desig__1209AD79">
             <End Role="T_User" EntitySet="T_User" />
             <End Role="T_OrderDetail" EntitySet="T_OrderDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_OrderDe__Order__0F2D40CE" Association="Self.FK__T_OrderDe__Order__0F2D40CE">
+          <AssociationSet Name="FK__T_OrderDe__Order__12FDD1B2" Association="Self.FK__T_OrderDe__Order__12FDD1B2">
             <End Role="T_Order" EntitySet="T_Order" />
             <End Role="T_OrderDetail" EntitySet="T_OrderDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_OrderDe__Order__46B27FE2" Association="Self.FK__T_OrderDe__Order__46B27FE2">
+          <AssociationSet Name="FK__T_OrderDe__Order__13F1F5EB" Association="Self.FK__T_OrderDe__Order__13F1F5EB">
             <End Role="T_Order" EntitySet="T_Order" />
             <End Role="T_OrderDetail" EntitySet="T_OrderDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_OrderDe__Order__6AEFE058" Association="Self.FK__T_OrderDe__Order__6AEFE058">
+          <AssociationSet Name="FK__T_OrderDe__Order__14E61A24" Association="Self.FK__T_OrderDe__Order__14E61A24">
             <End Role="T_Order" EntitySet="T_Order" />
             <End Role="T_OrderDetail" EntitySet="T_OrderDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_OrderDe__Print__10216507" Association="Self.FK__T_OrderDe__Print__10216507">
+          <AssociationSet Name="FK__T_OrderDe__Print__15DA3E5D" Association="Self.FK__T_OrderDe__Print__15DA3E5D">
             <End Role="T_User" EntitySet="T_User" />
             <End Role="T_OrderDetail" EntitySet="T_OrderDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Payment__Payme__477199F1" Association="Self.FK__T_Payment__Payme__477199F1">
+          <AssociationSet Name="FK__T_Payment__Payme__16CE6296" Association="Self.FK__T_Payment__Payme__16CE6296">
             <End Role="T_PaymentVoucher" EntitySet="T_PaymentVoucher" />
             <End Role="T_PaymentVoucherDetail" EntitySet="T_PaymentVoucherDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Permiss__Featu__11158940" Association="Self.FK__T_Permiss__Featu__11158940">
+          <AssociationSet Name="FK__T_Permiss__Featu__17C286CF" Association="Self.FK__T_Permiss__Featu__17C286CF">
             <End Role="T_Feature" EntitySet="T_Feature" />
             <End Role="T_Permission" EntitySet="T_Permission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Permiss__Featu__1209AD79" Association="Self.FK__T_Permiss__Featu__1209AD79">
+          <AssociationSet Name="FK__T_Permiss__Featu__18B6AB08" Association="Self.FK__T_Permiss__Featu__18B6AB08">
             <End Role="T_Feature" EntitySet="T_Feature" />
             <End Role="T_Permission" EntitySet="T_Permission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Permiss__Featu__12FDD1B2" Association="Self.FK__T_Permiss__Featu__12FDD1B2">
+          <AssociationSet Name="FK__T_Permiss__Featu__19AACF41" Association="Self.FK__T_Permiss__Featu__19AACF41">
             <End Role="T_Feature" EntitySet="T_Feature" />
             <End Role="T_Permission" EntitySet="T_Permission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Permiss__Featu__489AC854" Association="Self.FK__T_Permiss__Featu__489AC854">
+          <AssociationSet Name="FK__T_Permiss__Featu__1A9EF37A" Association="Self.FK__T_Permiss__Featu__1A9EF37A">
             <End Role="T_Feature" EntitySet="T_Feature" />
             <End Role="T_Permission" EntitySet="T_Permission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Permiss__Featu__498EEC8D" Association="Self.FK__T_Permiss__Featu__498EEC8D">
+          <AssociationSet Name="FK__T_Permiss__Featu__1B9317B3" Association="Self.FK__T_Permiss__Featu__1B9317B3">
             <End Role="T_Feature" EntitySet="T_Feature" />
             <End Role="T_Permission" EntitySet="T_Permission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Permiss__Featu__4A8310C6" Association="Self.FK__T_Permiss__Featu__4A8310C6">
+          <AssociationSet Name="FK__T_Permiss__Featu__1C873BEC" Association="Self.FK__T_Permiss__Featu__1C873BEC">
             <End Role="T_Feature" EntitySet="T_Feature" />
             <End Role="T_Permission" EntitySet="T_Permission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Permiss__Featu__6CD828CA" Association="Self.FK__T_Permiss__Featu__6CD828CA">
+          <AssociationSet Name="FK__T_Permiss__Featu__1D7B6025" Association="Self.FK__T_Permiss__Featu__1D7B6025">
             <End Role="T_Feature" EntitySet="T_Feature" />
             <End Role="T_Permission" EntitySet="T_Permission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Permiss__Featu__6DCC4D03" Association="Self.FK__T_Permiss__Featu__6DCC4D03">
+          <AssociationSet Name="FK__T_Permiss__Featu__1E6F845E" Association="Self.FK__T_Permiss__Featu__1E6F845E">
             <End Role="T_Feature" EntitySet="T_Feature" />
             <End Role="T_Permission" EntitySet="T_Permission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Permiss__Featu__6EC0713C" Association="Self.FK__T_Permiss__Featu__6EC0713C">
+          <AssociationSet Name="FK__T_Permiss__Featu__1F63A897" Association="Self.FK__T_Permiss__Featu__1F63A897">
             <End Role="T_Feature" EntitySet="T_Feature" />
             <End Role="T_Permission" EntitySet="T_Permission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Positio__Organ__13F1F5EB" Association="Self.FK__T_Positio__Organ__13F1F5EB">
+          <AssociationSet Name="FK__T_Positio__Organ__2057CCD0" Association="Self.FK__T_Positio__Organ__2057CCD0">
             <End Role="T_Organization" EntitySet="T_Organization" />
             <End Role="T_Position" EntitySet="T_Position" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Positio__Organ__4B7734FF" Association="Self.FK__T_Positio__Organ__4B7734FF">
+          <AssociationSet Name="FK__T_Positio__Organ__214BF109" Association="Self.FK__T_Positio__Organ__214BF109">
             <End Role="T_Organization" EntitySet="T_Organization" />
             <End Role="T_Position" EntitySet="T_Position" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Positio__Organ__6FB49575" Association="Self.FK__T_Positio__Organ__6FB49575">
+          <AssociationSet Name="FK__T_Positio__Organ__22401542" Association="Self.FK__T_Positio__Organ__22401542">
             <End Role="T_Organization" EntitySet="T_Organization" />
             <End Role="T_Position" EntitySet="T_Position" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Process__Proce__14E61A24" Association="Self.FK__T_Process__Proce__14E61A24">
+          <AssociationSet Name="FK__T_Process__Proce__2334397B" Association="Self.FK__T_Process__Proce__2334397B">
             <End Role="T_Process" EntitySet="T_Process" />
             <End Role="T_ProcessDetail" EntitySet="T_ProcessDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Process__Proce__4C6B5938" Association="Self.FK__T_Process__Proce__4C6B5938">
+          <AssociationSet Name="FK__T_Process__Proce__24285DB4" Association="Self.FK__T_Process__Proce__24285DB4">
             <End Role="T_Process" EntitySet="T_Process" />
             <End Role="T_ProcessDetail" EntitySet="T_ProcessDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Process__Proce__70A8B9AE" Association="Self.FK__T_Process__Proce__70A8B9AE">
+          <AssociationSet Name="FK__T_Process__Proce__251C81ED" Association="Self.FK__T_Process__Proce__251C81ED">
             <End Role="T_Process" EntitySet="T_Process" />
             <End Role="T_ProcessDetail" EntitySet="T_ProcessDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Process__RoleI__15DA3E5D" Association="Self.FK__T_Process__RoleI__15DA3E5D">
+          <AssociationSet Name="FK__T_Process__RoleI__2610A626" Association="Self.FK__T_Process__RoleI__2610A626">
             <End Role="T_RoLe" EntitySet="T_RoLe" />
             <End Role="T_ProcessDetail" EntitySet="T_ProcessDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Process__RoleI__4D5F7D71" Association="Self.FK__T_Process__RoleI__4D5F7D71">
+          <AssociationSet Name="FK__T_Process__RoleI__2704CA5F" Association="Self.FK__T_Process__RoleI__2704CA5F">
             <End Role="T_RoLe" EntitySet="T_RoLe" />
             <End Role="T_ProcessDetail" EntitySet="T_ProcessDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Process__RoleI__719CDDE7" Association="Self.FK__T_Process__RoleI__719CDDE7">
+          <AssociationSet Name="FK__T_Process__RoleI__27F8EE98" Association="Self.FK__T_Process__RoleI__27F8EE98">
             <End Role="T_RoLe" EntitySet="T_RoLe" />
             <End Role="T_ProcessDetail" EntitySet="T_ProcessDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Product__Proce__16CE6296" Association="Self.FK__T_Product__Proce__16CE6296">
+          <AssociationSet Name="FK__T_Product__Proce__28ED12D1" Association="Self.FK__T_Product__Proce__28ED12D1">
             <End Role="T_Process" EntitySet="T_Process" />
             <End Role="T_Product" EntitySet="T_Product" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Product__Proce__4E53A1AA" Association="Self.FK__T_Product__Proce__4E53A1AA">
+          <AssociationSet Name="FK__T_Product__Proce__29E1370A" Association="Self.FK__T_Product__Proce__29E1370A">
             <End Role="T_Process" EntitySet="T_Process" />
             <End Role="T_Product" EntitySet="T_Product" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Product__Proce__72910220" Association="Self.FK__T_Product__Proce__72910220">
+          <AssociationSet Name="FK__T_Product__Proce__2AD55B43" Association="Self.FK__T_Product__Proce__2AD55B43">
             <End Role="T_Process" EntitySet="T_Process" />
             <End Role="T_Product" EntitySet="T_Product" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Product__Produ__17C286CF" Association="Self.FK__T_Product__Produ__17C286CF">
+          <AssociationSet Name="FK__T_Product__Produ__2BC97F7C" Association="Self.FK__T_Product__Produ__2BC97F7C">
             <End Role="T_ProductType" EntitySet="T_ProductType" />
             <End Role="T_Product" EntitySet="T_Product" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Product__Produ__4F47C5E3" Association="Self.FK__T_Product__Produ__4F47C5E3">
+          <AssociationSet Name="FK__T_Product__Produ__2CBDA3B5" Association="Self.FK__T_Product__Produ__2CBDA3B5">
             <End Role="T_ProductType" EntitySet="T_ProductType" />
             <End Role="T_Product" EntitySet="T_Product" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Product__Produ__73852659" Association="Self.FK__T_Product__Produ__73852659">
+          <AssociationSet Name="FK__T_Product__Produ__2DB1C7EE" Association="Self.FK__T_Product__Produ__2DB1C7EE">
             <End Role="T_ProductType" EntitySet="T_ProductType" />
             <End Role="T_Product" EntitySet="T_Product" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Quittan__Custo__18B6AB08" Association="Self.FK__T_Quittan__Custo__18B6AB08">
+          <AssociationSet Name="FK__T_Quittan__Custo__2EA5EC27" Association="Self.FK__T_Quittan__Custo__2EA5EC27">
             <End Role="T_Customer" EntitySet="T_Customer" />
             <End Role="T_Quittance" EntitySet="T_Quittance" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Quittan__Custo__503BEA1C" Association="Self.FK__T_Quittan__Custo__503BEA1C">
+          <AssociationSet Name="FK__T_Quittan__Custo__2F9A1060" Association="Self.FK__T_Quittan__Custo__2F9A1060">
             <End Role="T_Customer" EntitySet="T_Customer" />
             <End Role="T_Quittance" EntitySet="T_Quittance" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Quittan__Custo__74794A92" Association="Self.FK__T_Quittan__Custo__74794A92">
+          <AssociationSet Name="FK__T_Quittan__Custo__308E3499" Association="Self.FK__T_Quittan__Custo__308E3499">
             <End Role="T_Customer" EntitySet="T_Customer" />
             <End Role="T_Quittance" EntitySet="T_Quittance" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Quittan__Order__19AACF41" Association="Self.FK__T_Quittan__Order__19AACF41">
+          <AssociationSet Name="FK__T_Quittan__Order__318258D2" Association="Self.FK__T_Quittan__Order__318258D2">
             <End Role="T_Order" EntitySet="T_Order" />
             <End Role="T_Quittance" EntitySet="T_Quittance" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Quittan__Order__51300E55" Association="Self.FK__T_Quittan__Order__51300E55">
+          <AssociationSet Name="FK__T_Quittan__Order__32767D0B" Association="Self.FK__T_Quittan__Order__32767D0B">
             <End Role="T_Order" EntitySet="T_Order" />
             <End Role="T_Quittance" EntitySet="T_Quittance" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Quittan__Order__756D6ECB" Association="Self.FK__T_Quittan__Order__756D6ECB">
+          <AssociationSet Name="FK__T_Quittan__Order__336AA144" Association="Self.FK__T_Quittan__Order__336AA144">
             <End Role="T_Order" EntitySet="T_Order" />
             <End Role="T_Quittance" EntitySet="T_Quittance" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Receipt__Custo__1A9EF37A" Association="Self.FK__T_Receipt__Custo__1A9EF37A">
+          <AssociationSet Name="FK__T_Receipt__Custo__345EC57D" Association="Self.FK__T_Receipt__Custo__345EC57D">
             <End Role="T_Customer" EntitySet="T_Customer" />
             <End Role="T_ReceiptVoucher" EntitySet="T_ReceiptVoucher" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Receipt__Custo__5224328E" Association="Self.FK__T_Receipt__Custo__5224328E">
+          <AssociationSet Name="FK__T_Receipt__Custo__3552E9B6" Association="Self.FK__T_Receipt__Custo__3552E9B6">
             <End Role="T_Customer" EntitySet="T_Customer" />
             <End Role="T_ReceiptVoucher" EntitySet="T_ReceiptVoucher" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Receipt__Custo__76619304" Association="Self.FK__T_Receipt__Custo__76619304">
+          <AssociationSet Name="FK__T_Receipt__Custo__36470DEF" Association="Self.FK__T_Receipt__Custo__36470DEF">
             <End Role="T_Customer" EntitySet="T_Customer" />
             <End Role="T_ReceiptVoucher" EntitySet="T_ReceiptVoucher" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Receipt__Order__1B9317B3" Association="Self.FK__T_Receipt__Order__1B9317B3">
+          <AssociationSet Name="FK__T_Receipt__Order__373B3228" Association="Self.FK__T_Receipt__Order__373B3228">
             <End Role="T_Order" EntitySet="T_Order" />
             <End Role="T_ReceiptVoucher" EntitySet="T_ReceiptVoucher" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Receipt__Order__531856C7" Association="Self.FK__T_Receipt__Order__531856C7">
+          <AssociationSet Name="FK__T_Receipt__Order__382F5661" Association="Self.FK__T_Receipt__Order__382F5661">
             <End Role="T_Order" EntitySet="T_Order" />
             <End Role="T_ReceiptVoucher" EntitySet="T_ReceiptVoucher" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Receipt__Order__7755B73D" Association="Self.FK__T_Receipt__Order__7755B73D">
+          <AssociationSet Name="FK__T_Receipt__Order__39237A9A" Association="Self.FK__T_Receipt__Order__39237A9A">
             <End Role="T_Order" EntitySet="T_Order" />
             <End Role="T_ReceiptVoucher" EntitySet="T_ReceiptVoucher" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_RolePer__Featu__1C873BEC" Association="Self.FK__T_RolePer__Featu__1C873BEC">
+          <AssociationSet Name="FK__T_RolePer__Featu__3A179ED3" Association="Self.FK__T_RolePer__Featu__3A179ED3">
             <End Role="T_Feature" EntitySet="T_Feature" />
             <End Role="T_RolePermission" EntitySet="T_RolePermission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_RolePer__Featu__1D7B6025" Association="Self.FK__T_RolePer__Featu__1D7B6025">
+          <AssociationSet Name="FK__T_RolePer__Featu__3B0BC30C" Association="Self.FK__T_RolePer__Featu__3B0BC30C">
             <End Role="T_Feature" EntitySet="T_Feature" />
             <End Role="T_RolePermission" EntitySet="T_RolePermission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_RolePer__Featu__1E6F845E" Association="Self.FK__T_RolePer__Featu__1E6F845E">
+          <AssociationSet Name="FK__T_RolePer__Featu__3BFFE745" Association="Self.FK__T_RolePer__Featu__3BFFE745">
             <End Role="T_Feature" EntitySet="T_Feature" />
             <End Role="T_RolePermission" EntitySet="T_RolePermission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_RolePer__Featu__540C7B00" Association="Self.FK__T_RolePer__Featu__540C7B00">
+          <AssociationSet Name="FK__T_RolePer__Featu__3CF40B7E" Association="Self.FK__T_RolePer__Featu__3CF40B7E">
             <End Role="T_Feature" EntitySet="T_Feature" />
             <End Role="T_RolePermission" EntitySet="T_RolePermission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_RolePer__Featu__55009F39" Association="Self.FK__T_RolePer__Featu__55009F39">
+          <AssociationSet Name="FK__T_RolePer__Featu__3DE82FB7" Association="Self.FK__T_RolePer__Featu__3DE82FB7">
             <End Role="T_Feature" EntitySet="T_Feature" />
             <End Role="T_RolePermission" EntitySet="T_RolePermission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_RolePer__Featu__55F4C372" Association="Self.FK__T_RolePer__Featu__55F4C372">
+          <AssociationSet Name="FK__T_RolePer__Featu__3EDC53F0" Association="Self.FK__T_RolePer__Featu__3EDC53F0">
             <End Role="T_Feature" EntitySet="T_Feature" />
             <End Role="T_RolePermission" EntitySet="T_RolePermission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_RolePer__Featu__7849DB76" Association="Self.FK__T_RolePer__Featu__7849DB76">
+          <AssociationSet Name="FK__T_RolePer__Featu__3FD07829" Association="Self.FK__T_RolePer__Featu__3FD07829">
             <End Role="T_Feature" EntitySet="T_Feature" />
             <End Role="T_RolePermission" EntitySet="T_RolePermission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_RolePer__Featu__793DFFAF" Association="Self.FK__T_RolePer__Featu__793DFFAF">
+          <AssociationSet Name="FK__T_RolePer__Featu__40C49C62" Association="Self.FK__T_RolePer__Featu__40C49C62">
             <End Role="T_Feature" EntitySet="T_Feature" />
             <End Role="T_RolePermission" EntitySet="T_RolePermission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_RolePer__Featu__7A3223E8" Association="Self.FK__T_RolePer__Featu__7A3223E8">
+          <AssociationSet Name="FK__T_RolePer__Featu__41B8C09B" Association="Self.FK__T_RolePer__Featu__41B8C09B">
             <End Role="T_Feature" EntitySet="T_Feature" />
             <End Role="T_RolePermission" EntitySet="T_RolePermission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_RolePer__Permi__1F63A897" Association="Self.FK__T_RolePer__Permi__1F63A897">
+          <AssociationSet Name="FK__T_RolePer__Permi__42ACE4D4" Association="Self.FK__T_RolePer__Permi__42ACE4D4">
             <End Role="T_Permission" EntitySet="T_Permission" />
             <End Role="T_RolePermission" EntitySet="T_RolePermission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_RolePer__Permi__2057CCD0" Association="Self.FK__T_RolePer__Permi__2057CCD0">
+          <AssociationSet Name="FK__T_RolePer__Permi__43A1090D" Association="Self.FK__T_RolePer__Permi__43A1090D">
             <End Role="T_Permission" EntitySet="T_Permission" />
             <End Role="T_RolePermission" EntitySet="T_RolePermission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_RolePer__Permi__214BF109" Association="Self.FK__T_RolePer__Permi__214BF109">
+          <AssociationSet Name="FK__T_RolePer__Permi__44952D46" Association="Self.FK__T_RolePer__Permi__44952D46">
             <End Role="T_Permission" EntitySet="T_Permission" />
             <End Role="T_RolePermission" EntitySet="T_RolePermission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_RolePer__Permi__56E8E7AB" Association="Self.FK__T_RolePer__Permi__56E8E7AB">
+          <AssociationSet Name="FK__T_RolePer__Permi__4589517F" Association="Self.FK__T_RolePer__Permi__4589517F">
             <End Role="T_Permission" EntitySet="T_Permission" />
             <End Role="T_RolePermission" EntitySet="T_RolePermission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_RolePer__Permi__57DD0BE4" Association="Self.FK__T_RolePer__Permi__57DD0BE4">
+          <AssociationSet Name="FK__T_RolePer__Permi__467D75B8" Association="Self.FK__T_RolePer__Permi__467D75B8">
             <End Role="T_Permission" EntitySet="T_Permission" />
             <End Role="T_RolePermission" EntitySet="T_RolePermission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_RolePer__Permi__58D1301D" Association="Self.FK__T_RolePer__Permi__58D1301D">
+          <AssociationSet Name="FK__T_RolePer__Permi__477199F1" Association="Self.FK__T_RolePer__Permi__477199F1">
             <End Role="T_Permission" EntitySet="T_Permission" />
             <End Role="T_RolePermission" EntitySet="T_RolePermission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_RolePer__Permi__7B264821" Association="Self.FK__T_RolePer__Permi__7B264821">
+          <AssociationSet Name="FK__T_RolePer__Permi__4865BE2A" Association="Self.FK__T_RolePer__Permi__4865BE2A">
             <End Role="T_Permission" EntitySet="T_Permission" />
             <End Role="T_RolePermission" EntitySet="T_RolePermission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_RolePer__Permi__7C1A6C5A" Association="Self.FK__T_RolePer__Permi__7C1A6C5A">
+          <AssociationSet Name="FK__T_RolePer__Permi__4959E263" Association="Self.FK__T_RolePer__Permi__4959E263">
             <End Role="T_Permission" EntitySet="T_Permission" />
             <End Role="T_RolePermission" EntitySet="T_RolePermission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_RolePer__Permi__7D0E9093" Association="Self.FK__T_RolePer__Permi__7D0E9093">
+          <AssociationSet Name="FK__T_RolePer__Permi__4A4E069C" Association="Self.FK__T_RolePer__Permi__4A4E069C">
             <End Role="T_Permission" EntitySet="T_Permission" />
             <End Role="T_RolePermission" EntitySet="T_RolePermission" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Staff__Organiz__22401542" Association="Self.FK__T_Staff__Organiz__22401542">
+          <AssociationSet Name="FK__T_Staff__Organiz__4B422AD5" Association="Self.FK__T_Staff__Organiz__4B422AD5">
             <End Role="T_Organization" EntitySet="T_Organization" />
             <End Role="T_Staff" EntitySet="T_Staff" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Staff__Organiz__59C55456" Association="Self.FK__T_Staff__Organiz__59C55456">
+          <AssociationSet Name="FK__T_Staff__Organiz__4C364F0E" Association="Self.FK__T_Staff__Organiz__4C364F0E">
             <End Role="T_Organization" EntitySet="T_Organization" />
             <End Role="T_Staff" EntitySet="T_Staff" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Staff__Organiz__7E02B4CC" Association="Self.FK__T_Staff__Organiz__7E02B4CC">
+          <AssociationSet Name="FK__T_Staff__Organiz__4D2A7347" Association="Self.FK__T_Staff__Organiz__4D2A7347">
             <End Role="T_Organization" EntitySet="T_Organization" />
             <End Role="T_Staff" EntitySet="T_Staff" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Staff__Positio__2334397B" Association="Self.FK__T_Staff__Positio__2334397B">
+          <AssociationSet Name="FK__T_Staff__Positio__4E1E9780" Association="Self.FK__T_Staff__Positio__4E1E9780">
             <End Role="T_Position" EntitySet="T_Position" />
             <End Role="T_Staff" EntitySet="T_Staff" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Staff__Positio__5AB9788F" Association="Self.FK__T_Staff__Positio__5AB9788F">
+          <AssociationSet Name="FK__T_Staff__Positio__4F12BBB9" Association="Self.FK__T_Staff__Positio__4F12BBB9">
             <End Role="T_Position" EntitySet="T_Position" />
             <End Role="T_Staff" EntitySet="T_Staff" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_Staff__Positio__7EF6D905" Association="Self.FK__T_Staff__Positio__7EF6D905">
+          <AssociationSet Name="FK__T_Staff__Positio__5006DFF2" Association="Self.FK__T_Staff__Positio__5006DFF2">
             <End Role="T_Position" EntitySet="T_Position" />
             <End Role="T_Staff" EntitySet="T_Staff" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_StockIn__Mater__00DF2177" Association="Self.FK__T_StockIn__Mater__00DF2177">
+          <AssociationSet Name="FK__T_StockIn__Mater__53D770D6" Association="Self.FK__T_StockIn__Mater__53D770D6">
             <End Role="T_Material" EntitySet="T_Material" />
             <End Role="T_StockInDetail" EntitySet="T_StockInDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_StockIn__Mater__251C81ED" Association="Self.FK__T_StockIn__Mater__251C81ED">
+          <AssociationSet Name="FK__T_StockIn__Mater__54CB950F" Association="Self.FK__T_StockIn__Mater__54CB950F">
             <End Role="T_Material" EntitySet="T_Material" />
             <End Role="T_StockInDetail" EntitySet="T_StockInDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_StockIn__Mater__5CA1C101" Association="Self.FK__T_StockIn__Mater__5CA1C101">
+          <AssociationSet Name="FK__T_StockIn__Mater__55BFB948" Association="Self.FK__T_StockIn__Mater__55BFB948">
             <End Role="T_Material" EntitySet="T_Material" />
             <End Role="T_StockInDetail" EntitySet="T_StockInDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_StockIn__Partn__24285DB4" Association="Self.FK__T_StockIn__Partn__24285DB4">
+          <AssociationSet Name="FK__T_StockIn__Partn__50FB042B" Association="Self.FK__T_StockIn__Partn__50FB042B">
             <End Role="T_Partner" EntitySet="T_Partner" />
             <End Role="T_StockIn" EntitySet="T_StockIn" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_StockIn__Partn__5BAD9CC8" Association="Self.FK__T_StockIn__Partn__5BAD9CC8">
+          <AssociationSet Name="FK__T_StockIn__Partn__51EF2864" Association="Self.FK__T_StockIn__Partn__51EF2864">
             <End Role="T_Partner" EntitySet="T_Partner" />
             <End Role="T_StockIn" EntitySet="T_StockIn" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_StockIn__Partn__7FEAFD3E" Association="Self.FK__T_StockIn__Partn__7FEAFD3E">
+          <AssociationSet Name="FK__T_StockIn__Partn__52E34C9D" Association="Self.FK__T_StockIn__Partn__52E34C9D">
             <End Role="T_Partner" EntitySet="T_Partner" />
             <End Role="T_StockIn" EntitySet="T_StockIn" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_StockIn__Stock__01D345B0" Association="Self.FK__T_StockIn__Stock__01D345B0">
+          <AssociationSet Name="FK__T_StockIn__Stock__56B3DD81" Association="Self.FK__T_StockIn__Stock__56B3DD81">
             <End Role="T_StockIn" EntitySet="T_StockIn" />
             <End Role="T_StockInDetail" EntitySet="T_StockInDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_StockIn__Stock__2610A626" Association="Self.FK__T_StockIn__Stock__2610A626">
+          <AssociationSet Name="FK__T_StockIn__Stock__57A801BA" Association="Self.FK__T_StockIn__Stock__57A801BA">
             <End Role="T_StockIn" EntitySet="T_StockIn" />
             <End Role="T_StockInDetail" EntitySet="T_StockInDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_StockIn__Stock__5D95E53A" Association="Self.FK__T_StockIn__Stock__5D95E53A">
+          <AssociationSet Name="FK__T_StockIn__Stock__589C25F3" Association="Self.FK__T_StockIn__Stock__589C25F3">
             <End Role="T_StockIn" EntitySet="T_StockIn" />
             <End Role="T_StockInDetail" EntitySet="T_StockInDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_User__Position__02C769E9" Association="Self.FK__T_User__Position__02C769E9">
+          <AssociationSet Name="FK__T_User__Position__59904A2C" Association="Self.FK__T_User__Position__59904A2C">
             <End Role="T_Position" EntitySet="T_Position" />
             <End Role="T_User" EntitySet="T_User" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_User__Position__2704CA5F" Association="Self.FK__T_User__Position__2704CA5F">
+          <AssociationSet Name="FK__T_User__Position__5A846E65" Association="Self.FK__T_User__Position__5A846E65">
             <End Role="T_Position" EntitySet="T_Position" />
             <End Role="T_User" EntitySet="T_User" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_User__Position__5E8A0973" Association="Self.FK__T_User__Position__5E8A0973">
+          <AssociationSet Name="FK__T_User__Position__5B78929E" Association="Self.FK__T_User__Position__5B78929E">
             <End Role="T_Position" EntitySet="T_Position" />
             <End Role="T_User" EntitySet="T_User" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_UserFor__Formu__03BB8E22" Association="Self.FK__T_UserFor__Formu__03BB8E22">
+          <AssociationSet Name="FK__T_UserFor__Formu__5C6CB6D7" Association="Self.FK__T_UserFor__Formu__5C6CB6D7">
             <End Role="T_Formular" EntitySet="T_Formular" />
             <End Role="T_UserFormular" EntitySet="T_UserFormular" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_UserFor__Formu__27F8EE98" Association="Self.FK__T_UserFor__Formu__27F8EE98">
+          <AssociationSet Name="FK__T_UserFor__Formu__5D60DB10" Association="Self.FK__T_UserFor__Formu__5D60DB10">
             <End Role="T_Formular" EntitySet="T_Formular" />
             <End Role="T_UserFormular" EntitySet="T_UserFormular" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_UserFor__Formu__5F7E2DAC" Association="Self.FK__T_UserFor__Formu__5F7E2DAC">
+          <AssociationSet Name="FK__T_UserFor__Formu__5E54FF49" Association="Self.FK__T_UserFor__Formu__5E54FF49">
             <End Role="T_Formular" EntitySet="T_Formular" />
             <End Role="T_UserFormular" EntitySet="T_UserFormular" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_UserFor__UserI__04AFB25B" Association="Self.FK__T_UserFor__UserI__04AFB25B">
+          <AssociationSet Name="FK__T_UserFor__UserI__5F492382" Association="Self.FK__T_UserFor__UserI__5F492382">
             <End Role="T_User" EntitySet="T_User" />
             <End Role="T_UserFormular" EntitySet="T_UserFormular" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_UserFor__UserI__28ED12D1" Association="Self.FK__T_UserFor__UserI__28ED12D1">
+          <AssociationSet Name="FK__T_UserFor__UserI__603D47BB" Association="Self.FK__T_UserFor__UserI__603D47BB">
             <End Role="T_User" EntitySet="T_User" />
             <End Role="T_UserFormular" EntitySet="T_UserFormular" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_UserFor__UserI__607251E5" Association="Self.FK__T_UserFor__UserI__607251E5">
+          <AssociationSet Name="FK__T_UserFor__UserI__61316BF4" Association="Self.FK__T_UserFor__UserI__61316BF4">
             <End Role="T_User" EntitySet="T_User" />
             <End Role="T_UserFormular" EntitySet="T_UserFormular" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_UserPro__Produ__05A3D694" Association="Self.FK__T_UserPro__Produ__05A3D694">
+          <AssociationSet Name="FK__T_UserPro__Produ__6225902D" Association="Self.FK__T_UserPro__Produ__6225902D">
             <End Role="T_Product" EntitySet="T_Product" />
             <End Role="T_UserProduct" EntitySet="T_UserProduct" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_UserPro__Produ__29E1370A" Association="Self.FK__T_UserPro__Produ__29E1370A">
+          <AssociationSet Name="FK__T_UserPro__Produ__6319B466" Association="Self.FK__T_UserPro__Produ__6319B466">
             <End Role="T_Product" EntitySet="T_Product" />
             <End Role="T_UserProduct" EntitySet="T_UserProduct" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_UserPro__Produ__6166761E" Association="Self.FK__T_UserPro__Produ__6166761E">
+          <AssociationSet Name="FK__T_UserPro__Produ__640DD89F" Association="Self.FK__T_UserPro__Produ__640DD89F">
             <End Role="T_Product" EntitySet="T_Product" />
             <End Role="T_UserProduct" EntitySet="T_UserProduct" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_UserRol__RoleI__0697FACD" Association="Self.FK__T_UserRol__RoleI__0697FACD">
+          <AssociationSet Name="FK__T_UserRol__RoleI__6501FCD8" Association="Self.FK__T_UserRol__RoleI__6501FCD8">
             <End Role="T_RoLe" EntitySet="T_RoLe" />
             <End Role="T_UserRole" EntitySet="T_UserRole" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_UserRol__RoleI__2AD55B43" Association="Self.FK__T_UserRol__RoleI__2AD55B43">
+          <AssociationSet Name="FK__T_UserRol__RoleI__65F62111" Association="Self.FK__T_UserRol__RoleI__65F62111">
             <End Role="T_RoLe" EntitySet="T_RoLe" />
             <End Role="T_UserRole" EntitySet="T_UserRole" />
           </AssociationSet>
-          <AssociationSet Name="FK__T_UserRol__RoleI__625A9A57" Association="Self.FK__T_UserRol__RoleI__625A9A57">
+          <AssociationSet Name="FK__T_UserRol__RoleI__66EA454A" Association="Self.FK__T_UserRol__RoleI__66EA454A">
             <End Role="T_RoLe" EntitySet="T_RoLe" />
             <End Role="T_UserRole" EntitySet="T_UserRole" />
           </AssociationSet>
@@ -2673,7 +2657,6 @@
             <End Role="T_Order" EntitySet="T_Order" />
             <End Role="T_ReceiptVoucher" EntitySet="T_ReceiptVoucher" />
           </AssociationSet>
-          <EntitySet Name="T_Status" EntityType="VINASICModel.T_Status" />
           <EntitySet Name="T_Content" EntityType="VINASICModel.T_Content" />
           <EntitySet Name="T_FormularDetail" EntityType="VINASICModel.T_FormularDetail" />
           <AssociationSet Name="FK__T_Formula__Formu__0880433F" Association="VINASICModel.FK__T_Formula__Formu__0880433F">
@@ -3794,6 +3777,8 @@
           <NavigationProperty Name="T_Quittance" Relationship="VINASICModel.FK__T_Quittan__Order__3D2915A8" FromRole="T_Order" ToRole="T_Quittance" />
           <NavigationProperty Name="T_ReceiptVoucher" Relationship="VINASICModel.FK__T_Receipt__Order__3F115E1A" FromRole="T_Order" ToRole="T_ReceiptVoucher" />
           <Property Name="SubTotalExcludeTax" Type="Double" />
+          <Property Name="Cost" Type="Double" />
+          <Property Name="CostDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK__T_Order__Custome__32AB8735">
           <End Type="VINASICModel.T_Customer" Role="T_Customer" Multiplicity="1" />
@@ -3855,23 +3840,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="T_Status">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Index" Type="Int32" Nullable="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedUser" Type="Int32" Nullable="false" />
-          <Property Name="DeletedUser" Type="Int32" />
-          <Property Name="UpdatedUser" Type="Int32" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DeletedDate" Type="DateTime" Precision="3" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="T_Content">
           <Key>
             <PropertyRef Name="Id" />
@@ -4738,6 +4706,8 @@
           <EntitySetMapping Name="T_Order">
             <EntityTypeMapping TypeName="VINASICModel.T_Order">
               <MappingFragment StoreEntitySet="T_Order">
+                <ScalarProperty Name="CostDetail" ColumnName="CostDetail" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
                 <ScalarProperty Name="SubTotalExcludeTax" ColumnName="SubTotalExcludeTax" />
                 <ScalarProperty Name="IsQuittance" ColumnName="IsQuittance" />
                 <ScalarProperty Name="HaspayTransfer" ColumnName="HaspayTransfer" />
@@ -4763,24 +4733,6 @@
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="T_Status">
-            <EntityTypeMapping TypeName="VINASICModel.T_Status">
-              <MappingFragment StoreEntitySet="T_Status">
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UpdatedUser" ColumnName="UpdatedUser" />
-                <ScalarProperty Name="DeletedUser" ColumnName="DeletedUser" />
-                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="Index" ColumnName="Index" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
