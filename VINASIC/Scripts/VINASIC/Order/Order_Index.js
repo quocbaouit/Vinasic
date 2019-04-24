@@ -79,7 +79,8 @@ VINASIC.Order = function () {
     this.GetGlobal = function () {
         return global;
     };
-    function renderTable(Table) {
+    function renderTable(Table,subTotal,haspay) {
+        debugger;
         var tableString = "<table id=\"renderTable\" border=\"1\" style=\"width:100%\" cellspacing=\"0\" cellpadding=\"0\">";
         var root = document.getElementById('Block4');
         document.getElementById("Block4").innerHTML = "";
@@ -138,11 +139,33 @@ VINASIC.Order = function () {
                 tableString += "</tr>";
             }
         }
+        var strThanhToan = "Tổng Tiền";
+        if (haspay > 0) {
+            strThanhToan = "Còn Lại";
+            var strSubTotal1 = subTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            var strHaspay1 = haspay.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            tableString += "<tr>";
+            var colspan = 4;
+            if (document.getElementById('show-dim').checked)
+                colspan = 6;
+            tableString += "<td colspan=\"" + colspan + "\">Tổng Tiền:</td>";
+            tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal2\">" + strSubTotal1+"</span></td>";
+            tableString += "</tr>";
+
+            tableString += "<tr>";
+            var colspan = 4;
+            if (document.getElementById('show-dim').checked)
+                colspan = 6;
+            tableString += "<td colspan=\"" + colspan + "\">Đã Thanh Toán:</td>";
+            tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal3\">" + strHaspay1+"</span></td>";
+            tableString += "</tr>";
+
+        }       
         tableString += "<tr>";
         var colspan = 4;
         if (document.getElementById('show-dim').checked)
             colspan = 6;
-        tableString += "<td colspan=\"" + colspan+"\">Tổng Tiền(bao gồm thuế nếu có):</td>";
+        tableString += "<td colspan=\"" + colspan + "\">" + strThanhToan+":</td>";
         tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal1\">55577854</span></td>";
         tableString += "</tr>";
         tableString += "<tr>";
@@ -1406,7 +1429,7 @@ VINASIC.Order = function () {
                             global.Data.Pproduct = "";
                             calculatorProduct(data.record.T_OrderDetail);
                             //rendertable                                                    
-                            renderTable(data.record.T_OrderDetail);
+                            renderTable(data.record.T_OrderDetail, data.record.SubTotal, data.record.HasPay + data.record.HaspayTransfer);
                             if (data.record.HasTax) {
                                 $('#hastaxnote').css("display", "inline");
                             } else {
