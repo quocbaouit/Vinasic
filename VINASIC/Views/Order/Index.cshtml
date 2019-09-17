@@ -2,7 +2,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Content/Common.css" rel="stylesheet" />
-<script src="~/Scripts/VINASIC/Order/Order_Index.js?v=1.9"></script>
+<script src="~/Scripts/VINASIC/Order/Order_Index.js?v=1.7"></script>
 <style>
     .alert {
         padding: 20px;
@@ -197,14 +197,81 @@
                             <button id="approval" class="btn button button5">Đã Duyệt Đơn</button>
                         </div>
                         <div class="=rows" id="jtableOrder"></div>
+                        <div class="=rows" id="jtableSum">
+                            <div class="jtable-main-container">
+                                <div class="jtable-busy-panel-background jtable-busy-panel-background-invisible" style="display: none; width: 1680px; height: 48px;"></div>
+                                <div class="jtable-busy-message" style="display: none;"></div>
+                                <table class="jtable">
+                                    <thead>
+                                        <tr>
+                                            <th class="jtable-column-header jtable-column-header-sortable" style="width: 40.0238%;">
+                                                <div class="jtable-column-header-container">
+                                                    <span class="jtable-column-header-text">Tổng Báo Cáo Thu</span>
+                                                    <div class="jtable-column-resize-handler"></div>
+                                                </div>
+                                            </th>
+                                            <th class="jtable-column-header jtable-column-header-sortable" style="width: 20.0119%;">
+                                                <div class="jtable-column-header-container">
+                                                    <span class="jtable-column-header-text">Tổng Thu chuyển Khoản(VND)</span>
+                                                    <div class="jtable-column-resize-handler"></div>
+                                                </div>
+                                            </th>
+                                            <th class="jtable-column-header jtable-column-header-sortable" style="width: 20.0119%;">
+                                                <div class="jtable-column-header-container">
+                                                    <span class="jtable-column-header-text">Tổng Thu Tiển Mặt(VND)</span>
+                                                    <div class="jtable-column-resize-handler"></div>
+                                                </div>
+                                            </th>
+                                            <th class="jtable-column-header jtable-column-header-sortable" style="width: 19.9524%;">
+                                                <div class="jtable-column-header-container"><span class="jtable-column-header-text">Tổng Chưa Thanh Toán(VND)</span></div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="jtable-data-row jtable-row-even" data-record-key="1">
+                                            <td>Tổng Kết</td>
+                                            <td id="sum01">0</td>
+                                            <td id="sum02">0</td>
+                                            <td id="sum03">0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="jtable-column-resize-bar" style="display: none;"></div>
+                                <div id="selectHideShowColumn" class="jtable-column-selection-container" style="left: 562px; top: 16.375px; min-width: 100px; display: none;">
+                                    <ul class="jtable-column-select-list">
+                                        <li>
+                                            <label for="Name">
+                                                <input type="checkbox" name="Name" checked="checked"><span>Tổng Báo Cáo Thu</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label for="sum1">
+                                                <input type="checkbox" name="sum1" checked="checked"><span>Tổng Thu chuyển Khoản(VND)</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label for="sum2">
+                                                <input type="checkbox" name="sum2" checked="checked"><span>Tổng Thu Tiển Mặt(VND)</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label for="sum3">
+                                                <input type="checkbox" name="sum3" checked="checked"><span>Tổng Chưa Thanh Toán(VND)</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
                         @*<div class="row" style="height: 100px">
-                              <p>Tổng Tiền</p><span><input id="checkSum" type="text" value="0" /></span>
-                            </div>*@
+          <p>Tổng Tiền</p><span><input id="checkSum" type="text" value="0" /></span>
+        </div>*@
 
                         @*@*<div class="alert">
-                                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                                <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
-                            </div>*@
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+        </div>*@
                     </div>
                     <div id="ViewDetail" class="tab-pane">
                         <div id="jtableViewDetail"></div>

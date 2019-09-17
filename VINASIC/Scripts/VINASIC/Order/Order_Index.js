@@ -891,6 +891,15 @@ VINASIC.Order = function () {
             multiselect: true, //Allow multiple selecting
             selectingCheckboxes: true, //Show checkboxes on first column
             selectOnRowClick: false,
+            recordsLoaded: function (event, data) {
+                debugger;
+                var SumA = data.serverResponse.Data[0].Value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                var SumB = data.serverResponse.Data[1].Value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                var SumC = data.serverResponse.Data[2].Value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                document.getElementById("sum01").innerHTML = SumA;
+                document.getElementById("sum02").innerHTML = SumB;
+                document.getElementById("sum03").innerHTML = SumC;
+            },
             rowInserted: function (event, data) {
                 if (data.record.OrderStatus == 1) {
                     data.row.css("background", "#cef5da");
