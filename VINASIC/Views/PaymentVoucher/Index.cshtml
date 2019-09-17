@@ -24,13 +24,25 @@
                     <li id="ProcessOrder" class="active">
                         <a data-toggle="tab" href="#recent-activity">
                             <i class="icon-home"></i>
-                            Phiếu Chi
+                            Phiếu Chi Thường
                         </a>
                     </li>
                     <li id="CreateOrder" class="">
                         <a data-toggle="tab" href="#edit-profile">
                             <i class="icon-envelope"></i>
                             Tạo Mới/Chỉnh Phiếu Chi
+                        </a>
+                    </li>
+                    <li id="ProcessOrder1">
+                        <a data-toggle="tab" href="#recent-activity1">
+                            <i class="icon-home"></i>
+                            Phiếu Chi Nhập Hàng
+                        </a>
+                    </li>
+                    <li id="CreateOrderImport" class="">
+                        <a data-toggle="tab" href="#edit-import">
+                            <i class="icon-envelope"></i>
+                            Tạo Mới/Chỉnh Phiếu Chi Nhập Hàng
                         </a>
                     </li>
                 </ul>
@@ -58,122 +70,225 @@
 
                             </div>
                         </div>
-                        
+
                         <div class="=rows" id="jtablePaymentVoucher"></div>
                     </div>
-                <div id="edit-profile" class="tab-pane">
-                    <section class="panel">
-                        <div class="panel-body bio-graph-info">
-                            <div class="col-lg-5">
-                                <section class="panel">
-                                    <header class="panel-heading">
-                                        Thông Tin Phiếu Chi
-                                    </header>
-                                    <div class="panel-body">
-                                        <form role="form">
-                                            <div class="form-group">
-                                                <label for="cname">Loại Chi</label>
-                                                <select id="cemployee" class="form-control input-lg m-bot15">
-                                                    <option value="0">Thông Thường </option>
-                                                    <option value="1">Nhập Hàng</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="cname">Người Nhận</label>
-                                                <input type="text" class="form-control" id="cname" placeholder="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="cphone">Số Điện Thoại</label>
-                                                <input type="text" class="form-control" id="cphone" placeholder="" onkeypress=" return isNumberKey(event)">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="caddress">Địa Chỉ</label>
-                                                <input type="text" class="form-control" id="caddress" placeholder="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="content">Nội Dung</label>
-                                                <input type="text" class="form-control" id="content" placeholder="">
-                                            </div>
-                                            <div class="form-group">
-                                                <label id="dsubtotal2"  for="cmail">Tổng Tiền(VND)</label>
-                                                <input id="dsubtotal1" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
-                                            </div>
-                                        </form>
-                                    </div>
-                                </section>
-                            </div>
-                            <div id="viewDetail" class="col-lg-7">
-                                <section class="panel">
-                                    <header class="panel-heading">
-                                        Thông Tin Chi Tiết
-                                    </header>
-                                    <div class="panel-body">
-                                        <div class="col-lg-6">
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group">
-                                                <label for="dproduct">Dịch Vụ</label>
-                                                <input style="min-width:290px" type="text" id="dproduct" class="form-control input-lg m-bot15 detail">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div class="rows">
-                                                <div style="display:@ViewBag.CssShowDim" class="col-md-2 forPrint">
-                                                    <label for="dwidth">CNgang(m)</label>
-                                                    <input id="dwidth" type="text" pattern="[0-9]*" class="form-control detail caculator" placeholder="" onkeypress=" return isNumberKey(event) ">
-                                                </div>
-                                                <div style="display:@ViewBag.CssShowDim" class="col-md-2 forPrint">
-                                                    <label for="dheignt">CCao(m)</label>
-                                                    <input id="dheignt" type="text" class="form-control detail caculator" placeholder="" onkeypress=" return isNumberKey(event) ">
-                                                </div>
-                                                <div style="display:none" class="col-md-2 forPrint">
-                                                    <label for="dsquare">DTích(m2)</label>
-                                                    <input id="dsquare" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <label for="dquantity">SLượng</label>
-                                                    <input id="dquantity" type="text" class="form-control detail caculator caculatorTotal" placeholder="" onkeypress=" return isNumberKey(event) ">
-                                                </div>
-                                                <div style="display:@ViewBag.CssShowDim" class="col-md-2 forPrint">
-                                                    <label for="dsumsquare">TổngDT</label>
-                                                    <input id="dsumsquare" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <label for="dprice">Đơn Giá</label>
-                                                    <input style="min-width:90px" id="dprice" type="text" class="form-control detail caculator caculatorTotal" placeholder="" onkeypress=" return isNumberKey(event) ">
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <label for="dsubtotal">T Tiền</label>
-                                                    <input style="width:110px" id="dsubtotal" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
-                                                </div>
 
-                                            </div>
-                                        </div>
-                                        @*<div class="col-lg-6 forPrint">
-                                            <label for="dfilename">Tên File</label>
-                                            <input id="dfilename" type="text" class="form-control detail" placeholder="">
-                                        </div>*@
-                                        <div class="col-lg-12">
-                                            <label for="dnote">Ghi Chú</label>
-                                            <input style="min-width:290px" id="dnote" type="text" class="form-control detail" placeholder="">
-                                        </div>
-                                        <a id="resetDetail" style="margin-top: 20px; margin-bottom: 10px; margin-left: 10px" title="" class="btn btn-warning btn-sm" href="javascript:void(0)">Reset</a>
-                                        <br />
-                                        <div id="jtableOrderDetail"></div>
-                                        <div class="row">
-                                            <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="dtotal" type="text" class="form-control dsubtotal" placeholder="">
-                                            <strong style="margin-top: 10px; width: 200px; float: right">Tổng Tiền (VND)</strong>
-                                        </div>
-                                        @*<a id="saveOrder" style="margin-left: 20px; margin-top: 20px" title="" class="btn btn-primary btn-sm" href="javascript:void(0)">Lưu Đơn Hàng</a>*@
-                                        <a id="resetOrder" style="margin-top: 20px" title="" class="btn btn-warning btn-sm" href="javascript:void(0)">Reset</a>
-                                        <a id="canelOrder" style="margin-top: 20px" title="" class="btn btn-danger btn-sm" href="javascript:void(0)">Hủy Bỏ</a>
-                                    </div>
-                                </section>
+                    <div id="recent-activity1" class="tab-pane">
+                        <div style="margin-bottom: 15px;" class="row">
+                            <div class="form-group">
+                                <div class="col-md-3 col-sm-4 col-xs-12">
+                                    <label for="datefrom1">Từ Ngày</label>
+                                    <input type="date" class="form-control" name="datefrom1" value="" id="datefrom1" />
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-12">
+                                    <label for="dateto1">Đến Ngày</label>
+                                    <input type="date" class="form-control" name="dateto1" value="" id="dateto1" />
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-12">
+                                    <label for="keyword1">Từ Khóa</label>
+                                    <input type="text" class="form-control" id="keyword1" placeholder="">
+                                </div>
+                                <div style="margin-top:25px" class="col-md-3 col-sm-4 col-xs-12">
+                                    <button id="search1" class="btn button btn-primary">Tìm Kiếm</button>
+                                </div>
+
                             </div>
-                            <a id="saveOrder" style="margin-left: 20px; margin-top: 20px" title="" class="btn btn-primary btn-sm" href="javascript:void(0)">Lưu Phiếu Chi</a>
                         </div>
-                       
-                    </section>
+                        <div class="=rows" id="jtablePaymentVoucher1"></div>
+                        <div class="=rows" id="jtableSum">
+                            <div class="jtable-main-container">
+                                <div class="jtable-busy-panel-background jtable-busy-panel-background-invisible" style="display: none; width: 1680px; height: 48px;"></div>
+                                <div class="jtable-busy-message" style="display: none;"></div>
+                                <table class="jtable">
+                                    <thead>
+                                        <tr>
+                                            <th class="jtable-column-header jtable-column-header-sortable" style="width: 40.0238%;">
+                                                <div class="jtable-column-header-container">
+                                                    <span class="jtable-column-header-text">Báo Cáo Chi</span>
+                                                    <div class="jtable-column-resize-handler"></div>
+                                                </div>
+                                            </th>
+                                            <th class="jtable-column-header jtable-column-header-sortable" style="width: 20.0119%;">
+                                                <div class="jtable-column-header-container">
+                                                    <span class="jtable-column-header-text">Tổng Đã Thanh Toán(VND)</span>
+                                                    <div class="jtable-column-resize-handler"></div>
+                                                </div>
+                                            </th>
+                                            <th class="jtable-column-header jtable-column-header-sortable" style="width: 19.9524%;">
+                                                <div class="jtable-column-header-container"><span class="jtable-column-header-text">Tổng Còn Nợ(VND)</span></div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="jtable-data-row jtable-row-even" data-record-key="1">
+                                            <td>Tổng Kết</td>
+                                            <td id="sum01">0</td>
+                                            <td id="sum02">0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="jtable-column-resize-bar" style="display: none;"></div>
+                                <div id="selectHideShowColumn" class="jtable-column-selection-container" style="left: 562px; top: 16.375px; min-width: 100px; display: none;">
+                                    <ul class="jtable-column-select-list">
+                                        <li>
+                                            <label for="Name">
+                                                <input type="checkbox" name="Name" checked="checked"><span>Tổng Báo Cáo Chi</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label for="sum1">
+                                                <input type="checkbox" name="sum1" checked="checked"><span>Tổng Đã thanh Toán(VND)</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label for="sum3">
+                                                <input type="checkbox" name="sum2" checked="checked"><span>Tổng Còn Nợ(VND)</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="edit-profile" class="tab-pane">
+                        <section class="panel">
+                            <div class="panel-body bio-graph-info">
+                                <div class="col-lg-12">
+                                    <section class="panel">
+                                        <header class="panel-heading">
+                                            Thông Tin Phiếu Chi
+                                        </header>
+                                        <div class="panel-body">
+                                            <form role="form">
+                                                <div class="form-group">
+                                                    <label for="cname">Loại Chi</label>
+                                                    <select disabled id="cemployee" class="form-control input-lg m-bot15">
+                                                        <option value="0">Thông Thường </option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="cname">Người Nhận</label>
+                                                    <input type="text" class="form-control" id="cname" placeholder="">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="content">Nội Dung</label>
+                                                    <input type="text" class="form-control" id="content" placeholder="">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label id="dsubtotal2" for="cmail">Tổng Tiền(VND)</label>
+                                                    <input id="dsubtotal1" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </section>
+                                </div>
+
+                                <a id="saveOrder" style="margin-left: 20px; margin-top: 20px" title="" class="btn btn-primary btn-sm" href="javascript:void(0)">Lưu Phiếu Chi</a>
+                            </div>
+
+                        </section>
+
+                    </div>
+
+                    <div id="edit-import" class="tab-pane">
+                        <section class="panel">
+                            <div class="panel-body bio-graph-info">
+                                <div class="col-lg-12">
+                                    <section class="panel">
+                                        <header class="panel-heading">
+                                            Thông Tin Phiếu Chi
+                                        </header>
+                                        <div class="panel-body">
+                                            <form role="form">
+                                                <div class="form-group">
+                                                    <label for="cname1">Loại Chi</label>
+                                                    <select disabled id="cemployee1" class="form-control input-lg m-bot15">
+                                                        <option value="1">Nhập Hàng</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="cname1">Người Nhận</label>
+                                                    <input type="text" class="form-control" id="cname1" placeholder="">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="content1">Nội Dung</label>
+                                                    <input type="text" class="form-control" id="content1" placeholder="">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div id="viewDetail" class="col-lg-12">
+                                    <section class="panel">
+                                        <header class="panel-heading">
+                                            Thông Tin Chi Tiết
+                                        </header>
+                                        <div class="panel-body">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label for="dproduct">Dịch Vụ</label>
+                                                    <input style="min-width:290px" type="text" id="dproduct" class="form-control input-lg m-bot15 detail">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="rows">
+                                                    <div style="display:@ViewBag.CssShowDim" class="col-md-2 forPrint">
+                                                        <label for="dwidth">CNgang(m)</label>
+                                                        <input id="dwidth" type="text" pattern="[0-9]*" class="form-control detail caculator" placeholder="" onkeypress=" return isNumberKey(event) ">
+                                                    </div>
+                                                    <div style="display:@ViewBag.CssShowDim" class="col-md-2 forPrint">
+                                                        <label for="dheignt">CCao(m)</label>
+                                                        <input id="dheignt" type="text" class="form-control detail caculator" placeholder="" onkeypress=" return isNumberKey(event) ">
+                                                    </div>
+                                                    <div style="display:none" class="col-md-2 forPrint">
+                                                        <label for="dsquare">DTích(m2)</label>
+                                                        <input id="dsquare" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label for="dquantity">SLượng</label>
+                                                        <input id="dquantity" type="text" class="form-control detail caculator caculatorTotal" placeholder="" onkeypress=" return isNumberKey(event) ">
+                                                    </div>
+                                                    <div style="display:@ViewBag.CssShowDim" class="col-md-2 forPrint">
+                                                        <label for="dsumsquare">TổngDT</label>
+                                                        <input id="dsumsquare" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label for="dprice">Đơn Giá</label>
+                                                        <input style="min-width:90px" id="dprice" type="text" class="form-control detail caculator caculatorTotal" placeholder="" onkeypress=" return isNumberKey(event) ">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label for="dsubtotal">T Tiền</label>
+                                                        <input id="dsubtotal" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <label for="dnote">Ghi Chú</label>
+                                                <input style="min-width:290px" id="dnote" type="text" class="form-control detail" placeholder="">
+                                            </div>
+                                            <a id="resetDetail" style="margin-top: 20px; margin-bottom: 10px; margin-left: 10px" title="" class="btn btn-warning btn-sm" href="javascript:void(0)">Reset</a>
+                                            <br />
+                                            <div id="jtableOrderDetail"></div>
+                                            <div class="row">
+                                                <input onkeypress="return isNumberKey(event)" style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="dtotal" type="text" class="form-control dsubtotal" placeholder="">
+                                                <strong style="margin-top: 10px; width: 200px; float: right">Tổng Tiền (VND)</strong>
+                                            </div>
+                                            <div class="row">
+                                                <input onkeypress="return isNumberKey(event)"  style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="dhaspay" type="text" min="0" class="form-control dsubtotal" placeholder="">
+                                                <strong style="margin-top: 10px; width: 200px; float: right">Đã Trả (VND)</strong>
+                                            </div>
+                                            @*<a id="saveOrder" style="margin-left: 20px; margin-top: 20px" title="" class="btn btn-primary btn-sm" href="javascript:void(0)">Lưu Đơn Hàng</a>*@
+                                            <a id="resetOrder" style="margin-top: 20px" title="" class="btn btn-warning btn-sm" href="javascript:void(0)">Reset</a>
+                                            <a id="canelOrder" style="margin-top: 20px" title="" class="btn btn-danger btn-sm" href="javascript:void(0)">Hủy Bỏ</a>
+                                        </div>
+                                    </section>
+                                </div>
+                                <a id="saveOrder1" style="margin-left: 20px; margin-top: 20px" title="" class="btn btn-primary btn-sm" href="javascript:void(0)">Lưu Phiếu Chi</a>
+                            </div>
+
+                        </section>
 
                     </div>
                 </div>

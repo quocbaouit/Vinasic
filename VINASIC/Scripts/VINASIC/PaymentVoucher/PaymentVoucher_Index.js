@@ -25,6 +25,7 @@ VINASIC.PaymentVoucher = function () {
         },
         Element: {
             JtablePaymentVoucher: "jtablePaymentVoucher",
+            JtablePaymentVoucher1: "jtablePaymentVoucher1",
             PopupPaymentVoucher: "popup_PaymentVoucher",
             PopupSearch: "popup_SearchPaymentVoucher",
             JtableOrderDetail: "jtableOrderDetail"
@@ -59,7 +60,13 @@ VINASIC.PaymentVoucher = function () {
         var keySearch = $("#keyword").val();
         var fromDate = $("#datefrom").val();
         var toDate = $("#dateto").val();
-        $("#" + global.Element.JtablePaymentVoucher).jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate });
+        $("#" + global.Element.JtablePaymentVoucher).jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate,'type':0 });
+    }
+    function reloadListPaymentVoucher1() {
+        var keySearch = $("#keyword1").val();
+        var fromDate = $("#datefrom1").val();
+        var toDate = $("#dateto1").val();
+        $("#" + global.Element.JtablePaymentVoucher1).jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'type': 1 });
     }
     function reloadListOrderDetail() {
         $('#' + global.Element.JtableOrderDetail).jtable('load', { 'keyword': "" });
@@ -111,6 +118,7 @@ VINASIC.PaymentVoucher = function () {
                 GlobalCommon.CallbackProcess(data, function () {
                     if (data.Result === "OK") {
                         reloadListPaymentVoucher();
+                        reloadListPaymentVoucher1();
                         toastr.success('Xóa Thành Công');
                     }
                 }, false, global.Element.PopupPaymentVoucher, true, true, function () {
@@ -334,7 +342,7 @@ VINASIC.PaymentVoucher = function () {
     }
     function initListPaymentVoucher() {
         $('#' + global.Element.JtablePaymentVoucher).jtable({
-            title: 'Danh Sách Phiếu Chi',
+            title: 'Danh Sách Phiếu Chi Thông Thường',
             paging: true,
             pageSize: 25,
             pageSizeChangeOrder: true,
@@ -345,53 +353,216 @@ VINASIC.PaymentVoucher = function () {
             selectingCheckboxes: true, //Show checkboxes on first column
             selectOnRowClick: false,
             rowInserted: function (event, data) {
-                //if (data.record.OrderStatus == 1) {
-                //    data.row.css("background", "#cef5da");
-                //}
-                //if (data.record.OrderStatus == 2) {
-                //    data.row.css("background", "#d2ec6a");
-                //}
-                //if (data.record.OrderStatus == 3) {
-                //    data.row.css("background", "#F5ECCE");
-                //}
-                //if (data.record.OrderStatus == 4) {
-                //    data.row.css("background", "#dacfcf");
-                //}
-                //if (data.record.OrderStatus == 5) {
-                //    data.row.css("background", "#f5cece");
-                //}
+            },
+            actions: {
+                listAction: global.UrlAction.GetListPaymentVoucher
+            },
+            datas: {
+                jtableId: global.Element.JtablePaymentVoucher
+            },
+            messages: {
+                selectShow: 'Ẩn hiện cột'
+            },
+            fields: {
+                Id: {
+                    key: true,
+                    create: false,
+                    edit: false,
+                    list: false
+                },
+                OrderDetail: {
+                    title: ' Id',
+                    width: '2%',
+                    sorting: false,
+                    edit: false,
+                    display: function (orderDetailData) {
+                        var $img = $('<a detailKey style="color: red;" id="newdetail" href="javascript:void(0)">' + orderDetailData.record.Id + '</a>');
+          
+                        return $img;
+                    }
+                },
+                ReceiptName: {
+                    visibility: 'fixed',
+                    title: "Tên Người Nhận",
+                    width: "12%",
+
+                    display: function (data) {
+                        var text = $('<a href="javascript:void(0)"  class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + data.record.ReceiptName + '</a>');
+                        text.click(function () {
+
+
+                            global.Data.CustomerId = data.record.CustomerId;
+                          
+                            global.Data.OrderId = data.record.Id;
+                            while (global.Data.ModelOrderDetail.length) {
+                                global.Data.ModelOrderDetail.pop();
+                            }
+                            if (data.record.T_PaymentVoucherDetail.length > 0) {
+                                global.Data.ModelOrderDetail.push.apply(global.Data.ModelOrderDetail, data.record.T_PaymentVoucherDetail);
+                                global.Data.Index = global.Data.ModelOrderDetail[global.Data.ModelOrderDetail.length - 1].Index + 1;
+                            }
+
+                            if (global.Data.ModelOrderDetail.length > 0) {
+                                //$("#viewDetail").css("display", "block");
+                                $("#dsubtotal1").css("display", "none");
+                                $("#dsubtotal2").css("display", "none");
+                                $("#cemployee").val(1);
+                                $("#cname1").val(data.record.ReceiptName);
+                                $("#content1").val(data.record.Content);
+                                $("#dsubtotal1").val(data.record.Money);
+                            }
+                            else {
+                                //$("#viewDetail").css("display", "none");
+                                $("#dsubtotal1").css("display", "block");
+                                $("#dsubtotal2").css("display", "block");
+                                $("#cemployee").val(0);
+                                $("#cname").val(data.record.ReceiptName);
+                                $("#cphone").val('');
+                                $("#cmail").val('');
+                                $("#caddress").val('');
+                                $("#content").val(data.record.Content);
+                                $("#dsubtotal1").val(data.record.Money);
+                            }
+                            reloadListOrderDetail();
+                            resetDetail();
+                            global.Data.OrderTotal = 0;
+
+                            for (var j = 0; j < global.Data.ModelOrderDetail.length; j++) {
+                                global.Data.OrderTotal += parseFloat(global.Data.ModelOrderDetail[j].SubTotal);
+                            }
+                            for (var h = 0; h < global.Data.ModelOrderDetail.length; h++) {
+                                global.Data.ModelOrderDetail[h].Price = global.Data.ModelOrderDetail[h].Price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                                global.Data.ModelOrderDetail[h].SubTotal = global.Data.ModelOrderDetail[h].SubTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                            }
+                            $("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                            //$("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                            //if (data.record.HasTax) {
+                            //    var totalIncludeTax = global.Data.OrderTotal * 0.1 + global.Data.OrderTotal;
+                            //    $("#dtotaltax").val(totalIncludeTax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                            //}
+
+                            //popAllElementInArray(global.Data.ModelOrderDetail);
+                            if (global.Data.ModelOrderDetail.length > 0) {
+                                $('.nav-tabs a:last').tab('show');
+                             
+                            } else {
+                                $('.nav-tabs a[href=#' + 'edit-profile' + ']').tab('show');
+                            }        
+
+                        });
+                        return text;
+                    }
+                },
+                StrCreatedDate: {
+                    title: 'Ngày Tạo',
+                    width: "8%"
+                },
+                Content: {
+                    title: "Nội Dung",
+                    width: "25%"
+                },
+                Money: {
+                    title: "Số Tiền(VND)",
+                    width: "25%",
+                    display: function (data) {
+                        return data.record.Money.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                    }
+                },
+                Print: {
+                    visibility: 'fixed',
+                    title: "In Phiếu",
+                    width: "12%",
+
+                    display: function (data) {
+                        var text = $('<a href="#" class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + "In Phiếu" + '</a>');
+                        text.click(function () {
+                            var paydate = FormatDateJsonToString(data.record.PaymentDate, "dd-mm-yyyy");
+                            $("#pid").html("");
+                            $("#pname").html("");
+                            $("#paddress").html("");
+                            $("#pcontent").html("");
+                            $("#pmoney").html("");
+                            $("#ppaymentdate2").html("");
+                            $("#ppaymentdate1").html("");
+                            //////////////////////////////////////////////////////
+                            $("#pid").append(data.record.Id);
+                            $("#pname").append(data.record.ReceiptName);
+                            $("#paddress").append(data.record.ReceiptAddress);
+                            $("#pcontent").append(data.record.Content);
+                            $("#pmoney").append(data.record.Money);
+                            $("#ppaymentdate2").append(paydate);
+                            $("#ppaymentdate1").append(paydate);
+                            printPanel();
+                            // window.location.href = "/PaymentVoucher/Index";
+                        });
+                        return text;
+                    }
+                },
+                Delete: {
+                    title: 'Xóa',
+                    width: "3%",
+                    sorting: false,
+                    display: function (data) {
+                        var text = $('<button title="Xóa" class="jtable-command-button jtable-delete-command-button"><span>Xóa</span></button>');
+                        text.click(function () {
+                            GlobalCommon.ShowConfirmDialog('Bạn có chắc chắn muốn xóa?', function () {
+                                deleteRow(data.record.Id);
+                            }, function () { }, 'Đồng ý', 'Hủy bỏ', 'Thông báo');
+                        });
+                        return text;
+
+                    }
+                },
 
             },
-            //toolbar: {
-            //    items: [{
-            //        tooltip: 'Click here to export this table to excel',
-            //        text: 'Xuất Excel Các Đơn Hàng Chưa Thanh Toán Hết',
-            //        click: function () {
-            //            var keySearch = $("#keyword").val();
-            //            var fromDate = $("#datefrom").val();
-            //            var toDate = $("#dateto").val();
-            //            var employee = $("#cemployee1").val();
-            //            var delivery = $("#DeliveryType").val();
-            //            var paymentStatus = $("#PaymentStatus").val();
-            //            var url = "/Order/ExportReport?fromDate=" + fromDate + "&toDate=" + toDate + "&employee=" + employee + "&keySearch=" + keySearch + "&delivery=" + delivery + "&paymentStatus=" + paymentStatus + "&type=" + 1;
-            //            window.location = url;
-            //        }
-            //    },
-            //    {
-            //        tooltip: 'Click here to export this table to excel',
-            //        text: 'Export to Excel',
-            //        click: function () {
-            //            var keySearch = $("#keyword").val();
-            //            var fromDate = $("#datefrom").val();
-            //            var toDate = $("#dateto").val();
-            //            var employee = $("#cemployee1").val();
-            //            var delivery = $("#DeliveryType").val();
-            //            var paymentStatus = $("#PaymentStatus").val();
-            //            var url = "/Order/ExportReport?fromDate=" + fromDate + "&toDate=" + toDate + "&employee=" + employee + "&keySearch=" + keySearch + "&delivery=" + delivery + "&paymentStatus=" + paymentStatus + "&type=" + 0;
-            //            window.location = url;
-            //        }
-            //    }]
-            //},
+            selectionChanged: function () {
+                var $selectedRows = $('#jtableOrder').jtable('selectedRows');
+                if ($selectedRows.length > 0) {
+                    var sum = 0;
+                    var haspay = 0;
+                    var hasexit = 0;
+                    $selectedRows.each(function () {
+                        var record = $(this).data('record');
+                        sum = sum + record.SubTotal;
+                        haspay = haspay + record.HasPay;
+                        var current = record.SubTotal - record.HasPay;
+                        hasexit = hasexit + current;
+                    });
+                    var strSum = sum.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                    var strhaspay = haspay.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                    var strhasexist = hasexit.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                    toastr.options = {
+                        "closeButton": true,
+                        "positionClass": "toast-bottom-full-width",
+                        "preventDuplicates": false,
+                        "timeOut": "5000"
+                    }
+                    toastr.error("Tổng Tiền: " + strSum + " ------ Đã Thanh Toán: " + strhaspay + " ------  Còn Lại: " + strhasexist);
+                } else {
+                    //No rows selected
+                    // $('#checkSum').val(0);
+                }
+            }
+        });
+    }
+    function initListPaymentVoucher1() {
+        $('#' + global.Element.JtablePaymentVoucher1).jtable({
+            title: 'Danh Sách Phiếu Chi Nhập Hàng',
+            paging: true,
+            pageSize: 25,
+            pageSizeChangeOrder: true,
+            sorting: true,
+            //selectShow: true,
+            selecting: true, //Enable selecting
+            multiselect: true, //Allow multiple selecting
+            selectingCheckboxes: true, //Show checkboxes on first column
+            selectOnRowClick: false,
+            recordsLoaded: function (event, data) {
+                var SumA = data.serverResponse.Data[0].Value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                var SumB = data.serverResponse.Data[1].Value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                document.getElementById("sum01").innerHTML = SumA;
+                document.getElementById("sum02").innerHTML = SumB;
+            },
             actions: {
                 listAction: global.UrlAction.GetListPaymentVoucher
             },
@@ -498,12 +669,7 @@ VINASIC.PaymentVoucher = function () {
 
 
                             global.Data.CustomerId = data.record.CustomerId;
-                            $("#cname").val(data.record.ReceiptName);
-                            $("#cphone").val(data.record.ReceiptPhone);
-                            $("#cmail").val('');
-                            $("#caddress").val(data.record.ReceiptAddress);
-                            $("#content").val(data.record.Content);
-                            $("#dsubtotal1").val(data.record.Money);
+
                             global.Data.OrderId = data.record.Id;
                             while (global.Data.ModelOrderDetail.length) {
                                 global.Data.ModelOrderDetail.pop();
@@ -514,16 +680,25 @@ VINASIC.PaymentVoucher = function () {
                             }
 
                             if (global.Data.ModelOrderDetail.length > 0) {
-                                $("#viewDetail").css("display", "block");
+                                //$("#viewDetail").css("display", "block");
                                 $("#dsubtotal1").css("display", "none");
                                 $("#dsubtotal2").css("display", "none");
                                 $("#cemployee").val(1);
+                                $("#cname1").val(data.record.ReceiptName);
+                                $("#content1").val(data.record.Content);
+                                $("#dsubtotal1").val(data.record.Money);
                             }
                             else {
-                                $("#viewDetail").css("display", "none");
+                                //$("#viewDetail").css("display", "none");
                                 $("#dsubtotal1").css("display", "block");
                                 $("#dsubtotal2").css("display", "block");
                                 $("#cemployee").val(0);
+                                $("#cname").val(data.record.ReceiptName);
+                                $("#cphone").val('');
+                                $("#cmail").val('');
+                                $("#caddress").val('');
+                                $("#content").val(data.record.Content);
+                                $("#dsubtotal1").val(data.record.Money);
                             }
                             reloadListOrderDetail();
                             resetDetail();
@@ -537,6 +712,7 @@ VINASIC.PaymentVoucher = function () {
                                 global.Data.ModelOrderDetail[h].SubTotal = global.Data.ModelOrderDetail[h].SubTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                             }
                             $("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                            $("#dhaspay").val(data.record.HasPay.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                             //$("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                             //if (data.record.HasTax) {
                             //    var totalIncludeTax = global.Data.OrderTotal * 0.1 + global.Data.OrderTotal;
@@ -544,7 +720,12 @@ VINASIC.PaymentVoucher = function () {
                             //}
 
                             //popAllElementInArray(global.Data.ModelOrderDetail);
-                            $('.nav-tabs a:last').tab('show');
+                            if (global.Data.ModelOrderDetail.length > 0) {
+                                $('.nav-tabs a:last').tab('show');
+
+                            } else {
+                                $('.nav-tabs a[href=#' + 'edit-profile' + ']').tab('show');
+                            }
 
                         });
                         return text;
@@ -556,13 +737,27 @@ VINASIC.PaymentVoucher = function () {
                 },
                 Content: {
                     title: "Nội Dung",
-                    width: "25%"
+                    width: "15%"
                 },
                 Money: {
                     title: "Số Tiền(VND)",
-                    width: "25%",
+                    width: "15%",
                     display: function (data) {
                         return data.record.Money.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                    }
+                },
+                HasPay: {
+                    title: "Đã trả(VND)",
+                    width: "15%",
+                    display: function (data) {
+                        return data.record.HasPay.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                    }
+                },
+                Remain: {
+                    title: "Còn Nợ",
+                    width: "15%",
+                    display: function (data) {
+                        return (data.record.Money - data.record.HasPay).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                     }
                 },
                 Print: {
@@ -684,7 +879,7 @@ VINASIC.PaymentVoucher = function () {
     //    });
     //}
     function resetAll() {
-        $("#viewDetail").css("display", "none");
+        //$("#viewDetail").css("display", "none");
         $("#cemployee").val(0);
         $("#dsumsquare").val("");
         $("#cname").val("");
@@ -741,7 +936,7 @@ VINASIC.PaymentVoucher = function () {
         var content = $("#content").val();
         var totalInclude = $("#dsubtotal1").val().replace(/[^0-9-.]/g, '');
         $.ajax({
-            url: global.UrlAction.SaveOrder + "?orderId=" + global.Data.OrderId + "&employeeId=" + employeeId + "&customerId=" + 1 + "&customerName=" + customerName + "&customerPhone=" + customerPhone + "&customerMail=" + customerMail + "&customerAddress=" + customerAddress + "&customerTaxCode=" + customerTaxCode + "&orderTotal=" + global.Data.OrderTotal + "&content=" + content + "&totalInclude=" + totalInclude,
+            url: global.UrlAction.SaveOrder + "?orderId=" + global.Data.OrderId + "&employeeId=" + employeeId + "&customerId=" + 1 + "&customerName=" + customerName + "&customerPhone=" + customerPhone + "&customerMail=" + customerMail + "&customerAddress=" + customerAddress + "&customerTaxCode=" + customerTaxCode + "&orderTotal=" + global.Data.OrderTotal + "&content=" + content + "&totalInclude=" + totalInclude + "&haspay=" + global.Data.OrderTotal,
             type: 'post',
             data: JSON.stringify({ 'listDetail': global.Data.ModelOrderDetail }),
             contentType: 'application/json',
@@ -752,11 +947,70 @@ VINASIC.PaymentVoucher = function () {
                         resetAll();
                         toastr.success("Thành Công");
                         reloadListPaymentVoucher();
+                        reloadListPaymentVoucher1();
                         while (global.Data.ModelOrderDetail.length) {
                             global.Data.ModelOrderDetail.pop();
                         }
                         reloadListOrderDetail();
                         $('.nav-tabs a:first').tab('show');
+                    }
+                }, false, global.Element.PopupOrder, true, true, function () {
+                    var msg = GlobalCommon.GetErrorMessage(result);
+                    GlobalCommon.ShowMessageDialog(msg, function () { }, "Đã có lỗi xảy ra trong quá trình sử lý.");
+                });
+            }
+        });
+    }
+
+    function saveOrder1() {
+        debugger;
+        if ($("#cname1").val() === "") {
+            toastr.warning("Vui Lòng Nhập Tên Người Nhận");
+            $("#Name1").focus();
+            return false;
+        }
+        if ($("#content1").val() === "") {
+            toastr.warning("Vui Lòng Nhập Nội Dung");
+            $("#content1").focus();
+            return false;
+        }
+        if ($("#dtotal").val() === "" && $("#cemployee").val() == 1) {
+            toastr.warning("Vui Lòng Nhập Tổng Tiền");
+            $("#dtotal").focus();
+            return false;
+        }
+        var employeeId = 0;
+        var customerName = $("#cname1").val();
+        var customerPhone = '';
+        var customerMail = '';
+        var customerAddress = '';
+        var customerTaxCode = '';
+        var haspay = $("#dhaspay").val().replace(/[^0-9-.]/g, '');
+        if (haspay=='') {
+            haspay = 0;
+        }
+        var dateDelivery = '22/11/2018';
+        var content = $("#content1").val();
+        var totalInclude = 0;
+        $.ajax({
+            url: global.UrlAction.SaveOrder + "?orderId=" + global.Data.OrderId + "&employeeId=" + employeeId + "&customerId=" + 1 + "&customerName=" + customerName + "&customerPhone=" + customerPhone + "&customerMail=" + customerMail + "&customerAddress=" + customerAddress + "&customerTaxCode=" + customerTaxCode + "&orderTotal=" + global.Data.OrderTotal + "&content=" + content + "&totalInclude=" + totalInclude + "&haspay=" + haspay,
+            type: 'post',
+            data: JSON.stringify({ 'listDetail': global.Data.ModelOrderDetail }),
+            contentType: 'application/json',
+            success: function (result) {
+                $('#loading').hide();
+                GlobalCommon.CallbackProcess(result, function () {
+                    if (result.Result === "OK") {
+                        resetAll();
+                        toastr.success("Thành Công");
+                        reloadListPaymentVoucher();
+                        reloadListPaymentVoucher1();
+                        while (global.Data.ModelOrderDetail.length) {
+                            global.Data.ModelOrderDetail.pop();
+                        }
+                        reloadListOrderDetail();
+                        $('.nav-tabs a[href=#' + 'recent-activity1' + ']').tab('show');
+                        //$('.nav-tabs a:first').tab('show');
                     }
                 }, false, global.Element.PopupOrder, true, true, function () {
                     var msg = GlobalCommon.GetErrorMessage(result);
@@ -884,6 +1138,9 @@ VINASIC.PaymentVoucher = function () {
     this.reloadListPaymentVoucher = function () {
         reloadListPaymentVoucher();
     };
+    this.reloadListPaymentVoucher1 = function () {
+        reloadListPaymentVoucher1();
+    };
     this.initViewModel = function (paymentVoucher) {
         initViewModel(paymentVoucher);
     };
@@ -897,16 +1154,19 @@ VINASIC.PaymentVoucher = function () {
         $("#search").click(function () {
             reloadListPaymentVoucher();
         });
+        $("#search1").click(function () {
+            reloadListPaymentVoucher1();
+        });
         $('#cemployee').change(function () {
             d = document.getElementById("cemployee").value;
             if (d == 0) {
-                $("#viewDetail").css("display", "none");
+                //$("#viewDetail").css("display", "none");
                 $("#dsubtotal1").css("display", "block");
                 $("#dsubtotal2").css("display", "block");
 
             }
             else {
-                $("#viewDetail").css("display", "block");
+                //$("#viewDetail").css("display", "block");
                 $("#dsubtotal1").css("display", "none");
                 $("#dsubtotal2").css("display", "none");
             }
@@ -964,6 +1224,10 @@ VINASIC.PaymentVoucher = function () {
             } else {
                 $("#prest").val(c.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
             }
+        });
+        $("#dhaspay").keyup(function () {
+            var tempValue = $(this).val().replace(/[^0-9-.]/g, '');
+            $("#dhaspay").val(tempValue.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
         });
 
         $('.caculator').keyup(function () {
@@ -1057,15 +1321,23 @@ VINASIC.PaymentVoucher = function () {
         $("#saveOrder").click(function () {
             saveOrder();
         });
+        $("#saveOrder1").click(function () {
+            saveOrder1();
+        });
+
     };
     this.Init = function () {
         document.getElementById("datefrom").defaultValue = new Date(new Date() - 24 * 30 * 60 * 60 * 1000).toISOString().substring(0, 10);
+        document.getElementById("datefrom1").defaultValue = new Date(new Date() - 24 * 30 * 60 * 60 * 1000).toISOString().substring(0, 10);
         var dateTo = new Date();
         dateTo.setDate(dateTo.getDate() + 1);
         document.getElementById("dateto").defaultValue = dateTo.toISOString().substring(0, 10);
+        document.getElementById("dateto1").defaultValue = dateTo.toISOString().substring(0, 10);
         registerEvent();
         initListPaymentVoucher();
         reloadListPaymentVoucher();
+        initListPaymentVoucher1();
+        reloadListPaymentVoucher1();
         initPopupPaymentVoucher();
         initListOrderDetail();
         bindData(null);

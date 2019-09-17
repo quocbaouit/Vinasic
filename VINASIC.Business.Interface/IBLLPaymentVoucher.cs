@@ -10,7 +10,7 @@ namespace VINASIC.Business.Interface
         ResponseBase UpdatedOrder(ModelSavePaymentVoucher obj, int userId, bool isAdmin);
         ResponseBase CreateOrder(ModelSavePaymentVoucher obj, int userId);
         ResponseBase DeleteById(int id, int userId);
-        PagedList<ModelPaymentVoucher> GetList(string keyWord, int startIndexRecord, int pageSize, string sorting,string fromDate,string todate);
+        PagedList<ModelPaymentVoucher> GetList(string keyWord, int startIndexRecord, int pageSize, string sorting,string fromDate,string todate,int type);
         List<ModelSelectItem> GetListPaymentVoucher();
         List<ModelPaymentVoucher> GetListProduct();
         List<ModelOrderDetail> GetListOrderDetailByOrderId(int orderId);

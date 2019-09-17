@@ -22,14 +22,21 @@ namespace VINASIC.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult GetPaymentVouchers(string keyword, int jtStartIndex, int jtPageSize, string jtSorting, string fromDate = "", string toDate = "")
+        public JsonResult GetPaymentVouchers(string keyword, int jtStartIndex, int jtPageSize, string jtSorting, string fromDate = "", string toDate = "",int type=0)
         {
             try
             {
 
-                var listPaymentVoucher = _bllPaymentVoucher.GetList(keyword, jtStartIndex, jtPageSize, jtSorting,fromDate,toDate);
+                var listPaymentVoucher = _bllPaymentVoucher.GetList(keyword, jtStartIndex, jtPageSize, jtSorting,fromDate,toDate, type);
                 JsonDataResult.Records = listPaymentVoucher;
+                dynamic Sum = new System.Dynamic.ExpandoObject();
+                var sumHaspay = listPaymentVoucher.Sum(x => x.HasPay);
+                var sumSubTotal = listPaymentVoucher.Sum(x => x.Money);
+                var sumRemaining = sumSubTotal - (sumHaspay);
+                Sum.sumHaspay = sumHaspay;
+                Sum.sumRemaining = sumRemaining;
                 JsonDataResult.Result = "OK";
+                JsonDataResult.Data = Sum;
                 JsonDataResult.TotalRecordCount = listPaymentVoucher.TotalItemCount;
 
             }
@@ -42,13 +49,18 @@ namespace VINASIC.Controllers
             return Json(JsonDataResult);
         }
         [System.Web.Mvc.HttpPost]
-        public JsonResult SaveOrder(int orderId, int employeeId, int customerId, string customerName, string customerPhone, string customerMail, string customerAddress, string customerTaxCode, float orderTotal, List<ModelPaymentVoucherDetail> listDetail, string content, float totalInclude)
+        public JsonResult SaveOrder(int orderId, int employeeId, int customerId, string customerName, string customerPhone, string customerMail, string customerAddress, string customerTaxCode, float orderTotal, List<ModelPaymentVoucherDetail> listDetail, string content, float totalInclude,float haspay)
         {
             try
             {
                 var IsAdmin = UserContext.Permissions.Contains("isAdmin");
                 if (IsAuthenticate)
                 {
+                    var payment_type = 0;
+                    if (listDetail != null && listDetail.Count>0)
+                    {
+                        payment_type = 1;
+                    }
                     var saveOrder = new ModelSavePaymentVoucher
                     {
                         OrderId = orderId,
@@ -63,7 +75,9 @@ namespace VINASIC.Controllers
                         Content = content,
                         totalInclude=totalInclude,
                         DateDelivery = DateTime.Now,
-                        Detail = listDetail
+                        Detail = listDetail,
+                        HasPay=haspay,
+                        PaymentType= payment_type,
                     };
                     var responseResult = saveOrder.OrderId == 0 ? _bllPaymentVoucher.CreateOrder(saveOrder, UserContext.UserID) : _bllPaymentVoucher.UpdatedOrder(saveOrder, UserContext.UserID, IsAdmin);
                     if (!responseResult.IsSuccess)

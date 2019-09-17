@@ -27,6 +27,9 @@ namespace VINASIC.Business.Interface.Model
         public float OrderTotal { get; set; }
         public float totalInclude { get; set; }
         public DateTime? DateDelivery { get; set; }
+        public int PaymentType { get; set; }
+        public float HasPay { get; set; }
+        public string strHasPay { get; set; }
         public List<ModelPaymentVoucherDetail> Detail { get; set; }
     }
 
