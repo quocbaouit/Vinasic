@@ -206,7 +206,7 @@ VINASIC.Order = function () {
         var employee = $("#cemployee1").val();
         var delivery = $("#DeliveryType").val();
         var paymentStatus = $("#PaymentStatus").val();
-        $("#" + global.Element.JtableOrder).jtable("load", { 'keyword': keySearch, 'employee': employee, 'fromDate': fromDate, 'toDate': toDate, 'orderStatus': -1 });
+        $("#" + global.Element.JtableOrder).jtable("load", { 'keyword': keySearch, 'employee': employee, 'fromDate': fromDate, 'toDate': toDate, 'orderStatus': 1 });
     }
     function reloadListCost() {
         var keySearch = "";
@@ -221,7 +221,7 @@ VINASIC.Order = function () {
     }
     function reloadListOrder(orderStatus) {
         if (orderStatus == undefined) {
-            orderStatus = -1;
+            orderStatus = 1;
         }
         var keySearch = $("#keyword").val();
         //var fromDate = $("#datefrom").val();
