@@ -1326,35 +1326,35 @@ VINASIC.Order = function () {
                     title: "Tổng Tiền",
                     width: "7%"
                 },
-                strCost: {
-                    title: "Chi Phí",
-                    width: "7%",
-                    display: function (data) {
-                        var text = $('<a  href="javascript:void(0)" class="clickable"  data-target="#popup_Order" title="Cập nhật số tiền đã thu.">' + data.record.strCost + '</a>');
-                        text.click(function () {
-                            global.Data.OrderId = data.record.Id;
-                            while (global.Data.listCost.length) {
-                                global.Data.listCost.pop();
-                            }
-                            global.Data.listCost.push.apply(global.Data.listCost, data.record.CostObj);
-                            //global.Data.listCost.sort(function (a, b) {
-                            //    return a.Index == b.Index ? 0 : +(a.Index > b.Index) || -1;
-                            //});
-                            var totalCost = 0;
-                            for (var i = 0; i < global.Data.listCost.length; i++) {
-                                totalCost = totalCost + parseFloat(global.Data.listCost[i].Amount);
-                            };
-                            $('#cost').val(totalCost.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                            reloadListCost();
-                            showPopupCost();
-                        });
-                        return text;
-                    }
-                },
-                strIncome: {
-                    title: "Tiền Lãi",
-                    width: "7%"
-                },
+                //strCost: {
+                //    title: "Chi Phí",
+                //    width: "7%",
+                //    display: function (data) {
+                //        var text = $('<a  href="javascript:void(0)" class="clickable"  data-target="#popup_Order" title="Cập nhật số tiền đã thu.">' + data.record.strCost + '</a>');
+                //        text.click(function () {
+                //            global.Data.OrderId = data.record.Id;
+                //            while (global.Data.listCost.length) {
+                //                global.Data.listCost.pop();
+                //            }
+                //            global.Data.listCost.push.apply(global.Data.listCost, data.record.CostObj);
+                //            //global.Data.listCost.sort(function (a, b) {
+                //            //    return a.Index == b.Index ? 0 : +(a.Index > b.Index) || -1;
+                //            //});
+                //            var totalCost = 0;
+                //            for (var i = 0; i < global.Data.listCost.length; i++) {
+                //                totalCost = totalCost + parseFloat(global.Data.listCost[i].Amount);
+                //            };
+                //            $('#cost').val(totalCost.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                //            reloadListCost();
+                //            showPopupCost();
+                //        });
+                //        return text;
+                //    }
+                //},
+                //strIncome: {
+                //    title: "Tiền Lãi",
+                //    width: "7%"
+                //},
                 strHaspay: {
                     title: "Đã Thu TM",
                     width: "7%",
@@ -2807,11 +2807,11 @@ VINASIC.Order = function () {
     }
     this.Init = function () {
         registerEvent();
-        document.getElementById("datefrom").defaultValue = new Date(new Date() - 24*30 * 60 * 60 * 1000).toISOString().substring(0, 10);
+        document.getElementById("datefrom").defaultValue = new Date(new Date() - 24*90 * 60 * 60 * 1000).toISOString().substring(0, 10);
         var dateTo = new Date();
         dateTo.setDate(dateTo.getDate() + 1);
         document.getElementById("dateto").defaultValue = dateTo.toISOString().substring(0, 10);
-        document.getElementById("subdatefrom").defaultValue = new Date(new Date() - 24*30 * 60 * 60 * 1000).toISOString().substring(0, 10);
+        document.getElementById("subdatefrom").defaultValue = new Date(new Date() - 24*90 * 60 * 60 * 1000).toISOString().substring(0, 10);
         document.getElementById("subdateto").defaultValue = dateTo.toISOString().substring(0, 10);
         initComboBoxBusiness();
         initComboBoxBusiness1();
