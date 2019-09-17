@@ -11,8 +11,9 @@ namespace VINASIC.Business.Interface
         PagedList<ModelTiming> GetList(string keyWord, int startIndexRecord, int pageSize, string sorting);
         List<ModelSelectItem> GetListTiming();
         List<ModelTiming> GetListProduct();
-        List<DiaryEvent> LoadAppointmentSummaryInDateRange(double start, double end,int id);
+        List<DiaryEvent> LoadAppointmentSummaryInDateRange(double start, double end, int id);
 
-        bool CreateNewEvent(string Title, string NewEventDate, string NewEventTime, string NewEventDuration,int id);
+        bool CreateNewEvent(string Title, string NewEventDate, string NewEventTime, string NewEventDuration, int id);
+        double GetTimingForEmployee(int imployId);
     }
 }

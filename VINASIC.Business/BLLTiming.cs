@@ -190,6 +190,268 @@ namespace VINASIC.Business
             SaveChange();
             return timing;
         }
+
+        public double GetTimingForEmployee(int imployId)
+        {
+            var month = DateTime.Now.Month;
+            var year = DateTime.Now.Year;
+            var exitTiming = _repTiming.Get(x => x.TimingMonth == month && x.EmployeeId == imployId && x.TimingYear == year);
+            if (exitTiming !=null)
+            {
+                double offDate = 0;
+                if (exitTiming.Day1 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day1 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+
+                if (exitTiming.Day2 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day2 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day3 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day3 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day4 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day4 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day5 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day5 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day6 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day6 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day7 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day7 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day8 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day8 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day9 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day9 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day10 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day10 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day11 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day11 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day12 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day12 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day13 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day13 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day14 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day14 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day15 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day15 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day16 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day16 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day17 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day17 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day18 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day18 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day19 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day19 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day20 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day20 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day21 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day21 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day22 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day22 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day23 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day23 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day24 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day24 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day25 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day25 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day26 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day26 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day27 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day27 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day28 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day28 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day29 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day29 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day30 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day30 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                if (exitTiming.Day31 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                }
+                if (exitTiming.Day31 == "1")
+                {
+                    offDate = offDate + 1;
+                }
+                return offDate;
+            }
+            return 0;        
+        }
         public bool CreateNewEvent(string Title, string NewEventDate, string NewEventTime, string NewEventDuration,int id)
         {
             try

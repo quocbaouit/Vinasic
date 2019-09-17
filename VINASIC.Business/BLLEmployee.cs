@@ -25,9 +25,10 @@ namespace VINASIC.Business
         private readonly IT_OrderDetailRepository _repOrderDetailRepository;
         private readonly IT_OrderRepository _repOrderRepository;
         private readonly IBLLUserRole bllUserRole;
+        private readonly IBllTiming _bllTiming;
         private readonly IUnitOfWork<VINASICEntities> _unitOfWork;
         private readonly IBLLRole bllRole;
-        public BllEmployee(IUnitOfWork<VINASICEntities> unitOfWork, IT_OrderRepository repOder, IT_UserRepository repUser, IT_OrderDetailRepository repOrderDetailRepository, IT_PositionRepository repPositionRepository, IT_ProductRepository repProduct, IBLLRole _bllRole, IT_UserProductRepository repUserProduct, IBLLUserRole _bllUserRole)
+        public BllEmployee(IUnitOfWork<VINASICEntities> unitOfWork, IBllTiming bllTiming, IT_OrderRepository repOder, IT_UserRepository repUser, IT_OrderDetailRepository repOrderDetailRepository, IT_PositionRepository repPositionRepository, IT_ProductRepository repProduct, IBLLRole _bllRole, IT_UserProductRepository repUserProduct, IBLLUserRole _bllUserRole)
         {
             this.bllUserRole = _bllUserRole;
             _unitOfWork = unitOfWork;
@@ -37,6 +38,7 @@ namespace VINASIC.Business
             _repOrderDetailRepository = repOrderDetailRepository;
             _repOrderRepository = repOder;
             _repPositionRepository = repPositionRepository;
+            _bllTiming = bllTiming;
             bllRole = _bllRole;
         }
         private void SaveChange()
@@ -290,7 +292,7 @@ namespace VINASIC.Business
                     {
                         employ.SalaryObj = new List<SalaryObj>() {
                             new SalaryObj { Content = "Số ngày làm trong tháng",Amount=0,Index=1,Id=Guid.NewGuid(),Unit="Ngày" },
-                            new SalaryObj { Content = "Lương căn bản",Amount=0,Index=2,Id=Guid.NewGuid(),Unit="VND"  },
+                            new SalaryObj { Content = "Lương căn bản",Amount=0,Index=2,Id=Guid.NewGuid(),Unit="VND/Ngày"  },
                             new SalaryObj { Content = "Phụ Cấp",Amount=0,Index=3,Id=Guid.NewGuid(),Unit="VND"  },
                             new SalaryObj { Content = "Giảm trừ",Amount=0 ,Index=4,Id=Guid.NewGuid(),Unit="VND" },
                             new SalaryObj { Content = "Tổng",Amount=0,Index=5,Id=Guid.NewGuid(),Unit="VND" },
@@ -298,7 +300,28 @@ namespace VINASIC.Business
                     }
                     else
                     {
-                        employ.SalaryObj = JsonConvert.DeserializeObject<List<SalaryObj>>(employ.Salary);
+                        var salarys = JsonConvert.DeserializeObject<List<SalaryObj>>(employ.Salary);
+                        //var dayInmonth = salarys.Where(x=>x.Index==1).FirstOrDefault().Amount??0;
+                        double dayInmonth = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); ;
+                        var offDay = _bllTiming.GetTimingForEmployee(employ.Id);
+                        dayInmonth = dayInmonth - offDay;
+                        var standardfee = salarys.Where(x => x.Index == 2).FirstOrDefault().Amount??0;
+                        var allowance = salarys.Where(x => x.Index == 3).FirstOrDefault().Amount??0;
+                        var giamtru = salarys.Where(x => x.Index == 4).FirstOrDefault().Amount??0;
+                        var result = (dayInmonth * standardfee) + allowance - giamtru;
+                        
+                        foreach (var salary in salarys)
+                        {
+                            if (salary.Index==5)
+                            {
+                                salary.Amount = result;
+                            }
+                            if (salary.Index == 1)
+                            {
+                                salary.Amount = dayInmonth;
+                            }
+                        }
+                        employ.SalaryObj = salarys;
                     }
                 }
                 var pageNumber = (startIndexRecord / pageSize) + 1;

@@ -319,9 +319,9 @@ VINASIC.Employee = function () {
                 createAction: global.Element.PopupSalaryEdit,
             },
             messages: {
-                addNewRecord: 'Thêm Mới',
-                searchRecord: 'Tìm kiếm',
-                selectShow: 'Ẩn hiện cột'
+                //addNewRecord: 'Thêm Mới',
+                //searchRecord: 'Tìm kiếm',
+                //selectShow: 'Ẩn hiện cột'
             },
             fields: {
                 Id: {
@@ -364,27 +364,27 @@ VINASIC.Employee = function () {
                     title: "Đơn Vị",
                     width: "10%"
                 },
-                Delete: {
-                    title: 'Xóa',
-                    width: "3%",
-                    sorting: false,
-                    display: function (data) {
-                        var text = $('<button  title="Xóa" class="jtable-command-button jtable-delete-command-button"><span>Xóa</span></button>');
-                        text.click(function () {
-                            GlobalCommon.ShowConfirmDialog('Bạn có chắc chắn muốn xóa?', function () {
-                                removeItemInArray1(global.Data.listSalary, data.record.Id);
-                                reloadListSalary();
-                                //var total = 0;
-                                //for (var k = 0; k < global.Data.listSalary.length; k++) {
-                                //    total += parseFloat(global.Data.listSalary[k].Amount.replace(/[^0-9-.]/g, ''));
-                                //}
-                                //$("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                            }, function () { }, 'Đồng ý', 'Hủy bỏ', 'Thông báo');
-                        });
-                        return text;
+                //Delete: {
+                //    title: 'Xóa',
+                //    width: "3%",
+                //    sorting: false,
+                //    display: function (data) {
+                //        var text = $('<button  title="Xóa" class="jtable-command-button jtable-delete-command-button"><span>Xóa</span></button>');
+                //        text.click(function () {
+                //            GlobalCommon.ShowConfirmDialog('Bạn có chắc chắn muốn xóa?', function () {
+                //                removeItemInArray1(global.Data.listSalary, data.record.Id);
+                //                reloadListSalary();
+                //                //var total = 0;
+                //                //for (var k = 0; k < global.Data.listSalary.length; k++) {
+                //                //    total += parseFloat(global.Data.listSalary[k].Amount.replace(/[^0-9-.]/g, ''));
+                //                //}
+                //                //$("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                //            }, function () { }, 'Đồng ý', 'Hủy bỏ', 'Thông báo');
+                //        });
+                //        return text;
 
-                    }
-                }
+                //    }
+                //}
             }
         });
     }
@@ -490,6 +490,7 @@ VINASIC.Employee = function () {
                             while (global.Data.listSalary.length) {
                                 global.Data.listSalary.pop();
                             }
+                            debugger;
                             global.Data.listSalary.push.apply(global.Data.listSalary, data.record.SalaryObj);
                             global.Data.PcustomerName = data.record.Name
                             global.Data.PcustomePhone = data.record.Mobile
@@ -767,20 +768,28 @@ VINASIC.Employee = function () {
             dayNamesShort: ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'],
 
             dayClick: function (date, allDay, jsEvent, view) {
-                $('#eventTitle').val("");
+                //$('#eventTitle').val("");
                 var events = $('#calendar1').fullCalendar('clientEvents');
                 for (var i = 0; i < events.length; i++) {
                     if (moment(events[i].start).isSame(date, 'day')) {
-                        $('#eventTitle').val(events[i].title);
+                        if (events[i].title == '1') {
+                            document.getElementById('r1').checked = true
+
+                        }
+                        if (events[i].title == '0.5') {
+                            document.getElementById('r2').checked = true
+
+                        }
+                        //$('#eventTitle').val(events[i].title);
                     }
                 }
                 $('#eventDate').val($.fullCalendar.formatDate(date, 'dd/MM/yyyy'));
                 $('#eventTime').val($.fullCalendar.formatDate(date, 'HH:mm'));
                 showPopupTiming();
-                var delay = 500;
-                setTimeout(function () {
-                    $('#eventTitle').focus();
-                }, delay);
+                //var delay = 500;
+                //setTimeout(function () {
+                //    $('#eventTitle').focus();
+                //}, delay);
             },
             eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
                 revertFunc();
@@ -964,7 +973,7 @@ VINASIC.Employee = function () {
     /*End bootrap*/
     function ClearPopupFormValues() {
         $('#eventID').val("");
-        $('#eventTitle').val("");
+        //$('#eventTitle').val("");
         $('#eventDateTime').val("");
         $('#eventDuration').val("");
     }
@@ -1070,8 +1079,15 @@ VINASIC.Employee = function () {
 
             $("#" + global.Element.PopupTiming).modal("hide");
 
+            var event = "";
+            if (document.getElementById('r1').checked) {
+                event = "1";
+            }
+            if (document.getElementById('r2').checked) {
+                event = "0.5";
+            }
             var dataRow = {
-                'Title': $('#eventTitle').val(),
+                'Title': event,
                 'NewEventDate': $('#eventDate').val(),
                 'NewEventTime': $('#eventTime').val(),
                 'NewEventDuration': $('#eventDuration').val(),
@@ -1089,6 +1105,7 @@ VINASIC.Employee = function () {
 
                         $('#calendar1').fullCalendar('refetchEvents');
                         toastr.success('Chấm công thành công');
+                        reloadListEmployee();
                     }
                     else {
                         toastr.warning('Chấm công thất bại');
