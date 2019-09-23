@@ -269,6 +269,7 @@ namespace VINASIC.Business
                 foreach (var employ in employees)
                 {
                     var listRole = bllRole.GetListRoleByUser(employ.Id);
+                 
                     if (listRole != null && listRole.Count > 0)
                     {
                         employ.stringRoleName = "";
@@ -287,11 +288,11 @@ namespace VINASIC.Business
                         }
                     }
 
-
+                    double dayInmonth = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
                     if (employ.Salary == null)
                     {
                         employ.SalaryObj = new List<SalaryObj>() {
-                            new SalaryObj { Content = "Số ngày làm trong tháng",Amount=0,Index=1,Id=Guid.NewGuid(),Unit="Ngày" },
+                            new SalaryObj { Content = "Số ngày làm trong tháng",Amount=dayInmonth,Index=1,Id=Guid.NewGuid(),Unit="Ngày" },
                             new SalaryObj { Content = "Lương căn bản",Amount=0,Index=2,Id=Guid.NewGuid(),Unit="VND/Ngày"  },
                             new SalaryObj { Content = "Phụ Cấp",Amount=0,Index=3,Id=Guid.NewGuid(),Unit="VND"  },
                             new SalaryObj { Content = "Giảm trừ",Amount=0 ,Index=4,Id=Guid.NewGuid(),Unit="VND" },
@@ -301,10 +302,10 @@ namespace VINASIC.Business
                     else
                     {
                         var salarys = JsonConvert.DeserializeObject<List<SalaryObj>>(employ.Salary);
-                        //var dayInmonth = salarys.Where(x=>x.Index==1).FirstOrDefault().Amount??0;
-                        double dayInmonth = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); ;
+                        var note = string.Empty;
                         var offDay = _bllTiming.GetTimingForEmployee(employ.Id);
-                        dayInmonth = dayInmonth - offDay;
+                        dayInmonth =  dayInmonth - double.Parse( offDay[1]);
+                         note = offDay[2];
                         var standardfee = salarys.Where(x => x.Index == 2).FirstOrDefault().Amount??0;
                         var allowance = salarys.Where(x => x.Index == 3).FirstOrDefault().Amount??0;
                         var giamtru = salarys.Where(x => x.Index == 4).FirstOrDefault().Amount??0;
@@ -322,7 +323,9 @@ namespace VINASIC.Business
                             }
                         }
                         employ.SalaryObj = salarys;
+                        employ.Note = note;
                     }
+                  
                 }
                 var pageNumber = (startIndexRecord / pageSize) + 1;
                 return new PagedList<ModelUser>(employees, pageNumber, pageSize);

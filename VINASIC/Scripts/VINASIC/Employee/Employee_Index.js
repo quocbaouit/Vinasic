@@ -51,6 +51,7 @@ VINASIC.Employee = function () {
             ModelConfig: {},
             UserId: 0,
             listSalary: [],
+            Note:'',
             listSelectRole: [],
             UserRoleModel: { UserId: 0, ListRole: [] },
             ListSelectProductModel: { UserId: 0, ListSelectProduct: [] },
@@ -62,7 +63,7 @@ VINASIC.Employee = function () {
     this.GetGlobal = function () {
         return global;
     };
-    function renderTable(Table,name,address,mobile) {
+    function renderTable(Table,strNote) {
         var tableString = "<table id=\"renderTable\" border=\"1\" style=\"width:100%\" cellspacing=\"0\" cellpadding=\"0\">";
         var root = document.getElementById('Block4');
         document.getElementById("Block4").innerHTML = "";
@@ -70,6 +71,7 @@ VINASIC.Employee = function () {
         tableString += "<th style=\"padding-left: 5px;text-align: left;\">" + "Nội Dung" + "</th>";
         tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Số Lượng" + "</th>";
         tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Đơn Vị" + "</th>";
+        tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Ghi Chú" + "</th>";
         tableString += "</tr>";
         for (row = 0; row < Table.length; row += 1) {
             var strAmount = Table[row].Amount.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
@@ -77,6 +79,10 @@ VINASIC.Employee = function () {
             tableString += "<td style=\"padding-left: 5px;\">" + Table[row].Content + "</td>";
             tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strAmount + "</td>";
             tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + Table[row].Unit + "</td>";
+            if (row==0) {
+                tableString += "<td rowspan=9 style=\"vertical-align: text-top;padding-left: 10px;max-width: 90px;overflow-x: hidden;word-break: break-word;\">" + strNote + "</td>";
+            }
+           
             tableString += "</tr>";
         }
 
@@ -486,6 +492,7 @@ VINASIC.Employee = function () {
                         var text = $("<a href=\"javascript:void(0)\"  class=\"clickable\" title=\"Chỉnh sửa thông tin.\">" + "Xem Bảng Lương" + "</a>");
                         text.click(function () {
                             debugger;
+                            global.Data.Note = data.record.Note;
                             global.Data.UserId = data.record.Id;
                             while (global.Data.listSalary.length) {
                                 global.Data.listSalary.pop();
@@ -780,6 +787,10 @@ VINASIC.Employee = function () {
                             document.getElementById('r2').checked = true
 
                         }
+                        if (events[i].title == '0') {
+                            document.getElementById('r3').checked = true
+
+                        }
                         //$('#eventTitle').val(events[i].title);
                     }
                 }
@@ -1042,7 +1053,10 @@ VINASIC.Employee = function () {
             SaveUserRole();
         });
         $("#printSalary").click(function () {
-            renderTable(global.Data.listSalary);
+            if (global.Data.Note == undefined) {
+                global.Data.Note = '';
+            }
+            renderTable(global.Data.listSalary, global.Data.Note);
             var time = new Date().toLocaleDateString('en-GB');
             $("#no1").html("");
             $("#vcustomer1").html("");
@@ -1085,6 +1099,9 @@ VINASIC.Employee = function () {
             }
             if (document.getElementById('r2').checked) {
                 event = "0.5";
+            }
+            if (document.getElementById('r3').checked) {
+                event = "";
             }
             var dataRow = {
                 'Title': event,

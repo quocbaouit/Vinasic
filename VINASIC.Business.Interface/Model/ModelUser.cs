@@ -19,6 +19,8 @@ namespace VINASIC.Business.Interface.Model
 
         public List<int> ListRoleId { get; set; } 
         public List<SalaryObj> SalaryObj { get; set; }
+
+        public string Note { get; set; }
     }
     public class Subscription
     {
