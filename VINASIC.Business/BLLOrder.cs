@@ -19,6 +19,7 @@ namespace VINASIC.Business
     public class BllOrder : IBllOrder
     {
         private readonly IT_OrderRepository _repOrder;
+        private readonly IT_PaymentVoucherRepository _repPaymentVoucher;
         private readonly IT_CustomerRepository _repCus;
         private readonly IT_SiteSettingRepository _repSite;
         private readonly IT_UserRepository _repUser;
@@ -26,10 +27,11 @@ namespace VINASIC.Business
         private readonly IT_OrderDetailRepository _repOrderDetail;
         private readonly IUnitOfWork<VINASICEntities> _unitOfWork;
         private readonly TimeZoneInfo curentZone = TimeZoneInfo.FindSystemTimeZoneById(ConfigurationManager.AppSettings["WEBSITE_TIME_ZONE"]);
-        public BllOrder(IUnitOfWork<VINASICEntities> unitOfWork, IT_OrderRepository repOrder, IT_ContentRepository repContent, IT_OrderDetailRepository repOrderDetail, IT_CustomerRepository repCus, IT_UserRepository repUserRepository, IT_SiteSettingRepository repSite)
+        public BllOrder(IUnitOfWork<VINASICEntities> unitOfWork, IT_PaymentVoucherRepository repPaymentVoucher, IT_OrderRepository repOrder, IT_ContentRepository repContent, IT_OrderDetailRepository repOrderDetail, IT_CustomerRepository repCus, IT_UserRepository repUserRepository, IT_SiteSettingRepository repSite)
         {
             _unitOfWork = unitOfWork;
             _repOrder = repOrder;
+            _repPaymentVoucher = repPaymentVoucher;
             _repOrderDetail = repOrderDetail;
             _repUser = repUserRepository;
             _repContent = repContent;
