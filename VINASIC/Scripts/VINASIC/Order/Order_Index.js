@@ -221,7 +221,7 @@ VINASIC.Order = function () {
     }
     function reloadListOrder(orderStatus) {
         if (orderStatus == undefined) {
-            orderStatus = -1;
+            orderStatus = 1;
         }
         var keySearch = $("#keyword").val();
         //var fromDate = $("#datefrom").val();
