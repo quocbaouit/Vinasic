@@ -43,6 +43,8 @@ VINASIC.Order = function () {
             PopupCostEdit: "popup_cost_edit"
         },
         Data: {
+            listproduct: [],
+            listproductName: [],
             ModelOrder: {},
             ModelOrderDetail: [],
             ModelConfig: {},
@@ -79,7 +81,7 @@ VINASIC.Order = function () {
     this.GetGlobal = function () {
         return global;
     };
-    function renderTable(Table,subTotal,haspay) {
+    function renderTable(Table, subTotal, haspay) {
         var tableString = "<table id=\"renderTable\" border=\"1\" style=\"width:100%\" cellspacing=\"0\" cellpadding=\"0\">";
         var root = document.getElementById('Block4');
         document.getElementById("Block4").innerHTML = "";
@@ -148,7 +150,7 @@ VINASIC.Order = function () {
             if (document.getElementById('show-dim').checked)
                 colspan = 6;
             tableString += "<td colspan=\"" + colspan + "\">Tổng Tiền:</td>";
-            tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal2\">" + strSubTotal1+"</span></td>";
+            tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal2\">" + strSubTotal1 + "</span></td>";
             tableString += "</tr>";
 
             tableString += "<tr>";
@@ -156,19 +158,19 @@ VINASIC.Order = function () {
             if (document.getElementById('show-dim').checked)
                 colspan = 6;
             tableString += "<td colspan=\"" + colspan + "\">Đã Thanh Toán:</td>";
-            tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal3\">" + strHaspay1+"</span></td>";
+            tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal3\">" + strHaspay1 + "</span></td>";
             tableString += "</tr>";
 
-        }       
+        }
         tableString += "<tr>";
         var colspan = 4;
         if (document.getElementById('show-dim').checked)
             colspan = 6;
-        tableString += "<td colspan=\"" + colspan + "\">" + strThanhToan+":</td>";
+        tableString += "<td colspan=\"" + colspan + "\">" + strThanhToan + ":</td>";
         tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal1\">55577854</span></td>";
         tableString += "</tr>";
         tableString += "<tr>";
-        tableString += "<td colspan=\"" + (colspan+1)+"\">Bằng Chữ:<span id=\"strtotal1\">Test </span></td>";
+        tableString += "<td colspan=\"" + (colspan + 1) + "\">Bằng Chữ:<span id=\"strtotal1\">Test </span></td>";
         tableString += "</tr>";
         tableString += "</table>";
         root.innerHTML = tableString;
@@ -220,7 +222,7 @@ VINASIC.Order = function () {
     }
     function reloadListOrder(orderStatus) {
         if (orderStatus == undefined) {
-            orderStatus = 1;
+            orderStatus = -1;
         }
         var keySearch = $("#keyword").val();
         //var fromDate = $("#datefrom").val();
@@ -292,6 +294,13 @@ VINASIC.Order = function () {
             };
         }
     }
+    function search(nameKey, myArray) {
+        for (var i = 0; i < myArray.length; i++) {
+            if (myArray[i].Text === nameKey) {
+                return myArray[i];
+            }
+        }
+    }
     /*function init model using knockout Js*/
     function initViewModel(order) {
         var orderViewModel = {
@@ -317,7 +326,7 @@ VINASIC.Order = function () {
     /*end function*/
     /*function show Popup*/
     function showPopupDesignProcess() {
-        debugger;
+
         //$('#DesignDescription').val('');
         //$('#DesignDescription').val(content);
         $("#" + global.Element.PopupDesignProcess).modal("show");
@@ -403,7 +412,7 @@ VINASIC.Order = function () {
                     toastr.error(result.Message);
                 });
             }
-        }); 
+        });
     }
     function updateCost(orderId, cost) {
         if (cost == "") cost = 0;
@@ -538,7 +547,7 @@ VINASIC.Order = function () {
             }
         });
     }
-    function updateOrderStatus2(orderId, status,sendSMS,sendMail) {
+    function updateOrderStatus2(orderId, status, sendSMS, sendMail) {
         $.ajax({
             url: "/Order/UpdateOrderStatus?orderId=" + orderId + "&status=" + status + "&sendSMS=" + sendSMS + "&sendEmail=" + sendMail,
             type: 'post',
@@ -557,8 +566,8 @@ VINASIC.Order = function () {
             }
         });
     }
-    function updateDetailStatus(detailId, status, employeeUpdateId,content) {
-        debugger;
+    function updateDetailStatus(detailId, status, employeeUpdateId, content) {
+
         $.ajax({
             url: "/Order/UpdateDetailStatus?detailId=" + detailId + "&status=" + status + "&employeeId=" + employeeUpdateId + "&content=" + content,
             type: 'post',
@@ -578,7 +587,7 @@ VINASIC.Order = function () {
         });
     }
     function GetJobDescriptionForEmployee(detailId, status, employeeUpdateId, content) {
-        debugger;
+
         $.ajax({
             url: "/Order/GetJobDescriptionForEmployee?detailId=" + detailId + "&status=" + status + "&employeeId=" + employeeUpdateId + "&content=" + content,
             type: 'post',
@@ -587,7 +596,7 @@ VINASIC.Order = function () {
                 $('#loading').hide();
                 GlobalCommon.CallbackProcess(result, function () {
                     if (result.Result === "OK") {
-                        debugger;
+
                         $("#dDescription").val(result.Data);
                         showPopupDesignProcess();
                     }
@@ -798,7 +807,7 @@ VINASIC.Order = function () {
                     display: function (data) {
                         var text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Chỉnh sửa thông tin.\">" + data.record.CustomerName + "</a>");
                         text.click(function () {
-                            debugger;
+
                             bindData(data.record);
                             showPopupDesign();
                         });
@@ -891,7 +900,7 @@ VINASIC.Order = function () {
             selectingCheckboxes: true, //Show checkboxes on first column
             selectOnRowClick: false,
             recordsLoaded: function (event, data) {
-                debugger;
+
                 var SumA = data.serverResponse.Data[0].Value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                 var SumB = data.serverResponse.Data[1].Value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                 var SumC = data.serverResponse.Data[2].Value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
@@ -932,20 +941,20 @@ VINASIC.Order = function () {
                         window.location = url;
                     }
                 },
-                    {
-                        tooltip: 'Click here to export this table to excel',
-                        text: 'Export to Excel',
-                        click: function () {
-                            var keySearch = $("#keyword").val();
-                            var fromDate = $("#datefrom").val();
-                            var toDate = $("#dateto").val();
-                            var employee = $("#cemployee1").val();
-                            var delivery = $("#DeliveryType").val();
-                            var paymentStatus = $("#PaymentStatus").val();
-                            var url = "/Order/ExportReport?fromDate=" + fromDate + "&toDate=" + toDate + "&employee=" + employee + "&keySearch=" + keySearch + "&delivery=" + delivery + "&paymentStatus=" + paymentStatus + "&type=" + 0;
-                            window.location = url;
-                        }
-                    }]
+                {
+                    tooltip: 'Click here to export this table to excel',
+                    text: 'Export to Excel',
+                    click: function () {
+                        var keySearch = $("#keyword").val();
+                        var fromDate = $("#datefrom").val();
+                        var toDate = $("#dateto").val();
+                        var employee = $("#cemployee1").val();
+                        var delivery = $("#DeliveryType").val();
+                        var paymentStatus = $("#PaymentStatus").val();
+                        var url = "/Order/ExportReport?fromDate=" + fromDate + "&toDate=" + toDate + "&employee=" + employee + "&keySearch=" + keySearch + "&delivery=" + delivery + "&paymentStatus=" + paymentStatus + "&type=" + 0;
+                        window.location = url;
+                    }
+                }]
             },
             actions: {
                 listAction: global.UrlAction.GetListOrder
@@ -1006,7 +1015,7 @@ VINASIC.Order = function () {
                                         var textNVTK = '';
                                         var textNVIN = '';
                                         var textNVGC = '';
-                                        debugger;
+
                                         var strStatus = getOrderDetailStatus(data.record.DetailStatus);
                                         for (var i = 0; i < arrayNVTK.length; i++) {
                                             textNVTK = textNVTK + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVTK[i].Id + ' class="detailstatus1" href="#">' + arrayNVTK[i].Name + '</a></li>';
@@ -1064,7 +1073,7 @@ VINASIC.Order = function () {
                                     title: 'Thành Tiền',
                                     width: '10%'
                                 },
-                                
+
                             };
                         }
                         else {
@@ -1103,7 +1112,7 @@ VINASIC.Order = function () {
                                         var textNVTK = '';
                                         var textNVIN = '';
                                         var textNVGC = '';
-                                        debugger;
+
                                         var strStatus = getOrderDetailStatus(data.record.DetailStatus);
                                         for (var i = 0; i < arrayNVTK.length; i++) {
                                             textNVTK = textNVTK + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVTK[i].Id + ' class="detailstatus1" href="#">' + arrayNVTK[i].Name + '</a></li>';
@@ -1157,7 +1166,7 @@ VINASIC.Order = function () {
                                         var textNVTK = '';
                                         var textNVIN = '';
                                         var textNVGC = '';
-                                        debugger;
+
                                         var strStatus = getOrderDetailStatus(data.record.DetailStatus);
                                         for (var i = 0; i < arrayNVTK.length; i++) {
                                             textNVTK = textNVTK + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVTK[i].Id + ' class="detailstatus1" href="#">' + arrayNVTK[i].Name + '</a></li>';
@@ -1252,7 +1261,7 @@ VINASIC.Order = function () {
                             $("#cmail").val(data.record.CustomerEmail);
                             $("#caddress").val(data.record.CustomerAddress);
                             $("#ctaxcode").val(data.record.CustomerTaxCode);
-                            document.getElementById("dtax").checked = data.record.HasTax;
+                            //document.getElementById("dtax").checked = data.record.HasTax;
                             global.Data.OrderId = data.record.Id;
                             while (global.Data.ModelOrderDetail.length) {
                                 global.Data.ModelOrderDetail.pop();
@@ -1297,7 +1306,7 @@ VINASIC.Order = function () {
                     title: 'Ngày Giao Hàng',
                     width: "8%",
                     display: function (data) {
-                        debugger;
+
                         var text = '';
                         if (new Date(data.record.DeliveryDate.match(/\d+/)[0] * 1).getTime() == new Date(moment(new Date()).format("YYYY/MM/DD")).getTime()) {
                             text = $('<a  href="javascript:void(0)" style="color:red;"  class="clickable"  data-target="#popup_Order" title="Ngày giao hàng.">' + data.record.StrDeliveryDate + '</a>');
@@ -1308,19 +1317,19 @@ VINASIC.Order = function () {
                         return text;
                     }
 
-                },               
-                HasTax: {
-                    title: "Có Thuế",
-                    width: "3%",
-                    display: function (data) {
-                        var elementDisplay = "";
-                        if (data.record.HasTax) { elementDisplay = "<input  type='checkbox' checked='checked' disabled/>"; }
-                        else {
-                            elementDisplay = "<input  type='checkbox' disabled />";
-                        }
-                        return elementDisplay;
-                    }
                 },
+                //HasTax: {
+                //    title: "Có Thuế",
+                //    width: "3%",
+                //    display: function (data) {
+                //        var elementDisplay = "";
+                //        if (data.record.HasTax) { elementDisplay = "<input  type='checkbox' checked='checked' disabled/>"; }
+                //        else {
+                //            elementDisplay = "<input  type='checkbox' disabled />";
+                //        }
+                //        return elementDisplay;
+                //    }
+                //},
                 strSubTotal: {
                     title: "Tổng Tiền",
                     width: "7%"
@@ -1513,7 +1522,7 @@ VINASIC.Order = function () {
             }
         });
     }
-    function initListViewDetail() {      
+    function initListViewDetail() {
         $("#" + global.Element.jtableViewDetail).jtable({
             title: "Danh Sách Chi Tiết Đơn Hàng",
             paging: true,
@@ -1647,7 +1656,7 @@ VINASIC.Order = function () {
     }
 
     function initListCost() {
-        debugger;
+
         $('#' + global.Element.JtableCost).jtable({
             title: 'Chi Phí',
             paging: true,
@@ -1724,9 +1733,11 @@ VINASIC.Order = function () {
     function initComboBoxAllProduct(productId) {
         var url = "/Order/GetListProduct?productType=0";
         $.getJSON(url, function (datas) {
+            global.Data.listproduct = datas;
             $("#dproduct").empty();
             if (datas.length > 0) {
                 for (var i = 0; i < datas.length; i++) {
+                    global.Data.listproductName.push(datas[i].Text);
                     $("#dproduct").append('<option value="' + datas[i].Value + '">' + datas[i].Text + "</option>");
                 }
                 $("#dproduct").val(productId);
@@ -1758,7 +1769,7 @@ VINASIC.Order = function () {
                     display: function (data) {
                         var text = $('<a href="javascript:void(0)" class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + data.record.CommodityName + '</a>');
                         text.click(function () {
-                            initComboBoxAllProduct(data.record.CommodityId);
+                            //initComboBoxAllProduct(data.record.CommodityId);
                             global.Data.Idnew = data.record.CommodityId;
                             $("#dfilename").val(data.record.FileName);
                             $("#dnote").val(data.record.Description);
@@ -1827,10 +1838,10 @@ VINASIC.Order = function () {
                                 }
                                 $("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                                 $("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                                if (document.getElementById("dtax").checked == true) {
-                                    var totaltax = global.Data.OrderTotal * 0.1 + global.Data.OrderTotal;
-                                    $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                                }
+                                //if (document.getElementById("dtax").checked == true) {
+                                //    var totaltax = global.Data.OrderTotal * 0.1 + global.Data.OrderTotal;
+                                //    $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                                //}
                             }, function () { }, 'Đồng ý', 'Hủy bỏ', 'Thông báo');
                         });
                         return text;
@@ -1912,10 +1923,10 @@ VINASIC.Order = function () {
                                 }
                                 $("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                                 $("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                                if (document.getElementById("dtax").checked == true) {
-                                    var totaltax = global.Data.OrderTotal * 0.1 + global.Data.OrderTotal;
-                                    $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                                }
+                                //if (document.getElementById("dtax").checked == true) {
+                                //    var totaltax = global.Data.OrderTotal * 0.1 + global.Data.OrderTotal;
+                                //    $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                                //}
                             }, function () { }, 'Đồng ý', 'Hủy bỏ', 'Thông báo');
                         });
                         return text;
@@ -1978,7 +1989,8 @@ VINASIC.Order = function () {
                     var customerAddress = $("#caddress").val();
                     var customerTaxCode = $("#ctaxcode").val();
                     var dateDelivery = $("#date").val();
-                    var tax = document.getElementById("dtax").checked;
+                    //var tax = document.getElementById("dtax").checked;
+                    var tax = false;
                     var totalIncludeTax = $("#dtotal").val().replace(/[^0-9-.]/g, '');
                     totalIncludeTax = parseFloat(totalIncludeTax);
                     if (tax) {
@@ -2048,7 +2060,7 @@ VINASIC.Order = function () {
             }
         });
     }
-    function initComboBoxProduct(id) {
+    function initComboBoxProduct(id,prePresect) {
         var url = "/Order/GetListProduct?productType=" + id;
         $.getJSON(url, function (datas) {
             $('#dproduct').empty();
@@ -2056,6 +2068,9 @@ VINASIC.Order = function () {
                 for (var i = 0; i < datas.length; i++) {
                     $('#dproduct').append('<option value="' + datas[i].Value + '">' + datas[i].Text + '</option>');
                 }
+            }
+            if (prePresect != undefined) {
+                $('#dproduct').val(prePresect);
             }
             else {
                 $('#dproduct').append('<option value="0">Không Có Dữ Liệu </option>');
@@ -2082,7 +2097,7 @@ VINASIC.Order = function () {
             show: false
         });
         $("#" + global.Element.PopupDesignProcess + " button[save]").click(function () {
-            debugger;
+
             var designId = $("#dDesignName").val();
             var description = $("#dDescription").val();
             updateDetailStatus(global.Data.IdDetailStatus, global.Data.DetailStatus, employeeUpdateId, description);
@@ -2172,12 +2187,12 @@ VINASIC.Order = function () {
             var check = document.getElementById('type2').checked;
 
             if (check) {
-                if (global.Data.NumberDetail > 9) {
-                    toastr.warning('Chi tiết đơn hàng này quá nhiều vui lòng chọn kiểu in khác');
-                }
-                else {
-                    printPanel1();
-                }
+                //if (global.Data.NumberDetail > 9) {
+                //    toastr.warning('Chi tiết đơn hàng này quá nhiều vui lòng chọn kiểu in khác');
+                //}
+                //else {
+                printPanel1();
+                //}
 
             }
             else {
@@ -2231,10 +2246,10 @@ VINASIC.Order = function () {
                 var roundtotal = decimalAdjust('round', total, 0);
                 $("#dsubtotal").val(roundtotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                 $("#dtotaltax").val(roundtotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                if (document.getElementById("dtax").checked == true) {
-                    var totaltax = roundtotal * 0.1 + roundtotal;
-                    $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                }
+                //if (document.getElementById("dtax").checked == true) {
+                //    var totaltax = roundtotal * 0.1 + roundtotal;
+                //    $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                //}
             }
             else {
                 $("#dsubtotal").val("");
@@ -2293,7 +2308,7 @@ VINASIC.Order = function () {
             show: false
         });
         $("#" + global.Element.PopupNotification + ' button[save]').click(function () {
-            debugger;
+
             var orderId = global.Data.OrderId;
             var sendSMS = document.getElementById("sendSMS").checked;
             var sendEmail = document.getElementById("sendEmail").checked;
@@ -2442,7 +2457,7 @@ VINASIC.Order = function () {
             document.getElementById("date").defaultValue = new Date().toISOString().substring(0, 10);
             $("#cname").attr("disabled", false);
             $("#cphone").attr("disabled", false);
-            document.getElementById("dtax").checked = false;
+            //document.getElementById("dtax").checked = false;
             resetAll();
             var ClientId = document.getElementById("ClientId").innerHTML;
             global.Data.CurenIndex = 0;
@@ -2481,7 +2496,7 @@ VINASIC.Order = function () {
             event.preventDefault();
             //showPopupDesignProcess();
             global.Data.DetailStatus = 1;
-           GetJobDescriptionForEmployee(global.Data.IdDetailStatus, 1, employeeUpdateId);
+            GetJobDescriptionForEmployee(global.Data.IdDetailStatus, 1, employeeUpdateId);
         });
         $("body").delegate(".detailstatus3", "click", function (event) {
             event.preventDefault();
@@ -2543,7 +2558,7 @@ VINASIC.Order = function () {
             $("#dprice").val(tempValue.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
         });
         $("#prealpay").keyup(function () {
-            debugger;
+
             var tempValue = $(this).val().replace(/[^0-9-.]/g, '');
             if (parseFloat($(this).val().replace(/[^0-9-.]/g, '')) > parseFloat($('#ppayment').val().replace(/[^0-9-.]/g, ''))) {
                 tempValue = $('#ppayment').val().replace(/[^0-9-.]/g, '');
@@ -2626,10 +2641,10 @@ VINASIC.Order = function () {
                         $("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                         //global.Data.OrderTotal = global.Data.OrderTotal.replace(/[^0-9-.]/g, '');
                         $("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                        if (document.getElementById("dtax").checked == true) {
-                            var totaltax = global.Data.OrderTotal * 0.1 + global.Data.OrderTotal;
-                            $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                        }
+                        //if (document.getElementById("dtax").checked == true) {
+                        //    var totaltax = global.Data.OrderTotal * 0.1 + global.Data.OrderTotal;
+                        //    $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                        //}
 
                     } else {
                         var object1 = { Id: 0, Index: objectIndex, CommodityId: $("#dproduct").val(), CommodityName: $("#dproduct option:selected").text(), FileName: $("#dfilename").val(), Description: $("#dnote").val(), Width: $("#dwidth").val(), Height: $("#dheignt").val(), Square: $("#dsquare").val(), Quantity: $("#dquantity").val(), SumSquare: $("#dsumsquare").val(), Price: $("#dprice").val(), SubTotal: $("#dsubtotal").val() }
@@ -2640,10 +2655,10 @@ VINASIC.Order = function () {
                         }
                         $("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                         $("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                        if (document.getElementById("dtax").checked == true) {
-                            var totaltax = global.Data.OrderTotal * 0.1 + global.Data.OrderTotal;
-                            $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                        }
+                        //if (document.getElementById("dtax").checked == true) {
+                        //    var totaltax = global.Data.OrderTotal * 0.1 + global.Data.OrderTotal;
+                        //    $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                        //}
                         //global.Data.OrderTotal = global.Data.OrderTotal.replace(/[^0-9-.]/g, '');
                     }
 
@@ -2653,21 +2668,21 @@ VINASIC.Order = function () {
                 }
             }
         });
-        $("#dtax").change(function () {
-            var subtotal = $("#dtotal").val().replace(/[^0-9-.]/g, '');
-            if (subtotal == "") {
-                $("#dtotaltax").val("");
-            } else {
-                subtotal = parseFloat(subtotal);
-                if (this.checked) {
-                    var totaltax = subtotal * 0.1 + subtotal;
-                    $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                } else {
-                    $("#dtotaltax").val(subtotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                }
-            }
+        //$("#dtax").change(function () {
+        //    var subtotal = $("#dtotal").val().replace(/[^0-9-.]/g, '');
+        //    if (subtotal == "") {
+        //        $("#dtotaltax").val("");
+        //    } else {
+        //        subtotal = parseFloat(subtotal);
+        //        if (this.checked) {
+        //            var totaltax = subtotal * 0.1 + subtotal;
+        //            $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+        //        } else {
+        //            $("#dtotaltax").val(subtotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+        //        }
+        //    }
 
-        });
+        //});
         $('#datefrom').keydown(function (e) {
             if (e.which === 13) { //Enter
                 e.preventDefault();
@@ -2730,7 +2745,7 @@ VINASIC.Order = function () {
             $("#cname").autocomplete({
                 source: global.Data.ListCustomerName,
                 //focus: function (a, b) {
-                //    debugger;
+                //    
                 //    var cusName = b.item.value;
                 //    $.ajax({
                 //        url: "/Order/GetCustomerByName?customerName=" + cusName,
@@ -2802,15 +2817,27 @@ VINASIC.Order = function () {
                     });
                 }
             });
+            $("#dproductSuggest").autocomplete({
+                source: global.Data.listproductName,
+                select: function (a, b) {       
+                    var cusName = b.item.value;
+                    var resultObject = search(cusName, global.Data.listproduct);
+                    if (resultObject != undefined) {                
+                        $('#dproductType').val(resultObject.Type);
+                        initComboBoxProduct(0, resultObject.Value);                  
+                    }
+                }
+            });
         });
     }
     this.Init = function () {
         registerEvent();
-        document.getElementById("datefrom").defaultValue = new Date(new Date() - 24*1 * 60 * 60 * 1000).toISOString().substring(0, 10);
+        initComboBoxAllProduct(0);
+        document.getElementById("datefrom").defaultValue = new Date(new Date() - 24 * 1 * 60 * 60 * 1000).toISOString().substring(0, 10);
         var dateTo = new Date();
         dateTo.setDate(dateTo.getDate() + 1);
         document.getElementById("dateto").defaultValue = dateTo.toISOString().substring(0, 10);
-        document.getElementById("subdatefrom").defaultValue = new Date(new Date() - 24*1 * 60 * 60 * 1000).toISOString().substring(0, 10);
+        document.getElementById("subdatefrom").defaultValue = new Date(new Date() - 24 * 1 * 60 * 60 * 1000).toISOString().substring(0, 10);
         document.getElementById("subdateto").defaultValue = dateTo.toISOString().substring(0, 10);
         initComboBoxBusiness();
         initComboBoxBusiness1();
@@ -2845,6 +2872,7 @@ VINASIC.Order = function () {
                 GlobalCommon.CallbackProcess(result, function () {
                     if (1 < 2) {
                         global.Data.ListCustomerName = result.Records;
+                        debugger;
                         mappingAutoComplete();
                     }
 

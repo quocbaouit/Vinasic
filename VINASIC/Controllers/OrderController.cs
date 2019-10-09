@@ -13,6 +13,7 @@ using OfficeOpenXml.Style;
 using VINASIC.Business.Interface;
 using VINASIC.Business.Interface.Model;
 using VINASIC.Infrastructure.ActionExtention;
+using VINASIC.Models;
 
 namespace VINASIC.Controllers
 {
@@ -375,14 +376,15 @@ namespace VINASIC.Controllers
         {
             try
             {
-                List<SelectListItem> listValues = new List<SelectListItem>();
+                List<SelectListItemExtent> listValues = new List<SelectListItemExtent>();
                 var listProductType = _bllProduct.GetListProduct(productType);
                 if (listProductType != null)
                 {
-                    listValues = listProductType.Select(c => new SelectListItem()
+                    listValues = listProductType.Select(c => new SelectListItemExtent()
                     {
                         Value = c.Value.ToString(),
-                        Text = c.Name
+                        Text = c.Name,
+                        Type=c.Type
                     }).ToList();
                 }
                 return Json(listValues, JsonRequestBehavior.AllowGet);
