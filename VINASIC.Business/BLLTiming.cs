@@ -14,6 +14,7 @@ using VINASIC.Object;
 using System.Globalization;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Text;
 
 namespace VINASIC.Business
 {
@@ -189,6 +190,337 @@ namespace VINASIC.Business
             _repTiming.Add(timing);
             SaveChange();
             return timing;
+        }
+
+        public Dictionary<int,string>  GetTimingForEmployee(int imployId)
+        {
+            var result = new Dictionary<int, string>();
+            var month = DateTime.Now.Month;
+            var year = DateTime.Now.Year;
+            var exitTiming = _repTiming.Get(x => x.TimingMonth == month && x.EmployeeId == imployId && x.TimingYear == year);
+            StringBuilder strOffdays = new StringBuilder();
+            if (exitTiming !=null)
+            {
+                double offDate = 0;
+                if (exitTiming.Day1 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("1/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day1 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("1/{0} nghỉ 1 ngày</br>", month));
+                }
+
+                if (exitTiming.Day2 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("2/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day2 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("2/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day3 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("3/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day3 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("3/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day4 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("4/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day4 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("4/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day5 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("5/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day5 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("5/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day6 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("6/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day6 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("6/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day7 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("7/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day7 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("7/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day8 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("8/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day8 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("8/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day9 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("9/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day9 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("9/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day10 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("10/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day10 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("10/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day11 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("11/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day11 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("11/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day12 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("12/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day12 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("12/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day13 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("13/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day13 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("13/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day14 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("14/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day14 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("14/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day15 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("15/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day15 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("15/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day16 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("18/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day16 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("18/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day17 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("17/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day17 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("17/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day18 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("18/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day18 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("18/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day19 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("19/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day19 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("19/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day20 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("20/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day20 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("20/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day21 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("21/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day21 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("21/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day22 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("22/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day22 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("22/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day23 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("23/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day23 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("23/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day24 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("24/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day24 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("24/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day25 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("25/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day25 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("25/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day26 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("26/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day26 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("26/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day27 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("27/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day27 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("27/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day28 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("28/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day28 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("28/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day29 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("29/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day29 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("29/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day30 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("30/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day30 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("30/{0} nghỉ 1 ngày</br>", month));
+                }
+                if (exitTiming.Day31 == "0.5")
+                {
+                    offDate = offDate + 0.5;
+                    strOffdays.Append(string.Format("31/{0} nghỉ 1/2 ngày</br>", month));
+                }
+                if (exitTiming.Day31 == "1")
+                {
+                    offDate = offDate + 1;
+                    strOffdays.Append(string.Format("31/{0} nghỉ 1 ngày</br>", month));
+                }
+              
+                result.Add(1,offDate.ToString());
+                result.Add(2, strOffdays.ToString());
+                return result;
+            }
+            result.Add(1, 0.ToString());
+            result.Add(2, "");
+            return result;
         }
         public bool CreateNewEvent(string Title, string NewEventDate, string NewEventTime, string NewEventDuration,int id)
         {

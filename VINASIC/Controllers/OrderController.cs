@@ -33,7 +33,7 @@ namespace VINASIC.Controllers
             _bllCustomer = bllCustomer;
             _bllProductType = bllProductType;
             _bllProduct = bllProduct;
-            
+
         }
         public ActionResult Index()
         {
@@ -83,7 +83,17 @@ namespace VINASIC.Controllers
                 var listOrder = _bllOrder.GetList(UserContext.UserID, jtStartIndex, jtPageSize, jtSorting, fromDate, toDate, employee, keyword, orderStatus);
 
                 JsonDataResult.Records = listOrder;
+                dynamic Sum = new System.Dynamic.ExpandoObject();
+                var sumHaspay = listOrder.Sum(x => x.HaspayTransfer);
+                var sumHaspayTransfer = listOrder.Sum(x => x.HasPay);
+                var sumSubTotal = listOrder.Sum(x => x.SubTotal);
+                var sumRemaining = sumSubTotal - (sumHaspay + sumHaspayTransfer);
+                Sum.sumHaspay = sumHaspay;
+                Sum.sumHaspayTransfer = sumHaspayTransfer;
+                Sum.sumRemaining = sumRemaining;
                 JsonDataResult.Result = "OK";
+               
+                JsonDataResult.Data = Sum;
                 JsonDataResult.TotalRecordCount = listOrder.TotalItemCount;
             }
             catch (Exception ex)
@@ -185,7 +195,7 @@ namespace VINASIC.Controllers
             }
             return Json(JsonDataResult);
         }
-        public JsonResult UpdatePayment(int orderId, string payment, int paymentType,string transferDescription)
+        public JsonResult UpdatePayment(int orderId, string payment, int paymentType, string transferDescription)
         {
             try
             {
@@ -274,7 +284,7 @@ namespace VINASIC.Controllers
             return Json(JsonDataResult);
         }
         [System.Web.Mvc.HttpPost]
-        public JsonResult SaveOrder(int orderId, int employeeId, int customerId, string customerName, string customerPhone, string customerMail, string customerAddress, string customerTaxCode, string dateDelivery, float orderTotal, List<ModelDetail> listDetail,bool tax,float orderTotalTax)
+        public JsonResult SaveOrder(int orderId, int employeeId, int customerId, string customerName, string customerPhone, string customerMail, string customerAddress, string customerTaxCode, string dateDelivery, float orderTotal, List<ModelDetail> listDetail, bool tax, float orderTotalTax)
         {
             try
             {
@@ -337,7 +347,7 @@ namespace VINASIC.Controllers
             {
                 return Json(new { Result = "ERROR", ex.Message });
             }
-        }      
+        }
         public JsonResult GetListProductType()
         {
             try
@@ -518,21 +528,21 @@ namespace VINASIC.Controllers
             }
             return Json(JsonDataResult);
         }
-        public JsonResult UpdateOrderStatus(int orderId, float status, bool sendSMS = false, bool sendEmail=false)
+        public JsonResult UpdateOrderStatus(int orderId, float status, bool sendSMS = false, bool sendEmail = false)
         {
             try
             {
                 var IsAdmin = true;
                 //if (IsAuthenticate)
                 //{
-                    var responseResult = _bllOrder.UpdateOrderStatus(orderId, status,UserContext.UserID, IsAdmin, sendSMS, sendEmail);
-                    if (responseResult.IsSuccess)
-                        JsonDataResult.Result = "OK";
-                    else
-                    {
-                        JsonDataResult.Result = "ERROR";
-                        JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
-                    }
+                var responseResult = _bllOrder.UpdateOrderStatus(orderId, status, UserContext.UserID, IsAdmin, sendSMS, sendEmail);
+                if (responseResult.IsSuccess)
+                    JsonDataResult.Result = "OK";
+                else
+                {
+                    JsonDataResult.Result = "ERROR";
+                    JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
+                }
                 //}
                 //else
                 //{
@@ -577,6 +587,35 @@ namespace VINASIC.Controllers
             }
             return Json(JsonDataResult);
         }
+        public JsonResult UpdateCost([System.Web.Http.FromBody]List<CostObj> CostObj, int orderId, float cost)
+        {
+            try
+            {
+                //if (IsAuthenticate)
+                //{
+                var responseResult = _bllOrder.UpdateCost(CostObj, orderId, cost);
+                if (responseResult.IsSuccess)
+                    JsonDataResult.Result = "OK";
+                else
+                {
+                    JsonDataResult.Result = "ERROR";
+                    JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
+                }
+                //}
+                //else
+                //{
+                //    JsonDataResult.Result = "ERROR";
+                //    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
+                //}
+            }
+            catch (Exception ex)
+            {
+                //add error
+                JsonDataResult.Result = "ERROR";
+                JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update", Message = "Lỗi: " + ex.Message });
+            }
+            return Json(JsonDataResult);
+        }
         public JsonResult UpdatePrintUser(int detailId, int employeeId, string description)
         {
             try
@@ -606,20 +645,20 @@ namespace VINASIC.Controllers
             }
             return Json(JsonDataResult);
         }
-        public JsonResult UpdateDetailStatus(int detailId, int status,int employeeId,string content)
+        public JsonResult UpdateDetailStatus(int detailId, int status, int employeeId, string content)
         {
             try
             {
                 //if (IsAuthenticate)
                 //{
-                    var responseResult = _bllOrder.UpdateDetailStatus(detailId, status, employeeId, content);
-                    if (responseResult.IsSuccess)
-                        JsonDataResult.Result = "OK";
-                    else
-                    {
-                        JsonDataResult.Result = "ERROR";
-                        JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
-                    }
+                var responseResult = _bllOrder.UpdateDetailStatus(detailId, status, employeeId, content);
+                if (responseResult.IsSuccess)
+                    JsonDataResult.Result = "OK";
+                else
+                {
+                    JsonDataResult.Result = "ERROR";
+                    JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
+                }
                 //}
                 //else
                 //{
@@ -647,7 +686,7 @@ namespace VINASIC.Controllers
                     JsonDataResult.Result = "OK";
                     JsonDataResult.Data = responseResult.Data;
                 }
-                   
+
                 else
                 {
                     JsonDataResult.Result = "ERROR";
@@ -674,8 +713,8 @@ namespace VINASIC.Controllers
             {
                 //if (IsAuthenticate)
                 //{
-                if(employeeId==0)
-                employeeId = UserContext.UserID;
+                if (employeeId == 0)
+                    employeeId = UserContext.UserID;
                 var responseResult = _bllOrder.UpdateDetailStatus2(detailId, status, employeeId);
                 if (responseResult.IsSuccess)
                     JsonDataResult.Result = "OK";
@@ -760,7 +799,7 @@ namespace VINASIC.Controllers
 
             return dt;
         }
-        public ActionResult ExportReport([FromUri] DateTime fromDate, [FromUri]DateTime toDate, [FromUri]int employee, [FromUri]string keySearch, int delivery = 0, int paymentStatus = 0,int type=0)
+        public ActionResult ExportReport([FromUri] DateTime fromDate, [FromUri]DateTime toDate, [FromUri]int employee, [FromUri]string keySearch, int delivery = 0, int paymentStatus = 0, int type = 0)
         {
             var pck = new ExcelPackage();
             pck = ExportSum(pck, fromDate, toDate, employee, keySearch, delivery, paymentStatus, type);
@@ -773,7 +812,7 @@ namespace VINASIC.Controllers
             return new ExcelDownload(pck, string.Format("{0}_{1}.xlsx", orderName, DateTime.Now.AddHours(14).ToString("d")));
         }
         //public 
-        public ExcelPackage ExportSum(ExcelPackage package, DateTime fromDate, DateTime toDate, int employee, string keySearch, int delivery, int paymentStatus,int type=0)
+        public ExcelPackage ExportSum(ExcelPackage package, DateTime fromDate, DateTime toDate, int employee, string keySearch, int delivery, int paymentStatus, int type = 0)
         {
             var CompanyInfo = _bllSiteSetting.GetListProduct();
             var cmpShortName = CompanyInfo.Where(x => x.Code == "cmpShortName").FirstOrDefault()?.Value;
@@ -804,12 +843,12 @@ namespace VINASIC.Controllers
             columnNumber++;
             ws.Column(columnNumber).Width = 15;
             columnNumber++;
-            if (configCustomer=="true")//customerName
+            if (configCustomer == "true")//customerName
             {
                 ws.Column(columnNumber).Width = 30;
                 columnNumber++;
             }
-            
+
             ws.Column(columnNumber).Width = 30;
             columnNumber++;
             ws.Column(columnNumber).Width = 30;
@@ -829,7 +868,7 @@ namespace VINASIC.Controllers
                 ws.Column(columnNumber).Width = 8;
                 columnNumber++;
             }
-            
+
             ws.Column(columnNumber).Width = 14;
             columnNumber++;
             ws.Column(columnNumber).Width = 14;
@@ -851,7 +890,7 @@ namespace VINASIC.Controllers
             picture.From.Row = 0;
             picture.To.Column = 0;
             picture.To.Row = 0;
-            picture.SetSize(280, 104);
+            picture.SetSize(200, 104);
 
             ws.Cells["G1"].Value = cpnName;
             ws.Cells["G1"].Style.Font.Bold = true;
@@ -864,12 +903,12 @@ namespace VINASIC.Controllers
             ws.Cells["G2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
             ws.Cells["G2"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            ws.Cells["G3"].Value = "Địa chỉ văn phòng: "+cpnAddress;
+            ws.Cells["G3"].Value = "Địa chỉ văn phòng: " + cpnAddress;
             ws.Cells["G3"].Style.Font.Bold = true;
             ws.Cells["G3"].Style.Font.Size = 14;
             ws.Cells["G3"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-            ws.Cells["G4"].Value = "Di động: "+cpnMobile;
+            ws.Cells["G4"].Value = "Di động: " + cpnMobile;
             ws.Cells["G4"].Style.Font.Bold = true;
             ws.Cells["G4"].Style.Font.Size = 14;
             ws.Cells["G4"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
@@ -881,16 +920,16 @@ namespace VINASIC.Controllers
 
             char letter = 'a';
 
-            ws.Cells[letter+"8"].Value = "STT";
+            ws.Cells[letter + "8"].Value = "STT";
             ws.Cells[letter + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
             letter = (char)(((int)letter) + 1);
 
-            ws.Cells[(char)(((int)letter))+"8"].Value = "Mã ĐH";
-            ws.Cells[(char)(((int)letter))+"8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Mã ĐH";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
             letter = (char)(((int)letter) + 1);
 
-            ws.Cells[(char)(((int)letter))+"8"].Value = "Ngày Tạo";
-            ws.Cells[(char)(((int)letter))+"8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Ngày Tạo";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
             letter = (char)(((int)letter) + 1);
             if (configCustomer == "true")
             {
@@ -898,14 +937,14 @@ namespace VINASIC.Controllers
                 ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
                 letter = (char)(((int)letter) + 1);
             }
-            
 
-            ws.Cells[(char)(((int)letter))+"8"].Value = "Hạng mục";
-            ws.Cells[(char)(((int)letter))+"8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Hạng mục";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
             letter = (char)(((int)letter) + 1);
 
-            ws.Cells[(char)(((int)letter))+"8"].Value = "Diễn giải";
-            ws.Cells[(char)(((int)letter))+"8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Diễn giải";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
             letter = (char)(((int)letter) + 1);
             if (configUnit == "true")
             {
@@ -920,16 +959,16 @@ namespace VINASIC.Controllers
                 ws.Cells["H8"].Value = "Kích thước (m)";
                 ws.Cells["H8"].Style.Font.Color.SetColor(Color.RoyalBlue);
                 letter = (char)(((int)letter) + 2);
-            }        
+            }
             ws.Cells[(char)(((int)letter)) + "8"].Value = "Số lượng";
-            ws.Cells[(char)(((int)letter)) +"8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
             letter = (char)(((int)letter) + 1);
             if (configDimension == "true")
             {
                 ws.Cells[(char)(((int)letter)) + "8"].Value = "Diện tích";
                 ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
                 letter = (char)(((int)letter) + 1);
-            }          
+            }
             ws.Cells[(char)(((int)letter)) + "8"].Value = "Đơn giá (vnd)";
             ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
             letter = (char)(((int)letter) + 1);
@@ -938,7 +977,15 @@ namespace VINASIC.Controllers
             ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
             char mergerTotalLetter = (char)(((int)letter) - 1);
             letter = (char)(((int)letter) + 1);
-        
+
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Chi Phí";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
+
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Tiền Lãi";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
+
             ws.Cells[(char)(((int)letter)) + "8"].Value = "ThanhToán Tiền Mặt";
             ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
             letter = (char)(((int)letter) + 1);
@@ -950,7 +997,7 @@ namespace VINASIC.Controllers
             ws.Cells[(char)(((int)letter)) + "8"].Value = "Còn Lại (vnd)";
             ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            foreach (var c in ws.Cells["A8:"+ letter+"8"])
+            foreach (var c in ws.Cells["A8:" + letter + "8"])
             {
                 c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 c.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
@@ -962,21 +1009,29 @@ namespace VINASIC.Controllers
             ws.Cells["A9:" + mergerTotalLetter + "9"].Style.Font.Bold = true;
             ws.Cells["A9:" + mergerTotalLetter + "9"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-            char totalLetter= (char)(((int)mergerTotalLetter) + 1);
-            ws.Cells[totalLetter+"9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells[totalLetter+"9"].Value = result[0].Total;
+            char totalLetter = (char)(((int)mergerTotalLetter) + 1);
+            ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
+            ws.Cells[totalLetter + "9"].Value = result[0].Total;
             totalLetter++;
 
-            ws.Cells[totalLetter+"9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells[totalLetter+"9"].Value = "";
+            ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
+            ws.Cells[totalLetter + "9"].Value = "";
             totalLetter++;
 
-            ws.Cells[totalLetter+"9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells[totalLetter+"9"].Value = "";
+            ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
+            ws.Cells[totalLetter + "9"].Value = "";
             totalLetter++;
-            ws.Cells[totalLetter+"9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells[totalLetter+"9"].Value = "";
-            foreach (var c in ws.Cells["A9:"+ totalLetter+"9"])
+
+            ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
+            ws.Cells[totalLetter + "9"].Value = "";
+            totalLetter++;
+
+            ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
+            ws.Cells[totalLetter + "9"].Value = "";
+            totalLetter++;
+            ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
+            ws.Cells[totalLetter + "9"].Value = "";
+            foreach (var c in ws.Cells["A9:" + totalLetter + "9"])
             {
                 c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 c.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
@@ -1001,7 +1056,7 @@ namespace VINASIC.Controllers
                     ws.Cells[endRow, column].Value = result[i].CustomerName;
                     column++;
                 }
-                
+
                 ws.Cells[endRow, column].Value = result[i].FileName;
                 column++;
                 ws.Cells[endRow, column].Value = result[i].CommodityName;
@@ -1018,7 +1073,7 @@ namespace VINASIC.Controllers
                     ws.Cells[endRow, column].Value = result[i].Height == 0 ? null : result[i].Height;
                     column++;
                 }
-                
+
                 ws.Cells[endRow, column].Value = result[i].Quantity;
                 column++;
                 if (configDimension == "true")
@@ -1026,7 +1081,7 @@ namespace VINASIC.Controllers
                     ws.Cells[endRow, column].Value = result[i].Square == 0 ? null : result[i].SumSquare;
                     column++;
                 }
-               
+
                 ws.Cells[endRow, column].Style.Numberformat.Format = "#,##0";
                 ws.Cells[endRow, column].Value = result[i].Price;
                 column++;
@@ -1039,6 +1094,14 @@ namespace VINASIC.Controllers
                     if ((result[i].OrderId != result[i - 1].OrderId))
                     {
                         var tryColumn = column;
+
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = result[i].Cost;
+                        tryColumn++;
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = result[i].Total1 - result[i].Cost;
+                        tryColumn++;
+
                         ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
                         ws.Cells[endRow, tryColumn].Value = result[i].HasPay;
                         tryColumn++;
@@ -1052,6 +1115,14 @@ namespace VINASIC.Controllers
                     else
                     {
                         var tryColumn = column;
+
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = "";
+                        tryColumn++;
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = "";
+                        tryColumn++;
+
                         ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
                         ws.Cells[endRow, tryColumn].Value = "";
                         tryColumn++;
@@ -1066,6 +1137,14 @@ namespace VINASIC.Controllers
                 catch (Exception)
                 {
                     var tryColumn = column;
+
+                    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                    ws.Cells[endRow, tryColumn].Value = result[i].Cost;
+                    tryColumn++;
+                    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                    ws.Cells[endRow, tryColumn].Value = result[i].Total1 - result[i].Cost;
+                    tryColumn++;
+
                     ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
                     ws.Cells[endRow, tryColumn].Value = result[i].HasPay;
                     tryColumn++;
@@ -1082,7 +1161,7 @@ namespace VINASIC.Controllers
             }
             if (numRows != 0)
             {
-                foreach (var c in ws.Cells["A" + startRow + ":"+letter + endRow])
+                foreach (var c in ws.Cells["A" + startRow + ":" + letter + endRow])
                 {
                     c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                     c.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
@@ -1289,7 +1368,7 @@ namespace VINASIC.Controllers
                 return Json(new { Result = "ERROR", ex.Message });
             }
         }
-        public JsonResult DesignUpdateOrderDetail(int Id,string FileName, string DesignDescription)
+        public JsonResult DesignUpdateOrderDetail(int Id, string FileName, string DesignDescription)
         {
             try
             {

@@ -37,6 +37,8 @@ namespace VINASIC.Object
         public string ReceiptAddress { get; set; }
         public Nullable<System.DateTime> PaymentDate { get; set; }
         public string ReceiptPhone { get; set; }
+        public Nullable<int> PaymentType { get; set; }
+        public Nullable<double> HasPay { get; set; }
     
         public virtual Collection<T_PaymentVoucherDetail> T_PaymentVoucherDetail { get; set; }
     }

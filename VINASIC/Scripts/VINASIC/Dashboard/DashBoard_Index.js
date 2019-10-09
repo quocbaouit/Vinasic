@@ -31,7 +31,10 @@ VINASIC.DashBoard = function () {
         Data: {
             ModelDashBoard: {},
             ModelConfig: {},
-            ClientId: ""
+            ClientId: "",
+            OrderChart: {},
+            PaymentChart: {},
+            SumChart: {}
         }
     };
     this.GetGlobal = function () {
@@ -94,75 +97,90 @@ VINASIC.DashBoard = function () {
     }
     /*End Delete */
 
-    /*function Init List Using Jtable */
-    function initListDashBoard() {
-        $("#" + global.Element.JtableDashBoard).jtable({
-            title: "Danh sách Loại Dịch Vụ",
-            paging: true,
-            pageSize: 10,
-            pageSizeChangeDashBoard: true,
-            sorting: true,
-            selectShow: true,
-            actions: {
-                listAction: global.UrlAction.GetListDashBoard,
-                createAction: global.Element.PopupDashBoard,
-                createObjDefault: initViewModel(null),
-                searchAction: global.Element.PopupSearch
+    function initDashBoard() {   
+        var pieOptions = {
+            segmentShowStroke: false,
+            animateScale: true
+        }
+        global.Data.OrderChart = new Chart(document.getElementById("countries").getContext("2d"), {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    data: [0, 0, 0],
+                    backgroundColor: [
+
+                        "#46BFBD",
+                        "#FDB45C",
+                        "#F7464A",
+                    ],
+                }],
+                labels: [
+
+                    'Đã Thu Tiền Mặt',
+                    'Đã thu Chuyển Khoản',
+                    'Còn Lại',
+                ]
             },
-            messages: {
-                addNewRecord: "Thêm mới",
-                searchRecord: "Tìm kiếm",
-                selectShow: "Ẩn hiện cột"
+            options: pieOptions
+        });
+        global.Data.PaymentChart = new Chart(document.getElementById("countries1").getContext("2d"), {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    data: [0, 0],
+                    backgroundColor: [
+
+                        "#46BFBD",
+                        "#F7464A"
+                    ],
+                }],
+                labels: [
+
+                    'Đã Thanh Toán',
+                    'Còn Lại'
+                ]
             },
-            fields: {
-                Id: {
-                    key: true,
-                    create: false,
-                    edit: false,
-                    list: false
-                },
-                Code: {
-                    title: "Mã Loại",
-                    width: "5%"
-                },
-                Name: {
-                    visibility: "fixed",
-                    title: "Tên Loại",
-                    width: "25%",
-                    display: function (data) {
-                        var text = $("<a href=\"#\" class=\"clickable\" title=\"Chỉnh sửa thông tin.\">" + data.record.Name + "</a>");
-                        text.click(function () {
-                            bindData(data.record);
-                            showPopupDashBoard();
-                        });
-                        return text;
+            options: pieOptions
+        });
+        global.Data.SumChart = new Chart(document.getElementById("income"), {
+            type: 'bar',
+            data: {
+                labels: ["ĐƠN HÀNG", "NHẬP HÀNG"],
+                datasets: [
+                    {
+                        label: 'Tổng Tiền',
+                        data: [0, 0],
+                        backgroundColor: ['rgba(255, 99, 132, 0.2)',
+                            'rgba(255, 99, 132, 0.2)'
+                        ],
+
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Đã Thanh Toán',
+                        data: [0, 0],
+                        backgroundColor: ['rgba(54, 162, 235, 0.2)',
+                            'rgba(54, 162, 235, 0.2)'
+                        ],
+
+                        borderWidth: 1
                     }
-                },
-                Description: {
-                    title: "Mô Tả",
-                    width: "25%"
-                },
-                Delete: {
-                    title: "Xóa",
-                    width: "5%",
-                    sorting: false,
-                    display: function (data) {
-                        var text = $('<button title="Xóa" class="jtable-command-button jtable-delete-command-button"><span>Xóa</span></button>');
-                        text.click(function () {
-                            GlobalCommon.ShowConfirmDialog("Bạn có chắc chắn muốn xóa?", function () {
-                                deleteRow(data.record.Id);
-                                var realTimeHub = $.connection.realTimeJTableDemoHub;
-                                realTimeHub.server.sendUpdateEvent("jtableDashBoard");
-                                $.connection.hub.start();
-                            }, function () { }, "Đồng ý", "Hủy bỏ", "Thông báo");
-                        });
-                        return text;
-                    }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
                 }
             }
-        });
+        }); 
+        getDashBoardData();
     }
-    /*End init List */
+    /*End init */
+
 
     /*function Check Validate */
     function checkValidate() {
@@ -217,6 +235,28 @@ VINASIC.DashBoard = function () {
         });
     }
     /*End bootrap*/
+    function getDashBoardData() {
+        var fromDate = $("#datefrom").val();
+        var toDate = $("#dateto").val();
+        var url = "/Dashboard/GetData?from=" + fromDate + "&to=" + toDate + "";
+        $.getJSON(url, function (datas) {
+            global.Data.OrderChart.data.datasets[0].data[0] = datas.ModelDashBoardOrder.Value1;
+            global.Data.OrderChart.data.datasets[0].data[1] = datas.ModelDashBoardOrder.Value2;
+            global.Data.OrderChart.data.datasets[0].data[2] = datas.ModelDashBoardOrder.Value3;
+            global.Data.OrderChart.update();
+
+            global.Data.PaymentChart.data.datasets[0].data[0] = datas.ModelDashBoardPayment.Value1;
+            global.Data.PaymentChart.data.datasets[0].data[1] = datas.ModelDashBoardPayment.Value2;
+            global.Data.PaymentChart.update();
+
+            global.Data.SumChart.data.datasets[0].data[0] = datas.ModelDashBoardSum.Value1;
+            global.Data.SumChart.data.datasets[0].data[1] = datas.ModelDashBoardSum.Value2;
+
+            global.Data.SumChart.data.datasets[1].data[0] = datas.ModelDashBoardSum.Value3;
+            global.Data.SumChart.data.datasets[1].data[1] = datas.ModelDashBoardSum.Value4;
+            global.Data.SumChart.update();
+        });
+    }
     /* Region Register and init*/
     this.reloadListDashBoard = function () {
         reloadListDashBoard();
@@ -231,35 +271,20 @@ VINASIC.DashBoard = function () {
         $("[cancel]").click(function () {
             bindData(null);
         });
+        $("[search]").click(function () {
+            getDashBoardData();           
+        });
     };
     this.Init = function () {
         registerEvent();
-        var lineChartData = {
-            labels: ["", "", "", "", "", "", ""],
-            datasets: [
-                {
-                    fillColor: "rgba(220,220,220,0.5)",
-                    strokeColor: "rgba(220,220,220,1)",
-                    pointColor: "rgba(220,220,220,1)",
-                    pointStrokeColor: "#fff",
-                    data: [65, 59, 90, 81, 56, 55, 40]
-                },
-                {
-                    fillColor: "rgba(151,187,205,0.5)",
-                    strokeColor: "rgba(151,187,205,1)",
-                    pointColor: "rgba(151,187,205,1)",
-                    pointStrokeColor: "#fff",
-                    data: [28, 48, 40, 19, 96, 27, 100]
-                }
-            ]
-
-        };
-        new Chart(document.getElementById("linebusiness").getContext("2d")).Line(lineChartData);
-        new Chart(document.getElementById("lineproduct").getContext("2d")).Line(lineChartData);
-        //initListDashBoard();
-        //reloadListDashBoard();
-        //initPopupDashBoard();
-        //bindData(null);
+        document.getElementById("datefrom").defaultValue = new Date(new Date() - 24 * 90 * 60 * 60 * 1000).toISOString().substring(0, 10);
+        var dateTo = new Date();
+        dateTo.setDate(dateTo.getDate() + 1);
+        document.getElementById("dateto").defaultValue = dateTo.toISOString().substring(0, 10);    
+        initDashBoard();
+        reloadListDashBoard();
+        initPopupDashBoard();
+        bindData(null);
     };
 };
 /*End Region*/

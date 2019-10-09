@@ -19,6 +19,7 @@ namespace VINASIC.Business
     public class BllOrder : IBllOrder
     {
         private readonly IT_OrderRepository _repOrder;
+        private readonly IT_PaymentVoucherRepository _repPaymentVoucher;
         private readonly IT_CustomerRepository _repCus;
         private readonly IT_SiteSettingRepository _repSite;
         private readonly IT_UserRepository _repUser;
@@ -26,10 +27,11 @@ namespace VINASIC.Business
         private readonly IT_OrderDetailRepository _repOrderDetail;
         private readonly IUnitOfWork<VINASICEntities> _unitOfWork;
         private readonly TimeZoneInfo curentZone = TimeZoneInfo.FindSystemTimeZoneById(ConfigurationManager.AppSettings["WEBSITE_TIME_ZONE"]);
-        public BllOrder(IUnitOfWork<VINASICEntities> unitOfWork, IT_OrderRepository repOrder, IT_ContentRepository repContent, IT_OrderDetailRepository repOrderDetail, IT_CustomerRepository repCus, IT_UserRepository repUserRepository, IT_SiteSettingRepository repSite)
+        public BllOrder(IUnitOfWork<VINASICEntities> unitOfWork, IT_PaymentVoucherRepository repPaymentVoucher, IT_OrderRepository repOrder, IT_ContentRepository repContent, IT_OrderDetailRepository repOrderDetail, IT_CustomerRepository repCus, IT_UserRepository repUserRepository, IT_SiteSettingRepository repSite)
         {
             _unitOfWork = unitOfWork;
             _repOrder = repOrder;
+            _repPaymentVoucher = repPaymentVoucher;
             _repOrderDetail = repOrderDetail;
             _repUser = repUserRepository;
             _repContent = repContent;
@@ -81,8 +83,10 @@ namespace VINASIC.Business
                 CreatedDate = c.CreatedDate,
                 HasPay = c.HasPay ?? 0,
                 HaspayTransfer = c.HaspayTransfer ?? 0,
+                Cost=c.Cost,
                 OrderStatus = c.OrderStatus,
                 T_OrderDetail = c.T_OrderDetail,
+                CostDetail=c.CostDetail
             }).OrderBy(sorting);
 
 
@@ -115,11 +119,30 @@ namespace VINASIC.Business
             var result = new PagedList<ModelOrder>(orders, pageNumber, pageSize);
             foreach (var order in result)
             {
+                if (order.Cost==null)
+                {
+                    order.Cost = 0;
+                }
+                var deliveryDate = order.DeliveryDate ?? order.CreatedDate;
                 order.strHaspay = $"{order.HasPay ?? 0:0,0}";
                 order.strHaspayTransfer = $"{order.HaspayTransfer ?? 0:0,0}";
                 order.strSubTotal = $"{order.SubTotal:0,0}";
+                order.strCost= $"{order.Cost:0,0}";
+                var Income = order.SubTotal - order.Cost;
+                order.strIncome = $"{Income:0,0}";
                 order.StrCreatedDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(order.CreatedDate, curentZone):d/M/yyyy HH:mm}";
                 //order.strFileName  = string.Join(", ", order.T_OrderDetail.Select(x => x.FileName).ToArray());
+                order.StrDeliveryDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(deliveryDate, curentZone):d/M/yyyy}";
+                order.strFileName  = string.Join(", ", order.T_OrderDetail.Select(x => x.FileName).ToArray());
+                if (order.CostDetail!=null)
+                {
+                    order.CostObj = JsonConvert.DeserializeObject<List<CostObj>>(order.CostDetail);
+                }
+                else
+                {
+                    order.CostObj =new List<CostObj>();
+                }
+              
             }
             var sum = result.Sum(x => x.SubTotal);
             result.ToList().Add(new ModelOrder() { Name = "Tổng Cộng", SubTotal = sum });
@@ -885,6 +908,26 @@ namespace VINASIC.Business
             }
             return responResult;
         }
+        public ResponseBase UpdateCost(List<CostObj> costObj, int orderId, float cost)
+        {
+            var responResult = new ResponseBase();
+            var order = _repOrder.Get(c => !c.IsDeleted && c.Id == orderId);
+            if (order != null)
+            {
+                order.Cost = cost;
+                order.CostDetail = JsonConvert.SerializeObject(costObj);
+                order.UpatedDate = DateTime.UtcNow;
+                _repOrder.Update(order);
+                SaveChange();
+                responResult.IsSuccess = true;
+            }
+            else
+            {
+                responResult.IsSuccess = false;
+                responResult.Errors.Add(new Error() { MemberName = "Update", Message = "Lỗi" });
+            }
+            return responResult;
+        }
         public ResponseBase UpdateHaspayCustom(int orderId, string haspay, int paymentType)
         {
             var responResult = new ResponseBase();
@@ -974,7 +1017,7 @@ namespace VINASIC.Business
                         SubTotal = c.SubTotal,
                         Total1 = c.T_Order.SubTotal,
                         HasPay = c.T_Order.HasPay ?? 0,
-                      
+                        Cost=c.T_Order.Cost??0,                    
                         HasPayTransfer = c.T_Order.HaspayTransfer ?? 0,
                         IsCompleted = c.IsCompleted,
                         HasPayTotal = 0,

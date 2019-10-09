@@ -19,6 +19,8 @@ namespace VINASIC.Business.Interface.Model
 
         public List<int> ListRoleId { get; set; } 
         public List<SalaryObj> SalaryObj { get; set; }
+
+        public string Note { get; set; }
     }
     public class Subscription
     {
@@ -61,7 +63,7 @@ namespace VINASIC.Business.Interface.Model
         public int? Index { get; set; }
         public string Content { get; set; }
         [System.ComponentModel.DefaultValue(0)]
-        public float? Amount { get; set; }
+        public double? Amount { get; set; }
         public string Unit { get; set; }
     }
 }

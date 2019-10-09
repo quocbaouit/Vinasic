@@ -1,4 +1,4 @@
-﻿@{
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Content/Common.css" rel="stylesheet" />
@@ -116,13 +116,13 @@
 </style>
 <div class="row">
     <div class="col-lg-12">
-        <h3 style="background-color: #faf9f8" class="page-header">
+        @*<h3 style="background-color: #faf9f8" class="page-header">
             <img style="width: 200px" src="~/Files/logo.png" />
-        </h3>
+            </h3>*@
         <ol class="breadcrumb">
-            <li><i class="fa fa-home"></i><a href="/Dashboard/index">Trang Chủ</a></li>
-            <li><i class="icon_documents_alt"></i>Đơn Hàng</li>
-            <li><i class="fa fa-user-md"></i>Quản Lý Đơn Hàng</li>
+            <li><i class="fa fa-home"></i><a href="/Dashboard/index">Trang Ch?</a></li>
+            <li><i class="icon_documents_alt"></i>??n H?ng</li>
+            <li><i class="fa fa-user-md"></i>Qu?n L? ??n H?ng</li>
         </ol>
     </div>
 </div>
@@ -137,25 +137,25 @@
                     <li id="ProcessOrder" class="active">
                         <a data-toggle="tab" href="#recent-activity">
                             <i class="icon-home"></i>
-                            Xử Lý Đơn Hàng
+                            X? L? ??n H?ng
                         </a>
                     </li>
                     @*<li class="">
-                        <a data-toggle="tab" href="#ViewDetail">
-                            <i class="icon-envelope"></i>
-                            Xem Chi Tiết
-                        </a>
-                    </li>
-                    <li class="">
-                        <a data-toggle="tab" href="#ViewSubDetail">
-                            <i class="icon-envelope"></i>
-                            Chi Tiết Thiết Kế/In Ấn
-                        </a>
-                    </li>*@
+                            <a data-toggle="tab" href="#ViewDetail">
+                                <i class="icon-envelope"></i>
+                                Xem Chi Ti?t
+                            </a>
+                        </li>
+                        <li class="">
+                            <a data-toggle="tab" href="#ViewSubDetail">
+                                <i class="icon-envelope"></i>
+                                Chi Ti?t Thi?t K?/In ?n
+                            </a>
+                        </li>*@
                     <li id="CreateOrder" class="">
                         <a data-toggle="tab" href="#edit-profile">
                             <i class="icon-envelope"></i>
-                            Tạo Mới/Chỉnh Sửa Đơn Hàng
+                            T?o M?i/Ch?nh S?a ??n H?ng
                         </a>
                     </li>
                 </ul>
@@ -166,21 +166,21 @@
                         <div style="margin-bottom: 15px;" class="row">
                             <div class="form-group">
                                 <div class="col-md-3 col-sm-4 col-xs-12">
-                                    <label for="datefrom">Từ Ngày</label>
+                                    <label for="datefrom">T? Ng?y</label>
                                     <input type="date" class="form-control" name="datefrom" value="" id="datefrom" />
                                 </div>
                                 <div class="col-md-3 col-sm-4 col-xs-12">
-                                    <label for="dateto">Đến Ngày</label>
+                                    <label for="dateto">??n Ng?y</label>
                                     <input type="date" class="form-control" name="dateto" value="" id="dateto" />
                                 </div>
                                 <div class="col-md-3 col-sm-4 col-xs-12">
-                                    <label for="cname">Nhân Viên Kinh Doanh</label>
+                                    <label for="cname">Nh?n Vi?n Kinh Doanh</label>
                                     <select id="cemployee1" class="form-control">
-                                        <option value="0">Nhân Viên Kinh Doanh </option>
+                                        <option value="0">Nh?n Vi?n Kinh Doanh </option>
                                     </select>
                                 </div>
                                 <div class="col-md-3 col-sm-4 col-xs-12">
-                                    <label for="keyword">Tìm Tên KH,Mã Đơn Hàng ,SĐT, Email</label>
+                                    <label for="keyword">T?m T?n KH,M? ??n H?ng ,S?T, Email</label>
                                     <input type="text" class="form-control" id="keyword" placeholder="">
                                 </div>
 
@@ -188,23 +188,90 @@
                             </div>
                         </div>
                         <div style="margin-left: 5px;margin-bottom: 10px;" class="row">
-                            <button id="search" class="btn button button1">Tìm Kiếm</button>
-                            @*<a id="search" class="btn btn-primary" href="javascript:void(0)" title="Bootstrap 3 themes generator"><span class="icon_lightbulb_alt"></span>Tìm Kiếm</a>*@
-                            <button id="inprogess" class="btn button button0">Đang Xử Lý</button>
-                            <button id="noDelivery" class="btn button button2">Chưa Giao Hàng</button>
-                            <button id="deliveried" class="btn button button3">Đã Giao Hàng</button>
-                            <button id="paid" class="btn button button4">Đã Thanh Toán</button>
-                            <button id="approval" class="btn button button5">Đã Duyệt Đơn</button>
+                            <button id="search" class="btn button button1">T?m Ki?m</button>
+                            @*<a id="search" class="btn btn-primary" href="javascript:void(0)" title="Bootstrap 3 themes generator"><span class="icon_lightbulb_alt"></span>T?m Ki?m</a>*@
+                            <button id="inprogess" class="btn button button0">?ang X? L?</button>
+                            <button id="noDelivery" class="btn button button2">Ch?a Giao H?ng</button>
+                            <button id="deliveried" class="btn button button3">?? Giao H?ng</button>
+                            <button id="paid" class="btn button button4">?? Thanh To?n</button>
+                            <button id="approval" class="btn button button5">?? Duy?t ??n</button>
                         </div>
                         <div class="=rows" id="jtableOrder"></div>
+                        <div class="=rows" id="jtableSum">
+                            <div class="jtable-main-container">
+                                <div class="jtable-busy-panel-background jtable-busy-panel-background-invisible" style="display: none; width: 1680px; height: 48px;"></div>
+                                <div class="jtable-busy-message" style="display: none;"></div>
+                                <table class="jtable">
+                                    <thead>
+                                        <tr>
+                                            <th class="jtable-column-header jtable-column-header-sortable" style="width: 40.0238%;">
+                                                <div class="jtable-column-header-container">
+                                                    <span class="jtable-column-header-text">T?ng B?o C?o Thu</span>
+                                                    <div class="jtable-column-resize-handler"></div>
+                                                </div>
+                                            </th>
+                                            <th class="jtable-column-header jtable-column-header-sortable" style="width: 20.0119%;">
+                                                <div class="jtable-column-header-container">
+                                                    <span class="jtable-column-header-text">T?ng Thu chuy?n Kho?n(VND)</span>
+                                                    <div class="jtable-column-resize-handler"></div>
+                                                </div>
+                                            </th>
+                                            <th class="jtable-column-header jtable-column-header-sortable" style="width: 20.0119%;">
+                                                <div class="jtable-column-header-container">
+                                                    <span class="jtable-column-header-text">T?ng Thu Ti?n M?t(VND)</span>
+                                                    <div class="jtable-column-resize-handler"></div>
+                                                </div>
+                                            </th>
+                                            <th class="jtable-column-header jtable-column-header-sortable" style="width: 19.9524%;">
+                                                <div class="jtable-column-header-container"><span class="jtable-column-header-text">T?ng Ch?a Thanh To?n(VND)</span></div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="jtable-data-row jtable-row-even" data-record-key="1">
+                                            <td>T?ng K?t</td>
+                                            <td style="color:red" id="sum01">0</td>
+                                            <td style="color:red" id="sum02">0</td>
+                                            <td style="color:red" id="sum03">0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="jtable-column-resize-bar" style="display: none;"></div>
+                                <div id="selectHideShowColumn" class="jtable-column-selection-container" style="left: 562px; top: 16.375px; min-width: 100px; display: none;">
+                                    <ul class="jtable-column-select-list">
+                                        <li>
+                                            <label for="Name">
+                                                <input type="checkbox" name="Name" checked="checked"><span>T?ng B?o C?o Thu</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label for="sum1">
+                                                <input type="checkbox" name="sum1" checked="checked"><span>T?ng Thu chuy?n Kho?n(VND)</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label for="sum2">
+                                                <input type="checkbox" name="sum2" checked="checked"><span>T?ng Thu Ti?n M?t(VND)</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label for="sum3">
+                                                <input type="checkbox" name="sum3" checked="checked"><span>T?ng Ch?a Thanh To?n(VND)</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
                         @*<div class="row" style="height: 100px">
-                              <p>Tổng Tiền</p><span><input id="checkSum" type="text" value="0" /></span>
-                            </div>*@
+          <p>T?ng Ti?n</p><span><input id="checkSum" type="text" value="0" /></span>
+        </div>*@
 
                         @*@*<div class="alert">
-                                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                                <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
-                            </div>*@
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+        </div>*@
                     </div>
                     <div id="ViewDetail" class="tab-pane">
                         <div id="jtableViewDetail"></div>
@@ -213,32 +280,32 @@
                         <div style="margin-bottom: 15px;" class="row">
                             <div class="form-group">
                                 <div class="col-md-3 col-sm-4 col-xs-12">
-                                    <label for="datefrom">Từ Ngày</label>
+                                    <label for="datefrom">T? Ng?y</label>
                                     <input type="date" class="form-control" name="subdatefrom" value="" id="subdatefrom" />
                                 </div>
                                 <div class="col-md-3 col-sm-4 col-xs-12">
-                                    <label for="dateto">Đến Ngày</label>
+                                    <label for="dateto">??n Ng?y</label>
                                     <input type="date" class="form-control" name="subdateto" value="" id="subdateto" />
                                 </div>
                                 <div class="col-md-3 col-sm-4 col-xs-12">
-                                    <label for="cname">Nhân Viên Kinh Doanh</label>
+                                    <label for="cname">Nh?n Vi?n Kinh Doanh</label>
                                     <select id="subcemployee1" class="form-control">
-                                        <option value="0">Nhân Viên Kinh Doanh </option>
+                                        <option value="0">Nh?n Vi?n Kinh Doanh </option>
                                     </select>
                                 </div>
                                 <div class="col-md-3 col-sm-4 col-xs-12">
-                                    <label for="keyword">Từ Khóa</label>
+                                    <label for="keyword">T? Kh?a</label>
                                     <input type="text" class="form-control" id="subkeyword" placeholder="">
                                 </div>
                             </div>
                         </div>
                         <div style="margin-left: 5px;margin-bottom: 10px;" class="row">
-                            <button id="subsearch" class="btn button button1">Tìm Kiếm</button>
-                            @*<button id="subinprogess" class="btn button button0">Thiết Kế</button>
-                                <button id="subnoDelivery" class="btn button button2">In Ấn</button>
-                                <button id="subdeliveried" class="btn button button3">Gia Công</button>*@
-                            @*<button id="subpaid" class="btn button button4">Đã Thanh Toán</button>*@
-                            @*<button id="subapproval" class="btn button button5">Đã Xong</button>*@
+                            <button id="subsearch" class="btn button button1">T?m Ki?m</button>
+                            @*<button id="subinprogess" class="btn button button0">Thi?t K?</button>
+                                <button id="subnoDelivery" class="btn button button2">In ?n</button>
+                                <button id="subdeliveried" class="btn button button3">Gia C?ng</button>*@
+                            @*<button id="subpaid" class="btn button button4">?? Thanh To?n</button>*@
+                            @*<button id="subapproval" class="btn button button5">?? Xong</button>*@
                         </div>
                         <div class="=rows" id="jtableSubOrder"></div>
                     </div>
@@ -248,22 +315,22 @@
                                 <div class="col-lg-6">
                                     <section class="panel">
                                         <header class="panel-heading">
-                                            Thông Tin Khách Hàng
+                                            Th?ng Tin Kh?ch H?ng
                                         </header>
                                         <div class="panel-body">
                                             <form role="form">
                                                 <div class="form-group">
-                                                    <label for="cname">Nhân Viên Kinh Doanh</label>
+                                                    <label for="cname">Nh?n Vi?n Kinh Doanh</label>
                                                     <select id="cemployee" class="form-control input-lg m-bot15">
-                                                        <option value="0">Nhân Viên Kinh Doanh </option>
+                                                        <option value="0">Nh?n Vi?n Kinh Doanh </option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="cname">Tên Khách Hàng Hoặc SĐT</label>
-                                                    <input type="text" class="form-control" id="cname" placeholder="Nhập Tên Khách Hàng Hoăc SĐT">
+                                                    <label for="cname">T?n Kh?ch H?ng Ho?c S?T</label>
+                                                    <input type="text" class="form-control" id="cname" placeholder="Nh?p T?n Kh?ch H?ng Ho?c S?T">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="cphone">Số Điện Thoại</label>
+                                                    <label for="cphone">S? ?i?n Tho?i</label>
                                                     <input type="text" class="form-control" id="cphone" placeholder="" onkeypress=" return isNumberKey(event)">
                                                 </div>
                                                 <div class="form-group">
@@ -277,20 +344,20 @@
                                 <div class="col-lg-6">
                                     <section class="panel">
                                         <header class="panel-heading">
-                                            Thông Tin Khách Hàng
+                                            Th?ng Tin Kh?ch H?ng
                                         </header>
                                         <div class="panel-body">
                                             <form role="form">
                                                 <div class="form-group">
-                                                    <label for="caddress">Địa Chỉ</label>
+                                                    <label for="caddress">??a Ch?</label>
                                                     <textarea style="height: 110px" name="" id="caddress" class="form-control" cols="30" rows="5"></textarea>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="ctaxcode">Mã Số Thuế</label>
+                                                    <label for="ctaxcode">M? S? Thu?</label>
                                                     <input type="text" class="form-control" id="ctaxcode" placeholder="">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="ctaxcode">Ngày Giao hàng</label>
+                                                    <label for="ctaxcode">Ng?y Giao h?ng</label>
                                                     <input type="date" class="form-control" name="date" value="" id="date" />
                                                 </div>
                                             </form>
@@ -301,20 +368,20 @@
                                 <div class="col-lg-12">
                                     <section class="panel">
                                         <header class="panel-heading">
-                                            Thông Tin Đơn Hàng
+                                            Th?ng Tin ??n H?ng
                                         </header>
                                         <div class="panel-body">
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label for="dproductType">Chọn Loại Dịch Vụ</label>
+                                                    <label for="dproductType">Ch?n Lo?i D?ch V?</label>
                                                     <select id="dproductType" class="form-control input-lg m-bot15"></select>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
                                                 <div class="form-group">
-                                                    <label for="dproduct">Chọn Dịch Vụ</label>
+                                                    <label for="dproduct">Ch?n D?ch V?</label>
                                                     <select id="dproduct" class="form-control input-lg m-bot15 detail">
-                                                        <option value="0">Chọn Loại Dịch Vụ Trước</option>
+                                                        <option value="0">Ch?n Lo?i D?ch V? Tr??c</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -329,23 +396,23 @@
                                                         <input id="dheignt" type="text" class="form-control detail caculator" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                     </div>
                                                     <div style="display:none" class="col-md-2 forPrint">
-                                                        <label for="dsquare">DTích(m2)</label>
+                                                        <label for="dsquare">DT?ch(m2)</label>
                                                         <input id="dsquare" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                     </div>
                                                     <div class="col-md-2">
-                                                        <label for="dquantity">SLượng</label>
+                                                        <label for="dquantity">SL??ng</label>
                                                         <input id="dquantity" type="text" class="form-control detail caculator caculatorTotal" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                     </div>
                                                     <div style="display:@ViewBag.CssShowDim" class="col-md-2 forPrint">
-                                                        <label for="dsumsquare">Tổng DT(m2)</label>
+                                                        <label for="dsumsquare">T?ng DT(m2)</label>
                                                         <input id="dsumsquare" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                     </div>
                                                     <div class="col-md-2">
-                                                        <label for="dprice">Đơn Giá(vnd)</label>
+                                                        <label for="dprice">??n Gi?(vnd)</label>
                                                         <input id="dprice" type="text" class="form-control detail caculator caculatorTotal" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                     </div>
                                                     <div class="col-md-2">
-                                                        <label for="dsubtotal">Thành Tiền(vnd)</label>
+                                                        <label for="dsubtotal">Th?nh Ti?n(vnd)</label>
                                                         <input id="dsubtotal" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                     </div>
 
@@ -355,26 +422,26 @@
                                             @*<div class="col-lg-6">
                                                     <div class="=rows">
                                                         <div style="display:@ViewBag.CssShowDim" class="col-lg-4 forPrint">
-                                                            <label for="dsumsquare">Tổng DT(m2)</label>
+                                                            <label for="dsumsquare">T?ng DT(m2)</label>
                                                             <input id="dsumsquare" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                         </div>
                                                         <div class="col-lg-4">
-                                                            <label for="dprice">Đơn Giá(vnd)</label>
+                                                            <label for="dprice">??n Gi?(vnd)</label>
                                                             <input id="dprice" type="text" class="form-control detail caculator caculatorTotal" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                         </div>
                                                         <div class="col-lg-4">
-                                                            <label for="dsubtotal">Thành Tiền(vnd)</label>
+                                                            <label for="dsubtotal">Th?nh Ti?n(vnd)</label>
                                                             <input id="dsubtotal" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
                                                         </div>
                                                     </div>
 
                                                 </div>*@
                                             <div class="col-lg-6 forPrint">
-                                                <label for="dfilename">Tên File</label>
+                                                <label for="dfilename">T?n File</label>
                                                 <input id="dfilename" type="text" class="form-control detail" placeholder="">
                                             </div>
                                             <div class="col-lg-6">
-                                                <label for="dnote">Ghi Chú</label>
+                                                <label for="dnote">Ghi Ch?</label>
                                                 <input id="dnote" type="text" class="form-control detail" placeholder="">
                                             </div>
                                             <a id="resetDetail" style="margin-top: 20px; margin-bottom: 10px; margin-left: 10px" title="" class="btn btn-warning btn-sm" href="javascript:void(0)">Reset</a>
@@ -382,19 +449,19 @@
                                             <div id="jtableOrderDetail"></div>
                                             <div class="row">
                                                 <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="dtotal" type="text" class="form-control dsubtotal" placeholder="">
-                                                <strong style="margin-top: 10px; width: 200px; float: right">Tiền Trước Thuế (VND)</strong>
+                                                <strong style="margin-top: 10px; width: 200px; float: right">Ti?n Tr??c Thu? (VND)</strong>
                                             </div>
                                             <div class="row">
                                                 <input id="dtax" style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" type="checkbox" />
-                                                <strong style="margin-top: 10px; width: 200px; float: right">Xuất Hóa Đơn (Thuế 10%)</strong>
+                                                <strong style="margin-top: 10px; width: 200px; float: right">Xu?t H?a ??n (Thu? 10%)</strong>
                                             </div>
                                             <div class="row">
                                                 <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="dtotaltax" type="text" class="form-control dsubtotal" placeholder="">
-                                                <strong style="margin-top: 10px; width: 200px; float: right">Tổng Tiền(VND)</strong>
+                                                <strong style="margin-top: 10px; width: 200px; float: right">T?ng Ti?n(VND)</strong>
                                             </div>
-                                            <a id="saveOrder" style="margin-left: 20px; margin-top: 20px" title="" class="btn btn-primary btn-sm" href="javascript:void(0)">Lưu Đơn Hàng</a>
+                                            <a id="saveOrder" style="margin-left: 20px; margin-top: 20px" title="" class="btn btn-primary btn-sm" href="javascript:void(0)">L?u ??n H?ng</a>
                                             <a id="resetOrder" style="margin-top: 20px" title="" class="btn btn-warning btn-sm" href="javascript:void(0)">Reset</a>
-                                            <a id="canelOrder" style="margin-top: 20px" title="" class="btn btn-danger btn-sm" href="javascript:void(0)">Hủy Bỏ</a>
+                                            <a id="canelOrder" style="margin-top: 20px" title="" class="btn btn-danger btn-sm" href="javascript:void(0)">H?y B?</a>
                                         </div>
                                     </section>
                                 </div>
@@ -416,29 +483,29 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4><span class="glyphicon glyphicon-pencil"></span>Thiết Kế</h4>
+                <h4><span class="glyphicon glyphicon-pencil"></span>Thi?t K?</h4>
             </div>
             <div class="modal-body" style="padding: 40px 50px;">
                 <form role="form">
                     <div class="form-group">
-                        <label for="caddress">Mô Tả Công Việc</label>
+                        <label for="caddress">M? T? C?ng Vi?c</label>
                         <textarea name="" id="dDescription" class="form-control" cols="30" rows="8"></textarea>
                     </div>
-                    @*<label for="gTimeStart">Thời Gian Bắt Đầu</label>
-                    <p class="form-control" id="dTimeStart">11/04/2015 11:29:30</p>
+                    @*<label for="gTimeStart">Th?i Gian B?t ??u</label>
+                        <p class="form-control" id="dTimeStart">11/04/2015 11:29:30</p>
 
-                    <label for="gTimeEnd">Thời Gian Kết Thúc</label>
-                    <p class="form-control" id="dTimeEnd">11/04/2015 11:29:30</p>*@
+                        <label for="gTimeEnd">Th?i Gian K?t Th?c</label>
+                        <p class="form-control" id="dTimeEnd">11/04/2015 11:29:30</p>*@
                 </form>
             </div>
             <div class="modal-footer">
                 <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
                     <div class="button-image image-close"></div>
-                    Đóng
+                    ??ng
                 </button>
                 <button save class="btn btn-primary">
                     <div class="button-image image-save"></div>
-                    Lưu
+                    L?u
                 </button>
             </div>
         </div>
@@ -452,34 +519,34 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4><span class="glyphicon glyphicon-pencil"></span>In Ấn</h4>
+                <h4><span class="glyphicon glyphicon-pencil"></span>In ?n</h4>
             </div>
             <div class="modal-body" style="padding: 40px 50px;">
                 <form role="form">
                     <input type="hidden" />
                     <div class="form-group">
-                        <label for="product">Nhân Viên</label>
+                        <label for="product">Nh?n Vi?n</label>
                         <select id="gPrintName" class="form-control input-lg m-bot15">
-                            <option value="0">Chọn Nhân Viên In</option>
+                            <option value="0">Ch?n Nh?n Vi?n In</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="caddress">Mô Tả</label>
+                        <label for="caddress">M? T?</label>
                         <textarea name="" id="gDescription" class="form-control" cols="30" rows="2"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="gStatus">Trạng Thái</label>
+                        <label for="gStatus">Tr?ng Th?i</label>
                         <select disabled="disabled" id="gStatus" class="form-control input-lg m-bot15">
-                            <option value="0">Không Xử Lý</option>
-                            <option value="1">Đang Xử Lý</option>
-                            <option value="2">Hoàn Thành</option>
-                            <option value="3">Xử Lý Lỗi</option>
+                            <option value="0">Kh?ng X? L?</option>
+                            <option value="1">?ang X? L?</option>
+                            <option value="2">Ho?n Th?nh</option>
+                            <option value="3">X? L? L?i</option>
                         </select>
                     </div>
-                    <label for="gTimeStart">Thời Gian Bắt Đầu</label>
+                    <label for="gTimeStart">Th?i Gian B?t ??u</label>
                     <p class="form-control" id="gTimeStart">11/04/2015 11:29:30</p>
 
-                    <label for="gTimeEnd">Thời Gian Kết Thúc</label>
+                    <label for="gTimeEnd">Th?i Gian K?t Th?c</label>
                     <p class="form-control" id="gTimeEnd">11/04/2015 11:29:30</p>
 
                 </form>
@@ -487,11 +554,11 @@
             <div class="modal-footer">
                 <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
                     <div class="button-image image-close"></div>
-                    Đóng
+                    ??ng
                 </button>
                 <button save class="btn btn-primary">
                     <div class="button-image image-save"></div>
-                    Lưu
+                    L?u
                 </button>
             </div>
         </div>
@@ -506,70 +573,70 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4><span class="glyphicon glyphicon-pencil"></span>Thanh Toán</h4>
+                <h4><span class="glyphicon glyphicon-pencil"></span>Thanh To?n</h4>
             </div>
             <div class="modal-body" style="padding: 40px 50px;">
-                <p id="hastaxnote" style="color:red;margin-left: 10px;display:none">Đơn hàng có xuất hóa đơn. Tổng tiền đã bao gồm thuế 10% </p><br />
+                <p id="hastaxnote" style="color:red;margin-left: 10px;display:none">??n h?ng c? xu?t h?a ??n. T?ng ti?n ?? bao g?m thu? 10% </p><br />
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label for="ptotal">Tổng Tiền(VND)</label>
+                        <label for="ptotal">T?ng Ti?n(VND)</label>
                         <input disabled="disabled" type="text" class="form-control" id="ptotal" placeholder="">
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label for="phaspay">Đã Thanh Toán(VND)</label>
+                        <label for="phaspay">?? Thanh To?n(VND)</label>
                         <input disabled="disabled" type="text" class="form-control" id="phaspay" placeholder="">
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label for="ppayment">Còn Nợ(VND)</label>
+                        <label for="ppayment">C?n N?(VND)</label>
                         <input disabled="disabled" type="text" class="form-control" id="ppayment" placeholder="">
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label for="ppay">Khách Đưa</label>
+                        <label for="ppay">Kh?ch ??a</label>
                         <input type="text" class="form-control" id="ppay" placeholder="" onkeypress=" return isNumberKey(event) ">
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label for="prealpay">Tiền Thu</label>
+                        <label for="prealpay">Ti?n Thu</label>
                         <input type="text" class="form-control" id="prealpay" placeholder="" onkeypress=" return isNumberKey(event) ">
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="form-group">
-                        <label for="prest">Còn Lại</label>
+                        <label for="prest">C?n L?i</label>
                         <input type="text" class="form-control" id="prest" placeholder="" onkeypress=" return isNumberKey(event) ">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="prest">Loại Thanh Toán</label>
+                    <label for="prest">Lo?i Thanh To?n</label>
                     <select id="PaymentType" class="form-control">
-                        <option value="1">Tiền Mặt</option>
-                        <option value="2">Chuyển Khoản</option>
-                        <option value="3">Công Nợ</option>
+                        <option value="1">Ti?n M?t</option>
+                        <option value="2">Chuy?n Kho?n</option>
+                        <option value="3">C?ng N?</option>
 
                     </select>
                 </div>
                 <div id="transferIdShell" style="display:none" class="form-group">
-                    <label for="caddress">Thông Tin Chuyển Khoản</label>
+                    <label for="caddress">Th?ng Tin Chuy?n Kho?n</label>
                     <textarea name="" id="transferId" class="form-control" cols="30" rows="3"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
-                <input id="type2" type="checkbox">Phiếu thu loại bảng kê.
-                <a print class="btn btn-danger" href="javascript:void(0)" title="Bootstrap 3 themes generator"><span class="icon_target"></span>In Phiếu Thu</a>
+                <input id="type2" type="checkbox">Phi?u thu lo?i b?ng k?.
+                <a print class="btn btn-danger" href="javascript:void(0)" title="Bootstrap 3 themes generator"><span class="icon_target"></span>In Phi?u Thu</a>
                 <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
                     <div class="button-image image-close"></div>
-                    Đóng
+                    ??ng
                 </button>
                 <button save class="btn btn-primary">
                     <div class="button-image image-save"></div>
-                    Lưu
+                    L?u
                 </button>
             </div>
         </div>
@@ -583,20 +650,20 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4><span class="glyphicon glyphicon-pencil"></span>Đã Thanh Toán</h4>
+                <h4><span class="glyphicon glyphicon-pencil"></span>?? Thanh To?n</h4>
             </div>
             <div class="modal-body" style="padding: 40px 50px;">
                 <form role="form">
                     <div class="form-group">
-                        <label for="haspay">Đã Thanh Toán</label>
+                        <label for="haspay">?? Thanh To?n</label>
                         <input type="text" class="form-control" id="haspay" placeholder="" onkeypress=" return isNumberKey(event) ">
                     </div>
                     <div class="form-group">
-                        <label for="prest">Loại Thanh Toán</label>
+                        <label for="prest">Lo?i Thanh To?n</label>
                         <select id="PaymentType1" class="form-control">
-                            <option value="1">Tiền Mặt</option>
-                            <option value="2">Chuyển Khoản</option>
-                            <option value="3">Công Nợ</option>
+                            <option value="1">Ti?n M?t</option>
+                            <option value="2">Chuy?n Kho?n</option>
+                            <option value="3">C?ng N?</option>
                         </select>
                     </div>
                 </form>
@@ -604,11 +671,76 @@
             <div class="modal-footer">
                 <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
                     <div class="button-image image-close"></div>
-                    Đóng
+                    ??ng
                 </button>
                 <button save class="btn btn-primary">
                     <div class="button-image image-save"></div>
-                    Lưu
+                    L?u
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="popup_Cost" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-pencil"></span>Th?ng K? Chi Ph?</h4>
+            </div>
+            <div class="modal-body" style="padding: 40px 50px;">
+                <div id="jtableCost"></div>
+                <form role="form">
+                    <div style="margin-top:20px" class="form-group">
+                        <p style="width:40%;float:left">T?ng Chi Ph? </p><input disabled="disabled" style="width:43%" type="text" class="form-control" id="cost" placeholder="">                       
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
+                    <div class="button-image image-close"></div>
+                    ??ng
+                </button>
+                <button save class="btn btn-primary">
+                    <div class="button-image image-save"></div>
+                    L?u
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="popup_cost_edit" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-pencil"></span>S?a Chi Ph?</h4>
+            </div>
+            <div class="modal-body" style="padding: 40px 50px;">
+                <input id="cost-id" type="hidden" />
+                <form role="form">
+                    <div class="form-group">
+                        <label for="cost-content"><span class="glyphicon glyphicon-list-alt"></span>N?i Dung</label>
+                        <input id="cost-content" type="text" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="cost-amount"><span class="glyphicon glyphicon-list-alt"></span>S? Ti?n</label>
+                        <input id="cost-amount" type="text" class="form-control" placeholder="">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
+                    <div class="button-image image-close"></div>
+                    ??ng
+                </button>
+                <button id="save-cost-edit" class="btn btn-primary">
+                    <div class="button-image save-cost"></div>
+                    L?u
                 </button>
             </div>
         </div>
@@ -620,17 +752,17 @@
         <tbody>
             <tr>
                 <td>
-                    Đơn vị: @ViewBag.cpnShortName<br>
-                    Bộ phận: Phòng Kế Toán
+                    ??n v?: @ViewBag.cpnShortName<br>
+                    B? ph?n: Ph?ng K? To?n
                 </td>
                 <td>
-                    <strong style="font-size: 20px;">PHIẾU THU</strong><br>
-                    <em><span style="margin-left: 16px;" id="vdate1">Ngày 11 tháng 05 năm 2016</span> </em>
+                    <strong style="font-size: 20px;">PHI?U THU</strong><br>
+                    <em><span style="margin-left: 16px;" id="vdate1">Ng?y 11 th?ng 05 n?m 2016</span> </em>
                 </td>
                 <td style="float: right; font-size: 10px;margin-right:100px">
-                    <strong>Mẫu số: 01 – TT</strong><br>
-                    (Ban hành theo QĐ số: 48/2006/QĐ- BTC<br>
-                    Ngày 14/9/2006 của Bộ trưởng BTC)
+                    <strong>M?u s?: 01 ? TT</strong><br>
+                    (Ban h?nh theo Q? s?: 48/2006/Q?- BTC<br>
+                    Ng?y 14/9/2006 c?a B? tr??ng BTC)
                 </td>
             </tr>
         </tbody>
@@ -639,44 +771,44 @@
         <tbody>
             <tr>
                 <td style="float: right; width: 170px; font-size: 10px;margin-right:100px">
-                    Quyển số: PT 001<br>
-                    Số:<span id="no">01</span><br>
-                    Nợ: …………………….<br>
-                    Có: …………………….
+                    Quy?n s?: PT 001<br>
+                    S?:<span id="no">01</span><br>
+                    N?: �ġġġġġġġ�.<br>
+                    C?: �ġġġġġġġ�.
                 </td>
             </tr>
         </tbody>
     </table>
     <p style="margin-left: 10px">
-        Họ và tên người nôp tiền:&nbsp <span id="vcustomer"> Trần Quốc Bảo</span>.&nbsp SĐT:&nbsp<span id="vphone">0962 57 52 55</span><br>
-        Địa chỉ: <span id="vaddress">56/5/6 Văn Chung ,phường 13, quận Tân Bình</span>.<br>
-        Lý do nộp: <span id="vproduct">In PP trong nhà</span>.<br>
-        Số tiền: <span id="vtotal">5,000,000 vnd</span> .(Viết bằng chữ): <span id="strtotal">một trăm hai mươi lăm ngàn đồng chẵn</span>.<br>
-        Kèm theo: ……………………….Chứng từ gốc.
+        H? v? t?n ng??i n?p ti?n:&nbsp <span id="vcustomer"> Tr?n Qu?c B?o</span>.&nbsp S?T:&nbsp<span id="vphone">0962 57 52 55</span><br>
+        ??a ch?: <span id="vaddress">56/5/6 V?n Chung ,ph??ng 13, qu?n T?n B?nh</span>.<br>
+        L? do n?p: <span id="vproduct">In PP trong nh?</span>.<br>
+        S? ti?n: <span id="vtotal">5,000,000 vnd</span> .(Vi?t b?ng ch?): <span id="strtotal">m?t tr?m hai m??i l?m ng?n ??ng ch?n</span>.<br>
+        K?m theo: �ġġġġġġġġ�.Ch?ng t? g?c.
     </p>
-    <div><em><span style="float:right;margin-right:270px" id="vdate2">Ngày 11 tháng 05 năm 2016</span></em></div>
+    <div><em><span style="float:right;margin-right:270px" id="vdate2">Ng?y 11 th?ng 05 n?m 2016</span></em></div>
     <table style="margin-left: 10px" width="85%" cellspacing="0" cellpadding="0">
         <tbody>
             <tr>
                 <td>
-                    <strong>&nbsp; &nbsp; &nbsp;&nbsp;Giám đốc</strong><br>
-                    (Ký, họ tên, đóng dấu)
+                    <strong>&nbsp; &nbsp; &nbsp;&nbsp;Gi?m ??c</strong><br>
+                    (K?, h? t?n, ??ng d?u)
                 </td>
                 <td>
-                    <strong>Kế toán trưởng</strong><br>
-                    &nbsp;&nbsp;&nbsp;(Ký, họ tên)
+                    <strong>K? to?n tr??ng</strong><br>
+                    &nbsp;&nbsp;&nbsp;(K?, h? t?n)
                 </td>
                 <td>
-                    <strong>Người nộp tiền</strong><br>
-                    &nbsp;&nbsp;(Ký, họ tên)
+                    <strong>Ng??i n?p ti?n</strong><br>
+                    &nbsp;&nbsp;(K?, h? t?n)
                 </td>
                 <td>
-                    <strong>Người lập phiếu</strong><br>
-                    &nbsp;&nbsp;&nbsp;(Ký, họ tên)
+                    <strong>Ng??i l?p phi?u</strong><br>
+                    &nbsp;&nbsp;&nbsp;(K?, h? t?n)
                 </td>
                 <td>
-                    <strong>&nbsp;&nbsp;Thủ quỹ</strong><br>
-                    (Ký, họ tên)
+                    <strong>&nbsp;&nbsp;Th? qu?</strong><br>
+                    (K?, h? t?n)
                 </td>
             </tr>
         </tbody>
@@ -684,50 +816,50 @@
     <p>&nbsp;</p>
     <p>&nbsp;</p>
     <p style="margin-left: 10px">
-        Đã nhận đủ số tiền (viết bằng chữ): ……………………………………………………………………..<br>
-        + Tỷ giá ngoại tệ (vàng, bạc, đá quý): …………………………………………………………………..<br>
-        + Số tiền quy đổi: ………………………………………………………………………………………
+        ?? nh?n ?? s? ti?n (vi?t b?ng ch?): �ġġġġġġġġġġġġġġġġġġġġġġġġġ�..<br>
+        + T? gi? ngo?i t? (v?ng, b?c, ?? qu?): �ġġġġġġġġġġġġġġġġġġġġġġġġ�..<br>
+        + S? ti?n quy ??i: �ġġġġġġġġġġġġġġġġġġġġġġġġġġġġġġġġ�
     </p>
 </div>
 <div style="width: 210mm; height: 148.5mm; color: red; display: none" id="paymentvoucher1">
     <div class="Block1" style="width:70%;float:left;margin-left:25px">
         <p style="margin-bottom:0px">@ViewBag.cpnName </p>
         <p style="margin-bottom:0px;margin-top: 0px;font-size:smaller">
-            Địa chỉ văn phòng: @ViewBag.cpnAddress<br>
-            Di động: @ViewBag.cpnMobile
+            ??a ch? v?n ph?ng: @ViewBag.cpnAddress<br>
+            Di ??ng: @ViewBag.cpnMobile
         </p>
     </div>
     <div class="Block2" style="width:20%;float:left;">
         <p style="margin-bottom:0px;font-size:smaller">
-            Quyển số: PT 001<br>
-            Số:<span id="no1">01</span><br>
-            <em><span id="vdate3">Ngày:11/05/2016</span> </em>
+            Quy?n s?: PT 001<br>
+            S?:<span id="no1">01</span><br>
+            <em><span id="vdate3">Ng?y:11/05/2016</span> </em>
         </p>
     </div>
     <div>
-        <h2 style="width:100%;float:left;text-align: center;margin-top: 5px;margin-left:10px;margin-bottom:5px">PHIẾU THU</h2>
+        <h2 style="width:100%;float:left;text-align: center;margin-top: 5px;margin-left:10px;margin-bottom:5px">PHI?U THU</h2>
     </div>
     <div class="Block3" style="width:100%;float:left;margin-left:25px">
         <p style="margin-top:0px;margin-bottom:4px">
-            Họ và tên người nôp tiền: &nbsp; <span id="vcustomer1"> Trần Quốc Bảo</span><br>
-            Địa chỉ: <span id="vaddress1">56/5/6 Văn Chung ,phường 13, quận Tân Bình</span>.<br>
-            Số đt: <span id="vphone1">0909242096</span>
+            H? v? t?n ng??i n?p ti?n: &nbsp; <span id="vcustomer1"> Tr?n Qu?c B?o</span><br>
+            ??a ch?: <span id="vaddress1">56/5/6 V?n Chung ,ph??ng 13, qu?n T?n B?nh</span>.<br>
+            S? ?t: <span id="vphone1">0909242096</span>
         </p>
     </div>
     <div class="Block4" id="Block4" style="width:86%;float:left;margin-left:20px">
         <table id="renderTable" border="1" style="width:100%" cellspacing="0" cellpadding="0">
             <tr>
-                <th>Dịch Vụ</th>
-                <th>Tên File</th>
-                @*<th>CDài</th>
-                    <th>CRộng</th>*@
-                <th>SLượng</th>
-                <th>Đơn Giá</th>
-                <th>Thành Tiền</th>
+                <th>D?ch V?</th>
+                <th>T?n File</th>
+                @*<th>CD?i</th>
+                    <th>CR?ng</th>*@
+                <th>SL??ng</th>
+                <th>??n Gi?</th>
+                <th>Th?nh Ti?n</th>
             </tr>
             <tr>
-                <td>Chân X cường lực 80 x 180</td>
-                <td>cán bóng đóng khoen 4 góc</td>
+                <td>Ch?n X c??ng l?c 80 x 180</td>
+                <td>c?n b?ng ??ng khoen 4 g?c</td>
                 @*<td>0.55</td>
                     <td>0.72</td>*@
                 <td>5</td>
@@ -798,11 +930,11 @@
                 <td> &nbsp;</td>
             </tr>
             <tr>
-                <td colspan="6">Tổng Tiền</td>
+                <td colspan="6">T?ng Ti?n</td>
                 <td><span id="vtotal1">55577854</span></td>
             </tr>
             <tr>
-                <td colspan="7">Bằng Chữ:<span id="strtotal1"> Một triệu năm trăm bảy mươi lăm ngàn bốn trăm lẻ sáu đồng</span></td>
+                <td colspan="7">B?ng Ch?:<span id="strtotal1"> M?t tri?u n?m tr?m b?y m??i l?m ng?n b?n tr?m l? s?u ??ng</span></td>
             </tr>
         </table>
     </div>
@@ -811,24 +943,24 @@
             <tbody>
                 <tr>
                     <td>
-                        <strong>&nbsp; &nbsp; &nbsp;&nbsp;Giám đốc</strong><br>
-                        (Ký, họ tên, đóng dấu)
+                        <strong>&nbsp; &nbsp; &nbsp;&nbsp;Gi?m ??c</strong><br>
+                        (K?, h? t?n, ??ng d?u)
                     </td>
                     <td>
-                        <strong>Kế toán trưởng</strong><br>
-                        &nbsp;&nbsp;&nbsp;(Ký, họ tên)
+                        <strong>K? to?n tr??ng</strong><br>
+                        &nbsp;&nbsp;&nbsp;(K?, h? t?n)
                     </td>
                     <td>
-                        <strong>Người nộp tiền</strong><br>
-                        &nbsp;&nbsp;(Ký, họ tên)
+                        <strong>Ng??i n?p ti?n</strong><br>
+                        &nbsp;&nbsp;(K?, h? t?n)
                     </td>
                     <td>
-                        <strong>Người lập phiếu</strong><br>
-                        &nbsp;&nbsp;&nbsp;(Ký, họ tên)
+                        <strong>Ng??i l?p phi?u</strong><br>
+                        &nbsp;&nbsp;&nbsp;(K?, h? t?n)
                     </td>
                     <td>
-                        <strong>&nbsp;&nbsp;Thủ quỹ</strong><br>
-                        (Ký, họ tên)
+                        <strong>&nbsp;&nbsp;Th? qu?</strong><br>
+                        (K?, h? t?n)
                     </td>
                 </tr>
             </tbody>
@@ -844,17 +976,17 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4><span class="glyphicon glyphicon-pencil"></span>Gởi Thông Tin Tới Khách Hàng</h4>
+                <h4><span class="glyphicon glyphicon-pencil"></span>G?i Th?ng Tin T?i Kh?ch H?ng</h4>
             </div>
             <div class="modal-body" style="padding: 40px 50px;">
                 <form role="form">
-                    <h4>Đơn hàng đợi giao cho khách .Bạn có muốn gởi thông báo tới khách hàng ?</h4>
+                    <h4>??n h?ng ??i giao cho kh?ch .B?n c? mu?n g?i th?ng b?o t?i kh?ch h?ng ?</h4>
                     <div class="form-group">
-                        <label for="haspay">Gởi SMS</label>
+                        <label for="haspay">G?i SMS</label>
                         <input type="checkbox" class="form-control" id="sendSMS" placeholder="">
                     </div>
                     <div class="form-group">
-                        <label for="haspay">Gởi Email</label>
+                        <label for="haspay">G?i Email</label>
                         <input type="checkbox" class="form-control" id="sendEmail" placeholder="">
                     </div>
                 </form>
@@ -862,11 +994,11 @@
             <div class="modal-footer">
                 <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
                     <div class="button-image image-close"></div>
-                    Đóng
+                    ??ng
                 </button>
                 <button save class="btn btn-primary">
                     <div class="button-image image-save"></div>
-                    Lưu
+                    L?u
                 </button>
             </div>
         </div>

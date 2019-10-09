@@ -28,9 +28,9 @@
 <script src="~/fullcalendar/libCalendar/moment.min.js"></script>
 <div class="row">
     <div class="col-lg-12">
-        <h3 style="background-color: #faf9f8" class="page-header">
+        @*<h3 style="background-color: #faf9f8" class="page-header">
             <img style="width: 200px" src="~/Files/logo.png" />
-        </h3>
+        </h3>*@
         <ol class="breadcrumb">
             <li><i class="fa fa-home"></i><a href="/Order/Index">Home</a></li>
             <li><i class="fa fa-laptop"></i>Danh Sách Nhân Viên</li>
@@ -200,11 +200,11 @@
                 <form role="form">
                     <div class="form-group">
                         <label for="salary-index"><span class="glyphicon glyphicon-list-alt"></span>Thứ Tự</label>
-                        <input id="salary-index" type="text" class="form-control" placeholder="">
+                        <input disabled="disabled" id="salary-index" type="text" class="form-control" placeholder="">
                     </div>
                     <div class="form-group">
                         <label for="salary-content"><span class="glyphicon glyphicon-list-alt"></span>Nội Dung</label>
-                        <input id="salary-content" type="text" class="form-control" placeholder="">
+                        <input disabled="disabled" id="salary-content" type="text" class="form-control" placeholder="">
                     </div>
                     <div class="form-group">
                         <label for="salary-amount"><span class="glyphicon glyphicon-list-alt"></span>Số Tiền</label>
@@ -212,15 +212,15 @@
                     </div>
                     <div class="form-group">
                         <label for="salary-unit"><span class="glyphicon glyphicon-list-alt"></span>Đơn Vị</label>
-                        <input id="salary-unit" type="text" class="form-control" placeholder="">
+                        <input id="salary-unit" disabled="disabled" type="text" class="form-control" placeholder="">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="printSalary" aria-hidden="true" data-dismiss="modal" class="btn">
+                @*<button id="printSalary" aria-hidden="true" data-dismiss="modal" class="btn">
                     <div class="button-image"></div>
                     In Phiếu
-                </button>
+                </button>*@
                 <button id="save-salary-edit" class="btn btn-primary">
                     <div class="button-image save-salary"></div>
                     Lưu
@@ -267,7 +267,12 @@
                     <input type="hidden" id="eventID">
                     <div class="form-group">
                         <label for="Content"><span class="glyphicon glyphicon-qrcode"></span>Nội Dung</label>
-                        <textarea rows="4" cols="50" class="form-control" id="eventTitle"></textarea>
+                        @*<textarea rows="4" cols="50" class="form-control" id="eventTitle"></textarea>*@
+                        <div id="rates">
+                            <input checked="checked" type="radio" id="r1" name="rate" value="1"> Nghỉ nguyên ngày
+                            <input type="radio" id="r2" name="rate" value="2"> nghỉ nữa ngày
+                            <input type="radio" id="r3" name="rate" value="3">không nghỉ
+                        </div>
                     </div>
                     <input type="hidden" id="eventDate">
                     <input type="hidden" id="eventTime">

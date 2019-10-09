@@ -100,6 +100,8 @@ namespace VINASIC.Business
                     ReceiptPhone=obj.CustomerPhone,
                     IsDeleted = false,
                     CreatedUser = userId,
+                    PaymentType=obj.PaymentType,
+                    HasPay=obj.HasPay,
                     CreatedDate = DateTime.UtcNow
                 };
                 _repPaymentVoucher.Add(order);
@@ -211,6 +213,7 @@ namespace VINASIC.Business
                 var order = _repPaymentVoucher.Get(x => x.Id == obj.OrderId);
                 order.Content = obj.Content;
                 order.Money = obj.OrderTotal != 0 ? obj.OrderTotal : obj.totalInclude;
+                order.HasPay = obj.HasPay;
                 order.PaymentDate = DateTime.UtcNow;
                 order.ReceiptName = obj.CustomerName;
                 order.ReceiptAddress = obj.CustomerAddress;
@@ -380,7 +383,7 @@ namespace VINASIC.Business
             listModelSelect.AddRange(_repPaymentVoucher.GetMany(x => !x.IsDeleted).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Content }));
             return listModelSelect;
         }
-        public PagedList<ModelPaymentVoucher> GetList(string keyWord, int startIndexRecord, int pageSize, string sorting,string fromDate,string toDate)
+        public PagedList<ModelPaymentVoucher> GetList(string keyWord, int startIndexRecord, int pageSize, string sorting,string fromDate,string toDate,int type)
         {
             if (string.IsNullOrEmpty(sorting))
             {
@@ -394,7 +397,7 @@ namespace VINASIC.Business
             var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
             tDate = TimeZoneInfo.ConvertTimeToUtc(tDate, curentZone);
 
-            var paymentVouchers = _repPaymentVoucher.GetMany(c => !c.IsDeleted).Select(c => new ModelPaymentVoucher()
+            var paymentVouchers = _repPaymentVoucher.GetMany(c => !c.IsDeleted &&c.PaymentType==type).Select(c => new ModelPaymentVoucher()
             {
                 Id = c.Id,
                 Content = c.Content,
@@ -405,6 +408,8 @@ namespace VINASIC.Business
                 PaymentDate = c.PaymentDate,
                 CreatedDate = c.CreatedDate,
                 ReceiptPhone=c.ReceiptPhone,
+                HasPay=c.HasPay,
+                PaymentType=c.PaymentType,
                 T_PaymentVoucherDetail=c.T_PaymentVoucherDetail,
             }).OrderBy(sorting);
             if (!string.IsNullOrEmpty(keyWord))

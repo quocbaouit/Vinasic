@@ -57,6 +57,7 @@
     <Compile Include="BLLEmployee.cs" />
     <Compile Include="BLLErrorLog.cs" />
     <Compile Include="BLLContent.cs" />
+    <Compile Include="BLLDashBoard.cs" />
     <Compile Include="BLLMachine.cs" />
     <Compile Include="BLLMaterial.cs" />
     <Compile Include="BLLMaterialType.cs" />

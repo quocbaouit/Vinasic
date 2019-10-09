@@ -51,6 +51,7 @@ VINASIC.Employee = function () {
             ModelConfig: {},
             UserId: 0,
             listSalary: [],
+            Note:'',
             listSelectRole: [],
             UserRoleModel: { UserId: 0, ListRole: [] },
             ListSelectProductModel: { UserId: 0, ListSelectProduct: [] },
@@ -62,7 +63,7 @@ VINASIC.Employee = function () {
     this.GetGlobal = function () {
         return global;
     };
-    function renderTable(Table,name,address,mobile) {
+    function renderTable(Table,strNote) {
         var tableString = "<table id=\"renderTable\" border=\"1\" style=\"width:100%\" cellspacing=\"0\" cellpadding=\"0\">";
         var root = document.getElementById('Block4');
         document.getElementById("Block4").innerHTML = "";
@@ -70,6 +71,7 @@ VINASIC.Employee = function () {
         tableString += "<th style=\"padding-left: 5px;text-align: left;\">" + "Nội Dung" + "</th>";
         tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Số Lượng" + "</th>";
         tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Đơn Vị" + "</th>";
+        tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Ghi Chú" + "</th>";
         tableString += "</tr>";
         for (row = 0; row < Table.length; row += 1) {
             var strAmount = Table[row].Amount.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
@@ -77,6 +79,10 @@ VINASIC.Employee = function () {
             tableString += "<td style=\"padding-left: 5px;\">" + Table[row].Content + "</td>";
             tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strAmount + "</td>";
             tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + Table[row].Unit + "</td>";
+            if (row==0) {
+                tableString += "<td rowspan=9 style=\"vertical-align: text-top;padding-left: 10px;max-width: 90px;overflow-x: hidden;word-break: break-word;\">" + strNote + "</td>";
+            }
+           
             tableString += "</tr>";
         }
 
@@ -319,9 +325,9 @@ VINASIC.Employee = function () {
                 createAction: global.Element.PopupSalaryEdit,
             },
             messages: {
-                addNewRecord: 'Thêm Mới',
-                searchRecord: 'Tìm kiếm',
-                selectShow: 'Ẩn hiện cột'
+                //addNewRecord: 'Thêm Mới',
+                //searchRecord: 'Tìm kiếm',
+                //selectShow: 'Ẩn hiện cột'
             },
             fields: {
                 Id: {
@@ -364,27 +370,27 @@ VINASIC.Employee = function () {
                     title: "Đơn Vị",
                     width: "10%"
                 },
-                Delete: {
-                    title: 'Xóa',
-                    width: "3%",
-                    sorting: false,
-                    display: function (data) {
-                        var text = $('<button  title="Xóa" class="jtable-command-button jtable-delete-command-button"><span>Xóa</span></button>');
-                        text.click(function () {
-                            GlobalCommon.ShowConfirmDialog('Bạn có chắc chắn muốn xóa?', function () {
-                                removeItemInArray1(global.Data.listSalary, data.record.Id);
-                                reloadListSalary();
-                                //var total = 0;
-                                //for (var k = 0; k < global.Data.listSalary.length; k++) {
-                                //    total += parseFloat(global.Data.listSalary[k].Amount.replace(/[^0-9-.]/g, ''));
-                                //}
-                                //$("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                            }, function () { }, 'Đồng ý', 'Hủy bỏ', 'Thông báo');
-                        });
-                        return text;
+                //Delete: {
+                //    title: 'Xóa',
+                //    width: "3%",
+                //    sorting: false,
+                //    display: function (data) {
+                //        var text = $('<button  title="Xóa" class="jtable-command-button jtable-delete-command-button"><span>Xóa</span></button>');
+                //        text.click(function () {
+                //            GlobalCommon.ShowConfirmDialog('Bạn có chắc chắn muốn xóa?', function () {
+                //                removeItemInArray1(global.Data.listSalary, data.record.Id);
+                //                reloadListSalary();
+                //                //var total = 0;
+                //                //for (var k = 0; k < global.Data.listSalary.length; k++) {
+                //                //    total += parseFloat(global.Data.listSalary[k].Amount.replace(/[^0-9-.]/g, ''));
+                //                //}
+                //                //$("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                //            }, function () { }, 'Đồng ý', 'Hủy bỏ', 'Thông báo');
+                //        });
+                //        return text;
 
-                    }
-                }
+                //    }
+                //}
             }
         });
     }
@@ -486,10 +492,12 @@ VINASIC.Employee = function () {
                         var text = $("<a href=\"javascript:void(0)\"  class=\"clickable\" title=\"Chỉnh sửa thông tin.\">" + "Xem Bảng Lương" + "</a>");
                         text.click(function () {
                             debugger;
+                            global.Data.Note = data.record.Note;
                             global.Data.UserId = data.record.Id;
                             while (global.Data.listSalary.length) {
                                 global.Data.listSalary.pop();
                             }
+                            debugger;
                             global.Data.listSalary.push.apply(global.Data.listSalary, data.record.SalaryObj);
                             global.Data.PcustomerName = data.record.Name
                             global.Data.PcustomePhone = data.record.Mobile
@@ -767,20 +775,32 @@ VINASIC.Employee = function () {
             dayNamesShort: ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'],
 
             dayClick: function (date, allDay, jsEvent, view) {
-                $('#eventTitle').val("");
+                //$('#eventTitle').val("");
                 var events = $('#calendar1').fullCalendar('clientEvents');
                 for (var i = 0; i < events.length; i++) {
                     if (moment(events[i].start).isSame(date, 'day')) {
-                        $('#eventTitle').val(events[i].title);
+                        if (events[i].title == '1') {
+                            document.getElementById('r1').checked = true
+
+                        }
+                        if (events[i].title == '0.5') {
+                            document.getElementById('r2').checked = true
+
+                        }
+                        if (events[i].title == '0') {
+                            document.getElementById('r3').checked = true
+
+                        }
+                        //$('#eventTitle').val(events[i].title);
                     }
                 }
                 $('#eventDate').val($.fullCalendar.formatDate(date, 'dd/MM/yyyy'));
                 $('#eventTime').val($.fullCalendar.formatDate(date, 'HH:mm'));
                 showPopupTiming();
-                var delay = 500;
-                setTimeout(function () {
-                    $('#eventTitle').focus();
-                }, delay);
+                //var delay = 500;
+                //setTimeout(function () {
+                //    $('#eventTitle').focus();
+                //}, delay);
             },
             eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
                 revertFunc();
@@ -964,7 +984,7 @@ VINASIC.Employee = function () {
     /*End bootrap*/
     function ClearPopupFormValues() {
         $('#eventID').val("");
-        $('#eventTitle').val("");
+        //$('#eventTitle').val("");
         $('#eventDateTime').val("");
         $('#eventDuration').val("");
     }
@@ -1033,7 +1053,10 @@ VINASIC.Employee = function () {
             SaveUserRole();
         });
         $("#printSalary").click(function () {
-            renderTable(global.Data.listSalary);
+            if (global.Data.Note == undefined) {
+                global.Data.Note = '';
+            }
+            renderTable(global.Data.listSalary, global.Data.Note);
             var time = new Date().toLocaleDateString('en-GB');
             $("#no1").html("");
             $("#vcustomer1").html("");
@@ -1070,8 +1093,18 @@ VINASIC.Employee = function () {
 
             $("#" + global.Element.PopupTiming).modal("hide");
 
+            var event = "";
+            if (document.getElementById('r1').checked) {
+                event = "1";
+            }
+            if (document.getElementById('r2').checked) {
+                event = "0.5";
+            }
+            if (document.getElementById('r3').checked) {
+                event = "";
+            }
             var dataRow = {
-                'Title': $('#eventTitle').val(),
+                'Title': event,
                 'NewEventDate': $('#eventDate').val(),
                 'NewEventTime': $('#eventTime').val(),
                 'NewEventDuration': $('#eventDuration').val(),
@@ -1089,6 +1122,7 @@ VINASIC.Employee = function () {
 
                         $('#calendar1').fullCalendar('refetchEvents');
                         toastr.success('Chấm công thành công');
+                        reloadListEmployee();
                     }
                     else {
                         toastr.warning('Chấm công thất bại');
