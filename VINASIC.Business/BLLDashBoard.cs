@@ -41,26 +41,22 @@ namespace VINASIC.Business
             var payments= _repPaymentVoucher.GetMany(c => !c.IsDeleted && c.CreatedDate >= frDate && c.CreatedDate <= tDate);
             var dashBoardOrder = new ModelDashBoardOrder();
             var sum = orders.Sum(x => x.SubTotal);
-            dashBoardOrder.Value1 = orders.Sum(x => x.HasPay??0);
-            dashBoardOrder.Value2 = orders.Sum(x => x.HaspayTransfer??0);
+            dashBoardOrder.Value1 = orders.Count()>0? orders?.Sum(x => x.HasPay??0):0;
+            dashBoardOrder.Value2 = orders.Count() > 0 ? orders?.Sum(x => x.HaspayTransfer??0):0;
             dashBoardOrder.Value3 = sum- (dashBoardOrder.Value1 + dashBoardOrder.Value2);
             result.ModelDashBoardOrder = dashBoardOrder;
 
             var dashBoardPayment = new ModelDashBoardPayment();
-            var sum1 = payments.Sum(x => x.Money);
-            dashBoardPayment.Value1 = payments.Sum(x => x.HasPay ?? 0);
+            var sum1 = payments.Count()>0? payments?.Sum(x => x.Money):0;
+            dashBoardPayment.Value1 = payments.Count() > 0 ? payments?.Sum(x => x.HasPay ?? 0):0;
             dashBoardPayment.Value2 = sum1 - dashBoardPayment.Value1;
             result.ModelDashBoardPayment = dashBoardPayment;
 
             var dashBoardSum = new ModelDashBoardSum();
             dashBoardSum.Value1 = sum;
             dashBoardSum.Value2 = sum1;
-            dashBoardSum.Value3= dashBoardOrder.Value1 + dashBoardOrder.Value2;
-         
-       
-
+            dashBoardSum.Value3= dashBoardOrder.Value1 + dashBoardOrder.Value2;            
             dashBoardSum.Value4 = dashBoardPayment.Value1;
-
             result.ModelDashBoardSum = dashBoardSum;
             return result;
         }

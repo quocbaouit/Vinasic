@@ -80,7 +80,6 @@ VINASIC.Order = function () {
         return global;
     };
     function renderTable(Table,subTotal,haspay) {
-        debugger;
         var tableString = "<table id=\"renderTable\" border=\"1\" style=\"width:100%\" cellspacing=\"0\" cellpadding=\"0\">";
         var root = document.getElementById('Block4');
         document.getElementById("Block4").innerHTML = "";
