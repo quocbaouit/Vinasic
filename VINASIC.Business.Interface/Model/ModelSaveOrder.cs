@@ -25,6 +25,7 @@ namespace VINASIC.Business.Interface.Model
         public float OrderTotalExcludeTax { get; set; }
         public DateTime? DateDelivery { get; set; }
         public List<ModelDetail> Detail { get; set; }
+        public float Deposit { get; set; }
     }
 
     public class ModelDetail

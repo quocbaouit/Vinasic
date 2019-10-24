@@ -472,7 +472,7 @@
                                             <div id="jtableOrderDetail"></div>
                                             <div class="row">
                                                 <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="dtotal" type="text" class="form-control dsubtotal" placeholder="">
-                                                <strong style="margin-top: 10px; width: 200px; float: right">Tiền Trước Thuế (VND)</strong>
+                                                <strong style="margin-top: 10px; width: 200px; float: right">Tổng Tiền(VND)</strong>
                                             </div>
                                             <div class="row">
                                                 <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="ddeposit" value="0" type="text" class="form-control dsubtotal" placeholder="">
@@ -480,7 +480,7 @@
                                             </div>
                                             <div class="row">
                                                 <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="dtotaltax" type="text" class="form-control dsubtotal" placeholder="">
-                                                <strong style="margin-top: 10px; width: 200px; float: right">Tổng Tiền(VND)</strong>
+                                                <strong style="margin-top: 10px; width: 200px; float: right">Còn Lại(VND)</strong>
                                             </div>
                                             <a id="saveOrder" style="margin-left: 20px; margin-top: 20px" title="" class="btn btn-primary btn-sm" href="javascript:void(0)">Lưu Đơn Hàng</a>
                                             <a id="resetOrder" style="margin-top: 20px" title="" class="btn btn-warning btn-sm" href="javascript:void(0)">Reset</a>
@@ -591,7 +591,7 @@
 
 
 <div class="modal fade" id="popup_PaymentProcess" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -642,32 +642,41 @@
                         <input type="text" class="form-control" id="prest" placeholder="" onkeypress=" return isNumberKey(event) ">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="prest">Loại Thanh Toán</label>
-                    <select id="PaymentType" class="form-control">
-                        <option value="1">Tiền Mặt</option>
-                        <option value="2">Chuyển Khoản</option>
-                        <option value="3">Công Nợ</option>
-                    </select>
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        <label for="prest">Đã Đặt Cọc</label>
+                        <input type="text" class="form-control" id="hasDeposit" disabled="disabled" placeholder="" onkeypress=" return isNumberKey(event) ">
+                    </div>
                 </div>
-                <div id="transferIdShell" style="display:none" class="form-group">
-                    <label for="caddress">Thông Tin Chuyển Khoản</label>
-                    <textarea name="" id="transferId" class="form-control" cols="30" rows="3"></textarea>
+                @*<div class="col-lg-12">*@
+                    <div class="form-group">
+                        <label for="prest">Loại Thanh Toán</label>
+                        <select id="PaymentType" class="form-control">
+                            <option value="1">Tiền Mặt</option>
+                            <option value="2">Chuyển Khoản</option>
+                            <option value="3">Công Nợ</option>
+                        </select>
+                    </div>
+                    <div id="transferIdShell" style="display:none" class="form-group">
+                        <label for="caddress">Thông Tin Chuyển Khoản</label>
+                        <textarea name="" id="transferId" class="form-control" cols="30" rows="3"></textarea>
+                    </div>
+                @*</div>*@
+                    
+                </div>
+                <div class="modal-footer">
+                    <input id="type2" type="checkbox">Phiếu thu loại bảng kê.
+                    <a print class="btn btn-danger" href="javascript:void(0)" title="Bootstrap 3 themes generator"><span class="icon_target"></span>In Phiếu Thu</a>
+                    <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
+                        <div class="button-image image-close"></div>
+                        Đóng
+                    </button>
+                    <button save class="btn btn-primary">
+                        <div class="button-image image-save"></div>
+                        Lưu
+                    </button>
                 </div>
             </div>
-            <div class="modal-footer">
-                <input id="type2" type="checkbox">Phiếu thu loại bảng kê.
-                <a print class="btn btn-danger" href="javascript:void(0)" title="Bootstrap 3 themes generator"><span class="icon_target"></span>In Phiếu Thu</a>
-                <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
-                    <div class="button-image image-close"></div>
-                    Đóng
-                </button>
-                <button save class="btn btn-primary">
-                    <div class="button-image image-save"></div>
-                    Lưu
-                </button>
-            </div>
-        </div>
     </div>
 </div>
 

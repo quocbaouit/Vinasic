@@ -82,6 +82,7 @@ namespace VINASIC.Business
                 CreateUserName = c.T_User.Name,
                 CreatedDate = c.CreatedDate,
                 HasPay = c.HasPay ?? 0,
+                Deposit=c.Deposit??0,
                 HaspayTransfer = c.HaspayTransfer ?? 0,
                 Cost=c.Cost,
                 OrderStatus = c.OrderStatus,
@@ -292,6 +293,8 @@ namespace VINASIC.Business
                     IsDeleted = false,
                     CreatedForUser = obj.EmployeeId,
                     SubTotalExcludeTax=obj.OrderTotalExcludeTax,
+                    Deposit=obj.Deposit,
+                    HasPay=obj.Deposit,
                     HasTax=obj.Tax,
                     CreatedUser = userId,
                     IsDelivery = 1,
@@ -366,6 +369,8 @@ namespace VINASIC.Business
                 order.Name = obj.CustomerName;
                 order.HasTax = obj.Tax;
                 order.SubTotalExcludeTax = obj.OrderTotalExcludeTax;
+                order.Deposit = obj.Deposit;
+                order.HasPay = obj.Deposit;
                 order.Description = "";
                 order.SubTotal = obj.OrderTotal;
                 order.CustomerId = obj.CustomerId;

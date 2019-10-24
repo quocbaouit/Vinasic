@@ -28,6 +28,7 @@ namespace VINASIC.Object
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public string Name { get; set; }
         public Nullable<double> Value { get; set; }
+        public Nullable<int> ElementFormularId { get; set; }
     
         public virtual T_Formular T_Formular { get; set; }
     }

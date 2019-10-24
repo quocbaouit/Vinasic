@@ -23,7 +23,7 @@ namespace VINASIC.Object
         public int Id { get; set; }
         public string Content { get; set; }
         public string Note { get; set; }
-        public double  Money { get; set; }
+        public double Money { get; set; }
         public Nullable<int> Debit { get; set; }
         public Nullable<int> Credit { get; set; }
         public bool IsDeleted { get; set; }
