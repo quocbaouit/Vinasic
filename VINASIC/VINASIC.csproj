@@ -84,6 +84,24 @@
     <Reference Include="EPPlus">
       <HintPath>..\packages\EPPlus.dll</HintPath>
     </Reference>
+    <Reference Include="Google.Apis, Version=1.41.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.41.1\lib\net45\Google.Apis.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth, Version=1.41.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.41.1\lib\net45\Google.Apis.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth.PlatformServices, Version=1.41.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.41.1\lib\net45\Google.Apis.Auth.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Core, Version=1.41.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Core.1.41.1\lib\net45\Google.Apis.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.PlatformServices, Version=1.41.1.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.41.1\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Sheets.v4, Version=1.41.1.1754, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Sheets.v4.1.41.1.1754\lib\net45\Google.Apis.Sheets.v4.dll</HintPath>
+    </Reference>
     <Reference Include="GPRO.Ultilities">
       <HintPath>..\lib\GPRO.Ultilities.dll</HintPath>
     </Reference>
@@ -109,9 +127,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="OpenXmlPackaging">
       <HintPath>..\packages\OpenXmlPackaging.dll</HintPath>
@@ -253,6 +270,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\GoogleSheetHelpers.cs" />
     <Compile Include="Hubs\RealTimeJTableDemoHub.cs" />
     <Compile Include="Infrastructure\ActionExtention\BaseCommand.cs" />
     <Compile Include="Infrastructure\ActionExtention\ConvertCalendar.cs" />
@@ -260,6 +278,7 @@
     <Compile Include="Infrastructure\ActionExtention\ExcelDownloadResult.cs" />
     <Compile Include="Infrastructure\ActionExtention\ExcelInsuranceDownload.cs" />
     <Compile Include="Infrastructure\ActionExtention\TimeKeepingApprovalDetailCommand.cs" />
+    <Compile Include="Models\ProductsViewModel.cs" />
     <Compile Include="Models\RolePermissionModel.cs" />
     <Compile Include="Models\UserInfoModel.cs" />
     <Compile Include="Models\UserNotification.cs" />
@@ -995,9 +1014,6 @@
     <Content Include="css\widgets.css" />
     <Content Include="css\xcharts.min.css" />
     <Content Include="Files\fileNotification.jpg" />
-    <Content Include="Files\logo.jpg" />
-    <Content Include="Files\logovinasic.png" />
-    <Content Include="Files\xuanan.jpg" />
     <Content Include="fonts\ElegantIcons.svg" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

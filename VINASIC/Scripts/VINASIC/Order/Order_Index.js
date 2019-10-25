@@ -34,8 +34,9 @@ VINASIC.Order = function () {
             PopupOrder: "popup_Order",
             PopupSearch: "popup_SearchOrder",
             PopupDesignProcess: "popup_DesignProcess",
-            PopupHasPay: "popup_HasPay",
+            PopupHasPay: "popup_HasPay", 
             PopupCost: "popup_Cost",
+            popupCustom: "popup_Custom",
             PopupPaymentProcess: "popup_PaymentProcess",
             PopupPrintProcess: "popup_PrintProcess",
             PopupNotification: "popup_notification",
@@ -342,6 +343,9 @@ VINASIC.Order = function () {
     }
     function showPopupCost() {
         $("#" + global.Element.PopupCost).modal("show");
+    }
+    function showPopupCustom() {
+        $("#" + global.Element.popupCustom).modal("show");
     }
     function showPopupNotification() {
         $("#" + global.Element.PopupNotification).modal("show");
@@ -2313,6 +2317,22 @@ VINASIC.Order = function () {
             $("#" + global.Element.PopupCost).modal("hide");
         });
     }
+    function initPopupCustom() {
+        $("#" + global.Element.popupCustom).modal({
+            keyboard: false,
+            show: false
+        });
+        $("#" + global.Element.popupCustom + ' button[save]').click(function () {
+            //var orderId = global.Data.OrderId;
+            //var payment = $("#cost").val();
+            //updateCost(orderId, payment);
+            //reloadListOrder();
+            $("#" + global.Element.popupCustom).modal("hide");
+        });
+        $("#" + global.Element.popupCustom + ' button[cancel]').click(function () {
+            $("#" + global.Element.popupCustom).modal("hide");
+        });
+    }
     function initPopupNotification() {
         $("#" + global.Element.PopupNotification).modal({
             keyboard: false,
@@ -2363,6 +2383,7 @@ VINASIC.Order = function () {
             saveOrder();
         });
         $("#dproduct").change(function () {
+            showPopupCustom();
             $.ajax({
                 url: "/Order/GetPriceForCustomerAndProduct?customerId=" + global.Data.CustomerId + "&productId=" + $(this).val(),
                 type: 'post',
@@ -2857,7 +2878,8 @@ VINASIC.Order = function () {
             });
             $("#dproductSuggest").autocomplete({
                 source: global.Data.listproductName,
-                select: function (a, b) {       
+                select: function (a, b) {
+                    showPopupCustom();
                     var cusName = b.item.value;
                     var resultObject = search(cusName, global.Data.listproduct);
                     if (resultObject != undefined) {                
@@ -2897,6 +2919,7 @@ VINASIC.Order = function () {
         initPopupPaymentProcess();
         initPopupHasPay();
         initPopupCost();
+        initPopupCustom();
         initPopupNotification();
         initPopupSearch();
         initListCost();

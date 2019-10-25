@@ -12,6 +12,8 @@ using VINASIC.App_Start;
 using VINASIC.Business.Interface;
 using VINASIC.App_Global;
 using  VINASIC;
+using VINASIC.Helpers;
+
 namespace VINASIC
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
@@ -21,6 +23,8 @@ namespace VINASIC
     {
         protected void Application_Start()
         {
+            GoogleSheetHelpers help = new GoogleSheetHelpers();
+            //var a= help.ReadPpAndDecalEntries();
             AreaRegistration.RegisterAllAreas();
            
             WebApiConfig.Register(GlobalConfiguration.Configuration);
