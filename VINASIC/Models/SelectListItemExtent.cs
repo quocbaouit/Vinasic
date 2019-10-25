@@ -9,5 +9,6 @@ namespace VINASIC.Models
     public class SelectListItemExtent: SelectListItem
     {
         public int Type { get; set; }
+        public string Code { get; set; }
     }
 }

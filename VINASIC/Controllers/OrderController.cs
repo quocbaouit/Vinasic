@@ -385,7 +385,8 @@ namespace VINASIC.Controllers
                     {
                         Value = c.Value.ToString(),
                         Text = c.Name,
-                        Type=c.Type
+                        Type=c.Type,
+                        Code =c.Code,
                     }).ToList();
                 }
                 return Json(listValues, JsonRequestBehavior.AllowGet);

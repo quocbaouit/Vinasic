@@ -167,7 +167,7 @@ namespace VINASIC.Business
             {
                 if (productTypeId==0)
                 {
-                    listModelSelect.AddRange(_repProduct.GetMany(x => !x.IsDeleted).OrderBy(c=>c.OrderIndex).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name,Type=x.ProductTypeId }));
+                    listModelSelect.AddRange(_repProduct.GetMany(x => !x.IsDeleted).OrderBy(c=>c.OrderIndex).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name,Type=x.ProductTypeId,Code=x.Code }));
                 }
                 else
                 {

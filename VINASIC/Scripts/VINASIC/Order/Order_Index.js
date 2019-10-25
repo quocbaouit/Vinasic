@@ -37,6 +37,9 @@ VINASIC.Order = function () {
             PopupHasPay: "popup_HasPay", 
             PopupCost: "popup_Cost",
             popupCustom: "popup_Custom",
+            popupCustom1: "popup_Custom1",
+            popupCustom2: "popup_Custom2",
+            popupCustom3: "popup_Custom3",
             PopupPaymentProcess: "popup_PaymentProcess",
             PopupPrintProcess: "popup_PrintProcess",
             PopupNotification: "popup_notification",
@@ -77,6 +80,7 @@ VINASIC.Order = function () {
             IdDetailStatus: 0,
             DetailStatus: 0,
             IdForView: 0,
+            ProductFixPrice:[],
         }
     };
     this.GetGlobal = function () {
@@ -302,6 +306,13 @@ VINASIC.Order = function () {
             }
         }
     }
+    function searchById(key, myArray) {
+        for (var i = 0; i < myArray.length; i++) {
+            if (myArray[i].Value === key) {
+                return myArray[i];
+            }
+        }
+    }
     /*function init model using knockout Js*/
     function initViewModel(order) {
         var orderViewModel = {
@@ -346,6 +357,15 @@ VINASIC.Order = function () {
     }
     function showPopupCustom() {
         $("#" + global.Element.popupCustom).modal("show");
+    }
+    function showPopupCustom1() {
+        $("#" + global.Element.popupCustom1).modal("show");
+    }
+    function showPopupCustom2() {
+        $("#" + global.Element.popupCustom2).modal("show");
+    }
+    function showPopupCustom3() {
+        $("#" + global.Element.popupCustom3).modal("show");
     }
     function showPopupNotification() {
         $("#" + global.Element.PopupNotification).modal("show");
@@ -2059,6 +2079,22 @@ VINASIC.Order = function () {
             }
         });
     }
+
+    function initProductPrice() {
+        global.Data.ProductFixPrice = [{ code: 'c80', price:170 }, { code: 'c100', price:230 }, { code: 'c120', price:280 }, { code: 'c150', price:350 }]
+        //var url = "/Order/GetListProductType";
+        //$.getJSON(url, function (datas) {
+        //    $('#dproductType').empty();
+        //    if (datas.length > 0) {
+        //        for (var i = 0; i < datas.length; i++) {
+        //            $('#dproductType').append('<option value="' + datas[i].Value + '">' + datas[i].Text + '</option>');
+        //        }
+        //    }
+        //    else {
+        //        $('#dproductType').append('<option value="0">Không Có Dữ Liệu </option>');
+        //    }
+        //});
+    }
     function initComboBoxPrint() {
         var url = "/Order/GetCustomerByOrganization?shortName=BPI";
         $.getJSON(url, function (datas) {
@@ -2333,6 +2369,42 @@ VINASIC.Order = function () {
             $("#" + global.Element.popupCustom).modal("hide");
         });
     }
+    function initPopupCustom1() {
+        $("#" + global.Element.popupCustom1).modal({
+            keyboard: false,
+            show: false
+        });
+        $("#" + global.Element.popupCustom1 + ' button[save]').click(function () {
+            $("#" + global.Element.popupCustom1).modal("hide");
+        });
+        $("#" + global.Element.popupCustom1 + ' button[cancel]').click(function () {
+            $("#" + global.Element.popupCustom1).modal("hide");
+        });
+    }
+    function initPopupCustom2() {
+        $("#" + global.Element.popupCustom2).modal({
+            keyboard: false,
+            show: false
+        });
+        $("#" + global.Element.popupCustom2 + ' button[save]').click(function () {
+            $("#" + global.Element.popupCustom2).modal("hide");
+        });
+        $("#" + global.Element.popupCustom2 + ' button[cancel]').click(function () {
+            $("#" + global.Element.popupCustom2).modal("hide");
+        });
+    }
+    function initPopupCustom3() {
+        $("#" + global.Element.popupCustom3).modal({
+            keyboard: false,
+            show: false
+        });
+        $("#" + global.Element.popupCustom3 + ' button[save]').click(function () {
+            $("#" + global.Element.popupCustom3).modal("hide");
+        });
+        $("#" + global.Element.popupCustom3 + ' button[cancel]').click(function () {
+            $("#" + global.Element.popupCustom3).modal("hide");
+        });
+    }
     function initPopupNotification() {
         $("#" + global.Element.PopupNotification).modal({
             keyboard: false,
@@ -2383,7 +2455,19 @@ VINASIC.Order = function () {
             saveOrder();
         });
         $("#dproduct").change(function () {
-            showPopupCustom();
+            var resultObject = searchById($(this).val(), global.Data.listproduct);
+            if (resultObject.Code == 'ingiay') {
+                showPopupCustom();
+            }
+            if (resultObject.Code == 'decalgiay') {
+                showPopupCustom1();
+            }
+            if (resultObject.Code == 'decalxi') {
+                showPopupCustom2();
+            }
+            if (resultObject.Code == 'catalogue') {
+                showPopupCustom3();
+            } 
             $.ajax({
                 url: "/Order/GetPriceForCustomerAndProduct?customerId=" + global.Data.CustomerId + "&productId=" + $(this).val(),
                 type: 'post',
@@ -2879,9 +2963,21 @@ VINASIC.Order = function () {
             $("#dproductSuggest").autocomplete({
                 source: global.Data.listproductName,
                 select: function (a, b) {
-                    showPopupCustom();
+                    
                     var cusName = b.item.value;
                     var resultObject = search(cusName, global.Data.listproduct);
+                    if (resultObject.Code =='ingiay') {
+                        showPopupCustom();
+                    } 
+                    if (resultObject.Code == 'decalgiay') {
+                        showPopupCustom1();
+                    } 
+                    if (resultObject.Code == 'decalxi') {
+                        showPopupCustom2();
+                    } 
+                    if (resultObject.Code == 'catalogue') {
+                        showPopupCustom3();
+                    } 
                     if (resultObject != undefined) {                
                         $('#dproductType').val(resultObject.Type);
                         initComboBoxProduct(0, resultObject.Value);                  
@@ -2961,6 +3057,7 @@ VINASIC.Order = function () {
                 });
             }
         });
+        initProductPrice();
     };
 };
 /*End Region*/
