@@ -12,6 +12,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using VINASIC.Business.Interface;
 using VINASIC.Business.Interface.Model;
+using VINASIC.Helpers;
 using VINASIC.Infrastructure.ActionExtention;
 using VINASIC.Models;
 
@@ -25,8 +26,9 @@ namespace VINASIC.Controllers
         private readonly IBllEmployee _bllEmployee;
         private readonly IBllCustomer _bllCustomer;
         private readonly IBllSiteSetting _bllSiteSetting;
+        private readonly IBllContent _bllContent;
 
-        public OrderController(IBllOrder bllOrder, IBllSiteSetting bllSiteSetting, IBllEmployee bllEmployee, IBllCustomer bllCustomer, IBllProductType bllProductType, IBllProduct bllProduct)
+        public OrderController(IBllOrder bllOrder, IBllContent bllContent, IBllSiteSetting bllSiteSetting, IBllEmployee bllEmployee, IBllCustomer bllCustomer, IBllProductType bllProductType, IBllProduct bllProduct)
         {
             _bllOrder = bllOrder;
             _bllSiteSetting = bllSiteSetting;
@@ -34,6 +36,7 @@ namespace VINASIC.Controllers
             _bllCustomer = bllCustomer;
             _bllProductType = bllProductType;
             _bllProduct = bllProduct;
+            _bllContent = bllContent;
 
         }
         public ActionResult Index()
@@ -93,7 +96,7 @@ namespace VINASIC.Controllers
                 Sum.sumHaspayTransfer = sumHaspayTransfer;
                 Sum.sumRemaining = sumRemaining;
                 JsonDataResult.Result = "OK";
-               
+
                 JsonDataResult.Data = Sum;
                 JsonDataResult.TotalRecordCount = listOrder.TotalItemCount;
             }
@@ -304,7 +307,7 @@ namespace VINASIC.Controllers
                         CustomerAddress = customerAddress,
                         CustomerTaxCode = customerTaxCode,
                         Tax = tax,
-                        Deposit=deposit,
+                        Deposit = deposit,
                         OrderTotalExcludeTax = orderTotal,
                         DateDelivery = DateTime.Parse(dateDelivery ?? DateTime.Now.AddHours(14).ToString(CultureInfo.InvariantCulture)),
                         Detail = listDetail
@@ -385,8 +388,8 @@ namespace VINASIC.Controllers
                     {
                         Value = c.Value.ToString(),
                         Text = c.Name,
-                        Type=c.Type,
-                        Code =c.Code,
+                        Type = c.Type,
+                        Code = c.Code,
                     }).ToList();
                 }
                 return Json(listValues, JsonRequestBehavior.AllowGet);
@@ -423,6 +426,21 @@ namespace VINASIC.Controllers
             {
                 return Json(new { Result = "ERROR", ex.Message });
             }
+        }
+        public JsonResult GetProductPrice(int type)
+        {
+            try
+            {
+                var result = _bllContent.GetContentByType(type);
+
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                JsonDataResult.Result = "ERROR";
+                JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Get List ObjectType", Message = "Lỗi: " + ex.Message });
+            }
+            return Json(JsonDataResult);
         }
         public JsonResult GetCustomerByPhone(string phoneNumber)
         {
@@ -1364,6 +1382,7 @@ namespace VINASIC.Controllers
             try
             {
                 Thread.Sleep(200);
+
                 var price = _bllOrder.GetPriceForCustomerAndProduct(customerId, productId);
                 return Json(new { Result = "OK", Records = price });
             }

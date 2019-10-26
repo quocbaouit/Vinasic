@@ -5,10 +5,21 @@ using VINASIC.ViewModels;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
+using System;
+using VINASIC.Data.Repositories;
+using VINASIC.Data;
+using Dynamic.Framework.Infrastructure.Data;
+using VINASIC.Object;
 
 namespace VINASIC.Helpers
 {
-  
+
+    public class Entry
+    {
+        public string KeyName { get; set; }
+        public string Range { get; set; }
+    }
     public class ClientSecret
     {
         public string type { get; set; }
@@ -38,209 +49,245 @@ namespace VINASIC.Helpers
     }
     public interface IGoogleSheetHelpers
     {
-        void ReadPpAndDecalEntries();
-        IEnumerable<StampModel> ReadStamplEntries();
-        IEnumerable<StandeeModel> ReadStandeeEntries();
-        IEnumerable<DesignModel> ReadDesignEntries();
-        IEnumerable<HiflexModel> ReadHiflexEntries();
-        IEnumerable<Paper> ReadPaperEntries();
+        void ReadEntries();
     }
-    public class GoogleSheetHelpers: IGoogleSheetHelpers
-    {
-        static readonly string[] Scopes = { SheetsService.Scope.Spreadsheets };
-        static readonly string ApplicationName = "SieuViet";
-        static readonly string SpreadsheetId = "10MX-Gf_p3vLOfG2hkP9a0urmO5R0A5-Tu6LgX27QXBI";
+    //public class GoogleSheetHelpers: IGoogleSheetHelpers
+    //{
+    //    static readonly string[] Scopes = { SheetsService.Scope.Spreadsheets };
+    //    static readonly string ApplicationName = "SieuViet";
+    //    static readonly string SpreadsheetId = "10MX-Gf_p3vLOfG2hkP9a0urmO5R0A5-Tu6LgX27QXBI";
+    //    private readonly IT_ContentRepository _repContent;
+    //    private readonly IUnitOfWork<VINASICEntities> _unitOfWork;
 
-        static SheetsService service;
-        public  GoogleSheetHelpers()
-        {
-            GoogleCredential credential;
-             credential = GoogleCredential.FromJson(JsonConvert.SerializeObject(new ClientSecret())).CreateScoped(Scopes);
+    //    static SheetsService service;
+    //    public GoogleSheetHelpers(IUnitOfWork<VINASICEntities> unitOfWork, IT_ContentRepository repContent)
+    //    {
+    //        GoogleCredential credential;
+    //        credential = GoogleCredential.FromJson(JsonConvert.SerializeObject(new ClientSecret())).CreateScoped(Scopes);
 
 
-            // Create Google Sheets API service.
-            service = new SheetsService(new BaseClientService.Initializer()
-            {
-                HttpClientInitializer = credential,
-                ApplicationName = ApplicationName,
-            });
-            ReadPpAndDecalEntries();
-        }
-        public void ReadPpAndDecalEntries()
-        {
-            string sheet = "DaiLy";
-            var range = $"{sheet}!C16:C18";
-            SpreadsheetsResource.ValuesResource.GetRequest request =
-                    service.Spreadsheets.Values.Get(SpreadsheetId, range);
-            var response = request.Execute();
-            IList<IList<object>> values = response.Values;
-            if (values != null && values.Count > 0)
-            {
-                for (int i = 0; i < values.Count; i++)
-                {
-                    //var ppAndDecal = new PpAndDecalModel();
-                    //ppAndDecal.Name = values[i][0].ToString();
-                    //ppAndDecal.Machining = int.Parse(values[i][2].ToString());
-                    //ppAndDecal.Code = values[i][3].ToString();
-                    //ppAndDecal.Lower5price = float.Parse(values[i][4].ToString()) * 1000;
-                    //ppAndDecal.Between5And20price = float.Parse(values[i][5].ToString())*1000;
-                    //ppAndDecal.Between20And50price = float.Parse(values[i][6].ToString()) * 1000;
-                    //ppAndDecal.Between50And100price = float.Parse(values[i][7].ToString()) * 1000;
-                    //ppAndDecal.Between100And200price = float.Parse(values[i][8].ToString()) * 1000;
-                    //ppAndDecal.Between200And500price = float.Parse(values[i][9].ToString()) * 1000;
-                    //ppAndDecal.Between500And1000price = float.Parse(values[i][10].ToString()) * 1000;
-                    //ppAndDecal.Over1000price = float.Parse(values[i][11].ToString()) * 1000;
-                    //ppAndDecal.Description = values[i][12].ToString();
-                    //ppAndDecal.ImagePath = values[i][13].ToString();
-                    //ppAndDecal.ImagePath2 = values[i][14].ToString();
-                    //ppAndDecal.ImagePath3 = values[i][15].ToString();
-                    //yield return ppAndDecal;
-                }
-            }
-        }
-        public IEnumerable<StampModel> ReadStamplEntries()
-        {
-            string sheet = "TemNhan";
-            var range35 = $"{sheet}!A6:F18";
-            var range36 = $"{sheet}!A21:F33";
-            var range46 = $"{sheet}!H6:M18";
-            var range58 = $"{sheet}!H21:M33";
-            var range510 = $"{sheet}!A36:F48";
-            List<StampModel> listStamp = new List<StampModel>();
-            listStamp.AddRange(ReadStamplEntriesByRange(range35,"3cm 5cm",35,(float)0.03, (float)0.05));
-            listStamp.AddRange(ReadStamplEntriesByRange(range36,"3cm 6cm",36, (float)0.03, (float)0.06));
-            listStamp.AddRange(ReadStamplEntriesByRange(range46,"4cm 6cm",46, (float)0.04, (float)0.06));
-            listStamp.AddRange(ReadStamplEntriesByRange(range58,"5cm 8cm",58, (float)0.05, (float)0.08));
-            listStamp.AddRange(ReadStamplEntriesByRange(range510,"5cm 10cm",510, (float)0.05, (float)0.1));
-            return listStamp;
-        }
-        private IEnumerable<StampModel> ReadStamplEntriesByRange(string range,string name,int code,float height,float width)
-        {
-            SpreadsheetsResource.ValuesResource.GetRequest request =service.Spreadsheets.Values.Get(SpreadsheetId, range);
-            var response = request.Execute();
-            IList<IList<object>> values = response.Values;
-            if (values != null && values.Count > 0)
-            {
-                for (int i = 0; i < values.Count; i++)
-                {
-                    var stamp = new StampModel();
-                    stamp.Name = name;
-                    stamp.Code = code;
-                    stamp.Height = height;
-                    stamp.Width = width;
-                    stamp.Square = float.Parse(values[i][2].ToString()); ;
-                    stamp.Quantity = float.Parse(values[i][3].ToString());
-                    stamp.Price = float.Parse(values[i][4].ToString());
-                    stamp.Total = float.Parse(values[i][5].ToString());
-                    stamp.SubTotal = float.Parse(values[i][5].ToString());
-                    yield return stamp;
-                }
-            }
-        }
+    //        // Create Google Sheets API service.
+    //        service = new SheetsService(new BaseClientService.Initializer()
+    //        {
+    //            HttpClientInitializer = credential,
+    //            ApplicationName = ApplicationName,
+    //        });
+    //        ReadEntries();
+    //    }
+    //    public void ReadEntries()
+    //    {
+    //        string sheet = "DaiLy";
 
-        public IEnumerable<StandeeModel> ReadStandeeEntries()
-        {
-            string sheet = "Standee";
-            var range = $"{sheet}!A4:H30";
-            SpreadsheetsResource.ValuesResource.GetRequest request =service.Spreadsheets.Values.Get(SpreadsheetId, range);
-            var response = request.Execute();
-            IList<IList<object>> values = response.Values;
-            if (values != null && values.Count > 0)
-            {
-                for (int i = 0; i < values.Count; i++)
-                {
-                    var standee = new StandeeModel();
-                    if (values[i].Count>2)
-                    {
-                        standee.Name = values[i][0].ToString();
-                        standee.Code = values[i][1].ToString();
-                        standee.Type = values[i].Count > 2 ? values[i][2].ToString():"0";
-                        standee.Lower5price = values[i].Count > 3  ? float.Parse(values[i][3].ToString()) : 0;
-                        standee.Between5And10price = values[i].Count > 4  ? float.Parse(values[i][4].ToString()) : 0;
-                        standee.Between10And20price = values[i].Count > 5 ? float.Parse(values[i][5].ToString()) : 0;
-                        standee.Between20And50price = values[i].Count > 6 ? float.Parse(values[i][6].ToString()) : 0;
-                        standee.Over50price = values[i].Count > 7 ? float.Parse(values[i][7].ToString()) : 0;
-                        yield return standee;
-                    }                   
-                }
-            }
-        }
-        public IEnumerable<DesignModel> ReadDesignEntries()
-        {
-            string sheet = "Design";
-            var range = $"{sheet}!A4:H12";
-            SpreadsheetsResource.ValuesResource.GetRequest request = service.Spreadsheets.Values.Get(SpreadsheetId, range);
-            var response = request.Execute();
-            IList<IList<object>> values = response.Values;
-            if (values != null && values.Count > 0)
-            {
-                for (int i = 0; i < values.Count; i++)
-                {
-                    var design = new DesignModel();
-                    if (values[i].Count > 2)
-                    {
-                        design.Name = values[i][0].ToString();
-                        design.Code = values[i][1].ToString();
-                        design.Lower2price = values[i].Count > 2 ? float.Parse(values[i][2].ToString()) : 0;
-                        design.Between2And5price = values[i].Count > 3 ? float.Parse(values[i][3].ToString()) : 0;
-                        design.Between5And10price = values[i].Count > 4 ? float.Parse(values[i][4].ToString()) : 0;
-                        design.Between10And20price = values[i].Count >5 ? float.Parse(values[i][5].ToString()) : 0;
-                        design.Between20And30price = values[i].Count > 6 ? float.Parse(values[i][6].ToString()) : 0;
-                        design.Over30price = values[i].Count > 7 ? float.Parse(values[i][7].ToString()) : 0;
-                        yield return design;
-                    }
-                }
-            }
-        }
-        public IEnumerable<HiflexModel> ReadHiflexEntries()
-        {
-            string sheet = "Hiflex";
-            var range = $"{sheet}!A2:J13";
-            SpreadsheetsResource.ValuesResource.GetRequest request =
-                    service.Spreadsheets.Values.Get(SpreadsheetId, range);
+    //        List<Entry> entries = new List<Entry>();
+    //        var ingiay = $"{sheet}!B16:C18";
+    //        entries.Add(new Entry() { Range = ingiay, KeyName = "ingiay" });
+    //        var indecalgiay = $"{sheet}!B23:C25";
+    //        entries.Add(new Entry() { Range = indecalgiay, KeyName = "indecalgiay" });
+    //        var indecalxi = $"{sheet}!B30:C32";
+    //        entries.Add(new Entry() { Range = indecalxi, KeyName = "indecalxi" });
+    //        var namecard1 = $"{sheet}!B37:C39";
+    //        entries.Add(new Entry() { Range = namecard1, KeyName = "namecard1" });
+    //        var namecard2 = $"{sheet}!B42:C43";
+    //        entries.Add(new Entry() { Range = namecard2, KeyName = "namecard2" });
 
-            var response = request.Execute();
-            IList<IList<object>> values = response.Values;
-            if (values != null && values.Count > 0)
-            {
-                for (int i = 0; i < values.Count; i++)
-                {
-                    var hiflex = new HiflexModel();
-                    hiflex.Name = values[i][0].ToString();
-                    hiflex.Machining = int.Parse(values[i][2].ToString());
-                    hiflex.Code = values[i][3].ToString();
-                    hiflex.Lower20price = float.Parse(values[i][4].ToString()) * 1000;
-                    hiflex.Between20And100price = float.Parse(values[i][5].ToString()) * 1000;
-                    hiflex.Between100And500price = float.Parse(values[i][6].ToString()) * 1000;
-                    hiflex.Between500And1000price = float.Parse(values[i][7].ToString()) * 1000;
-                    hiflex.Between1000And2000price = float.Parse(values[i][8].ToString()) * 1000;
-                    hiflex.Over2000price = float.Parse(values[i][9].ToString()) * 1000;
-                    yield return hiflex;
-                }
-            }
-        }
-        public IEnumerable<Paper> ReadPaperEntries()
-        {
-            string sheet = "Paper";
-            var range = $"{sheet}!A5:D12";
-            SpreadsheetsResource.ValuesResource.GetRequest request =
-                    service.Spreadsheets.Values.Get(SpreadsheetId, range);
+    //        var c80 = $"{sheet}!E16:F16";
+    //        entries.Add(new Entry() { Range = c80, KeyName = "c80" });
+    //        var c100 = $"{sheet}!E17:F17";
+    //        entries.Add(new Entry() { Range = c100, KeyName = "c100" });
+    //        var c120 = $"{sheet}!E18:F18";
+    //        entries.Add(new Entry() { Range = c120, KeyName = "c120" });
+    //        var c150 = $"{sheet}!E19:F19";
+    //        entries.Add(new Entry() { Range = c150, KeyName = "c150" });
+    //        var c200 = $"{sheet}!E20:F20";
+    //        entries.Add(new Entry() { Range = c200, KeyName = "c200" });
 
-            var response = request.Execute();
-            IList<IList<object>> values = response.Values;
-            if (values != null && values.Count > 0)
-            {
-                for (int i = 0; i < values.Count; i++)
-                {
-                    var paper = new Paper();
-                    paper.Name = values[i][0].ToString();
-                    paper.Code = values[i][0].ToString().ToLower();
-                    paper.Between1And100price = float.Parse(values[i][1].ToString());
-                    paper.Between100And500price = float.Parse(values[i][2].ToString());
-                    paper.Between500And1000price = float.Parse(values[i][3].ToString());
-                    yield return paper;
-                }
-            }
-        }
-    }
+    //        var c250 = $"{sheet}!E21:F21";
+    //        entries.Add(new Entry() { Range = c250, KeyName = "c250" });
+    //        var c300 = $"{sheet}!E22:F22";
+    //        entries.Add(new Entry() { Range = c300, KeyName = "c300" });
+    //        var b300 = $"{sheet}!E23:F23";
+    //        entries.Add(new Entry() { Range = b300, KeyName = "b300" });
+    //        var i300 = $"{sheet}!E24:F24";
+    //        entries.Add(new Entry() { Range = i300, KeyName = "i300" });
+
+    //        var decalgiay = $"{sheet}!E27:F27";
+    //        entries.Add(new Entry() { Range = decalgiay, KeyName = "decalgiay" });
+    //        var decalkraff = $"{sheet}!E28:F28";
+    //        entries.Add(new Entry() { Range = decalkraff, KeyName = "decalkraff" });
+    //        var decalnhua = $"{sheet}!E29:F29";
+    //        entries.Add(new Entry() { Range = decalnhua, KeyName = "decalnhua" });
+    //        var decalxi = $"{sheet}!E30:F30";
+    //        entries.Add(new Entry() { Range = decalxi, KeyName = "decalxi" });
+    //        var decal7mau = $"{sheet}!E31:F31";
+    //        entries.Add(new Entry() { Range = decal7mau, KeyName = "decal7mau" });
+    //        var decalbe = $"{sheet}!E32:F32";
+    //        entries.Add(new Entry() { Range = decalbe, KeyName = "decalbe" });
+
+    //        var baothugap1222 = $"{sheet}!E33:F33";
+    //        entries.Add(new Entry() { Range = baothugap1222, KeyName = "baothugap1222" });
+    //        var baothugap1623 = $"{sheet}!E34:F34";
+    //        entries.Add(new Entry() { Range = baothugap1623, KeyName = "baothugap1623" });
+    //        var baothugap2535 = $"{sheet}!E35:F35";
+    //        entries.Add(new Entry() { Range = baothugap2535, KeyName = "baothugap2535" });
+    //        var giaymythuat = $"{sheet}!E36:F36";
+    //        entries.Add(new Entry() { Range = giaymythuat, KeyName = "giaymythuat" });
+    //        var inhopmica = $"{sheet}!E37:F37";
+    //        entries.Add(new Entry() { Range = inhopmica, KeyName = "inhopmica" });
+
+    //        var canmang = $"{sheet}!H16:I22";
+    //        entries.Add(new Entry() { Range = canmang, KeyName = "canmang" });
+    //        var dongkim = $"{sheet}!H24:I30";
+    //        entries.Add(new Entry() { Range = dongkim, KeyName = "dongkim" });
+    //        var dongloxo = $"{sheet}!H32:I37";
+    //        entries.Add(new Entry() { Range = dongloxo, KeyName = "dongloxo" });
+    //        var dongkeogay = $"{sheet}!H39:I44";
+    //        entries.Add(new Entry() { Range = dongkeogay, KeyName = "dongkeogay" });
+    //        var canduonggap = $"{sheet}!H46:I51";
+    //        entries.Add(new Entry() { Range = canduonggap, KeyName = "canduonggap" });
+    //        var bedecal = $"{sheet}!H53:I57";
+    //        entries.Add(new Entry() { Range = bedecal, KeyName = "bedecal" });
+    //        var epplastic = $"{sheet}!H60:I64";
+    //        entries.Add(new Entry() { Range = epplastic, KeyName = "epplastic" });
+
+
+    //        var folder1 = $"{sheet}!B88:C94";
+    //        entries.Add(new Entry() { Range = folder1, KeyName = "folder1" });
+    //        var folder2 = $"{sheet}!B88:D94";
+    //        entries.Add(new Entry() { Range = folder2, KeyName = "folder2" });
+    //        var tieude = $"{sheet}!B99:C103";
+    //        entries.Add(new Entry() { Range = tieude, KeyName = "tieude" });
+    //        var baothuin1222 = $"{sheet}!B109:C115";
+    //        entries.Add(new Entry() { Range = baothuin1222, KeyName = "baothuin1222" });
+    //        var baothuin1623 = $"{sheet}!B109:D115";
+    //        entries.Add(new Entry() { Range = baothuin1623, KeyName = "baothuin1623" });
+    //        var baothuin2535 = $"{sheet}!B109:E115";
+    //        entries.Add(new Entry() { Range = baothuin2535, KeyName = "baothuin2535" });
+
+    //        var bieumau11 = $"{sheet}!B123:C128";
+    //        entries.Add(new Entry() { Range = bieumau11, KeyName = "bieumau11" });
+    //        var bieumau12 = $"{sheet}!B123:D128";
+    //        entries.Add(new Entry() { Range = bieumau12, KeyName = "bieumau12" });
+    //        var bieumau13 = $"{sheet}!B123:E128";
+    //        entries.Add(new Entry() { Range = bieumau13, KeyName = "bieumau13" });
+    //        var bieumau21 = $"{sheet}!B133:C138";
+    //        entries.Add(new Entry() { Range = bieumau21, KeyName = "bieumau21" });
+    //        var bieumau22 = $"{sheet}!B133:D138";
+    //        entries.Add(new Entry() { Range = bieumau22, KeyName = "bieumau22" });
+    //        var bieumau23 = $"{sheet}!B133:E138";
+    //        entries.Add(new Entry() { Range = bieumau23, KeyName = "bieumau23" });
+    //        ReadEntriesByRange(entries);
+    //    }
+    //    private void ReadEntriesByRange(List<Entry> entries)
+    //    {
+    //        List<ListProductPrice> listProductPrices = new List<ListProductPrice>();
+
+
+    //        foreach (var entry in entries)
+    //        {
+    //            ListProductPrice productPrices = new ListProductPrice();
+    //            productPrices.Code = entry.KeyName;
+    //            try
+    //            {
+    //                SpreadsheetsResource.ValuesResource.GetRequest request = service.Spreadsheets.Values.Get(SpreadsheetId, entry.Range);
+    //                var response = request.Execute();
+    //                IList<IList<object>> values = response.Values;
+    //                if (values != null && values.Count > 0)
+    //                {
+    //                    for (int i = 0; i < values.Count; i++)
+    //                    {
+    //                        ProductPrice product = new ProductPrice();
+    //                        product.Id = new System.Guid();
+    //                        product.Index = i + 1;
+    //                        product.isFixed = false;
+    //                        if (productPrices.Code == "canmang" && (i == 2 || i == 3))
+    //                        {
+    //                            product.isFixed = true;
+    //                        }
+    //                        if (productPrices.Code == "dongkeogay" && (i == 0 || i == 1))
+    //                        {
+    //                            product.isFixed = true;
+    //                        }
+    //                        if (productPrices.Code == "canduonggap" && (i == 1 || i == 2 || i == 3 || i == 4))
+    //                        {
+    //                            product.isFixed = true;
+    //                        }
+
+    //                        var listminMax = values[i][0]?.ToString().Split(new[] { "--" }, StringSplitOptions.None);
+
+    //                        product.Min = Regex.Match(listminMax[0], @"\d+").Value;
+    //                        product.Max = listminMax.Length > 1 ? Regex.Match(listminMax[1], @"\d+").Value : "0";
+    //                        product.Price = Regex.Match(values[i][1]?.ToString(), @"\d+").Value ?? "0";
+    //                        if (productPrices.Code == "folder1")
+    //                        {
+    //                            product.Min = "0";
+    //                            product.Max = Regex.Match(listminMax[0], @"\d+").Value;
+    //                        }
+    //                        if (productPrices.Code == "folder2")
+    //                        {
+    //                            product.Price = Regex.Match(values[i][2]?.ToString(), @"\d+").Value ?? "0";
+    //                            product.Min = "0";
+    //                            product.Max = Regex.Match(listminMax[0], @"\d+").Value;
+    //                        }
+    //                        if (productPrices.Code == "tieude")
+    //                        {
+    //                            product.Min = "0";
+    //                            product.Max = Regex.Match(listminMax[0], @"\d+").Value;
+    //                        }
+    //                        if (productPrices.Code == "baothuin1623")
+    //                        {
+    //                            product.Price = Regex.Match(values[i][2]?.ToString(), @"\d+").Value ?? "0";
+    //                            product.Min = "0";
+    //                            product.Max = Regex.Match(listminMax[0], @"\d+").Value;
+    //                        }
+    //                        if (productPrices.Code == "baothuin2535")
+    //                        {
+    //                            product.Price = Regex.Match(values[i][3]?.ToString(), @"\d+").Value ?? "0";
+    //                            product.Min = "0";
+    //                            product.Max = Regex.Match(listminMax[0], @"\d+").Value;
+    //                        }
+    //                        if (productPrices.Code == "bieumau12")
+    //                        {
+    //                            product.Price = Regex.Match(values[i][2]?.ToString(), @"\d+").Value ?? "0";
+    //                            product.Min = "0";
+    //                            product.Max = Regex.Match(listminMax[0], @"\d+").Value;
+    //                        }
+    //                        if (productPrices.Code == "bieumau13")
+    //                        {
+    //                            product.Price = Regex.Match(values[i][3]?.ToString(), @"\d+").Value ?? "0";
+    //                            product.Min = "0";
+    //                            product.Max = Regex.Match(listminMax[0], @"\d+").Value;
+    //                        }
+    //                        if (productPrices.Code == "bieumau22")
+    //                        {
+    //                            product.Price = Regex.Match(values[i][2]?.ToString(), @"\d+").Value ?? "0";
+    //                            product.Min = "0";
+    //                            product.Max = Regex.Match(listminMax[0], @"\d+").Value;
+    //                        }
+    //                        if (productPrices.Code == "bieumau23")
+    //                        {
+    //                            product.Price = Regex.Match(values[i][3]?.ToString(), @"\d+").Value ?? "0";
+    //                            product.Min = "0";
+    //                            product.Max = Regex.Match(listminMax[0], @"\d+").Value;
+    //                        }
+    //                        productPrices.Products.Add(product);
+    //                    }
+    //                    listProductPrices.Add(productPrices);
+    //                }
+    //            }
+    //            catch (System.Exception ex)
+    //            {
+    //                continue;
+    //            }
+    //        }
+    //        var a = listProductPrices;
+
+    //        var content = new T_Content();
+    //        content.Name = "productPrice";
+    //        content.Content = JsonConvert.SerializeObject(listProductPrices);
+    //        content.Type = 2;
+    //        content.CreatedDate = DateTime.Now.AddHours(14);
+    //        _repContent.Add(content);
+    //        _unitOfWork.Commit();
+    //    }
+    //}
 }

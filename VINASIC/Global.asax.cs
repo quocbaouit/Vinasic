@@ -13,6 +13,7 @@ using VINASIC.Business.Interface;
 using VINASIC.App_Global;
 using  VINASIC;
 using VINASIC.Helpers;
+using VINASIC.Business;
 
 namespace VINASIC
 {
@@ -23,10 +24,7 @@ namespace VINASIC
     {
         protected void Application_Start()
         {
-            GoogleSheetHelpers help = new GoogleSheetHelpers();
-            //var a= help.ReadPpAndDecalEntries();
-            AreaRegistration.RegisterAllAreas();
-           
+            AreaRegistration.RegisterAllAreas();          
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

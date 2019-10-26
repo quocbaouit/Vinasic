@@ -333,13 +333,18 @@
                                                     <input type="text" class="form-control" id="cname" placeholder="Nhập Tên Khách Hàng">
                                                 </div>
                                                 <div class="form-group">
+                                                    <label for="customerType">Loại:</label>
+                                                    <select id="customerType" class="form-control input-lg m-bot15">
+                                                        <option value="0">Khách Lẻ </option>
+                                                        <option value="1">Đại Lý </option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
                                                     <label for="cphone">Số Điện Thoại</label>
                                                     <input type="text" class="form-control" id="cphone" placeholder="" onkeypress=" return isNumberKey(event)">
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="cmail">Email</label>
-                                                    <input type="text" class="form-control" id="cmail" placeholder="">
-                                                </div>
+
+
                                             </form>
                                         </div>
                                     </section>
@@ -353,8 +358,12 @@
                                         <div class="panel-body">
                                             <form role="form">
                                                 <div class="form-group">
+                                                    <label for="cmail">Email</label>
+                                                    <input type="text" class="form-control" id="cmail" placeholder="">
+                                                </div>
+                                                <div class="form-group">
                                                     <label for="caddress">Địa Chỉ</label>
-                                                    <textarea style="height: 110px" name="" id="caddress" class="form-control" cols="30" rows="5"></textarea>
+                                                    <textarea style="height: 60px" name="" id="caddress" class="form-control" cols="30" rows="3"></textarea>
                                                 </div>
 
                                                 <div class="form-group">
@@ -378,10 +387,16 @@
                                         </header>
 
                                         <div class="panel-body">
+                                            <div style="margin-left: 5px;margin-bottom: 10px;" class="col-lg-12">
+                                                <button style="padding:unset;margin-right:30px" id="print1" class="btn button ">In Giấy</button>
+                                                <button style="padding:unset;margin-right:30px" id="print2" class="btn button ">In Decal Giấy</button>
+                                                <button style="padding:unset;margin-right:30px" id="print3" class="btn button ">In Decal Xi,7 Màu, Decal Bể</button>
+                                                @*<button style="padding:unset;margin-right:30px" id="print4" class="btn button ">In Catalogue</button>*@
+                                            </div>
                                             <div class="col-lg-12">
                                                 <div class="form-group">
                                                     <label for="dproductSuggest">Tên Dịch Vụ</label>
-                                                    <input type="text" class="form-control" id="dproductSuggest" >
+                                                    <input type="text" class="form-control" id="dproductSuggest">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6">
@@ -440,23 +455,23 @@
                                             </div>
 
                                             @*<div class="col-lg-6">
-            <div class="=rows">
-                <div style="display:@ViewBag.CssShowDim" class="col-lg-4 forPrint">
-                    <label for="dsumsquare">Tổng DT(m2)</label>
-                    <input id="dsumsquare" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
-                </div>
+                                                    <div class="=rows">
+                                                        <div style="display:@ViewBag.CssShowDim" class="col-lg-4 forPrint">
+                                                            <label for="dsumsquare">Tổng DT(m2)</label>
+                                                            <input id="dsumsquare" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
+                                                        </div>
 
-                <div class="col-lg-4">
-                    <label for="dprice">Đơn Giá(vnd)</label>
-                    <input id="dprice" type="text" class="form-control detail caculator caculatorTotal" placeholder="" onkeypress=" return isNumberKey(event) ">
-                </div>
+                                                        <div class="col-lg-4">
+                                                            <label for="dprice">Đơn Giá(vnd)</label>
+                                                            <input id="dprice" type="text" class="form-control detail caculator caculatorTotal" placeholder="" onkeypress=" return isNumberKey(event) ">
+                                                        </div>
 
-                <div class="col-lg-4">
-                    <label for="dsubtotal">Thành Tiền(vnd)</label>
-                    <input id="dsubtotal" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
-                </div>
-            </div>
-        </div>*@
+                                                        <div class="col-lg-4">
+                                                            <label for="dsubtotal">Thành Tiền(vnd)</label>
+                                                            <input id="dsubtotal" type="text" class="form-control detail" placeholder="" onkeypress=" return isNumberKey(event) ">
+                                                        </div>
+                                                    </div>
+                                                </div>*@
 
                                             <div class="col-lg-6 forPrint">
                                                 <label for="dfilename">Tên File</label>
@@ -478,7 +493,7 @@
                                                 <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="ddeposit" value="0" type="text" class="form-control dsubtotal" placeholder="">
                                                 <strong style="margin-top: 10px; width: 200px; float: right">Đặt Cọc</strong>
                                             </div>
-                                            <div class="row">
+                                            <div style="display:none" class="row">
                                                 <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="dtotaltax" type="text" class="form-control dsubtotal" placeholder="">
                                                 <strong style="margin-top: 10px; width: 200px; float: right">Còn Lại(VND)</strong>
                                             </div>
@@ -649,34 +664,34 @@
                     </div>
                 </div>
                 @*<div class="col-lg-12">*@
-                    <div class="form-group">
-                        <label for="prest">Loại Thanh Toán</label>
-                        <select id="PaymentType" class="form-control">
-                            <option value="1">Tiền Mặt</option>
-                            <option value="2">Chuyển Khoản</option>
-                            <option value="3">Công Nợ</option>
-                        </select>
-                    </div>
-                    <div id="transferIdShell" style="display:none" class="form-group">
-                        <label for="caddress">Thông Tin Chuyển Khoản</label>
-                        <textarea name="" id="transferId" class="form-control" cols="30" rows="3"></textarea>
-                    </div>
+                <div class="form-group">
+                    <label for="prest">Loại Thanh Toán</label>
+                    <select id="PaymentType" class="form-control">
+                        <option value="1">Tiền Mặt</option>
+                        <option value="2">Chuyển Khoản</option>
+                        <option value="3">Công Nợ</option>
+                    </select>
+                </div>
+                <div id="transferIdShell" style="display:none" class="form-group">
+                    <label for="caddress">Thông Tin Chuyển Khoản</label>
+                    <textarea name="" id="transferId" class="form-control" cols="30" rows="3"></textarea>
+                </div>
                 @*</div>*@
-                    
-                </div>
-                <div class="modal-footer">
-                    <input id="type2" type="checkbox">Phiếu thu loại bảng kê.
-                    <a print class="btn btn-danger" href="javascript:void(0)" title="Bootstrap 3 themes generator"><span class="icon_target"></span>In Phiếu Thu</a>
-                    <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
-                        <div class="button-image image-close"></div>
-                        Đóng
-                    </button>
-                    <button save class="btn btn-primary">
-                        <div class="button-image image-save"></div>
-                        Lưu
-                    </button>
-                </div>
+
             </div>
+            <div class="modal-footer">
+                <input id="type2" type="checkbox">Phiếu thu loại bảng kê.
+                <a print class="btn btn-danger" href="javascript:void(0)" title="Bootstrap 3 themes generator"><span class="icon_target"></span>In Phiếu Thu</a>
+                <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
+                    <div class="button-image image-close"></div>
+                    Đóng
+                </button>
+                <button save class="btn btn-primary">
+                    <div class="button-image image-save"></div>
+                    Lưu
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -739,52 +754,65 @@
                         <th>Thành Tiền</th>
                     </tr>
                     <tr>
-                        <td>Số Trang</td>
-                        <td><input type="text" class="form-control" id="abc1"></td>
-                        <td><input type="text" class="form-control" id="abc2"></td>
-                        <td><input type="text" class="form-control" id="abc3"></td>
+                        <td>Số Trang In</td>
+                        <td><input type="text" class="form-control customInput" id="quantity1_1"></td>
+                        <td><input type="text" class="form-control customInput" id="price1_1"></td>
+                        <td><input type="text" class="form-control customInput" id="total1_1"></td>
                     </tr>
                     <tr>
-                        <td><select><option>C300</option></select></td>
-                        <td><input type="text" class="form-control" id="abc1"></td>
-                        <td><input type="text" class="form-control" id="abc2"></td>
-                        <td><input type="text" class="form-control" id="abc3"></td>
+                        <td>
+                            <select id="customSelect1">
+                                <option value="c80">Giấy C80</option>
+                                <option value="c100">Giấy C100</option>
+                                <option value="c120">Giấy C120</option>
+                                <option value="c150">Giấy C150</option>
+                                <option value="c200">Giấy C200</option>
+                                <option value="c250">Giấy C250</option>
+                                <option value="c300">Giấy C300</option>
+                                <option value="B300">Giấy B300</option>
+                                <option value="i80">Giấy I300</option>
+
+                            </select>
+                        </td>
+                        <td><input type="text" class="form-control customInput" id="quantity1_2"></td>
+                        <td><input type="text" class="form-control customInput" id="price1_2"></td>
+                        <td><input type="text" class="form-control customInput" id="total1_2"></td>
                     </tr>
                     <tr>
                         <td>Cán Màng</td>
-                        <td><input type="text" class="form-control" id="abc1"></td>
-                        <td><input type="text" class="form-control" id="abc2"></td>
-                        <td><input type="text" class="form-control" id="abc3"></td>
+                        <td><input type="text" class="form-control customInput" id="quantity1_3"></td>
+                        <td><input type="text" class="form-control customInput" id="price1_3"></td>
+                        <td><input type="text" class="form-control customInput" id="total1_3"></td>
                     </tr>
                     <tr>
                         <td>Đóng Kim</td>
-                        <td><input type="text" class="form-control" id="abc1"></td>
-                        <td><input type="text" class="form-control" id="abc2"></td>
-                        <td><input type="text" class="form-control" id="abc3"></td>
+                        <td><input type="text" class="form-control customInput" id="quantity1_4"></td>
+                        <td><input type="text" class="form-control customInput" id="price1_4"></td>
+                        <td><input type="text" class="form-control customInput" id="total1_4"></td>
                     </tr>
                     <tr>
                         <td>Đóng Lò Xo</td>
-                        <td><input type="text" class="form-control" id="abc1"></td>
-                        <td><input type="text" class="form-control" id="abc2"></td>
-                        <td><input type="text" class="form-control" id="abc3"></td>
+                        <td><input type="text" class="form-control customInput" id="quantity1_5"></td>
+                        <td><input type="text" class="form-control customInput" id="price1_5"></td>
+                        <td><input type="text" class="form-control customInput" id="total1_5"></td>
                     </tr>
                     <tr>
                         <td>Đóng Keo Gáy</td>
-                        <td><input type="text" class="form-control" id="abc1"></td>
-                        <td><input type="text" class="form-control" id="abc2"></td>
-                        <td><input type="text" class="form-control" id="abc3"></td>
+                        <td><input type="text" class="form-control customInput" id="quantity1_6"></td>
+                        <td><input type="text" class="form-control customInput" id="price1_6"></td>
+                        <td><input type="text" class="form-control customInput" id="total1_6"></td>
                     </tr>
                     <tr>
                         <td>Cắt</td>
-                        <td><input type="text" class="form-control" id="abc1"></td>
-                        <td><input type="text" class="form-control" id="abc2"></td>
-                        <td><input type="text" class="form-control" id="abc3"></td>
+                        <td><input type="text" class="form-control customInput" id="quantity1_7"></td>
+                        <td><input type="text" class="form-control customInput" id="price1_7"></td>
+                        <td><input type="text" class="form-control customInput" id="total1_7"></td>
                     </tr>
                     <tr>
                         <td>Gia Công Khác</td>
-                        <td><input type="text" class="form-control" id="abc1"></td>
-                        <td><input type="text" class="form-control" id="abc2"></td>
-                        <td><input type="text" class="form-control" id="abc3"></td>
+                        <td><input type="text" class="form-control customInput" id="quantity1_8"></td>
+                        <td><input type="text" class="form-control customInput" id="price1_8"></td>
+                        <td><input type="text" class="form-control customInput" id="total1_8"></td>
                     </tr>
                 </table>
             </div>
@@ -813,7 +841,7 @@
             </div>
 
             <div class="modal-body" style="padding: 40px 50px;">
-                <table>
+                <table cellspacing="10">
                     <tr>
                         <th>Dịch Vụ</th>
                         <th>Số Lượng</th>
@@ -821,34 +849,34 @@
                         <th>Thành Tiền</th>
                     </tr>
                     <tr>
-                        <td>Số Trang</td>
-                        <td><input type="text" class="form-control" id="abc1"></td>
-                        <td><input type="text" class="form-control" id="abc2"></td>
-                        <td><input type="text" class="form-control" id="abc3"></td>
+                        <td>Số Trang In</td>
+                        <td><input type="text" class="form-control customInput" id="quantity2_1"></td>
+                        <td><input type="text" class="form-control customInput" id="price2_1"></td>
+                        <td><input type="text" class="form-control customInput" id="total2_1"></td>
                     </tr>
                     <tr>
-                        <td><select><option>C300</option></select></td>
-                        <td><input type="text" class="form-control" id="abc1"></td>
-                        <td><input type="text" class="form-control" id="abc2"></td>
-                        <td><input type="text" class="form-control" id="abc3"></td>
+                        <td><select id="customSelect2"><option>C300</option></select></td>
+                        <td><input type="text" class="form-control customInput" id="quantity2_2"></td>
+                        <td><input type="text" class="form-control customInput" id="price2_2"></td>
+                        <td><input type="text" class="form-control customInput" id="total2_2"></td>
                     </tr>
                     <tr>
                         <td>Cán Màng</td>
-                        <td><input type="text" class="form-control" id="abc1"></td>
-                        <td><input type="text" class="form-control" id="abc2"></td>
-                        <td><input type="text" class="form-control" id="abc3"></td>
+                        <td><input type="text" class="form-control customInput" id="quantity2_3"></td>
+                        <td><input type="text" class="form-control customInput" id="price2_3"></td>
+                        <td><input type="text" class="form-control customInput" id="total2_3"></td>
                     </tr>
                     <tr>
                         <td>Bế</td>
-                        <td><input type="text" class="form-control" id="abc1"></td>
-                        <td><input type="text" class="form-control" id="abc2"></td>
-                        <td><input type="text" class="form-control" id="abc3"></td>
+                        <td><input type="text" class="form-control customInput" id="quantity2_4"></td>
+                        <td><input type="text" class="form-control customInput" id="price2_4"></td>
+                        <td><input type="text" class="form-control customInput" id="total2_4"></td>
                     </tr>
                     <tr>
                         <td>Gia Công Khác</td>
-                        <td><input type="text" class="form-control" id="abc1"></td>
-                        <td><input type="text" class="form-control" id="abc2"></td>
-                        <td><input type="text" class="form-control" id="abc3"></td>
+                        <td><input type="text" class="form-control customInput" id="quantity2_5"></td>
+                        <td><input type="text" class="form-control customInput" id="price2_5"></td>
+                        <td><input type="text" class="form-control customInput" id="total2_5"></td>
                     </tr>
                 </table>
             </div>
@@ -885,34 +913,44 @@
                         <th>Thành Tiền</th>
                     </tr>
                     <tr>
-                        <td>Số Trang</td>
-                        <td><input type="text" class="form-control" id="abc1"></td>
-                        <td><input type="text" class="form-control" id="abc2"></td>
-                        <td><input type="text" class="form-control" id="abc3"></td>
+                        <td>Số Trang In</td>
+                        <td><input type="text" class="form-control customInput" id="quantity3_1"></td>
+                        <td><input type="text" class="form-control customInput" id="price3_1"></td>
+                        <td><input type="text" class="form-control customInput" id="total3_1"></td>
                     </tr>
                     <tr>
-                        <td><select><option>C300</option></select></td>
-                        <td><input type="text" class="form-control" id="abc1"></td>
-                        <td><input type="text" class="form-control" id="abc2"></td>
-                        <td><input type="text" class="form-control" id="abc3"></td>
+                        <td>
+                            <select id="customSelect3">
+                                <option value="decalgiay">Decal giấy</option>
+                                <option value="decalkraff">Decal Kraff</option>
+                                <option value="decalnhua">Decal nhựa</option>
+                                <option value="decalxi">Decal xi</option>
+                                <option value="decal7mau">Decal 7 màu</option>
+                                <option value="decalbe">Decal bể</option>
+
+                            </select>
+                        </td>
+                        <td><input type="text" class="form-control customInput" id="quantity3_2"></td>
+                        <td><input type="text" class="form-control customInput" id="price3_2"></td>
+                        <td><input type="text" class="form-control customInput" id="total3_2"></td>
                     </tr>
                     <tr>
                         <td>Cán Màng</td>
-                        <td><input type="text" class="form-control" id="abc1"></td>
-                        <td><input type="text" class="form-control" id="abc2"></td>
-                        <td><input type="text" class="form-control" id="abc3"></td>
+                        <td><input type="text" class="form-control customInput" id="quantity3_3"></td>
+                        <td><input type="text" class="form-control customInput" id="price3_3"></td>
+                        <td><input type="text" class="form-control customInput" id="total3_3"></td>
                     </tr>
                     <tr>
                         <td>Bế</td>
-                        <td><input type="text" class="form-control" id="abc1"></td>
-                        <td><input type="text" class="form-control" id="abc2"></td>
-                        <td><input type="text" class="form-control" id="abc3"></td>
+                        <td><input type="text" class="form-control customInput" id="quantity3_4"></td>
+                        <td><input type="text" class="form-control customInput" id="price3_4"></td>
+                        <td><input type="text" class="form-control customInput" id="total3_4"></td>
                     </tr>
                     <tr>
                         <td>Gia Công Khác</td>
-                        <td><input type="text" class="form-control" id="abc1"></td>
-                        <td><input type="text" class="form-control" id="abc2"></td>
-                        <td><input type="text" class="form-control" id="abc3"></td>
+                        <td><input type="text" class="form-control customInput" id="quantity3_5"></td>
+                        <td><input type="text" class="form-control customInput" id="price3_5"></td>
+                        <td><input type="text" class="form-control customInput" id="total3_5"></td>
                     </tr>
                 </table>
             </div>

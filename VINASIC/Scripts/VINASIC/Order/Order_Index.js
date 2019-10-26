@@ -34,7 +34,7 @@ VINASIC.Order = function () {
             PopupOrder: "popup_Order",
             PopupSearch: "popup_SearchOrder",
             PopupDesignProcess: "popup_DesignProcess",
-            PopupHasPay: "popup_HasPay", 
+            PopupHasPay: "popup_HasPay",
             PopupCost: "popup_Cost",
             popupCustom: "popup_Custom",
             popupCustom1: "popup_Custom1",
@@ -80,13 +80,15 @@ VINASIC.Order = function () {
             IdDetailStatus: 0,
             DetailStatus: 0,
             IdForView: 0,
-            ProductFixPrice:[],
+            ProductPrice: [],
+            ProductPrice1: [],
+            ForView:0,
         }
     };
     this.GetGlobal = function () {
         return global;
     };
-    function renderTable(Table, subTotal, haspay) {
+    function renderTable(Table, subTotal, haspay,type) {
         var tableString = "<table id=\"renderTable\" border=\"1\" style=\"width:100%\" cellspacing=\"0\" cellpadding=\"0\">";
         var root = document.getElementById('Block4');
         document.getElementById("Block4").innerHTML = "";
@@ -123,8 +125,15 @@ VINASIC.Order = function () {
             }
 
             tableString += "<td style=\"padding-center: 5px;text-align: center;\">" + Table[row].Quantity + "</td>";
-            tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strPrice + "</td>";
-            tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strSubTotal + "</td>";
+            if (type==0) {
+                tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strPrice + "</td>";
+                tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strSubTotal + "</td>";
+            } else {
+                tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
+                tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
+
+            }
+         
             tableString += "</tr>";
         }
 
@@ -312,6 +321,51 @@ VINASIC.Order = function () {
                 return myArray[i];
             }
         }
+    }
+    function searchByCode(key, myArray) {
+        for (var i = 0; i < myArray.length; i++) {
+            if (myArray[i].Code === key) {
+                return myArray[i];
+            }
+        }
+    }
+    function getProductPrice(productCode, quantity) {
+        var listProductTemp = [];
+        var result = {};
+        var data = global.Data.ProductPrice;
+        if ($('#customerType').val() == 0) {
+            data = global.Data.ProductPrice1;
+        }
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].Code === productCode) {
+                listProductTemp = data[i].Products;
+            }
+        }
+        if (listProductTemp.length > 0) {
+            for (var i = 0; i < listProductTemp.length; i++) {
+                if (listProductTemp[i].Min != "0" && listProductTemp[i].Max != "0") {
+                    if (parseFloat(listProductTemp[i].Min) <= quantity && quantity <= listProductTemp[i].Max) {
+
+                        result = { price: parseFloat(listProductTemp[i].Price), isFixed: listProductTemp[i].isFixed }
+                        return result;
+                    }
+                }
+                else if (listProductTemp[i].Min == "0" && listProductTemp[i].Max != "0") {
+                    if (quantity <= parseFloat(listProductTemp[i].Max)) {
+                        result = { price: parseFloat(listProductTemp[i].Price), isFixed: listProductTemp[i].isFixed }
+                        return result;
+                    }
+                }
+                else if (listProductTemp[i].Max == "0") {
+                    result = { price: parseFloat(listProductTemp[i].Price), isFixed: listProductTemp[i].isFixed }
+                    return result;
+                }
+            }
+
+        } else {
+            return 0;
+        }
+
     }
     /*function init model using knockout Js*/
     function initViewModel(order) {
@@ -717,13 +771,19 @@ VINASIC.Order = function () {
     function calculatorSumSquare(width, height, quantity) {
         return width * height * quantity;
     }
-    function calculatorSubTotal(square, quantity, price) {
-        if (!checkNumber(square) && square !== 0) {
-            return decimalAdjust('round', square * quantity, -6) * price;
-        } else {
-            return quantity * price;
-        }
-
+    function calculatorSubTotal(square, quantity, price, isFixed) {
+        if (quantity != 0) {
+            if (isFixed == true) {
+                return price;
+            }
+            else {
+                if (!checkNumber(square) && square !== 0) {
+                    return decimalAdjust('round', square * quantity, -6) * price;
+                } else {
+                    return quantity * price;
+                }
+            }
+        }     
     }
     /*End Check Validate */
     function initComboBoxBusiness() {
@@ -1308,8 +1368,8 @@ VINASIC.Order = function () {
                             }
                             $("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                             $("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                                var totalIncludeTax = global.Data.OrderTotal - data.record.Deposit;
-                                $("#dtotaltax").val(totalIncludeTax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                            var totalIncludeTax = global.Data.OrderTotal - data.record.Deposit;
+                            $("#dtotaltax").val(totalIncludeTax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
 
 
                             //popAllElementInArray(global.Data.ModelOrderDetail);
@@ -1452,6 +1512,7 @@ VINASIC.Order = function () {
                             text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật thanh toán.\"><span class=\"fa fa-money fa-lg\" aria-hidden=\"true\"></span></a>");
                         }
                         text.click(function () {
+                            global.Data.ForView = 0;
                             global.Data.IdOrderStatus = data.record.Id;
                             global.Data.NumberDetail = data.record.T_OrderDetail.length;
                             $("#type2").prop("checked", true);
@@ -1462,7 +1523,7 @@ VINASIC.Order = function () {
                             $("#phaspay").val((data.record.HasPay + data.record.HaspayTransfer).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                             var a1 = data.record.SubTotal - (data.record.HasPay + data.record.HaspayTransfer);
                             var b = a1.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                            var deposit = data.record.Deposit.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"); 
+                            var deposit = data.record.Deposit.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
                             $("#hasDeposit").val(deposit);
                             $("#ppayment").val(b);
                             $("#prealpay").val(b);
@@ -1473,7 +1534,53 @@ VINASIC.Order = function () {
                             global.Data.Pproduct = "";
                             calculatorProduct(data.record.T_OrderDetail);
                             //rendertable                                                    
-                            renderTable(data.record.T_OrderDetail, data.record.SubTotal, data.record.HasPay + data.record.HaspayTransfer);
+                            renderTable(data.record.T_OrderDetail, data.record.SubTotal, data.record.HasPay + data.record.HaspayTransfer,0);
+                            if (data.record.HasTax) {
+                                $('#hastaxnote').css("display", "inline");
+                            } else {
+                                $('#hastaxnote').css("display", "none")
+                            }
+                            showPopupPaymentProcess();
+                            data.record.StrDeliveryDate = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd");
+                            var a = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd'T'HH:MM:ss");
+                        });
+                        return text;
+                    }
+                },
+                CustomPrint: {
+                    visibility: 'fixed',
+                    title: "Sản Xuất",
+                    width: "7%",
+                    display: function (data) {
+                        var text = "";
+                        if (data.record.PaymentMethol == 3) { text = $("<a href=\"javascript:void(0)\"   class=\"clickable\" title=\"Cập nhật thanh toán.\">" + "Công Nợ" + "</a>"); }
+                        else {
+                            text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"In Phiếu.\">Phiếu SX </a>");
+                        }
+                        text.click(function () {
+                            global.Data.ForView = 1;
+                            global.Data.IdOrderStatus = data.record.Id;
+                            global.Data.NumberDetail = data.record.T_OrderDetail.length;
+                            $("#type2").prop("checked", true);
+                            $("#ppay").val("");
+                            $("#prest").val("");
+                            $("#ptotal").val(data.record.strSubTotal);
+                            $("#transferId").val(data.record.Description);
+                            $("#phaspay").val((data.record.HasPay + data.record.HaspayTransfer).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                            var a1 = data.record.SubTotal - (data.record.HasPay + data.record.HaspayTransfer);
+                            var b = a1.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                            var deposit = data.record.Deposit.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                            $("#hasDeposit").val(deposit);
+                            $("#ppayment").val(b);
+                            $("#prealpay").val(b);
+                            global.Data.OrderId = data.record.Id;
+                            global.Data.PcustomerName = data.record.Name;
+                            global.Data.PcustomePhone = data.record.CustomerPhone;
+                            global.Data.PcustomerAddress = data.record.CustomerAddress;
+                            global.Data.Pproduct = "";
+                            calculatorProduct(data.record.T_OrderDetail);
+                            //rendertable                                                    
+                            renderTable(data.record.T_OrderDetail, data.record.SubTotal, data.record.HasPay + data.record.HaspayTransfer,1);
                             if (data.record.HasTax) {
                                 $('#hastaxnote').css("display", "inline");
                             } else {
@@ -1869,7 +1976,7 @@ VINASIC.Order = function () {
                                 var ddeposit = $("#ddeposit").val().replace(/[^0-9-.]/g, '');
                                 deposit = parseFloat(deposit);
                                 var totaltax = global.Data.OrderTotal - ddeposit;
-                                    $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                                $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                                 //}
                             }, function () { }, 'Đồng ý', 'Hủy bỏ', 'Thông báo');
                         });
@@ -1956,7 +2063,7 @@ VINASIC.Order = function () {
                                 var ddeposit = $("#ddeposit").val().replace(/[^0-9-.]/g, '');
                                 ddeposit = parseFloat(ddeposit);
                                 var totaltax = global.Data.OrderTotal - ddeposit;
-                                    $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                                $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                                 //}
                             }, function () { }, 'Đồng ý', 'Hủy bỏ', 'Thông báo');
                         });
@@ -2081,19 +2188,17 @@ VINASIC.Order = function () {
     }
 
     function initProductPrice() {
-        global.Data.ProductFixPrice = [{ code: 'c80', price:170 }, { code: 'c100', price:230 }, { code: 'c120', price:280 }, { code: 'c150', price:350 }]
-        //var url = "/Order/GetListProductType";
-        //$.getJSON(url, function (datas) {
-        //    $('#dproductType').empty();
-        //    if (datas.length > 0) {
-        //        for (var i = 0; i < datas.length; i++) {
-        //            $('#dproductType').append('<option value="' + datas[i].Value + '">' + datas[i].Text + '</option>');
-        //        }
-        //    }
-        //    else {
-        //        $('#dproductType').append('<option value="0">Không Có Dữ Liệu </option>');
-        //    }
-        //});
+        var url = "/Order/GetProductPrice?type=2";
+        $.getJSON(url, function (datas) {
+            debugger;
+            global.Data.ProductPrice = JSON.parse(datas.Content);
+        });
+    }
+    function initProductPrice1() {
+        var url = "/Order/GetProductPrice?type=3";
+        $.getJSON(url, function (datas) {
+            global.Data.ProductPrice1 = JSON.parse(datas.Content);
+        });
     }
     function initComboBoxPrint() {
         var url = "/Order/GetCustomerByOrganization?shortName=BPI";
@@ -2109,7 +2214,7 @@ VINASIC.Order = function () {
             }
         });
     }
-    function initComboBoxProduct(id,prePresect) {
+    function initComboBoxProduct(id, prePresect) {
         var url = "/Order/GetListProduct?productType=" + id;
         $.getJSON(url, function (datas) {
             $('#dproduct').empty();
@@ -2200,9 +2305,16 @@ VINASIC.Order = function () {
             $("#vdate1").html("");
             //////////////////////////////////////////////////////
             $("#no").append(global.Data.OrderId);
-            $("#vcustomer").append(global.Data.PcustomerName);
-            $("#vphone").append(global.Data.PcustomePhone);
-            $("#vaddress").append(global.Data.PcustomerAddress);
+            if (global.Data.ForView == 0) {
+                $("#vcustomer").append(global.Data.PcustomerName);
+                $("#vphone").append(global.Data.PcustomePhone);
+                $("#vaddress").append(global.Data.PcustomerAddress);
+            } else {
+                $("#vcustomer").append('');
+                $("#vphone").append('');
+                $("#vaddress").append('');
+            }
+   
             $("#vproduct").append(global.Data.Pproduct);
 
             var payment = $("#prealpay").val();
@@ -2227,11 +2339,19 @@ VINASIC.Order = function () {
 
             //custome Print set value
             $("#no1").append(global.Data.OrderId);
-            $("#vcustomer1").append(global.Data.PcustomerName);
-            $("#vphone1").append(global.Data.PcustomePhone);
-            $("#vaddress1").append(global.Data.PcustomerAddress);
-            $("#vtotal1").append(payment);
-            $("#strtotal1").append(c);
+            if (global.Data.ForView == 0) {
+                $("#vcustomer1").append(global.Data.PcustomerName);
+                $("#vphone1").append(global.Data.PcustomePhone);
+                $("#vaddress1").append(global.Data.PcustomerAddress);
+                $("#vtotal1").append(payment);
+                $("#strtotal1").append(c);
+            } else {
+                $("#vcustomer1").append('');
+                $("#vphone1").append('');
+                $("#vaddress1").append('');
+            }
+        
+        
             $("#vdate3").append(time);
             var check = document.getElementById('type2').checked;
 
@@ -2271,9 +2391,19 @@ VINASIC.Order = function () {
         });
     }
     function calculatorPrice() {
+        var isFixed = false;
         var width = $("#dwidth").val();
         var height = $("#dheignt").val();
         var quantity = $("#dquantity").val();
+        var searchResult = searchById($("#dproduct").val(), global.Data.listproduct);
+        if (searchResult != undefined) {
+            var tempPrice = getProductPrice(searchResult.Code, parseFloat(quantity));
+            if (tempPrice != undefined) {
+                isFixed = tempPrice.isFixed;
+                $("#dprice").val(tempPrice.price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            }
+        }
+
         var sqare = calculatorSquare(width, height);
         if (!checkNumber(sqare) && sqare !== 0) {
             var roundSquare = decimalAdjust('round', sqare, -6);
@@ -2290,7 +2420,7 @@ VINASIC.Order = function () {
         }
         var price = $("#dprice").val();
         if (!checkNumber(quantity) && quantity !== "" && price !== "") {
-            var total = calculatorSubTotal(sqare, quantity, price.replace(/[^0-9-.]/g, ''));
+            var total = calculatorSubTotal(sqare, quantity, price.replace(/[^0-9-.]/g, ''), isFixed);
             if (!checkNumber(total)) {
                 var roundtotal = decimalAdjust('round', total, 0);
                 $("#dsubtotal").val(roundtotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
@@ -2299,7 +2429,7 @@ VINASIC.Order = function () {
                 var ddeposit = $("#ddeposit").val().replace(/[^0-9-.]/g, '');
                 ddeposit = parseFloat(ddeposit);
                 var totaltax = roundtotal - ddeposit;
-                    $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                 //}
             }
             else {
@@ -2308,6 +2438,69 @@ VINASIC.Order = function () {
             }
         }
     }
+
+    function calculatorPriceCustom(quantityDiv, code, priceDiv, totalDiv) {  
+        var isFixed = false;
+        var quantity = $(quantityDiv).val();
+        if (quantity=='') {
+            quantity = 0;
+        }
+        if (code == "giacongkhac") {
+            var temp1 = $(priceDiv).val().replace(/[^0-9-.]/g, '');
+            var tempTotal = temp1 * parseFloat(quantity);
+            $(totalDiv).val(tempTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+        }
+       
+        else {           
+            var tempPrice = getProductPrice(code, parseFloat(quantity));
+            if (code == "cat") {
+                tempPrice = {};
+                if (parseFloat(quantity) > 0) {
+                    tempPrice.price = 500;
+                    tempPrice.isFixed = false;
+                }
+                if (parseFloat(quantity) > 1000) {
+                    tempPrice.price = 300;
+                    tempPrice.isFixed = false;
+                }
+            }
+            if (code == "be") {
+                tempPrice = {};
+                if (parseFloat(quantity) > 0) {
+                    tempPrice.price = 5000;
+                    tempPrice.isFixed = false;
+                }
+                if (parseFloat(quantity) > 10) {
+                    tempPrice.price = 4000;
+                    tempPrice.isFixed = false;
+                }
+                if (parseFloat(quantity) > 20) {
+                    tempPrice.price = 3000;
+                    tempPrice.isFixed = false;
+                }
+                if (parseFloat(quantity) > 50) {
+                    tempPrice.price = 2500;
+                    tempPrice.isFixed = false;
+                }
+                if (parseFloat(quantity) > 100) {
+                    tempPrice.price = 2000;
+                    tempPrice.isFixed = false;
+                }
+            }
+            if (tempPrice != undefined) {
+                isFixed = tempPrice.isFixed;
+                if (quantity != '0' && quantity != '') {
+                    $(priceDiv).val(tempPrice.price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                }
+            }
+            var total = calculatorSubTotal(0, quantity, tempPrice.price, isFixed);
+            if (quantity != 0 && quantity != '') {
+                $(totalDiv).val(total.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            }
+        }
+       
+    }
+
     function initPopupSearch() {
         $("#" + global.Element.PopupSearch).modal({
             keyboard: false,
@@ -2353,16 +2546,43 @@ VINASIC.Order = function () {
             $("#" + global.Element.PopupCost).modal("hide");
         });
     }
+    function addToDetail(quatityDiv,code,priceDiv,totalDiv) {
+        var searchbycode = searchByCode(code, global.Data.listproduct)
+        if ($(quatityDiv).val() != '' && $(quatityDiv).val() != 0 && $(priceDiv).val() != '' && $(priceDiv).val() != 0) {
+            var object1 = { Id: 0, Index: global.Data.Index, CommodityId: searchbycode.Value, CommodityName: searchbycode.Text, FileName: '', Description: '', Width: '', Height: '', Square: '', Quantity: $(quatityDiv).val(), SumSquare: '', Price: $(totalDiv).val(), SubTotal: $(totalDiv).val() }
+            global.Data.ModelOrderDetail.push(object1);
+            global.Data.Index = global.Data.Index + 1;
+        }
+    }
     function initPopupCustom() {
         $("#" + global.Element.popupCustom).modal({
             keyboard: false,
             show: false
         });
         $("#" + global.Element.popupCustom + ' button[save]').click(function () {
-            //var orderId = global.Data.OrderId;
-            //var payment = $("#cost").val();
-            //updateCost(orderId, payment);
-            //reloadListOrder();
+            addToDetail('#quantity1_1', 'ingiay', '#price1_1', '#total1_1');
+            addToDetail('#quantity1_2', $("#customSelect1").val(), '#price1_2', '#total1_2');
+            addToDetail('#quantity1_3', 'canmang', '#price1_3', '#total1_3');
+            addToDetail('#quantity1_4', 'dongkim', '#price1_4', '#total1_4');
+            addToDetail('#quantity1_5', 'dongloxo', '#price1_5', '#total1_5');
+            addToDetail('#quantity1_6', 'dongkeogay', '#price1_6', '#total1_6');
+            addToDetail('#quantity1_7', 'cat', '#price1_7', '#total1_7');
+            addToDetail('#quantity1_8', 'giacongkhac', '#price1_8', '#total1_8');
+            
+            for (var k = 0; k < global.Data.ModelOrderDetail.length; k++) {
+                global.Data.OrderTotal += parseFloat(global.Data.ModelOrderDetail[k].SubTotal.replace(/[^0-9-.]/g, ''));
+            }
+            $("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            $("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            var ddeposit = $("#ddeposit").val().replace(/[^0-9-.]/g, '');
+            ddeposit = parseFloat(ddeposit);
+            var totaltax = global.Data.OrderTotal - ddeposit;
+            $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+
+            global.Data.CurenIndex = 0;
+            reloadListOrderDetail();
+            resetDetail();
+
             $("#" + global.Element.popupCustom).modal("hide");
         });
         $("#" + global.Element.popupCustom + ' button[cancel]').click(function () {
@@ -2375,6 +2595,26 @@ VINASIC.Order = function () {
             show: false
         });
         $("#" + global.Element.popupCustom1 + ' button[save]').click(function () {
+
+            addToDetail('#quantity2_1', 'indecalgiay', '#price2_1', '#total2_1');
+            addToDetail('#quantity2_2', 'decalgiay', '#price2_2', '#total2_2');
+            addToDetail('#quantity2_3', 'canmang', '#price2_3', '#total2_3');
+            addToDetail('#quantity2_4', 'be', '#price2_4', '#total2_4');
+            addToDetail('#quantity2_5', 'giacongkhac', '#price2_5', '#total2_5');
+
+            for (var k = 0; k < global.Data.ModelOrderDetail.length; k++) {
+                global.Data.OrderTotal += parseFloat(global.Data.ModelOrderDetail[k].SubTotal.replace(/[^0-9-.]/g, ''));
+            }
+            $("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            $("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            var ddeposit = $("#ddeposit").val().replace(/[^0-9-.]/g, '');
+            ddeposit = parseFloat(ddeposit);
+            var totaltax = global.Data.OrderTotal - ddeposit;
+            $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+
+            global.Data.CurenIndex = 0;
+            reloadListOrderDetail();
+            resetDetail();
             $("#" + global.Element.popupCustom1).modal("hide");
         });
         $("#" + global.Element.popupCustom1 + ' button[cancel]').click(function () {
@@ -2387,6 +2627,25 @@ VINASIC.Order = function () {
             show: false
         });
         $("#" + global.Element.popupCustom2 + ' button[save]').click(function () {
+            addToDetail('#quantity3_1', 'indecalxi', '#price3_1', '#total3_1');
+            addToDetail('#quantity3_2', $("#customSelect3").val(), '#price3_2', '#total3_2');
+            addToDetail('#quantity3_3', 'canmang', '#price3_3', '#total3_3');
+            addToDetail('#quantity3_4', 'be', '#price3_4', '#total3_4');
+            addToDetail('#quantity3_5', 'giacongkhac', '#price3_5', '#total3_5');
+
+            for (var k = 0; k < global.Data.ModelOrderDetail.length; k++) {
+                global.Data.OrderTotal += parseFloat(global.Data.ModelOrderDetail[k].SubTotal.replace(/[^0-9-.]/g, ''));
+            }
+            $("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            $("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            var ddeposit = $("#ddeposit").val().replace(/[^0-9-.]/g, '');
+            ddeposit = parseFloat(ddeposit);
+            var totaltax = global.Data.OrderTotal - ddeposit;
+            $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+
+            global.Data.CurenIndex = 0;
+            reloadListOrderDetail();
+            resetDetail();
             $("#" + global.Element.popupCustom2).modal("hide");
         });
         $("#" + global.Element.popupCustom2 + ' button[cancel]').click(function () {
@@ -2455,19 +2714,19 @@ VINASIC.Order = function () {
             saveOrder();
         });
         $("#dproduct").change(function () {
-            var resultObject = searchById($(this).val(), global.Data.listproduct);
-            if (resultObject.Code == 'ingiay') {
-                showPopupCustom();
-            }
-            if (resultObject.Code == 'decalgiay') {
-                showPopupCustom1();
-            }
-            if (resultObject.Code == 'decalxi') {
-                showPopupCustom2();
-            }
-            if (resultObject.Code == 'catalogue') {
-                showPopupCustom3();
-            } 
+            //var resultObject = searchById($(this).val(), global.Data.listproduct);
+            //if (resultObject.Code == 'ingiay') {
+            //    showPopupCustom();
+            //}
+            //if (resultObject.Code == 'decalgiay') {
+            //    showPopupCustom1();
+            //}
+            //if (resultObject.Code == 'decalxi') {
+            //    showPopupCustom2();
+            //}
+            //if (resultObject.Code == 'catalogue') {
+            //    showPopupCustom3();
+            //} 
             $.ajax({
                 url: "/Order/GetPriceForCustomerAndProduct?customerId=" + global.Data.CustomerId + "&productId=" + $(this).val(),
                 type: 'post',
@@ -2568,6 +2827,18 @@ VINASIC.Order = function () {
         });
         $("#vsearch").click(function () {
             reloadViewDetail();
+        });
+        $("#print1").click(function () {
+            showPopupCustom();
+        });
+        $("#print2").click(function () {
+            showPopupCustom1();
+        });
+        $("#print3").click(function () {
+            showPopupCustom2();
+        });
+        $("#print4").click(function () {
+            showPopupCustom3();
         });
         $("#CreateOrder").click(function () {
             document.getElementById("date").defaultValue = new Date().toISOString().substring(0, 10);
@@ -2699,6 +2970,29 @@ VINASIC.Order = function () {
         $('.caculator').keyup(function () {
             calculatorPrice();
         });
+        $('.customInput').keyup(function () {
+            //quantityDiv, code, priceDiv, totalDiv
+            calculatorPriceCustom('#quantity1_1', 'ingiay', '#price1_1', '#total1_1');
+            calculatorPriceCustom('#quantity1_2', $("#customSelect1").val(), '#price1_2', '#total1_2');
+            calculatorPriceCustom('#quantity1_3', 'canmang', '#price1_3', '#total1_3');
+            calculatorPriceCustom('#quantity1_4', 'dongkim', '#price1_4', '#total1_4');
+            calculatorPriceCustom('#quantity1_5', 'dongloxo','#price1_5', '#total1_5');
+            calculatorPriceCustom('#quantity1_6', 'dongkeogay', '#price1_6', '#total1_6');
+            calculatorPriceCustom('#quantity1_7', 'cat', '#price1_7', '#total1_7');
+            calculatorPriceCustom('#quantity1_8', 'giacongkhac', '#price1_8', '#total1_8');
+
+            calculatorPriceCustom('#quantity2_1', 'indecalgiay', '#price2_1', '#total2_1');
+            calculatorPriceCustom('#quantity2_2', 'decalgiay', '#price2_2', '#total2_2');
+            calculatorPriceCustom('#quantity2_3', 'canmang', '#price2_3', '#total2_3');
+            calculatorPriceCustom('#quantity2_4', 'be', '#price2_4', '#total2_4');
+            calculatorPriceCustom('#quantity2_5', 'giacongkhac', '#price2_5', '#total2_5');
+
+            calculatorPriceCustom('#quantity3_1', 'indecalxi', '#price3_1', '#total3_1');
+            calculatorPriceCustom('#quantity3_2', $("#customSelect3").val(), '#price3_2', '#total3_2');
+            calculatorPriceCustom('#quantity3_3', 'canmang', '#price3_3', '#total3_3');
+            calculatorPriceCustom('#quantity3_4', 'be', '#price3_4', '#total3_4');
+            calculatorPriceCustom('#quantity3_5', 'giacongkhac', '#price3_5', '#total3_5');
+        });
         $('#cphone').keydown(function (e) {
             if (e.which === 13) { //Enter
                 e.preventDefault();
@@ -2760,8 +3054,8 @@ VINASIC.Order = function () {
                         //if (document.getElementById("dtax").checked == true) {
                         var ddeposit = $("#ddeposit").val().replace(/[^0-9-.]/g, '');
                         ddeposit = parseFloat(ddeposit);
-                            var totaltax = global.Data.OrderTotal - ddeposit;
-                            $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                        var totaltax = global.Data.OrderTotal - ddeposit;
+                        $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                         //}
 
                     } else {
@@ -2777,7 +3071,7 @@ VINASIC.Order = function () {
                         var ddeposit = $("#ddeposit").val().replace(/[^0-9-.]/g, '');
                         ddeposit = parseFloat(ddeposit);
                         var totaltax = global.Data.OrderTotal - ddeposit;
-                            $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                        $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                         //}
                         //global.Data.OrderTotal = global.Data.OrderTotal.replace(/[^0-9-.]/g, '');
                     }
@@ -2793,7 +3087,7 @@ VINASIC.Order = function () {
             debugger;
             var subtotal = $("#dtotal").val().replace(/[^0-9-.]/g, '');
             var deposit = $("#ddeposit").val().replace(/[^0-9-.]/g, '');
-          
+
             if (subtotal == "") {
                 $("#dtotaltax").val("");
             } else {
@@ -2806,10 +3100,10 @@ VINASIC.Order = function () {
                     var totaltax = subtotal - deposit;
                     $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                 }
-                  
-   
+
+
             }
-            
+
         });
         //$("#dtax").change(function () {
         //    var subtotal = $("#dtotal").val().replace(/[^0-9-.]/g, '');
@@ -2963,24 +3257,24 @@ VINASIC.Order = function () {
             $("#dproductSuggest").autocomplete({
                 source: global.Data.listproductName,
                 select: function (a, b) {
-                    
+
                     var cusName = b.item.value;
                     var resultObject = search(cusName, global.Data.listproduct);
-                    if (resultObject.Code =='ingiay') {
-                        showPopupCustom();
-                    } 
-                    if (resultObject.Code == 'decalgiay') {
-                        showPopupCustom1();
-                    } 
-                    if (resultObject.Code == 'decalxi') {
-                        showPopupCustom2();
-                    } 
-                    if (resultObject.Code == 'catalogue') {
-                        showPopupCustom3();
-                    } 
-                    if (resultObject != undefined) {                
+                    //if (resultObject.Code =='ingiay') {
+                    //    showPopupCustom();
+                    //} 
+                    //if (resultObject.Code == 'decalgiay') {
+                    //    showPopupCustom1();
+                    //} 
+                    //if (resultObject.Code == 'decalxi') {
+                    //    showPopupCustom2();
+                    //} 
+                    //if (resultObject.Code == 'catalogue') {
+                    //    showPopupCustom3();
+                    //} 
+                    if (resultObject != undefined) {
                         $('#dproductType').val(resultObject.Type);
-                        initComboBoxProduct(0, resultObject.Value);                  
+                        initComboBoxProduct(0, resultObject.Value);
                     }
                 }
             });
@@ -3016,6 +3310,9 @@ VINASIC.Order = function () {
         initPopupHasPay();
         initPopupCost();
         initPopupCustom();
+        initPopupCustom1();
+        initPopupCustom2();
+        initPopupCustom3();
         initPopupNotification();
         initPopupSearch();
         initListCost();
@@ -3058,6 +3355,7 @@ VINASIC.Order = function () {
             }
         });
         initProductPrice();
+        initProductPrice1();
     };
 };
 /*End Region*/

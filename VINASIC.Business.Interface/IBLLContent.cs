@@ -10,6 +10,8 @@ namespace VINASIC.Business.Interface
         ResponseBase DeleteById(int id, int userId);
         PagedList<ModelContent> GetList(string keyWord, int startIndexRecord, int pageSize, string sorting);
         List<ModelSelectItem> GetListContent();
-        ModelContent GetContentByType(int code);
+        ModelContent GetContentByType(int code); 
+         ModelContent ReadEntries();
+        ModelContent ReadEntries2();
     }
 }
