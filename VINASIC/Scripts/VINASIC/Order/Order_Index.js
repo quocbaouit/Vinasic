@@ -2567,7 +2567,7 @@ VINASIC.Order = function () {
             addToDetail('#quantity1_5', 'dongloxo', '#price1_5', '#total1_5');
             addToDetail('#quantity1_6', 'dongkeogay', '#price1_6', '#total1_6');
             addToDetail('#quantity1_7', 'cat', '#price1_7', '#total1_7');
-            addToDetail('#quantity1_8', 'giacongkhac', '#price1_8', '#total1_8');
+            //addToDetail('#quantity1_8', 'giacongkhac', '#price1_8', '#total1_8');
             
             for (var k = 0; k < global.Data.ModelOrderDetail.length; k++) {
                 global.Data.OrderTotal += parseFloat(global.Data.ModelOrderDetail[k].SubTotal.replace(/[^0-9-.]/g, ''));
@@ -2600,7 +2600,7 @@ VINASIC.Order = function () {
             addToDetail('#quantity2_2', 'decalgiay', '#price2_2', '#total2_2');
             addToDetail('#quantity2_3', 'canmang', '#price2_3', '#total2_3');
             addToDetail('#quantity2_4', 'be', '#price2_4', '#total2_4');
-            addToDetail('#quantity2_5', 'giacongkhac', '#price2_5', '#total2_5');
+            //addToDetail('#quantity2_5', 'giacongkhac', '#price2_5', '#total2_5');
 
             for (var k = 0; k < global.Data.ModelOrderDetail.length; k++) {
                 global.Data.OrderTotal += parseFloat(global.Data.ModelOrderDetail[k].SubTotal.replace(/[^0-9-.]/g, ''));
@@ -2631,7 +2631,7 @@ VINASIC.Order = function () {
             addToDetail('#quantity3_2', $("#customSelect3").val(), '#price3_2', '#total3_2');
             addToDetail('#quantity3_3', 'canmang', '#price3_3', '#total3_3');
             addToDetail('#quantity3_4', 'be', '#price3_4', '#total3_4');
-            addToDetail('#quantity3_5', 'giacongkhac', '#price3_5', '#total3_5');
+            //addToDetail('#quantity3_5', 'giacongkhac', '#price3_5', '#total3_5');
 
             for (var k = 0; k < global.Data.ModelOrderDetail.length; k++) {
                 global.Data.OrderTotal += parseFloat(global.Data.ModelOrderDetail[k].SubTotal.replace(/[^0-9-.]/g, ''));
@@ -2979,19 +2979,19 @@ VINASIC.Order = function () {
             calculatorPriceCustom('#quantity1_5', 'dongloxo','#price1_5', '#total1_5');
             calculatorPriceCustom('#quantity1_6', 'dongkeogay', '#price1_6', '#total1_6');
             calculatorPriceCustom('#quantity1_7', 'cat', '#price1_7', '#total1_7');
-            calculatorPriceCustom('#quantity1_8', 'giacongkhac', '#price1_8', '#total1_8');
+            //calculatorPriceCustom('#quantity1_8', 'giacongkhac', '#price1_8', '#total1_8');
 
             calculatorPriceCustom('#quantity2_1', 'indecalgiay', '#price2_1', '#total2_1');
             calculatorPriceCustom('#quantity2_2', 'decalgiay', '#price2_2', '#total2_2');
             calculatorPriceCustom('#quantity2_3', 'canmang', '#price2_3', '#total2_3');
             calculatorPriceCustom('#quantity2_4', 'be', '#price2_4', '#total2_4');
-            calculatorPriceCustom('#quantity2_5', 'giacongkhac', '#price2_5', '#total2_5');
+            //calculatorPriceCustom('#quantity2_5', 'giacongkhac', '#price2_5', '#total2_5');
 
             calculatorPriceCustom('#quantity3_1', 'indecalxi', '#price3_1', '#total3_1');
             calculatorPriceCustom('#quantity3_2', $("#customSelect3").val(), '#price3_2', '#total3_2');
             calculatorPriceCustom('#quantity3_3', 'canmang', '#price3_3', '#total3_3');
             calculatorPriceCustom('#quantity3_4', 'be', '#price3_4', '#total3_4');
-            calculatorPriceCustom('#quantity3_5', 'giacongkhac', '#price3_5', '#total3_5');
+            //calculatorPriceCustom('#quantity3_5', 'giacongkhac', '#price3_5', '#total3_5');
         });
         $('#cphone').keydown(function (e) {
             if (e.which === 13) { //Enter

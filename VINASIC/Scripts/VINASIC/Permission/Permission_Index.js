@@ -165,10 +165,10 @@ VINASIC.Permission = function () {
                         else {
                             text = $("<a style=\"color: blue\" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chỉnh sửa thông tin.\">" + data.record.PermissionName + "</a>");
                         }
-                        text.click(function () {
-                            bindData(data.record);
-                            showPopupPermission();
-                        });
+                        //text.click(function () {
+                        //    bindData(data.record);
+                        //    showPopupPermission();
+                        //});
                         return text;
                     }
                 },
@@ -185,36 +185,36 @@ VINASIC.Permission = function () {
                         return elementDisplay;
                     }
                 },
-                Url: {
-                    title: "Đường Dẫn",
-                    width: "25%",
-                    display: function (data) {
-                        var elementDisplay = "";
-                        if (data.record.PermissionName === null)
-                        { elementDisplay = "<hr/>"; }
-                        else {
-                            elementDisplay = "<p>" + data.record.Url + "</p>";
-                        }
-                        return elementDisplay;
-                    }
-                },
-                Delete: {
-                    title: "Xóa",
-                    width: "5%",
-                    sorting: false,
-                    display: function (data) {
-                        var text = $('<button title="Xóa" class="jtable-command-button jtable-delete-command-button"><span>Xóa</span></button>');
-                        text.click(function () {
-                            GlobalCommon.ShowConfirmDialog("Bạn có chắc chắn muốn xóa?", function () {
-                                deleteRow(data.record.Id);
-                                var realTimeHub = $.connection.realTimeJTableDemoHub;
-                                realTimeHub.server.sendUpdateEvent("jtablePermission");
-                                $.connection.hub.start();
-                            }, function () { }, "Đồng ý", "Hủy bỏ", "Thông báo");
-                        });
-                        return text;
-                    }
-                }
+                //Url: {
+                //    title: "Đường Dẫn",
+                //    width: "25%",
+                //    display: function (data) {
+                //        var elementDisplay = "";
+                //        if (data.record.PermissionName === null)
+                //        { elementDisplay = "<hr/>"; }
+                //        else {
+                //            elementDisplay = "<p>" + data.record.Url + "</p>";
+                //        }
+                //        return elementDisplay;
+                //    }
+                //},
+                //Delete: {
+                //    title: "Xóa",
+                //    width: "5%",
+                //    sorting: false,
+                //    display: function (data) {
+                //        var text = $('<button title="Xóa" class="jtable-command-button jtable-delete-command-button"><span>Xóa</span></button>');
+                //        text.click(function () {
+                //            GlobalCommon.ShowConfirmDialog("Bạn có chắc chắn muốn xóa?", function () {
+                //                deleteRow(data.record.Id);
+                //                var realTimeHub = $.connection.realTimeJTableDemoHub;
+                //                realTimeHub.server.sendUpdateEvent("jtablePermission");
+                //                $.connection.hub.start();
+                //            }, function () { }, "Đồng ý", "Hủy bỏ", "Thông báo");
+                //        });
+                //        return text;
+                //    }
+                //}
 
             }
         });
