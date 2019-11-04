@@ -2398,7 +2398,7 @@ VINASIC.Order = function () {
         var searchResult = searchById($("#dproduct").val(), global.Data.listproduct);
         if (searchResult != undefined) {
             var tempPrice = getProductPrice(searchResult.Code, parseFloat(quantity));
-            if (tempPrice != undefined) {
+            if (tempPrice != undefined && tempPrice !=0) {
                 isFixed = tempPrice.isFixed;
                 $("#dprice").val(tempPrice.price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
             }
@@ -2489,7 +2489,7 @@ VINASIC.Order = function () {
             }
             if (tempPrice != undefined) {
                 isFixed = tempPrice.isFixed;
-                if (quantity != '0' && quantity != '') {
+                if (quantity != '0' && quantity != '' && quantity != 0) {
                     $(priceDiv).val(tempPrice.price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
                 }
             }
