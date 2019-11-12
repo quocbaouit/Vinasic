@@ -44,7 +44,7 @@
                     <li id="tab3" class="">
                         <a data-toggle="tab" href="#tab3-activity">
                             <i class="icon-envelope"></i>
-                            Chỉnh Sửa Nội Dung Mail
+                            Làm Mới Đơn Giá
                         </a>
                     </li>
                 </ul>
@@ -66,13 +66,14 @@
 
                     </div>
                     <div id="tab3-activity" class="tab-pane">
-                        <input type="hidden" id="tempId1" value="0" />
+                        @*<input type="hidden" id="tempId1" value="0" />
                         <div class="row">
                             <div id="summernote1"></div>
-                        </div>
+                        </div>*@
+                        <h5>Cập nhật đơn giá theo file excel</h5>
                         <button id="saveContent1" save class="btn btn-primary">
                             <div class="button-image image-save"></div>
-                            Lưu
+                            Lưu Lại Đơn Giá Mới
                         </button>
                     </div>
                 </div>
@@ -169,7 +170,7 @@
         });
     }
     function saveContent1() {
-        var ModelContent = { id: 0, Name: "Content", Type: 2, Description: '', Content: $('#summernote1').summernote('code') };
+        var ModelContent = { id: 0, Name: "Content", Type: 2, Description: '', Content: '' };
         $.ajax({
             url: '/ContentPage/SaveContent',
             type: 'post',

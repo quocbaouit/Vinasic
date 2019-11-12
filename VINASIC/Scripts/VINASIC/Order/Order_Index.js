@@ -101,8 +101,12 @@ VINASIC.Order = function () {
         }
 
         tableString += "<th>" + "SLượng" + "</th>";
-        tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Đơn Giá" + "</th>";
-        tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Thành Tiền" + "</th>";
+        if (type == 0) {
+            tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Đơn Giá" + "</th>";
+            tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Thành Tiền" + "</th>";
+        } else {
+            tableString += "<th colspan=\"2\" style=\"padding-right: 5px;text-align: right;\">" + "Ghi Chú" + "</th>";
+        }
         tableString += "</tr>";
         for (row = 0; row < Table.length; row += 1) {
             var strPrice = Table[row].Price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
@@ -129,8 +133,8 @@ VINASIC.Order = function () {
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strPrice + "</td>";
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strSubTotal + "</td>";
             } else {
-                tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
-                tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
+                tableString += "<td colspan=\"2\" style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
+                //tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
 
             }
          
@@ -149,8 +153,12 @@ VINASIC.Order = function () {
                     tableString += "<td>" + "&nbsp;" + "</td>";
                 }
                 tableString += "<td>" + "&nbsp;" + "</td>";
-                tableString += "<td>" + "&nbsp;" + "</td>";
-                tableString += "<td>" + "&nbsp;" + "</td>";
+                if (type == 0) {
+                    tableString += "<td>" + "&nbsp;" + "</td>";
+                    tableString += "<td>" + "&nbsp;" + "</td>";
+                } else {
+                    tableString += "<td colspan=\"2\">" + "&nbsp;" + "</td>";
+                }
                 tableString += "</tr>";
             }
         }
@@ -163,10 +171,11 @@ VINASIC.Order = function () {
             var colspan = 4;
             if (document.getElementById('show-dim').checked)
                 colspan = 6;
-            tableString += "<td colspan=\"" + colspan + "\">Tổng Tiền:</td>";
+       
+                tableString += "<td colspan=\"" + colspan + "\">Tổng Tiền:</td>";
+          
             tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal2\">" + strSubTotal1 + "</span></td>";
             tableString += "</tr>";
-
             tableString += "<tr>";
             var colspan = 4;
             if (document.getElementById('show-dim').checked)
@@ -180,7 +189,11 @@ VINASIC.Order = function () {
         var colspan = 4;
         if (document.getElementById('show-dim').checked)
             colspan = 6;
-        tableString += "<td colspan=\"" + colspan + "\">" + strThanhToan + ":</td>";
+        if (type != 0) {
+            tableString += "<td colspan=\"" + 3 + "\">" + strThanhToan + ":</td>";
+        } else {
+            tableString += "<td colspan=\"" + colspan + "\">" + strThanhToan + ":</td>";
+        }
         tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal1\">55577854</span></td>";
         tableString += "</tr>";
         tableString += "<tr>";

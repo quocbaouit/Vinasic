@@ -102,7 +102,7 @@ namespace VINASIC.Business
 
         public ModelContent GetContentByType(int code)
         {
-            var content = _repContent.GetMany(c => c.Type == code).Select(c => new ModelContent()
+            var content = _repContent.GetMany(c => c.Type == code && !c.IsDeleted).Select(c => new ModelContent()
             {
                 Id = c.Id,
                 Name = c.Name,
@@ -162,28 +162,51 @@ namespace VINASIC.Business
         {
 
             ResponseBase result = new ResponseBase { IsSuccess = false };
-
-            T_Content content = _repContent.Get(x => x.Type == obj.Type && !x.IsDeleted);
-            if (content != null)
+            if (obj.Type==1)
             {
-                content.Name = obj.Name;
-                content.Content = obj.Content;
-                content.Description = obj.Description;
-                content.UpdatedDate = DateTime.Now.AddHours(14);
-                content.UpdatedUser = obj.UpdatedUser;
-                _repContent.Update(content);
-                SaveChange();
-                result.IsSuccess = true;
+                T_Content content = _repContent.Get(x => x.Type == obj.Type && !x.IsDeleted);
+                if (content != null)
+                {
+                    content.Name = obj.Name;
+                    content.Content = obj.Content;
+                    content.Description = obj.Description;
+                    content.UpdatedDate = DateTime.Now.AddHours(14);
+                    content.UpdatedUser = obj.UpdatedUser;
+                    _repContent.Update(content);
+                    SaveChange();
+                    result.IsSuccess = true;
+                }
+                else
+                {
+                    var contentInsert = new T_Content();
+                    Parse.CopyObject(obj, ref contentInsert);
+                    contentInsert.CreatedDate = DateTime.Now.AddHours(14);
+                    _repContent.Add(contentInsert);
+                    SaveChange();
+                    result.IsSuccess = true;
+                }
             }
             else
             {
-                var contentInsert = new T_Content();
-                Parse.CopyObject(obj, ref contentInsert);
-                contentInsert.CreatedDate = DateTime.Now.AddHours(14);
-                _repContent.Add(contentInsert);
-                SaveChange();
-                result.IsSuccess = true;
+                var contents = _repContent.GetMany(x => (x.Type == 2|| x.Type ==3) && !x.IsDeleted).ToList();
+                foreach (var item in contents)
+                {
+                    item.IsDeleted = true;
+                    _repContent.Update(item);
+                    SaveChange();               
+                }
+                var result1 = ReadEntries();
+                var result2 = ReadEntries2();
+                if (result1 != null && result2 != null)
+                {
+                    result.IsSuccess = true;
+                }
+                else
+                {
+                    result.IsSuccess = false;
+                }
             }
+            
 
             return result;
         }
