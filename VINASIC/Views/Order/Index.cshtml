@@ -332,19 +332,22 @@
                                                     <label for="cname">Tên Khách Hàng</label>
                                                     <input type="text" class="form-control" id="cname" placeholder="Nhập Tên Khách Hàng">
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="customerType">Loại:</label>
-                                                    <select id="customerType" class="form-control input-lg m-bot15">
-                                                        <option value="0">Khách Lẻ </option>
-                                                        <option value="1">Đại Lý </option>
-                                                    </select>
-                                                </div>
+                                                @*<div class="form-group">
+            <label for="customerType">Loại:</label>
+            <select id="customerType" class="form-control input-lg m-bot15">
+                <option value="0">Khách Lẻ </option>
+                <option value="1">Đại Lý </option>
+            </select>
+        </div>*@
                                                 <div class="form-group">
                                                     <label for="cphone">Số Điện Thoại</label>
                                                     <input type="text" class="form-control" id="cphone" placeholder="" onkeypress=" return isNumberKey(event)">
                                                 </div>
 
-
+                                                <div class="form-group">
+                                                    <label for="cmail">Email</label>
+                                                    <input type="text" class="form-control" id="cmail" placeholder="">
+                                                </div>
                                             </form>
                                         </div>
                                     </section>
@@ -357,13 +360,10 @@
                                         </header>
                                         <div class="panel-body">
                                             <form role="form">
-                                                <div class="form-group">
-                                                    <label for="cmail">Email</label>
-                                                    <input type="text" class="form-control" id="cmail" placeholder="">
-                                                </div>
+                                              
                                                 <div class="form-group">
                                                     <label for="caddress">Địa Chỉ</label>
-                                                    <textarea style="height: 60px" name="" id="caddress" class="form-control" cols="30" rows="3"></textarea>
+                                                    <textarea  name="" id="caddress" class="form-control" cols="30" rows="5"></textarea>
                                                 </div>
 
                                                 <div class="form-group">
@@ -387,12 +387,12 @@
                                         </header>
 
                                         <div class="panel-body">
-                                            <div style="margin-left: 5px;margin-bottom: 10px;" class="col-lg-12">
+                                            @*<div style="margin-left: 5px;margin-bottom: 10px;" class="col-lg-12">
                                                 <button style="padding:unset;margin-right:30px" id="print1" class="btn button ">In Giấy</button>
                                                 <button style="padding:unset;margin-right:30px" id="print2" class="btn button ">In Decal Giấy</button>
                                                 <button style="padding:unset;margin-right:30px" id="print3" class="btn button ">In Decal Xi,7 Màu, Decal Bể</button>
-                                                @*<button style="padding:unset;margin-right:30px" id="print4" class="btn button ">In Catalogue</button>*@
-                                            </div>
+                                                <button style="padding:unset;margin-right:30px" id="print4" class="btn button ">In Catalogue</button>
+                                            </div>*@
                                             <div class="col-lg-12">
                                                 <div class="form-group">
                                                     <label for="dproductSuggest">Tên Dịch Vụ</label>
