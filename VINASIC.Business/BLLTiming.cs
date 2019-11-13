@@ -192,10 +192,10 @@ namespace VINASIC.Business
             return timing;
         }
 
-        public Dictionary<int,string>  GetTimingForEmployee(int imployId)
+        public Dictionary<int,string>  GetTimingForEmployee(int imployId,int month)
         {
             var result = new Dictionary<int, string>();
-            var month = DateTime.Now.Month;
+            //var month = DateTime.Now.Month;
             var year = DateTime.Now.Year;
             var exitTiming = _repTiming.Get(x => x.TimingMonth == month && x.EmployeeId == imployId && x.TimingYear == year);
             StringBuilder strOffdays = new StringBuilder();

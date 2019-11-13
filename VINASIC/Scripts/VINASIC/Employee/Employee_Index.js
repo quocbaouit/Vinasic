@@ -948,6 +948,29 @@ VINASIC.Employee = function () {
             }
         });
     }
+
+    function GetSalaryForUser(employeeId,month) {
+        $.ajax({
+            url: "/Employee/GetSalaryForUser?employeeId=" + employeeId + "&month=" + month,
+            type: 'post',
+            contentType: 'application/json',
+            success: function (result) {
+                $('#loading').hide();
+                GlobalCommon.CallbackProcess(result, function () {
+                    if (result.Result === "OK") {
+                        while (global.Data.listSalary.length) {
+                            global.Data.listSalary.pop();
+                        }
+                        global.Data.listSalary.push.apply(global.Data.listSalary, result.Records);
+                        reloadListSalary();
+                    }
+                }, false, null, true, true, function () {
+
+                    toastr.error("Đã có lỗi xảy ra trong quá trình sử lý.");
+                });
+            }
+        });
+    }
     /*End Save */
     /* Region Register and init bootrap Popup*/
     function initPopupEmployee() {
@@ -1042,6 +1065,11 @@ VINASIC.Employee = function () {
         bindData(employee);
     };
     var registerEvent = function () {
+        $("#month").change(function () {
+            var id = $(this).val();
+            console.log(id);
+            GetSalaryForUser(global.Data.UserId, id);
+        });
         $("[cancel]").click(function () {
             bindData(null);
         });
@@ -1164,6 +1192,9 @@ VINASIC.Employee = function () {
         reloadListProduct();
         // initCalendar();
         bindData(null);
+        var d = new Date();
+        var n = d.getMonth();
+        $('#month').val(n);
     };
 };
 /*End Region*/

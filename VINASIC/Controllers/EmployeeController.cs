@@ -460,5 +460,25 @@ namespace VINASIC.Controllers
             return Json(JsonDataResult);
         }
 
+        [HttpPost]
+        public JsonResult GetSalaryForUser(int employeeId, int month)
+        {
+            try
+            {
+
+                var result = _bllEmployee.GetSalaryByMonth(employeeId, month);
+                JsonDataResult.Records = result;
+                JsonDataResult.Result = "OK";
+
+            }
+            catch (Exception ex)
+            {
+                JsonDataResult.Result = "ERROR";
+                JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Get List ObjectType", Message = "Lỗi: " + ex.Message });
+
+            }
+            return Json(JsonDataResult, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

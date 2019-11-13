@@ -219,21 +219,21 @@ namespace VINASIC.Business
             ResponseBase result = new ResponseBase { IsSuccess = false };
             try
             {
-                    var employee = _repUser.Get(x => x.Id == employId && !x.IsDeleted);
-                    if (employee != null)
-                    {
-                        employee.Salary = JsonConvert.SerializeObject(SalaryObj);
-                        employee.UpdatedDate = DateTime.Now.AddHours(14);
-                        employee.UpdatedUser = userID;
-                        _repUser.Update(employee);
-                        SaveChange();
-                        result.IsSuccess = true;
-                    }
-                    else
-                    {
-                        result.IsSuccess = false;
-                    }
-                
+                var employee = _repUser.Get(x => x.Id == employId && !x.IsDeleted);
+                if (employee != null)
+                {
+                    employee.Salary = JsonConvert.SerializeObject(SalaryObj);
+                    employee.UpdatedDate = DateTime.Now.AddHours(14);
+                    employee.UpdatedUser = userID;
+                    _repUser.Update(employee);
+                    SaveChange();
+                    result.IsSuccess = true;
+                }
+                else
+                {
+                    result.IsSuccess = false;
+                }
+
             }
             catch (Exception ex)
             {
@@ -256,7 +256,7 @@ namespace VINASIC.Business
                     Address = c.Address,
                     stringRoleName = "Chưa chọn nhóm quyền",
                     Mobile = c.Mobile,
-                    Salary=c.Salary,
+                    Salary = c.Salary,
                     Email = c.Email,
                     UserName = c.UserName,
                     IsLock = c.IsLock,
@@ -269,7 +269,7 @@ namespace VINASIC.Business
                 foreach (var employ in employees)
                 {
                     var listRole = bllRole.GetListRoleByUser(employ.Id);
-                 
+
                     if (listRole != null && listRole.Count > 0)
                     {
                         employ.stringRoleName = "";
@@ -303,17 +303,17 @@ namespace VINASIC.Business
                     {
                         var salarys = JsonConvert.DeserializeObject<List<SalaryObj>>(employ.Salary);
                         var note = string.Empty;
-                        var offDay = _bllTiming.GetTimingForEmployee(employ.Id);
-                        dayInmonth =  dayInmonth - double.Parse( offDay[1]);
-                         note = offDay[2];
-                        var standardfee = salarys.Where(x => x.Index == 2).FirstOrDefault().Amount??0;
-                        var allowance = salarys.Where(x => x.Index == 3).FirstOrDefault().Amount??0;
-                        var giamtru = salarys.Where(x => x.Index == 4).FirstOrDefault().Amount??0;
+                        var offDay = _bllTiming.GetTimingForEmployee(employ.Id, DateTime.Now.Month);
+                        dayInmonth = dayInmonth - double.Parse(offDay[1]);
+                        note = offDay[2];
+                        var standardfee = salarys.Where(x => x.Index == 2).FirstOrDefault().Amount ?? 0;
+                        var allowance = salarys.Where(x => x.Index == 3).FirstOrDefault().Amount ?? 0;
+                        var giamtru = salarys.Where(x => x.Index == 4).FirstOrDefault().Amount ?? 0;
                         var result = (dayInmonth * standardfee) + allowance - giamtru;
-                        
+
                         foreach (var salary in salarys)
                         {
-                            if (salary.Index==5)
+                            if (salary.Index == 5)
                             {
                                 salary.Amount = result;
                             }
@@ -325,7 +325,7 @@ namespace VINASIC.Business
                         employ.SalaryObj = salarys;
                         employ.Note = note;
                     }
-                  
+
                 }
                 var pageNumber = (startIndexRecord / pageSize) + 1;
                 return new PagedList<ModelUser>(employees, pageNumber, pageSize);
@@ -334,6 +334,49 @@ namespace VINASIC.Business
             {
                 throw ex;
             }
+        }
+        public List<SalaryObj> GetSalaryByMonth(int employId, int month)
+        {
+            var SalaryObj = new List<SalaryObj>();
+            var employ = _repUser.GetById(employId);
+
+            double dayInmonth = DateTime.DaysInMonth(DateTime.Now.Year, month);
+            if (employ.Salary == null)
+            {
+                SalaryObj = new List<SalaryObj>() {
+                            new SalaryObj { Content = "Số ngày làm trong tháng",Amount=dayInmonth,Index=1,Id=Guid.NewGuid(),Unit="Ngày" },
+                            new SalaryObj { Content = "Lương căn bản",Amount=0,Index=2,Id=Guid.NewGuid(),Unit="VND/Ngày"  },
+                            new SalaryObj { Content = "Phụ Cấp",Amount=0,Index=3,Id=Guid.NewGuid(),Unit="VND"  },
+                            new SalaryObj { Content = "Giảm trừ",Amount=0 ,Index=4,Id=Guid.NewGuid(),Unit="VND" },
+                            new SalaryObj { Content = "Tổng",Amount=0,Index=5,Id=Guid.NewGuid(),Unit="VND" },
+                        };
+            }
+            else
+            {
+                var salarys = JsonConvert.DeserializeObject<List<SalaryObj>>(employ.Salary);
+                var note = string.Empty;
+                var offDay = _bllTiming.GetTimingForEmployee(employ.Id, month);
+                dayInmonth = dayInmonth - double.Parse(offDay[1]);
+                note = offDay[2];
+                var standardfee = salarys.Where(x => x.Index == 2).FirstOrDefault().Amount ?? 0;
+                var allowance = salarys.Where(x => x.Index == 3).FirstOrDefault().Amount ?? 0;
+                var giamtru = salarys.Where(x => x.Index == 4).FirstOrDefault().Amount ?? 0;
+                var result = (dayInmonth * standardfee) + allowance - giamtru;
+
+                foreach (var salary in salarys)
+                {
+                    if (salary.Index == 5)
+                    {
+                        salary.Amount = result;
+                    }
+                    if (salary.Index == 1)
+                    {
+                        salary.Amount = dayInmonth;
+                    }
+                }
+                SalaryObj = salarys;
+            }        
+            return SalaryObj;
         }
         public ResponseBase UpdateLock(int userId, bool isLock, int contextUser)
         {
@@ -453,7 +496,7 @@ namespace VINASIC.Business
                         .Select(c => new ModelForDesign()
                         {
                             T_Order = c.T_Order,
-                            OrderId=c.OrderId,
+                            OrderId = c.OrderId,
                             CustomerName = c.T_Order.Name,
                             Id = c.Id,
                             EmployeeName = c.T_Order.T_User.Name,
@@ -461,19 +504,19 @@ namespace VINASIC.Business
                             FileName = c.FileName,
                             Height = c.Height,
                             Width = c.Width,
-                            Quantity=c.Quantity,
+                            Quantity = c.Quantity,
                             DesignFrom = c.DesignFrom,
                             DesignTo = c.DesignTo,
                             DesignStatus = c.DesignStatus ?? 0,
                             DesignDescription = c.DesignDescription,
-                            Description=c.Description,
+                            Description = c.Description,
                             DetailStatus = c.DetailStatus,
                             DesignUser = c.DesignUser,
                             DesignView = c.DesignView,
-                            PrintView=c.PrintView,
-                            AddOnView=c.AddOnView,
-                            PrintUser=c.PrintUser,
-                            AddonUser=c.AddonUser,
+                            PrintView = c.PrintView,
+                            AddOnView = c.AddOnView,
+                            PrintUser = c.PrintUser,
+                            AddonUser = c.AddonUser,
                             StrdesignStatus =
                                 c.DetailStatus == 1
                                     ? "Chưa Thiết kế"
@@ -582,7 +625,7 @@ namespace VINASIC.Business
                 var frDate = new DateTime(realfromDate.Year, realfromDate.Month, realfromDate.Day, 0, 0, 0, 0);
                 var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
                 var listPrintProcess =
-                    _repOrderDetailRepository.GetMany(c => !c.IsDeleted &&!c.T_Order.IsDeleted && c.CreatedDate >= frDate && (c.DetailStatus == 3 || !string.IsNullOrEmpty(c.PrintView)) && c.CreatedDate <= tDate)
+                    _repOrderDetailRepository.GetMany(c => !c.IsDeleted && !c.T_Order.IsDeleted && c.CreatedDate >= frDate && (c.DetailStatus == 3 || !string.IsNullOrEmpty(c.PrintView)) && c.CreatedDate <= tDate)
                         .Select(c => new ModelForPrint()
                         {
                             T_Order = c.T_Order,
@@ -594,13 +637,13 @@ namespace VINASIC.Business
                             PrintStatus = c.PrintStatus ?? 0,
                             EmployeeName = c.T_Order.T_User.Name,
                             CommodityName = c.CommodityName,
-                            Quantity=c.Quantity,
+                            Quantity = c.Quantity,
                             FileName = c.FileName,
                             Height = c.Height,
                             Width = c.Width,
                             PrintDescription = c.PrintDescription,
-                            DesignDescription=c.DesignDescription,
-                            Description=c.Description,
+                            DesignDescription = c.DesignDescription,
+                            Description = c.Description,
                             PrintFrom = c.PrintFrom,
                             PrintTo = c.PrintTo,
                             DetailStatus = c.DetailStatus,

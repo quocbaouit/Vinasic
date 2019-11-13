@@ -14,6 +14,6 @@ namespace VINASIC.Business.Interface
         List<DiaryEvent> LoadAppointmentSummaryInDateRange(double start, double end, int id);
 
         bool CreateNewEvent(string Title, string NewEventDate, string NewEventTime, string NewEventDuration, int id);
-        Dictionary<int, string> GetTimingForEmployee(int imployId);
+        Dictionary<int, string> GetTimingForEmployee(int imployId,int month);
     }
 }
