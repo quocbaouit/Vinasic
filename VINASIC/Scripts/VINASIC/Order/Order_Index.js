@@ -2114,7 +2114,7 @@ VINASIC.Order = function () {
     }
     /*function Save */
     function saveOrder() {
-        if ($("#cemployee").val() !== "0") {
+        if ($("#cemployee").val() !== "0" && $("#cemployee").val() !== null) {
             if ($("#cname").val() !== "") {
                 if (global.Data.ModelOrderDetail.length !== 0) {
                     //global.Data.OrderTotal = 0;
