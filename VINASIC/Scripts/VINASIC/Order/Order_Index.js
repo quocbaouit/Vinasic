@@ -1105,6 +1105,7 @@ VINASIC.Order = function () {
                                     title: "Trạng Thái",
                                     width: "10%",
                                     display: function (data) {
+                                        debugger;
                                         var text = "";
                                         var arrayNVTK = global.Data.ListEmployeeDesign;
                                         var arrayNVIN = global.Data.ListEmployeePrint;
@@ -1202,6 +1203,7 @@ VINASIC.Order = function () {
                                     title: "Trạng Thái",
                                     width: "10%",
                                     display: function (data) {
+                                        debugger;
                                         var text = "";
                                         var arrayNVTK = global.Data.ListEmployeeDesign;
                                         var arrayNVIN = global.Data.ListEmployeePrint;
@@ -1256,6 +1258,7 @@ VINASIC.Order = function () {
                                     title: "Trạng Thái",
                                     width: "10%",
                                     display: function (data) {
+                                        debugger;
                                         var text = "";
                                         var arrayNVTK = global.Data.ListEmployeeDesign;
                                         var arrayNVIN = global.Data.ListEmployeePrint;
@@ -1773,6 +1776,7 @@ VINASIC.Order = function () {
                     title: "Nhân Viên",
                     width: "10%",
                     display: function (data) {
+                        debugger;
                         var text = "";
                         var arrayNVTK = global.Data.ListEmployeeDesign;
                         var arrayNVIN = global.Data.ListEmployeePrint;
@@ -2562,7 +2566,7 @@ VINASIC.Order = function () {
     function addToDetail(quatityDiv,code,priceDiv,totalDiv) {
         var searchbycode = searchByCode(code, global.Data.listproduct)
         if ($(quatityDiv).val() != '' && $(quatityDiv).val() != 0 && $(priceDiv).val() != '' && $(priceDiv).val() != 0) {
-            var object1 = { Id: 0, Index: global.Data.Index, CommodityId: searchbycode.Value, CommodityName: searchbycode.Text, FileName: '', Description: '', Width: '', Height: '', Square: '', Quantity: $(quatityDiv).val(), SumSquare: '', Price: $(totalDiv).val(), SubTotal: $(totalDiv).val() }
+            var object1 = { Id: 0, Index: global.Data.Index, CommodityId: searchbycode.Value, CommodityName: searchbycode.Text, FileName: '', Description: '', Width: '', Height: '', Square: '', Quantity: $(quatityDiv).val(), SumSquare: '', Price: $(priceDiv).val(), SubTotal: $(totalDiv).val() }
             global.Data.ModelOrderDetail.push(object1);
             global.Data.Index = global.Data.Index + 1;
         }
@@ -2640,7 +2644,7 @@ VINASIC.Order = function () {
             show: false
         });
         $("#" + global.Element.popupCustom2 + ' button[save]').click(function () {
-            addToDetail('#quantity3_1', 'indecalxi', '#price3_1', '#total3_1');
+            addToDetail('#quantity3_1', 'decalxi', '#price3_1', '#total3_1');
             addToDetail('#quantity3_2', $("#customSelect3").val(), '#price3_2', '#total3_2');
             addToDetail('#quantity3_3', 'canmang', '#price3_3', '#total3_3');
             addToDetail('#quantity3_4', 'be', '#price3_4', '#total3_4');
@@ -3000,7 +3004,7 @@ VINASIC.Order = function () {
             calculatorPriceCustom('#quantity2_4', 'be', '#price2_4', '#total2_4');
             //calculatorPriceCustom('#quantity2_5', 'giacongkhac', '#price2_5', '#total2_5');
 
-            calculatorPriceCustom('#quantity3_1', 'indecalxi', '#price3_1', '#total3_1');
+            calculatorPriceCustom('#quantity3_1', 'decalxi', '#price3_1', '#total3_1');
             calculatorPriceCustom('#quantity3_2', $("#customSelect3").val(), '#price3_2', '#total3_2');
             calculatorPriceCustom('#quantity3_3', 'canmang', '#price3_3', '#total3_3');
             calculatorPriceCustom('#quantity3_4', 'be', '#price3_4', '#total3_4');
