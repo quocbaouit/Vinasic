@@ -133,7 +133,7 @@ VINASIC.Order = function () {
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strPrice + "</td>";
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strSubTotal + "</td>";
             } else {
-                tableString += "<td colspan=\"2\" style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
+                tableString += "<td colspan=\"2\" style=\"padding-right: 5px;text-align: right;\">" + Table[row].Description + "</td>";
                 //tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
 
             }
@@ -1576,6 +1576,7 @@ VINASIC.Order = function () {
                         }
                         text.click(function () {
                             document.getElementById("btnPrint").innerHTML = "Phiếu SX ";
+                            document.getElementById("hphieuthu").innerHTML = "Phiếu Sản Xuất";
                             global.Data.ForView = 1;
                             global.Data.IdOrderStatus = data.record.Id;
                             global.Data.NumberDetail = data.record.T_OrderDetail.length;
