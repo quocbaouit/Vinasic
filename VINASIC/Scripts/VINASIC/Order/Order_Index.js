@@ -82,6 +82,7 @@ VINASIC.Order = function () {
             IdForView: 0,
             ProductPrice: [],
             ProductPrice1: [],
+            CreatedDate:"",
             ForView:0,
         }
     };
@@ -103,10 +104,12 @@ VINASIC.Order = function () {
         tableString += "<th>" + "SLượng" + "</th>";
         if (type == 0) {
             tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Đơn Giá" + "</th>";
-            tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Thành Tiền" + "</th>";
-        } else {
-            tableString += "<th colspan=\"2\" style=\"padding-right: 5px;text-align: right;\">" + "Ghi Chú" + "</th>";
+            tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + " Thành Tiền" + "</th>";
         }
+        //else {
+        //    tableString += "<th colspan=\"2\" style=\"padding-right: 5px;text-align: right;\">" + "Ghi Chú" + "</th>";
+        //}
+        tableString += "<th colspan=\"2\" style=\"padding-right: 5px;text-align: right;\">" + "Ghi Chú" + "</th>";
         tableString += "</tr>";
         for (row = 0; row < Table.length; row += 1) {
             var strPrice = Table[row].Price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
@@ -133,11 +136,15 @@ VINASIC.Order = function () {
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strPrice + "</td>";
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strSubTotal + "</td>";
             } else {
-                tableString += "<td colspan=\"2\" style=\"padding-right: 5px;text-align: right;\">" + Table[row].Description + "</td>";
+                tableString += "<td colspan=\"2\" style=\"padding-right: 5px;text-align: right;\">" + Table[row].Description != null ? Table[row].Description:'' + "</td>";
                 //tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
 
             }
-         
+            var desc = Table[row].Description;
+            if (desc == undefined) {
+                desc = '';
+            }
+            tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + desc + "</td>";
             tableString += "</tr>";
         }
 
@@ -159,6 +166,7 @@ VINASIC.Order = function () {
                 } else {
                     tableString += "<td colspan=\"2\">" + "&nbsp;" + "</td>";
                 }
+                tableString += "<td>" + "&nbsp;" + "</td>";
                 tableString += "</tr>";
             }
         }
@@ -174,7 +182,8 @@ VINASIC.Order = function () {
        
                 tableString += "<td colspan=\"" + colspan + "\">Tổng Tiền:</td>";
           
-            tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal2\">" + strSubTotal1 + "</span></td>";
+            tableString += "<td style=\"padding-right: 5px;text-align: right;\"><span id=\"vtotal2\">" + strSubTotal1 + "</span></td>";
+            tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</span></td>";
             tableString += "</tr>";
             tableString += "<tr>";
             var colspan = 4;
@@ -182,6 +191,7 @@ VINASIC.Order = function () {
                 colspan = 6;
             tableString += "<td colspan=\"" + colspan + "\">Đã Thanh Toán(Đặt Cọc):</td>";
             tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal3\">" + strHaspay1 + "</span></td>";
+            tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</span></td>";
             tableString += "</tr>";
 
         }
@@ -190,15 +200,139 @@ VINASIC.Order = function () {
         if (document.getElementById('show-dim').checked)
             colspan = 6;
         if (type != 0) {
-            tableString += "<td colspan=\"" + 3 + "\">" + strThanhToan + ":</td>";
+            tableString += "<td colspan=\"" + 4 + "\">" + strThanhToan + ":</td>";
         } else {
             tableString += "<td colspan=\"" + colspan + "\">" + strThanhToan + ":</td>";
         }
         tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal1\">55577854</span></td>";
+        tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</span></td>";
         tableString += "</tr>";
         tableString += "<tr>";
-        tableString += "<td colspan=\"" + (colspan + 1) + "\">Bằng Chữ:<span id=\"strtotal1\">Test </span></td>";
+        tableString += "<td colspan=\"" + (colspan + 2) + "\">Bằng Chữ:<span id=\"strtotal1\">Test </span></td>";
         tableString += "</tr>";
+        tableString += "</table>";
+        root.innerHTML = tableString;
+    }
+
+    function renderTable1(Table, subTotal, haspay, type) {
+        debugger;
+        var tableString = "<table id=\"renderTable1\" border=\"1\" style=\"width:100%\" cellspacing=\"0\" cellpadding=\"0\">";
+        var root = document.getElementById('Block41');
+        document.getElementById("Block41").innerHTML = "";
+        tableString += "<tr>";
+        tableString += "<th style=\"padding-left: 5px;text-align: left;\">" + "Dịch Vụ" + "</th>";
+        tableString += "<th style=\"padding-left: 5px;text-align: left;\">" + "Tên File" + "</th>";
+        if (document.getElementById('show-dim').checked) {
+            tableString += "<th>" + "CNgang" + "</th>";
+            tableString += "<th>" + "CCao" + "</th>";
+        }
+
+        tableString += "<th>" + "SLượng" + "</th>";
+        if (type == 0) {
+            tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Đơn Giá" + "</th>";
+            tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Thành Tiền" + "</th>";
+        }
+        //else {
+        //    tableString += "<th colspan=\"2\" style=\"padding-right: 5px;text-align: right;\">" + "Ghi Chú" + "</th>";
+        //}
+        tableString += "<th colspan=\"2\" style=\"padding-right: 5px;text-align: right;\">" + "Ghi Chú" + "</th>";
+        tableString += "</tr>";
+        for (row = 0; row < Table.length; row += 1) {
+            var strPrice = Table[row].Price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            var strSubTotal = Table[row].SubTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            tableString += "<tr>";
+            if (Table[row].FileName == null) {
+                Table[row].FileName = '';
+            }
+            if (Table[row].Height == null || Table[row].Height == 0) {
+                Table[row].Height = '';
+            }
+            if (Table[row].Width == null || Table[row].Width == 0) {
+                Table[row].Width = '';
+            }
+            tableString += "<td style=\"padding-left: 5px;\">" + Table[row].CommodityName + "</td>";
+            tableString += "<td style=\"padding-left: 5px;\">" + Table[row].FileName + "</td>";
+            if (document.getElementById('show-dim').checked) {
+                tableString += "<td style=\"padding-center: 5px;text-align: center;\">" + Table[row].Width + "</td>";
+                tableString += "<td style=\"padding-center: 5px;text-align: center;\">" + Table[row].Height + "</td>";
+            }
+
+            tableString += "<td style=\"padding-center: 5px;text-align: center;\">" + Table[row].Quantity + "</td>";
+            if (type == 0) {
+                tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strPrice + "</td>";
+                tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strSubTotal + "</td>";
+            } else {
+                tableString += "<td colspan=\"2\" style=\"padding-right: 5px;text-align: right;\">" + Table[row].Description != null ? Table[row].Description : '' + "</td>";
+                //tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
+
+            }
+            var desc = Table[row].Description;
+            if (desc == undefined) {
+                desc = '';
+            }
+            tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + desc + "</td>";
+            tableString += "</tr>";
+        }
+
+        if (Table.length < 9) {
+            var remain = 9 - Table.length;
+            for (i = 0; i < remain; i += 1) {
+                tableString += "<tr>";
+                tableString += "<td>" + "&nbsp;" + "</td>";
+                tableString += "<td>" + "&nbsp;" + "</td>";
+
+                if (document.getElementById('show-dim').checked) {
+                    tableString += "<td>" + "&nbsp;" + "</td>";
+                    tableString += "<td>" + "&nbsp;" + "</td>";
+                }
+                tableString += "<td>" + "&nbsp;" + "</td>";
+                if (type == 0) {
+                    tableString += "<td>" + "&nbsp;" + "</td>";
+                    tableString += "<td>" + "&nbsp;" + "</td>";
+                } else {
+                    tableString += "<td colspan=\"2\">" + "&nbsp;" + "</td>";
+                }
+                tableString += "<td>" + "&nbsp;" + "</td>";
+                tableString += "</tr>";
+            }
+        }
+        //var strThanhToan = "Tổng Tiền";
+        //if (haspay > 0) {
+        //    strThanhToan = "Còn Lại";
+        //    var strSubTotal1 = subTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        //    var strHaspay1 = haspay.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        //    tableString += "<tr>";
+        //    var colspan = 4;
+        //    if (document.getElementById('show-dim').checked)
+        //        colspan = 6;
+
+        //    tableString += "<td colspan=\"" + colspan + "\">Tổng Tiền:</td>";
+
+        //    tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal21\">" + strSubTotal1 + "</span></td>";
+        //    tableString += "</tr>";
+        //    tableString += "<tr>";
+        //    var colspan = 4;
+        //    if (document.getElementById('show-dim').checked)
+        //        colspan = 6;
+        //    tableString += "<td colspan=\"" + colspan + "\">Đã Thanh Toán(Đặt Cọc):</td>";
+        //    tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal31\">" + strHaspay1 + "</span></td>";
+        //    tableString += "</tr>";
+
+        //}
+        //tableString += "<tr>";
+        //var colspan = 5;
+        //if (document.getElementById('show-dim').checked)
+        //    colspan = 7;
+        //if (type != 0) {
+        //    tableString += "<td colspan=\"" + 4 + "\">" + strThanhToan + ":</td>";
+        //} else {
+        //    tableString += "<td colspan=\"" + colspan + "\">" + strThanhToan + ":</td>";
+        //}
+        //tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal1\">55577854</span></td>";
+        //tableString += "</tr>";
+        //tableString += "<tr>";
+        //tableString += "<td colspan=\"" + (colspan + 1) + "\">Bằng Chữ:<span id=\"strtotal1\">Test </span></td>";
+        //tableString += "</tr>";
         tableString += "</table>";
         root.innerHTML = tableString;
     }
@@ -214,6 +348,18 @@ VINASIC.Order = function () {
     }
     function printPanel1() {
         var panel = document.getElementById("paymentvoucher1");
+        var printWindow = window.open('', '', 'height=' + screen.height, 'width=' + screen.width);
+        printWindow.document.write(panel.innerHTML);
+        printWindow.document.close();
+        setTimeout(function () {
+            printWindow.print();
+            //updateOrderStatus(global.Data.IdOrderStatus, 2);
+        }, 500);
+        return false;
+    }
+
+    function printPanel2() {
+        var panel = document.getElementById("paymentvoucher2");
         var printWindow = window.open('', '', 'height=' + screen.height, 'width=' + screen.width);
         printWindow.document.write(panel.innerHTML);
         printWindow.document.close();
@@ -1529,6 +1675,7 @@ VINASIC.Order = function () {
                         }
                         text.click(function () {
                             document.getElementById("btnPrint").innerHTML = "In Phiếu Thu";
+                            document.getElementById("hphieuthu").innerHTML = "PHIẾU THU";
                             global.Data.ForView = 0;
                             global.Data.IdOrderStatus = data.record.Id;
                             global.Data.NumberDetail = data.record.T_OrderDetail.length;
@@ -1546,6 +1693,7 @@ VINASIC.Order = function () {
                             $("#prealpay").val(b);
                             global.Data.OrderId = data.record.Id;
                             global.Data.PcustomerName = data.record.Name;
+                            global.Data.CreatedDate = FormatDateJsonToString(data.record.CreatedDate, "dd-mm-yyyy");
                             global.Data.PcustomePhone = data.record.CustomerPhone;
                             global.Data.PcustomerAddress = data.record.CustomerAddress;
                             global.Data.Pproduct = "";
@@ -1576,8 +1724,8 @@ VINASIC.Order = function () {
                         }
                         text.click(function () {
                             document.getElementById("btnPrint").innerHTML = "Phiếu SX ";
-                            document.getElementById("hphieuthu").innerHTML = "Phiếu Sản Xuất";
-                            global.Data.ForView = 1;
+                            document.getElementById("hphieuthu1").innerHTML = "Phiếu Sản Xuất";
+                            global.Data.ForView = 0;
                             global.Data.IdOrderStatus = data.record.Id;
                             global.Data.NumberDetail = data.record.T_OrderDetail.length;
                             $("#type2").prop("checked", true);
@@ -1594,12 +1742,15 @@ VINASIC.Order = function () {
                             $("#prealpay").val(b);
                             global.Data.OrderId = data.record.Id;
                             global.Data.PcustomerName = data.record.Name;
+                            global.Data.CreatedDate = FormatDateJsonToString(data.record.CreatedDate, "dd-mm-yyyy");
                             global.Data.PcustomePhone = data.record.CustomerPhone;
                             global.Data.PcustomerAddress = data.record.CustomerAddress;
                             global.Data.Pproduct = "";
                             calculatorProduct(data.record.T_OrderDetail);
-                            //rendertable                                                    
-                            renderTable(data.record.T_OrderDetail, data.record.SubTotal, data.record.HasPay + data.record.HaspayTransfer,1);
+                            //rendertable    
+                            $('#tongtien').hide();
+                            $('#bangchu').hide();
+                            renderTable1(data.record.T_OrderDetail, data.record.SubTotal, data.record.HasPay + data.record.HaspayTransfer,0);
                             if (data.record.HasTax) {
                                 $('#hastaxnote').css("display", "inline");
                             } else {
@@ -2313,6 +2464,7 @@ VINASIC.Order = function () {
             $("#" + global.Element.PopupPaymentProcess).modal("hide");
         });
         $("#" + global.Element.PopupPaymentProcess + " a[print]").click(function () {
+            debugger;
             var time = new Date().toLocaleDateString('en-GB');
             $("#no").html("");
             $("#vcustomer").html("");
@@ -2349,33 +2501,49 @@ VINASIC.Order = function () {
 
             //custome Print reset
             $("#no1").html("");
+            $("#no11").html("");
             $("#vcustomer1").html("");
+            $("#vcustomer11").html("");
             $("#vphone1").html("");
+            $("#vphone11").html("");
             $("#vaddress1").html("");
+            $("#vaddress11").html("");
             $("#vdate3").html("");
+            $("#vdate31").html("");
             $("#vtotal1").html("");
             $("#strtotal1").html("");
 
 
             //custome Print set value
             $("#no1").append(global.Data.OrderId);
+            $("#no11").append(global.Data.OrderId);
             if (global.Data.ForView == 0) {
                 $("#vcustomer1").append(global.Data.PcustomerName);
+                $("#vcustomer11").append(global.Data.PcustomerName);
                 $("#vphone1").append(global.Data.PcustomePhone);
+                $("#vphone11").append(global.Data.PcustomePhone);
                 $("#vaddress1").append(global.Data.PcustomerAddress);
+                $("#vaddress11").append(global.Data.PcustomerAddress);
                 $("#vtotal1").append(payment);
                 $("#strtotal1").append(c);
             } else {
                 $("#vcustomer1").append('');
+                $("#vcustomer11").append('');
                 $("#vphone1").append('');
                 $("#vaddress1").append('');
+                $("#vphone11").append('');
+                $("#vaddress11").append('');
             }
         
-        
-            $("#vdate3").append(time);
-            var check = document.getElementById('type2').checked;
 
-            if (check) {
+            $("#vdate3").append(global.Data.CreatedDate);
+            $("#vdate31").append(global.Data.CreatedDate);
+            var check = document.getElementById('type2').checked;
+            debugger;
+            if (document.getElementById("btnPrint").innerHTML == "Phiếu SX ") {
+                printPanel2();
+            }
+            else if (check) {
                 //if (global.Data.NumberDetail > 9) {
                 //    toastr.warning('Chi tiết đơn hàng này quá nhiều vui lòng chọn kiểu in khác');
                 //}
@@ -2389,6 +2557,7 @@ VINASIC.Order = function () {
             }
 
         });
+
     }
     function initPopupPrintProcess() {
         $("#" + global.Element.PopupPrintProcess).modal({

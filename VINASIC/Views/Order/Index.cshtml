@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Content/Common.css" rel="stylesheet" />
-<script src="~/Scripts/VINASIC/Order/Order_Index.js?v=2.2"></script>
+<script src="~/Scripts/VINASIC/Order/Order_Index.js?v=2.5"></script>
 <style>
     .alert {
         padding: 20px;
@@ -1283,12 +1283,153 @@
                 <td> &nbsp;</td>
                 <td> &nbsp;</td>
             </tr>
-            <tr>
+            @*<tr id="tongtien">
                 <td colspan="6">Tổng Tiền</td>
                 <td><span id="vtotal1">55577854</span></td>
             </tr>
-            <tr>
+            <tr id="bangchu">
                 <td colspan="7">Bằng Chữ:<span id="strtotal1"> Một triệu năm trăm bảy mươi lăm ngàn bốn trăm lẻ sáu đồng</span></td>
+            </tr>*@
+        </table>
+    </div>
+    <div class="Block5" style="width:90%;float:left;margin-top:10px;margin-left:10px">
+        <table style="width:100%" cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr>
+                    <td>
+                        <strong>&nbsp; &nbsp; &nbsp;&nbsp;Giám đốc</strong><br>
+                        (Ký, họ tên, đóng dấu)
+                    </td>
+                    <td>
+                        <strong>Kế toán trưởng</strong><br>
+                        &nbsp;&nbsp;&nbsp;(Ký, họ tên)
+                    </td>
+                    <td>
+                        <strong>Người nộp tiền</strong><br>
+                        &nbsp;&nbsp;(Ký, họ tên)
+                    </td>
+                    <td>
+                        <strong>Người lập phiếu</strong><br>
+                        &nbsp;&nbsp;&nbsp;(Ký, họ tên)
+                    </td>
+                    <td>
+                        <strong>&nbsp;&nbsp;Thủ quỹ</strong><br>
+                        (Ký, họ tên)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div style="width: 210mm; height: 148.5mm; color: red; display: none" id="paymentvoucher2">
+    <div class="Block1" style="width:70%;float:left;margin-left:25px">
+        <p style="margin-bottom:0px">@ViewBag.cpnName </p>
+        <p style="margin-bottom:0px;margin-top: 0px;font-size:smaller">
+            Địa chỉ văn phòng: @ViewBag.cpnAddress<br>
+            Di động: @ViewBag.cpnMobile
+        </p>
+    </div>
+    <div class="Block2" style="width:20%;float:left;">
+        <p style="margin-bottom:0px;font-size:smaller">
+            Quyển số: PT 001<br>
+            Số:<span id="no11">01</span><br>
+            <em><span id="vdate31">Ngày:11/05/2016</span> </em>
+        </p>
+    </div>
+    <div>
+        <h2 id="hphieuthu1" style="width:100%;float:left;text-align: center;margin-top: 5px;margin-left:10px;margin-bottom:5px">PHIẾU THU</h2>
+    </div>
+    <div class="Block3" style="width:100%;float:left;margin-left:25px">
+        <p style="margin-top:0px;margin-bottom:4px">
+            Họ và tên người nôp tiền: &nbsp; <span id="vcustomer11"> Trần Quốc Bảo</span><br>
+            Địa chỉ: <span id="vaddress11">56/5/6 Văn Chung ,phường 13, quận Tân Bình</span>.<br>
+            Số đt: <span id="vphone11">0909242096</span>
+        </p>
+    </div>
+    <div class="Block41" id="Block41" style="width:86%;float:left;margin-left:20px">
+        <table id="renderTable1" border="1" style="width:100%" cellspacing="0" cellpadding="0">
+            <tr>
+                <th>Dịch Vụ</th>
+                <th>Tên File</th>
+                @*<th>CDài</th>
+                    <th>CRộng</th>*@
+                <th>SLượng</th>
+                <th>Đơn Giá</th>
+                <th>Thành Tiền</th>
+            </tr>
+            <tr>
+                <td>Chân X cường lực 80 x 180</td>
+                <td>cán bóng đóng khoen 4 góc</td>
+                @*<td>0.55</td>
+                    <td>0.72</td>*@
+                <td>5</td>
+                <td>20,0000</td>
+                <td>120,000</td>
+            </tr>
+            <tr>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                @*<td> &nbsp;</td>
+                    <td> &nbsp;</td>*@
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+            </tr>
+            <tr>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                @*<td> &nbsp;</td>
+                    <td> &nbsp;</td>*@
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+            </tr>
+            <tr>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                @*<td> &nbsp;</td>
+                    <td> &nbsp;</td>*@
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+            </tr>
+            <tr>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                @*<td> &nbsp;</td>
+                    <td> &nbsp;</td>*@
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+            </tr>
+            <tr>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+
+                @*<td> &nbsp;</td>
+                    <td> &nbsp;</td>*@
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+            </tr>
+            <tr>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                @*<td> &nbsp;</td>
+                    <td> &nbsp;</td>*@
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+            </tr>
+            <tr>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                @*<td> &nbsp;</td>
+                    <td> &nbsp;</td>*@
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
+                <td> &nbsp;</td>
             </tr>
         </table>
     </div>
