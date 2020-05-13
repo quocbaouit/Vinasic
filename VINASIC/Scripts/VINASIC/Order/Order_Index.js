@@ -228,10 +228,10 @@ VINASIC.Order = function () {
         }
 
         tableString += "<th>" + "SLượng" + "</th>";
-        if (type == 0) {
-            tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Đơn Giá" + "</th>";
-            tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Thành Tiền" + "</th>";
-        }
+        //if (type == 0) {
+        //    tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Đơn Giá" + "</th>";
+        //    tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Thành Tiền" + "</th>";
+        //}
         //else {
         //    tableString += "<th colspan=\"2\" style=\"padding-right: 5px;text-align: right;\">" + "Ghi Chú" + "</th>";
         //}
@@ -258,14 +258,14 @@ VINASIC.Order = function () {
             }
 
             tableString += "<td style=\"padding-center: 5px;text-align: center;\">" + Table[row].Quantity + "</td>";
-            if (type == 0) {
-                tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strPrice + "</td>";
-                tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strSubTotal + "</td>";
-            } else {
-                tableString += "<td colspan=\"2\" style=\"padding-right: 5px;text-align: right;\">" + Table[row].Description != null ? Table[row].Description : '' + "</td>";
-                //tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
+            //if (type == 0) {
+            //    tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strPrice + "</td>";
+            //    tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strSubTotal + "</td>";
+            //} else {
+            //    tableString += "<td colspan=\"2\" style=\"padding-right: 5px;text-align: right;\">" + Table[row].Description != null ? Table[row].Description : '' + "</td>";
+            //    //tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
 
-            }
+            //}
             var desc = Table[row].Description;
             if (desc == undefined) {
                 desc = '';
@@ -286,12 +286,12 @@ VINASIC.Order = function () {
                     tableString += "<td>" + "&nbsp;" + "</td>";
                 }
                 tableString += "<td>" + "&nbsp;" + "</td>";
-                if (type == 0) {
-                    tableString += "<td>" + "&nbsp;" + "</td>";
-                    tableString += "<td>" + "&nbsp;" + "</td>";
-                } else {
-                    tableString += "<td colspan=\"2\">" + "&nbsp;" + "</td>";
-                }
+                //if (type == 0) {
+                //    tableString += "<td>" + "&nbsp;" + "</td>";
+                //    tableString += "<td>" + "&nbsp;" + "</td>";
+                //} else {
+                //    tableString += "<td colspan=\"2\">" + "&nbsp;" + "</td>";
+                //}
                 tableString += "<td>" + "&nbsp;" + "</td>";
                 tableString += "</tr>";
             }
@@ -1142,15 +1142,15 @@ VINASIC.Order = function () {
             multiselect: true, //Allow multiple selecting
             selectingCheckboxes: true, //Show checkboxes on first column
             selectOnRowClick: false,
-            recordsLoaded: function (event, data) {
+            //recordsLoaded: function (event, data) {
 
-                var SumA = data.serverResponse.Data[0].Value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                var SumB = data.serverResponse.Data[1].Value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                var SumC = data.serverResponse.Data[2].Value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                document.getElementById("sum01").innerHTML = SumA;
-                document.getElementById("sum02").innerHTML = SumB;
-                document.getElementById("sum03").innerHTML = SumC;
-            },
+            //    var SumA = data.serverResponse.Data[0].Value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            //    var SumB = data.serverResponse.Data[1].Value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            //    var SumC = data.serverResponse.Data[2].Value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            //    document.getElementById("sum01").innerHTML = SumA;
+            //    document.getElementById("sum02").innerHTML = SumB;
+            //    document.getElementById("sum03").innerHTML = SumC;
+            //},
             rowInserted: function (event, data) {
                 if (data.record.OrderStatus == 1) {
                     data.row.css("background", "#cef5da");

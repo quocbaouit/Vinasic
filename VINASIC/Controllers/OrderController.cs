@@ -891,19 +891,19 @@ namespace VINASIC.Controllers
                 columnNumber++;
             }
 
-            ws.Column(columnNumber).Width = 14;
+            ws.Column(columnNumber).Width = 16;
             columnNumber++;
-            ws.Column(columnNumber).Width = 14;
+            ws.Column(columnNumber).Width = 16;
             columnNumber++;
-            ws.Column(columnNumber).Width = 14;
+            //ws.Column(columnNumber).Width = 14;
+            //columnNumber++;
+            //ws.Column(columnNumber).Width = 14;
+            //columnNumber++;
+            ws.Column(columnNumber).Width = 16;
             columnNumber++;
-            ws.Column(columnNumber).Width = 14;
+            ws.Column(columnNumber).Width = 20;
             columnNumber++;
-            ws.Column(columnNumber).Width = 14;
-            columnNumber++;
-            ws.Column(columnNumber).Width = 14;
-            columnNumber++;
-            ws.Column(columnNumber).Width = 14;
+            ws.Column(columnNumber).Width = 20;
             string path = cpnLogo;
             var logo = Image.FromFile(Server.MapPath(path));
             ws.Row(0 * 5).Height = 39.00D;
@@ -1000,13 +1000,13 @@ namespace VINASIC.Controllers
             char mergerTotalLetter = (char)(((int)letter) - 1);
             letter = (char)(((int)letter) + 1);
 
-            ws.Cells[(char)(((int)letter)) + "8"].Value = "Chi Phí";
-            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-            letter = (char)(((int)letter) + 1);
+            //ws.Cells[(char)(((int)letter)) + "8"].Value = "Chi Phí";
+            //ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            //letter = (char)(((int)letter) + 1);
 
-            ws.Cells[(char)(((int)letter)) + "8"].Value = "Tiền Lãi";
-            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-            letter = (char)(((int)letter) + 1);
+            //ws.Cells[(char)(((int)letter)) + "8"].Value = "Tiền Lãi";
+            //ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            //letter = (char)(((int)letter) + 1);
 
             ws.Cells[(char)(((int)letter)) + "8"].Value = "ThanhToán Tiền Mặt";
             ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
@@ -1044,13 +1044,13 @@ namespace VINASIC.Controllers
             ws.Cells[totalLetter + "9"].Value = "";
             totalLetter++;
 
-            ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells[totalLetter + "9"].Value = "";
-            totalLetter++;
+            //ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
+            //ws.Cells[totalLetter + "9"].Value = "";
+            //totalLetter++;
 
-            ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells[totalLetter + "9"].Value = "";
-            totalLetter++;
+            //ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
+            //ws.Cells[totalLetter + "9"].Value = "";
+            //totalLetter++;
             ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
             ws.Cells[totalLetter + "9"].Value = "";
             foreach (var c in ws.Cells["A9:" + totalLetter + "9"])
@@ -1117,12 +1117,12 @@ namespace VINASIC.Controllers
                     {
                         var tryColumn = column;
 
-                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, tryColumn].Value = result[i].Cost;
-                        tryColumn++;
-                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, tryColumn].Value = result[i].Total1 - result[i].Cost;
-                        tryColumn++;
+                        //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        //ws.Cells[endRow, tryColumn].Value = result[i].Cost;
+                        //tryColumn++;
+                        //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        //ws.Cells[endRow, tryColumn].Value = result[i].Total1 - result[i].Cost;
+                        //tryColumn++;
 
                         ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
                         ws.Cells[endRow, tryColumn].Value = result[i].HasPay;
@@ -1138,12 +1138,12 @@ namespace VINASIC.Controllers
                     {
                         var tryColumn = column;
 
-                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, tryColumn].Value = "";
-                        tryColumn++;
-                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, tryColumn].Value = "";
-                        tryColumn++;
+                        //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        //ws.Cells[endRow, tryColumn].Value = "";
+                        //tryColumn++;
+                        //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        //ws.Cells[endRow, tryColumn].Value = "";
+                        //tryColumn++;
 
                         ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
                         ws.Cells[endRow, tryColumn].Value = "";
@@ -1160,12 +1160,12 @@ namespace VINASIC.Controllers
                 {
                     var tryColumn = column;
 
-                    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                    ws.Cells[endRow, tryColumn].Value = result[i].Cost;
-                    tryColumn++;
-                    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                    ws.Cells[endRow, tryColumn].Value = result[i].Total1 - result[i].Cost;
-                    tryColumn++;
+                    //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                    //ws.Cells[endRow, tryColumn].Value = result[i].Cost;
+                    //tryColumn++;
+                    //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                    //ws.Cells[endRow, tryColumn].Value = result[i].Total1 - result[i].Cost;
+                    //tryColumn++;
 
                     ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
                     ws.Cells[endRow, tryColumn].Value = result[i].HasPay;
