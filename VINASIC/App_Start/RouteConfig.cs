@@ -23,7 +23,7 @@ namespace VINASIC
             string controller = (segments.Length > 0) ? segments[0] : "DashBoard";
             string action = (segments.Length > 1) ? segments[1] : "Index";
 
-            if (subdomain.Contains("baogia"))
+            if (subdomain.Contains("sticker"))
             {
                 controller = "Sticker";
                 action = "Index";
