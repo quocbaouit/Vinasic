@@ -74,6 +74,7 @@
           <Property Name="DeletedDate" Type="datetime" />
           <Property Name="UpdatedDate" Type="datetime" />
           <Property Name="CompanyName" Type="nvarchar" MaxLength="500" />
+          <Property Name="CustomerType" Type="int" />
         </EntityType>
         <EntityType Name="T_ErrorLog">
           <Key>
@@ -667,6 +668,27 @@
           <Property Name="DeletedDate" Type="datetime" />
           <Property Name="UpdatedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="T_Sticker">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="SquareFrom" Type="float" />
+          <Property Name="SquareTo" Type="float" />
+          <Property Name="CurtainPrice" Type="float" />
+          <Property Name="NoneCurtainPrice" Type="float" />
+          <Property Name="DefaultPrice" Type="float" />
+          <Property Name="SpecialPrice" Type="float" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="CreatedUser" Type="int" Nullable="false" />
+          <Property Name="DeletedUser" Type="int" />
+          <Property Name="UpdatedUser" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="DeletedDate" Type="datetime" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="T_StockIn">
           <Key>
             <PropertyRef Name="Id" />
@@ -920,18 +942,6 @@
             </Principal>
             <Dependent Role="T_Order">
               <PropertyRef Name="CustomerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__T_OrderDe__Commo__11158940">
-          <End Role="T_Product" Type="Self.T_Product" Multiplicity="1" />
-          <End Role="T_OrderDetail" Type="Self.T_OrderDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="T_Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="T_OrderDetail">
-              <PropertyRef Name="CommodityId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1295,18 +1305,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__T_UserPro__Produ__2EA5EC27">
-          <End Role="T_Product" Type="Self.T_Product" Multiplicity="1" />
-          <End Role="T_UserProduct" Type="Self.T_UserProduct" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="T_Product">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="T_UserProduct">
-              <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__T_UserRol__RoleI__2F9A1060">
           <End Role="T_RoLe" Type="Self.T_RoLe" Multiplicity="1" />
           <End Role="T_UserRole" Type="Self.T_UserRole" Multiplicity="*" />
@@ -1353,6 +1351,7 @@
           <EntitySet Name="T_SiteSetting" EntityType="Self.T_SiteSetting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_Staff" EntityType="Self.T_Staff" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_StandardSale" EntityType="Self.T_StandardSale" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_Sticker" EntityType="Self.T_Sticker" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_StockIn" EntityType="Self.T_StockIn" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_StockInDetail" EntityType="Self.T_StockInDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_Timing" EntityType="Self.T_Timing" Schema="dbo" store:Type="Tables" />
@@ -1387,10 +1386,6 @@
           <AssociationSet Name="FK__T_Order__Custome__10216507" Association="Self.FK__T_Order__Custome__10216507">
             <End Role="T_Customer" EntitySet="T_Customer" />
             <End Role="T_Order" EntitySet="T_Order" />
-          </AssociationSet>
-          <AssociationSet Name="FK__T_OrderDe__Commo__11158940" Association="Self.FK__T_OrderDe__Commo__11158940">
-            <End Role="T_Product" EntitySet="T_Product" />
-            <End Role="T_OrderDetail" EntitySet="T_OrderDetail" />
           </AssociationSet>
           <AssociationSet Name="FK__T_OrderDe__Desig__1209AD79" Association="Self.FK__T_OrderDe__Desig__1209AD79">
             <End Role="T_User" EntitySet="T_User" />
@@ -1511,10 +1506,6 @@
           <AssociationSet Name="FK__T_UserFor__UserI__2DB1C7EE" Association="Self.FK__T_UserFor__UserI__2DB1C7EE">
             <End Role="T_User" EntitySet="T_User" />
             <End Role="T_UserFormular" EntitySet="T_UserFormular" />
-          </AssociationSet>
-          <AssociationSet Name="FK__T_UserPro__Produ__2EA5EC27" Association="Self.FK__T_UserPro__Produ__2EA5EC27">
-            <End Role="T_Product" EntitySet="T_Product" />
-            <End Role="T_UserProduct" EntitySet="T_UserProduct" />
           </AssociationSet>
           <AssociationSet Name="FK__T_UserRol__RoleI__2F9A1060" Association="Self.FK__T_UserRol__RoleI__2F9A1060">
             <End Role="T_RoLe" EntitySet="T_RoLe" />
@@ -1698,6 +1689,7 @@
             <End Role="T_PaymentVoucher" EntitySet="T_PaymentVoucher" />
             <End Role="T_PaymentVoucherDetail" EntitySet="T_PaymentVoucherDetail" />
           </AssociationSet>
+          <EntitySet Name="T_Sticker" EntityType="VINASICModel.T_Sticker" />
         </EntityContainer>
         <EntityType Name="T__Remind">
           <Key>
@@ -1754,6 +1746,7 @@
           <NavigationProperty Name="T_Quittance" Relationship="VINASICModel.FK__T_Quittan__Custo__395884C4" FromRole="T_Customer" ToRole="T_Quittance" />
           <NavigationProperty Name="T_ReceiptVoucher" Relationship="VINASICModel.FK__T_Receipt__Custo__3D2915A8" FromRole="T_Customer" ToRole="T_ReceiptVoucher" />
           <NavigationProperty Name="T_Order" Relationship="VINASICModel.FK__T_Order__Custome__32AB8735" FromRole="T_Customer" ToRole="T_Order" />
+          <Property Name="CustomerType" Type="Int32" />
         </EntityType>
         <EntityType Name="T_ErrorLog">
           <Key>
@@ -2995,6 +2988,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="T_Sticker">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SquareFrom" Type="Double" />
+          <Property Name="SquareTo" Type="Double" />
+          <Property Name="CurtainPrice" Type="Double" />
+          <Property Name="NoneCurtainPrice" Type="Double" />
+          <Property Name="DefaultPrice" Type="Double" />
+          <Property Name="SpecialPrice" Type="Double" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+          <Property Name="DeletedUser" Type="Int32" />
+          <Property Name="UpdatedUser" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3040,6 +3054,7 @@
           <EntitySetMapping Name="T_Customer">
             <EntityTypeMapping TypeName="VINASICModel.T_Customer">
               <MappingFragment StoreEntitySet="T_Customer">
+                <ScalarProperty Name="CustomerType" ColumnName="CustomerType" />
                 <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
                 <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
@@ -3871,6 +3886,28 @@
                 <ScalarProperty Name="CommodityName" ColumnName="CommodityName" />
                 <ScalarProperty Name="CommodityId" ColumnName="CommodityId" />
                 <ScalarProperty Name="PaymentVoucherId" ColumnName="PaymentVoucherId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_Sticker">
+            <EntityTypeMapping TypeName="VINASICModel.T_Sticker">
+              <MappingFragment StoreEntitySet="T_Sticker">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedUser" ColumnName="UpdatedUser" />
+                <ScalarProperty Name="DeletedUser" ColumnName="DeletedUser" />
+                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="SpecialPrice" ColumnName="SpecialPrice" />
+                <ScalarProperty Name="DefaultPrice" ColumnName="DefaultPrice" />
+                <ScalarProperty Name="NoneCurtainPrice" ColumnName="NoneCurtainPrice" />
+                <ScalarProperty Name="CurtainPrice" ColumnName="CurtainPrice" />
+                <ScalarProperty Name="SquareTo" ColumnName="SquareTo" />
+                <ScalarProperty Name="SquareFrom" ColumnName="SquareFrom" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

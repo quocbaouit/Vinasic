@@ -253,6 +253,7 @@
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Controllers\ElementFormularController .cs" />
     <Compile Include="Controllers\FormularController.cs" />
+    <Compile Include="Controllers\StickerCmsController.cs" />
     <Compile Include="Controllers\SiteSettingController.cs" />
     <Compile Include="Controllers\StickerController.cs" />
     <Compile Include="Controllers\SysStatusController.cs" />
@@ -2091,6 +2092,7 @@
     <Content Include="Scripts\VINASIC\Position\Position_Index.js" />
     <Content Include="Scripts\VINASIC\ElementFormular\ElementFormular_Index.js" />
     <Content Include="Scripts\VINASIC\Formular\Formular_Index.js" />
+    <Content Include="Scripts\VINASIC\Sticker\Sticker_Index.js" />
     <Content Include="Scripts\VINASIC\SiteSetting\SiteSetting_Index.js" />
     <Content Include="Scripts\VINASIC\push-notification.js" />
     <Content Include="Scripts\VINASIC\SysStatus\SysStatus_Index.js" />
@@ -2186,6 +2188,7 @@
     <Content Include="Views\ContentPage\IndexView.cshtml" />
     <Content Include="Views\SiteSetting\Index.cshtml" />
     <Content Include="Views\Sticker\Index.cshtml" />
+    <Content Include="Views\StickerCms\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

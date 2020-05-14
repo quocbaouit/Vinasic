@@ -46,7 +46,7 @@ namespace VINASIC
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            routes.Add(new SubdomainRoute());
+            //routes.Add(new SubdomainRoute());
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             
 

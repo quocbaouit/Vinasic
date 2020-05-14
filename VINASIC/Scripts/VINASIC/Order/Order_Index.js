@@ -2395,14 +2395,14 @@ VINASIC.Order = function () {
         var width = $("#dwidth").val();
         var height = $("#dheignt").val();
         var quantity = $("#dquantity").val();
-        var searchResult = searchById($("#dproduct").val(), global.Data.listproduct);
-        if (searchResult != undefined) {
-            var tempPrice = getProductPrice(searchResult.Code, parseFloat(quantity));
-            if (tempPrice != undefined) {
-                isFixed = tempPrice.isFixed;
-                $("#dprice").val(tempPrice.price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-            }
-        }
+        //var searchResult = searchById($("#dproduct").val(), global.Data.listproduct);
+        //if (searchResult != undefined) {
+        //    var tempPrice = getProductPrice(searchResult.Code, parseFloat(quantity));
+        //    if (tempPrice != undefined) {
+        //        isFixed = tempPrice.isFixed;
+        //        $("#dprice").val(tempPrice.price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+        //    }
+        //}
 
         var sqare = calculatorSquare(width, height);
         if (!checkNumber(sqare) && sqare !== 0) {

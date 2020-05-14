@@ -77,6 +77,7 @@
     <Compile Include="IBLLProduct.cs" />
     <Compile Include="IBLLElementFormular.cs" />
     <Compile Include="IBLLFormular.cs" />
+    <Compile Include="IBLLSticker.cs" />
     <Compile Include="IBLLSiteSetting.cs" />
     <Compile Include="IBLLSysStatus.cs" />
     <Compile Include="IBLLStandardSale.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Model\ModelContent.cs" />
     <Compile Include="Model\ModelFormular.cs" />
     <Compile Include="Model\ModelDashBoard.cs" />
+    <Compile Include="Model\ModelSticker.cs" />
     <Compile Include="Model\ModelSiteSetting.cs" />
     <Compile Include="Model\ModelSysStatus.cs" />
     <Compile Include="Model\ModelStandardSale.cs" />
