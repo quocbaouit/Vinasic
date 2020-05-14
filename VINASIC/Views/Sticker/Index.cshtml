@@ -1,0 +1,396 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Cart</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="OneTech shop project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @*<link href="~/styles/bootstrap4/bootstrap.min.css" rel="stylesheet" />*@
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link href="~/plugins/fontawesome-free-5.0.1/css/fontawesome-all.css" rel="stylesheet" />
+    <link href="~/styles/cart_styles.css" rel="stylesheet" />
+    <link href="~/styles/cart_responsive.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="super_container">
+        <!-- Header -->
+        <header class="header">
+            <!-- Top Bar -->
+            <div class="top_bar">
+                <div class="container">
+                    <div class="row">
+                        <div class="col d-flex flex-row">
+                            <div class="top_bar_contact_item"><div class="top_bar_icon"><img src="images/phone.png" alt=""></div>Thegioisticker.com <br />BAO GIA TEM ONLINE</div>
+                            <div class="top_bar_content ml-auto">
+                                <div class="top_bar_user">
+                                    <div class="user_icon"><img src="images/user.svg" alt=""></div>
+                                    <div><a href="#">Đăng Ký</a></div>
+                                    <div><a href="#">Đăng Nhập</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Header Main -->
+
+            <div class="header_main">
+                <div class="container">
+                    <div class="row">
+
+                        <!-- Logo -->
+                        <div class="col-lg-2 col-sm-3 col-3 order-1">
+                            <div class="logo_container">
+                                <div class="logo"><img src="https://congtystandee.com/image/cache/catalog/web-591x195.png" width="180" height="60" alt="CÔNG TY TNHH THƯƠNG MẠI QUẢNG CÁO PDCA" title="CÔNG TY TNHH THƯƠNG MẠI QUẢNG CÁO PDCA"></div>
+                            </div>
+                        </div>
+
+                        <!-- Search -->
+                        <div class="col-lg-6 col-12 order-lg-2 order-3 text-lg-left text-right">
+                            <div class="header_search">
+                                <div class="header_search_content">
+                                    <div class="header_search_form_container">
+                                        <form action="#" class="header_search_form clearfix">
+                                            <input type="search" required="required" class="header_search_input" placeholder="Tìm kiếm sản phẩm...">
+                                            <button type="submit" class="header_search_button trans_300" value="Submit"><img src="~/Images/search.png" alt=""></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Wishlist -->
+                        <div class="col-lg-4 col-9 order-lg-3 order-2 text-lg-left text-right">
+                            <div class="wishlist_cart d-flex flex-row align-items-center justify-content-end">
+                                <!-- Cart -->
+                                <div class="cart">
+                                    <div class="cart_container d-flex flex-row align-items-center justify-content-end">
+                                        <div class="cart_icon">
+                                            <img src="~/Images/cart.png" alt="">
+                                            <div class="cart_count"><span>0</span></div>
+                                        </div>
+                                        <div class="cart_content">
+                                            <div class="cart_text"><a href="#">Giỏ Hàng</a></div>
+                                            <div class="cart_price">$0</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Main Navigation -->
+            <nav class="main_nav">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <div class="main_nav_content d-flex flex-row">
+                                <!-- Categories Menu -->
+                                <div class="cat_menu_container">
+                                    <div class="cat_menu_title d-flex flex-row align-items-center justify-content-start">
+                                        <div class="cat_burger"><span></span><span></span><span></span></div>
+                                        <div class="cat_menu_text">Danh Mục</div>
+                                    </div>
+                                    <ul class="cat_menu">
+                                        <li><a class="clc" href="https://congtystandee.com/in-tem-decal-tem-sticker-hcm/in-tem-decal-giay-sticker" target="_blank">Tem decal giấy</a></li>
+                                        <li><a class="clc" href="https://congtystandee.com/in-tem-decal-tem-sticker-hcm?product_id=112" target="_blank">Tem decal trong</a></li>
+                                        <li><a class="clc" href="https://congtystandee.com/in-tem-decal-tem-sticker-hcm?product_id=109" target="_blank">Decal giấy kraft</a></li>
+                                        <li><a class="clc" href="https://congtystandee.com/in-tem-decal-tem-sticker-hcm?product_id=103" target="_blank">Tem vỡ,tem bảo hành</a></li>
+                                        <li><a class="clc" href="https://congtystandee.com/in-tem-decal-tem-sticker-hcm?product_id=100" target="_blank">Tem niêm phong</a></li>
+                                        <li><a class="clc" href="https://congtystandee.com/in-tem-decal-tem-sticker-hcm?product_id=98" target="_blank">Tem decal si bạc</a></li>
+                                    </ul>
+                                </div>
+                                <!-- Main Nav Menu -->
+                                <div class="main_nav_menu ml-auto">
+                                    <ul class="standard_dropdown main_nav_dropdown">
+                                        <li><a href="javascript:void(0)">Trang Chủ<i class="fas fa-chevron-down"></i></a></li>
+                                        <li><a href="javascript:void(0)">Liên Hệ<i class="fas fa-chevron-down"></i></a></li>
+                                    </ul>
+                                </div>
+                                <!-- Menu Trigger -->
+                                <div class="menu_trigger_container ml-auto">
+                                    <div class="menu_trigger d-flex flex-row align-items-center justify-content-end">
+                                        <div class="menu_burger">
+                                            <div class="menu_trigger_text">menu</div>
+                                            <div class="cat_burger menu_burger_inner"><span></span><span></span><span></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Cart -->
+
+        <div class="cart_section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 offset-lg-1">
+                        <div class="cart_container">
+                            <div class="cart_title">BÁO GIÁ TEM NHÃN STICKER ONLINE</div>
+                            <div class="cart_items">
+                                <ul class="cart_list">
+                                    <li class="cart_item clearfix">
+                                        <h3>Vui lòng chọn loại chất liệu và nhập kích thước, số lượng</h3>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="">Chất Liệu&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+                                            </div>
+                                            <select class="form-control classic" id="exampleFormControlSelect1">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="">Nhập kích thước</span>
+                                            </div>
+                                            <input type="text" placeholder="ngang(mm)" class="form-control">
+                                            <input type="text" placeholder="cao(mm)" class="form-control">
+                                        </div>
+
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="">Số Lượng&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+                                            </div>
+                                            <input type="text" placeholder="nhập số lượng cần in" class="form-control">
+                                        </div>
+
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="">Chọn Gia Công&nbsp&nbsp&nbsp</span>
+                                            </div>
+                                            <select class="form-control classic" id="exampleFormControlSelect12">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="">Chọn Bế&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+                                            </div>
+                                            <select class="form-control classic" id="exampleFormControlSelect13">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="cart_items">
+                                <ul class="cart_list">
+                                    <li class="cart_item clearfix  font-italic">
+                                        <h3 style="font-style:initial">Thành Tiền</h3>
+                                        <div class="row">
+                                            <div class="col-md-6">Chất liệu</div>
+                                            <div class="col-md-3 ml-auto">.col-md-4 .ml-auto</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">Kích thước tem nhãn</div>
+                                            <div class="col-md-3 ml-auto">.col-md-6 .ml-auto</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">Số lượng in</div>
+                                            <div class="col-md-3 ml-auto">.col-md-4 .ml-auto</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">Gia công</div>
+                                            <div class="col-md-3 ml-auto">.col-md-4 .ml-auto</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">Bế</div>
+                                            <div class="col-md-3 ml-auto">.col-md-4 .ml-auto</div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">Đơn giá</div>
+                                            <div class="col-md-3 ml-auto">.col-md-4 .ml-auto</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">Thành tiền</div>
+                                            <div class="col-md-3 ml-auto">.col-md-4 .ml-auto</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="cart_buttons">
+                                @*<button type="button" class="button cart_button_clear">Add to Cart</button>*@
+                                <button type="button" class="button cart_button_checkout">Thêm vào giỏ hàng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="row">
+                            <div class="col-lg-8 offset-lg-2">
+                                <div class="single_post_title">Vivamus sed nunc in arcu cursus mollis quis et orci. Interdum et malesuada</div>
+                                <div class="single_post_text">
+                                    <p>Mauris viverra cursus ante laoreet eleifend. Donec vel fringilla ante. Aenean finibus velit id urna vehicula, nec maximus est sollicitudin. Praesent at tempus lectus, eleifend blandit felis. Fusce augue arcu, consequat a nisl aliquet, consectetur elementum turpis. Donec iaculis lobortis nisl, et viverra risus imperdiet eu. Etiam mollis posuere elit non sagittis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quis arcu a magna sodales venenatis. Integer non diam sit amet magna luctus mollis ac eu nisi. In accumsan tellus ut dapibus blandit.</p>
+
+                                    <div class="single_post_quote text-center">
+                                        <div class="quote_image"><img src="images/quote.png" alt=""></div>
+                                        <div class="quote_text">Quisque sagittis non ex eget vestibulum. Sed nec ultrices dui. Cras et sagittis erat. Maecenas pulvinar, turpis in dictum tincidunt, dolor nibh lacinia lacus.</div>
+                                        <div class="quote_name">Liam Neeson</div>
+                                    </div>
+
+                                    <p>Praesent ac magna sed massa euismod congue vitae vitae risus. Nulla lorem augue, mollis non est et, eleifend elementum ante. Nunc id pharetra magna.  Praesent vel orci ornare, blandit mi sed, aliquet nisi. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. </p>
+                                </div>
+                            </div>
+                    </div>*@
+            </div>
+        </div>
+
+        <!-- Newsletter -->
+
+        <div class="newsletter">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="newsletter_container d-flex flex-lg-row flex-column align-items-lg-center align-items-center justify-content-lg-start justify-content-center">
+                            <div class="newsletter_title_container">
+                                <div class="newsletter_icon"><img src="~/Images/send.png" alt=""></div>
+                                <div class="newsletter_title">Đăng ký để nhận bản tin</div>
+                                <div class="newsletter_text"><p>Để nhận ưu đãi từ chúng tôi.</p></div>
+                            </div>
+                            <div class="newsletter_content clearfix">
+                                <form action="#" class="newsletter_form">
+                                    <input type="email" class="newsletter_input" required="required" placeholder="Nhập email của bạn">
+                                    <button class="newsletter_button">Đăng ký</button>
+                                </form>
+                                <div class="newsletter_unsubscribe_link"><a href="#">Hủy đăng ký</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-3 footer_col">
+                        <div class="footer_column footer_contact">
+                            <div class="logo_container">
+                                <div class="logo"><a href="#">PDCA</a></div>
+                            </div>
+                            <div class="footer_title">Tư vấn</div>
+                            <div class="footer_phone">(028)38 122 191</div>
+                            <div class="footer_contact_text">
+                                <p>118/15 Bàu Cát 2</p>
+                                <p>P.12, Q.Tân Bình, Tp.HCM</p>
+                            </div>
+                            <div class="footer_social">
+                                <ul>
+                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-google"></i></a></li>
+                                    <li><a href="#"><i class="fab fa-vimeo-v"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2 offset-lg-2">
+                        <div class="footer_column">
+                            <div class="footer_title">THÔNG TIN </div>
+                            <ul class="footer_list">
+                                <li><a href="https://congtystandee.com/gioi-thieu" target="_blank">Giới thiệu</a></li>
+                                <li><a href="https://congtystandee.com/tuyen-dung" target="_blank">Tuyển dụng</a></li>
+                                <li><a href="https://congtystandee.com/hop-tac-ban-hang" target="_blank">Hợp tác bán hàng</a></li>
+                                <li><a href="https://congtystandee.com/dieu-khoan-su-dung" target="_blank">Điều khoản sử dụng</a></li>
+                                <li><a href="https://congtystandee.com/chinh-sach-phan-phoi" target="_blank">Chính sách bán hàng</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <div class="footer_column">
+                            <div class="footer_title">CHÍNH SÁCH</div>
+                            <ul class="footer_list">
+                                <li><a href="https://congtystandee.com/chinh-sach-doi-tra-va-hoan-tien" target="_blank">Chính sách đổi trả</a></li>
+                                <li><a href="https://congtystandee.com/chinh-sach-mua-ho" target="_blank">Chính sách mua hộ</a></li>
+                                <li><a href="https://congtystandee.com/chinh-sach-bao-mat" target="_blank">Chính sách bảo mật</a></li>
+                                <li><a href="https://congtystandee.com/chinh-sach-khieu-nai" target="_blank">Chính sách khiếu nại</a></li>
+                                <li><a href="https://congtystandee.com/chinh-sach-bao-hanh" target="_blank">Chính sách bảo hành</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <div class="footer_column">
+                            <div class="footer_title">HƯỚNG DẪN </div>
+                            <ul class="footer_list">
+                                <li><a href="#">Gửi yêu cầu hỗ trợ</a></li>
+                                <li><a href="https://congtystandee.com/cau-hoi-thuong-gap" target="_blank">Câu hỏi thường gặp</a></li>
+                                <li><a href="https://congtystandee.com/huong-dan-mua-hang" target="_blank">Hướng dẫn mua hàng</a></li>
+                                <li><a href="https://congtystandee.com/chinh-sach-giao-hang" target="_blank">Chính sách giao hàng</a></li>
+                                <li><a href="https://congtystandee.com/huong-dan-thanh-toan" target="_blank">Hướng dẫn thanh toán</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </footer>
+
+        <!-- Copyright -->
+
+        <div class="copyright">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+
+                        <div class="copyright_container d-flex flex-sm-row flex-column align-items-center justify-content-start">
+                            <div class="copyright_content">
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;
+                                <script>document.write(new Date().getFullYear());</script> PDCA
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </div>
+                            <div class="logos ml-sm-auto">
+                                <ul class="logos_list">
+                                    <li><a href="#"><img src="images/logos_1.png" alt=""></a></li>
+                                    <li><a href="#"><img src="images/logos_2.png" alt=""></a></li>
+                                    <li><a href="#"><img src="images/logos_3.png" alt=""></a></li>
+                                    <li><a href="#"><img src="images/logos_4.png" alt=""></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>s
+    <script src="~/plugins/greensock/TweenMax.min.js"></script>
+    <script src="~/plugins/greensock/TimelineMax.min.js"></script>
+    <script src="~/plugins/scrollmagic/ScrollMagic.min.js"></script>
+    <script src="~/plugins/greensock/animation.gsap.min.js"></script>
+    <script src="~/plugins/greensock/ScrollToPlugin.min.js"></script>
+    <script src="~/plugins/easing/easing.js"></script>
+    <script src="~/js/cart_custom.js"></script>
+</body>
+
+</html>
