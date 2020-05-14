@@ -4,28 +4,32 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using VINASIC.Business.Interface;
 
 namespace VINASIC.Controllers
 {
     public class StickerController : Controller
     {
+        private readonly IBllSticker _bllSticker;
         //
         // GET: /Sticker/
-
+        public StickerController(IBllSticker bllSticker)
+        {
+            _bllSticker = bllSticker;
+        }
         public ActionResult Index()
         {
             return View();
         }
 
-        [System.Web.Mvc.HttpPost]
+        [HttpPost]
         public JsonResult GetAllSticker()
         {
             try
             {
                 Thread.Sleep(200);
-                //var customers =null;
-                return null;
-                //return Json(new { Result = "OK", Records = new   });
+                var stickers =_bllSticker.GetAllSticker();
+                return Json(new { Result = "OK", Records = stickers });
             }
             catch (Exception ex)
             {

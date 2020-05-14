@@ -160,6 +160,11 @@ namespace VINASIC.Business
             var pageNumber = (startIndexRecord / pageSize) + 1;
             return new PagedList<ModelSticker>(productTypes, pageNumber, pageSize);
         }
+
+        public List<T_Sticker> GetAllSticker()
+        {
+            return _repSticker.GetMany(x => !x.IsDeleted).ToList();
+        }
     }
 }
 
