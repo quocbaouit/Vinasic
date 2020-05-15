@@ -188,31 +188,37 @@
                                             <div class="col-md-6">Chất liệu</div>
                                             <div class="col-md-3 ml-auto">{{shoppingCart.material.label}}</div>
                                         </div>
+                                        <hr />
                                         <div class="row">
                                             <div class="col-md-6">Kích thước tem nhãn</div>
                                             <div class="col-md-3 ml-auto">{{shoppingCart.width==''?0:shoppingCart.width}}mm X {{shoppingCart.height==''?0:shoppingCart.height}}mm</div>
                                         </div>
+                                        <hr />
                                         <div class="row">
                                             <div class="col-md-6">Số lượng in</div>
                                             <div class="col-md-3 ml-auto">{{shoppingCart.quantity==''?0:shoppingCart.quantity}}</div>
                                         </div>
+                                        <hr />
                                         <div class="row">
                                             <div class="col-md-6">Diện tích bằng mét vuông.</div>
                                             <div class="col-md-3 ml-auto">{{square}}(mét vuông)</div>
                                         </div>
+                                        <hr />
                                         <div class="row">
                                             <div class="col-md-6">Gia công</div>
                                             <div class="col-md-3 ml-auto">{{shoppingCart.machining.label}}</div>
                                         </div>
+                                        <hr />
                                         <div class="row">
                                             <div class="col-md-6">Bế</div>
                                             <div class="col-md-3 ml-auto">{{shoppingCart.cut.label}}</div>
                                         </div>
-
+                                        <hr />
                                         <div class="row">
                                             <div class="col-md-6">Đơn giá</div>
                                             <div class="col-md-3 ml-auto">{{price | number}}(vnd)</div>
                                         </div>
+                                        <hr />
                                         <div class="row">
                                             <div class="col-md-6">Thành tiền</div>
                                             <div class="col-md-3 ml-auto">{{subTotal | number}}(vnd)</div>
