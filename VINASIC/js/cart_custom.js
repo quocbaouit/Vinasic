@@ -286,7 +286,7 @@ app.controller('myCtrl', function ($scope, $location, $http) {
 			} else {
 				nonCurtainPrice = 0;
 			}
-			var specialPrice = $scope.shoppingCart.cut.value == "bedd" ? sticker.SpecialPrice : 0;
+			var specialPrice = $scope.shoppingCart.cut.value == "bedd" ? sticker.SpecialPrice * $scope.square : 0;
 			var noneDefaultPrice = curtainPrice + nonCurtainPrice + specialPrice;
 			if (sticker.DefaultPrice) {
 				$scope.subTotal = sticker.DefaultPrice;
