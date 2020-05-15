@@ -281,7 +281,7 @@ app.controller('myCtrl', function ($scope, $location, $http) {
 				curtainPrice = 0;
 			}
 			if ($scope.shoppingCart.machining.value == "khongcanmang") {
-				var nonCurtainPrice = sticker.NoneCurtainPrice;
+				var nonCurtainPrice = sticker.NoneCurtainPrice * $scope.square;
 				$scope.price = sticker.NoneCurtainPrice;
 			} else {
 				nonCurtainPrice = 0;
