@@ -1667,3 +1667,6 @@ select:-moz-focusring {
 .row {
 	margin-bottom: 0px;
 }
+.form-control {
+	margin-left: 10px;
+}
