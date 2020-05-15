@@ -9,8 +9,8 @@
     @*<link href="~/styles/bootstrap4/bootstrap.min.css" rel="stylesheet" />*@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link href="~/plugins/fontawesome-free-5.0.1/css/fontawesome-all.css" rel="stylesheet" />
-    <link href="~/styles/cart_styles.css" rel="stylesheet" />
-    <link href="~/styles/cart_responsive.css" rel="stylesheet" />
+    <link href="~/styles/cart_styles.css?v=1.1" rel="stylesheet" />
+    <link href="~/styles/cart_responsive.css?v=1.1" rel="stylesheet" />
 </head>
 <body>
     <div ng-app="myApp" ng-controller="myCtrl" class="super_container">
@@ -140,7 +140,7 @@
                                         <h3>Vui lòng chọn loại chất liệu và nhập kích thước, số lượng</h3>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text" id="">Chất Liệu&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+                                                <span class="input-group-text" id="">Chất Liệu</span>
                                             </div>
                                             <select ng-change="materialChange()" class="form-control classic" ng-model="shoppingCart.material"
                                                 ng-options="opt as opt.label for opt in options">
@@ -156,14 +156,14 @@
 
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text" id="">Số Lượng&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+                                                <span class="input-group-text" id="">Số Lượng</span>
                                             </div>
                                             <input num-only maxlength="9"  ng-model="shoppingCart.quantity" type="text" placeholder="nhập số lượng cần in" class="form-control">
                                         </div>
 
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text" id="">Chọn Gia Công&nbsp&nbsp&nbsp</span>
+                                                <span class="input-group-text" id="">Chọn Gia Công</span>
                                             </div>
                                             <select class="form-control classic" ng-model="shoppingCart.machining"
                                                     ng-options="opt as opt.label for opt in options1">
@@ -171,7 +171,7 @@
                                         </div>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text" id="">Chọn Bế&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
+                                                <span class="input-group-text" id="">Chọn Bế</span>
                                             </div>
                                             <select class="form-control classic" ng-model="shoppingCart.cut"
                                                     ng-options="opt as opt.label for opt in options2">
@@ -182,8 +182,7 @@
                             </div>
                             <div class="cart_items">
                                 <ul class="cart_list">
-                                    <li class="cart_item clearfix  font-italic">
-                                        <h3 style="font-style:initial">Thành Tiền</h3>
+                                    <li class="cart_item clearfix  font-italic">                                      
                                         <div class="row">
                                             <div class="col-md-6">Chất liệu</div>
                                             <div class="col-md-3 ml-auto">{{shoppingCart.material.label}}</div>

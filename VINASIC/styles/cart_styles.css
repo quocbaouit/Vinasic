@@ -1225,7 +1225,7 @@ select option
 }
 .cart_items
 {
-	margin-top: 67px;
+	margin-top: 20px;
 }
 .cart_list
 {
@@ -1669,4 +1669,7 @@ select:-moz-focusring {
 }
 .form-control {
 	margin-left: 10px;
+}
+.input-group-text {
+	min-width: 150px;
 }
