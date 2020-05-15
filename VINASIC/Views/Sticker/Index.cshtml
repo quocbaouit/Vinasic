@@ -142,43 +142,39 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="">Chất Liệu&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
                                             </div>
-                                            <select class="form-control classic" id="exampleFormControlSelect1">
-                                                <option>Decal giấy</option>
-                                                <option>Decal sữa</option>
-                                                <option>Decal trong</option>
+                                            <select ng-change="materialChange()" class="form-control classic" ng-model="shoppingCart.material"
+                                                ng-options="opt as opt.label for opt in options">
                                             </select>
                                         </div>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="">Nhập kích thước</span>
                                             </div>
-                                            <input type="text" placeholder="ngang(mm)" class="form-control">
-                                            <input type="text" placeholder="cao(mm)" class="form-control">
+                                            <input num-only maxlength="9" ng-model="shoppingCart.width" type="text" placeholder="ngang(mm)" class="form-control">
+                                            <input num-only maxlength="9"  ng-model="shoppingCart.height" type="text" placeholder="cao(mm)" class="form-control">
                                         </div>
 
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="">Số Lượng&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
                                             </div>
-                                            <input type="text" placeholder="nhập số lượng cần in" class="form-control">
+                                            <input num-only maxlength="9"  ng-model="shoppingCart.quantity" type="text" placeholder="nhập số lượng cần in" class="form-control">
                                         </div>
 
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="">Chọn Gia Công&nbsp&nbsp&nbsp</span>
                                             </div>
-                                            <select class="form-control classic" id="exampleFormControlSelect12">
-                                                <option>Cán màng</option>
-                                                <option>Không cán màng</option>
+                                            <select class="form-control classic" ng-model="shoppingCart.machining"
+                                                    ng-options="opt as opt.label for opt in options1">
                                             </select>
                                         </div>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text" id="">Chọn Bế&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
                                             </div>
-                                            <select class="form-control classic" id="exampleFormControlSelect13">
-                                                <option>Bế thẳng</option>
-                                                <option>Bế đặc biệt</option>
+                                            <select class="form-control classic" ng-model="shoppingCart.cut"
+                                                    ng-options="opt as opt.label for opt in options2">
                                             </select>
                                         </div>
                                     </li>
@@ -190,32 +186,36 @@
                                         <h3 style="font-style:initial">Thành Tiền</h3>
                                         <div class="row">
                                             <div class="col-md-6">Chất liệu</div>
-                                            <div class="col-md-3 ml-auto">.col-md-4 .ml-auto</div>
+                                            <div class="col-md-3 ml-auto">{{shoppingCart.material.label}}</div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">Kích thước tem nhãn</div>
-                                            <div class="col-md-3 ml-auto">.col-md-6 .ml-auto</div>
+                                            <div class="col-md-3 ml-auto">{{shoppingCart.width==''?0:shoppingCart.width}}mm X {{shoppingCart.height==''?0:shoppingCart.height}}mm</div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">Số lượng in</div>
-                                            <div class="col-md-3 ml-auto">.col-md-4 .ml-auto</div>
+                                            <div class="col-md-3 ml-auto">{{shoppingCart.quantity==''?0:shoppingCart.quantity}}</div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">Diện tích bằng mét vuông.</div>
+                                            <div class="col-md-3 ml-auto">{{square}}(mét vuông)</div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">Gia công</div>
-                                            <div class="col-md-3 ml-auto">.col-md-4 .ml-auto</div>
+                                            <div class="col-md-3 ml-auto">{{shoppingCart.machining.label}}</div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">Bế</div>
-                                            <div class="col-md-3 ml-auto">.col-md-4 .ml-auto</div>
+                                            <div class="col-md-3 ml-auto">{{shoppingCart.cut.label}}</div>
                                         </div>
 
                                         <div class="row">
                                             <div class="col-md-6">Đơn giá</div>
-                                            <div class="col-md-3 ml-auto">.col-md-4 .ml-auto</div>
+                                            <div class="col-md-3 ml-auto">{{price | number}}(vnd)</div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">Thành tiền</div>
-                                            <div class="col-md-3 ml-auto">.col-md-4 .ml-auto</div>
+                                            <div class="col-md-3 ml-auto">{{subTotal | number}}(vnd)</div>
                                         </div>
                                     </li>
                                 </ul>
