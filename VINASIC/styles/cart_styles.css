@@ -573,7 +573,7 @@ section
 {
 	display: block;
 	position: relative;
-	width: calc((100% - 50px) * 0.601);
+	width: calc((100% - 10px) * 0.901);
 	height: 100%;
 	line-height: 50px;
 	border: none !important;
