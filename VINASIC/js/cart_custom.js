@@ -247,7 +247,7 @@ app.controller('myCtrl', function ($scope, $location, $http) {
 	$scope.materialChange = function () {
 		if ($scope.shoppingCart.material.value == 'tembe' || $scope.shoppingCart.material.value == 'decal7mau' || $scope.shoppingCart.material.value == 'decalxi' || $scope.shoppingCart.material.value == 'decalkraft') {
 			$scope.options1 = [
-				{ value: 'canmang', label: 'Cán màng' },
+				{ value: 'khongcanmang', label: 'Không cán màng' },
 			];
 		} else {
 			$scope.options1 = [
