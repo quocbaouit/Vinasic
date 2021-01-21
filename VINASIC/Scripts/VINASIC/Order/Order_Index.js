@@ -72,6 +72,7 @@ VINASIC.Order = function () {
             Realpay: 0,
             PcustomerName: "",
             PcustomePhone: "",
+            PBusinessName: "",
             PcustomerAddress: "",
             Pdate: "",
             Pproduct: "",
@@ -1531,6 +1532,7 @@ VINASIC.Order = function () {
                             global.Data.PcustomerName = data.record.Name;
                             global.Data.PcustomePhone = data.record.CustomerPhone;
                             global.Data.PcustomerAddress = data.record.CustomerAddress;
+                            global.Data.PBusinessName = data.record.CreateUserName;
                             global.Data.Pproduct = "";
                             calculatorProduct(data.record.T_OrderDetail);
                             //rendertable                                                    
@@ -2333,6 +2335,7 @@ VINASIC.Order = function () {
             $("#vphone1").html("");
             $("#vaddress1").html("");
             $("#vdate3").html("");
+            $("#kinhdoanh").html("");
             $("#vtotal1").html("");
             $("#strtotal1").html("");
 
@@ -2353,6 +2356,7 @@ VINASIC.Order = function () {
         
         
             $("#vdate3").append(time);
+            $("#kinhdoanh").append(global.Data.PBusinessName);
             var check = document.getElementById('type2').checked;
 
             if (check) {
