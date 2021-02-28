@@ -94,6 +94,9 @@
     <Compile Include="Repositories\T_NotificationRepository.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\T_OrderDepositRepository.cs">
+      <DependentUpon>Repositories.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repositories\T_OrderDetailRepository.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
