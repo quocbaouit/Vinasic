@@ -36,6 +36,8 @@ namespace VINASIC.Object
         public Nullable<System.DateTime> DeletedDate { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public string CompanyName { get; set; }
+
+        public int CustomerType { get; set; }
     
         public virtual Collection<T_Quittance> T_Quittance { get; set; }
         public virtual Collection<T_ReceiptVoucher> T_ReceiptVoucher { get; set; }

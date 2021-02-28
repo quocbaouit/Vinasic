@@ -82,6 +82,9 @@
     <Compile Include="T_Order.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="T_OrderDeposit.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="T_OrderDetail.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>

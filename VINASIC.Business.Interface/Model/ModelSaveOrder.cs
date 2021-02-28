@@ -43,6 +43,7 @@ namespace VINASIC.Business.Interface.Model
         public Decimal Quantity { get; set; }
         public Decimal SumSquare { get; set; }
         public float Price { get; set; }
+        public float TransportFee { get; set; }
         public float Subtotal { get; set; }
     }
 }

@@ -102,11 +102,13 @@ VINASIC.Order = function () {
 
         tableString += "<th>" + "SLượng" + "</th>";
         tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Đơn Giá" + "</th>";
+        tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Phí Vận Chuyển" + "</th>";
         tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Thành Tiền" + "</th>";
         tableString += "</tr>";
         for (row = 0; row < Table.length; row += 1) {
             var strPrice = Table[row].Price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
             var strSubTotal = Table[row].SubTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            var strTransport = Table[row].TransportFee.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
             tableString += "<tr>";
             if (Table[row].FileName == null) {
                 Table[row].FileName = '';
@@ -127,8 +129,10 @@ VINASIC.Order = function () {
             tableString += "<td style=\"padding-center: 5px;text-align: center;\">" + Table[row].Quantity + "</td>";
             if (type==0) {
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strPrice + "</td>";
+                tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strTransport + "</td>";
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strSubTotal + "</td>";
             } else {
+                tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
 
@@ -151,6 +155,7 @@ VINASIC.Order = function () {
                 tableString += "<td>" + "&nbsp;" + "</td>";
                 tableString += "<td>" + "&nbsp;" + "</td>";
                 tableString += "<td>" + "&nbsp;" + "</td>";
+                tableString += "<td>" + "&nbsp;" + "</td>";
                 tableString += "</tr>";
             }
         }
@@ -160,26 +165,26 @@ VINASIC.Order = function () {
             var strSubTotal1 = subTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
             var strHaspay1 = haspay.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
             tableString += "<tr>";
-            var colspan = 4;
+            var colspan = 5;
             if (document.getElementById('show-dim').checked)
-                colspan = 6;
+                colspan = 7;
             tableString += "<td colspan=\"" + colspan + "\">Tổng Tiền:</td>";
             tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal2\">" + strSubTotal1 + "</span></td>";
             tableString += "</tr>";
 
             tableString += "<tr>";
-            var colspan = 4;
+            var colspan = 5;
             if (document.getElementById('show-dim').checked)
-                colspan = 6;
+                colspan = 7;
             tableString += "<td colspan=\"" + colspan + "\">Đã Thanh Toán(Đặt Cọc):</td>";
             tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal3\">" + strHaspay1 + "</span></td>";
             tableString += "</tr>";
 
         }
         tableString += "<tr>";
-        var colspan = 4;
+        var colspan = 5;
         if (document.getElementById('show-dim').checked)
-            colspan = 6;
+            colspan = 7;
         tableString += "<td colspan=\"" + colspan + "\">" + strThanhToan + ":</td>";
         tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal1\">55577854</span></td>";
         tableString += "</tr>";
@@ -1153,6 +1158,10 @@ VINASIC.Order = function () {
                                     title: 'ĐGiá',
                                     width: '5%'
                                 },
+                                strTransport: {
+                                    title: 'VChuyển',
+                                    width: '5%'
+                                },
                                 strSubTotal: {
                                     title: 'Thành Tiền',
                                     width: '10%'
@@ -1232,6 +1241,10 @@ VINASIC.Order = function () {
                                 },
                                 strPrice: {
                                     title: 'ĐGiá',
+                                    width: '5%'
+                                },
+                                strTransport: {
+                                    title: 'VChuyển',
                                     width: '5%'
                                 },
                                 strSubTotal: {
@@ -1913,6 +1926,7 @@ VINASIC.Order = function () {
                             $("#dsumsquare").val(decimalAdjust('round', data.record.SumSquare, -6));
                             $("#dquantity").val(data.record.Quantity);
                             $("#dprice").val(data.record.Price);
+                            $("#dtransport").val(data.record.TransportFee);
                             $("#dsubtotal").val(data.record.SubTotal);
                             global.Data.CurenIndex = data.record.Index;
                             global.Data.OrderDetailId = data.record.Id;
@@ -1950,6 +1964,10 @@ VINASIC.Order = function () {
                 },
                 Price: {
                     title: "Đơn Giá",
+                    width: "15%"
+                },
+                Transport: {
+                    title: "Phí Vận Chuyển",
                     width: "15%"
                 },
                 SubTotal: {
@@ -2016,6 +2034,7 @@ VINASIC.Order = function () {
                             $("#dsumsquare").val(decimalAdjust('round', data.record.SumSquare, -6));
                             $("#dquantity").val(data.record.Quantity);
                             $("#dprice").val(data.record.Price);
+                            $("#dtransport").val(data.record.TransportFee);
                             $("#dsubtotal").val(data.record.SubTotal);
                             global.Data.CurenIndex = data.record.Index;
                             global.Data.OrderDetailId = data.record.Id;
@@ -2037,6 +2056,10 @@ VINASIC.Order = function () {
                 },
                 Price: {
                     title: "Đơn Giá",
+                    width: "15%"
+                },
+                TransportFee: {
+                    title: "Phí Vận Chuyển",
                     width: "15%"
                 },
                 SubTotal: {
@@ -2109,6 +2132,7 @@ VINASIC.Order = function () {
         $("#dsquare").val("");
         $("#dquantity").val("");
         $("#dprice").val("");
+        $("#dtransport").val("0");
         $("#dsubtotal").val("");
         $("#ddeposit").val(0);
     }
@@ -2395,6 +2419,8 @@ VINASIC.Order = function () {
         var width = $("#dwidth").val();
         var height = $("#dheignt").val();
         var quantity = $("#dquantity").val();
+        var transport = $("#dtransport").val();
+        transport = parseFloat(transport);
         //var searchResult = searchById($("#dproduct").val(), global.Data.listproduct);
         //if (searchResult != undefined) {
         //    var tempPrice = getProductPrice(searchResult.Code, parseFloat(quantity));
@@ -2421,6 +2447,7 @@ VINASIC.Order = function () {
         var price = $("#dprice").val();
         if (!checkNumber(quantity) && quantity !== "" && price !== "") {
             var total = calculatorSubTotal(sqare, quantity, price.replace(/[^0-9-.]/g, ''), isFixed);
+            total = total + transport;
             if (!checkNumber(total)) {
                 var roundtotal = decimalAdjust('round', total, 0);
                 $("#dsubtotal").val(roundtotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
@@ -2970,6 +2997,9 @@ VINASIC.Order = function () {
         $('.caculator').keyup(function () {
             calculatorPrice();
         });
+        $('#dtransport').on('change', function () {
+            calculatorPrice();
+        });
         $('.customInput').keyup(function () {
             //quantityDiv, code, priceDiv, totalDiv
             calculatorPriceCustom('#quantity1_1', 'ingiay', '#price1_1', '#total1_1');
@@ -3038,7 +3068,7 @@ VINASIC.Order = function () {
                     var objectIndex = global.Data.Index;
                     if (global.Data.CurenIndex !== 0) {
                         objectIndex = global.Data.CurenIndex;
-                        var object = { Id: global.Data.OrderDetailId, Index: objectIndex, CommodityId: $("#dproduct").val(), CommodityName: $("#dproduct option:selected").text(), FileName: $("#dfilename").val(), Description: $("#dnote").val(), Width: $("#dwidth").val(), Height: $("#dheignt").val(), Square: $("#dsquare").val(), Quantity: $("#dquantity").val(), SumSquare: $("#dsumsquare").val(), Price: $("#dprice").val(), SubTotal: $("#dsubtotal").val() }
+                        var object = { Id: global.Data.OrderDetailId, Index: objectIndex, CommodityId: $("#dproduct").val(), CommodityName: $("#dproduct option:selected").text(), FileName: $("#dfilename").val(), Description: $("#dnote").val(), Width: $("#dwidth").val(), Height: $("#dheignt").val(), Square: $("#dsquare").val(), Quantity: $("#dquantity").val(), SumSquare: $("#dsumsquare").val(), Price: $("#dprice").val(), SubTotal: $("#dsubtotal").val(), TransportFee: $("#dtransport").val() }
                         for (var i = 0; i < global.Data.ModelOrderDetail.length; i++) {
                             if (global.Data.ModelOrderDetail[i].Index === global.Data.CurenIndex) {
                                 global.Data.ModelOrderDetail.splice(i, 1, object);
@@ -3059,7 +3089,7 @@ VINASIC.Order = function () {
                         //}
 
                     } else {
-                        var object1 = { Id: 0, Index: objectIndex, CommodityId: $("#dproduct").val(), CommodityName: $("#dproduct option:selected").text(), FileName: $("#dfilename").val(), Description: $("#dnote").val(), Width: $("#dwidth").val(), Height: $("#dheignt").val(), Square: $("#dsquare").val(), Quantity: $("#dquantity").val(), SumSquare: $("#dsumsquare").val(), Price: $("#dprice").val(), SubTotal: $("#dsubtotal").val() }
+                        var object1 = { Id: 0, Index: objectIndex, CommodityId: $("#dproduct").val(), CommodityName: $("#dproduct option:selected").text(), FileName: $("#dfilename").val(), Description: $("#dnote").val(), Width: $("#dwidth").val(), Height: $("#dheignt").val(), Square: $("#dsquare").val(), Quantity: $("#dquantity").val(), SumSquare: $("#dsumsquare").val(), Price: $("#dprice").val(), SubTotal: $("#dsubtotal").val(), TransportFee: $("#dtransport").val() }
                         global.Data.ModelOrderDetail.push(object1);
                         global.Data.Index = global.Data.Index + 1;
                         for (var k = 0; k < global.Data.ModelOrderDetail.length; k++) {

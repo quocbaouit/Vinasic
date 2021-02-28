@@ -204,6 +204,7 @@ namespace VINASIC.Business
                 DesignFrom = o.DesignFrom,
                 DesignTo = o.DesignTo,
                 SubTotal = o.SubTotal,
+                TransportFee=o.TransportFee,
                 IsCompleted = o.IsCompleted,
                 CreatedDate = o.CreatedDate,
                 DesignView = o.DesignView ?? "",
@@ -239,8 +240,9 @@ namespace VINASIC.Business
                 {
                     order.UserProcess = "Chưa có nhân viên phụ trách";
                 }
-                order.strSubTotal = $"{order.SubTotal:0,0}";
+                order.strSubTotal = $"{order.SubTotal:0,0}"; 
                 order.strPrice = $"{order.Price:0,0}";
+                order.strTransport = $"{order.TransportFee:0,0}";
             }
             return ordeDetails;
         }
@@ -318,6 +320,7 @@ namespace VINASIC.Business
                         Quantity = detail.Quantity,
                         SumSquare = detail.SumSquare,
                         Price = detail.Price,
+                        TransportFee=detail.TransportFee,
                         SubTotal = detail.Subtotal,
                         Description = detail.Description,
                         IsCompleted = false,
@@ -407,6 +410,7 @@ namespace VINASIC.Business
                             detailUpdate.SumSquare = detail.SumSquare;
                             detailUpdate.Quantity = detail.Quantity;
                             detailUpdate.Price = detail.Price;
+                            detailUpdate.TransportFee = detail.TransportFee;
                             detailUpdate.SubTotal = detail.Subtotal;
                             detailUpdate.Description = detail.Description;
                             detailUpdate.IsCompleted = false;
@@ -436,6 +440,7 @@ namespace VINASIC.Business
                             SumSquare = detail.SumSquare,
                             Quantity = detail.Quantity,
                             Price = detail.Price,
+                            TransportFee=detail.TransportFee,
                             SubTotal = detail.Subtotal,
                             Description = detail.Description,
                             IsCompleted = false,
