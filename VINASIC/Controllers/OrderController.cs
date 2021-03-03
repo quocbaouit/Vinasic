@@ -309,6 +309,7 @@ namespace VINASIC.Controllers
                         Tax = tax,
                         Deposit = deposit,
                         OrderTotalExcludeTax = orderTotal,
+ 
                         DateDelivery = DateTime.Parse(dateDelivery ?? DateTime.Now.AddHours(14).ToString(CultureInfo.InvariantCulture)),
                         Detail = listDetail
                     };
@@ -871,8 +872,7 @@ namespace VINASIC.Controllers
                 columnNumber++;
             }
 
-            ws.Column(columnNumber).Width = 30;
-            columnNumber++;
+           
             ws.Column(columnNumber).Width = 30;
             columnNumber++;
             if (configUnit == "true")
@@ -891,19 +891,21 @@ namespace VINASIC.Controllers
                 columnNumber++;
             }
 
-            ws.Column(columnNumber).Width = 14;
+            ws.Column(columnNumber).Width = 15;
             columnNumber++;
-            ws.Column(columnNumber).Width = 14;
+            ws.Column(columnNumber).Width = 15;
             columnNumber++;
-            ws.Column(columnNumber).Width = 14;
+            ws.Column(columnNumber).Width = 15;
             columnNumber++;
-            ws.Column(columnNumber).Width = 14;
+            ws.Column(columnNumber).Width = 30;
             columnNumber++;
-            ws.Column(columnNumber).Width = 14;
+            ws.Column(columnNumber).Width = 30;
             columnNumber++;
-            ws.Column(columnNumber).Width = 14;
-            columnNumber++;
-            ws.Column(columnNumber).Width = 14;
+            //ws.Column(columnNumber).Width = 14;
+            //columnNumber++;
+            //ws.Column(columnNumber).Width = 14;
+            //columnNumber++;
+            //ws.Column(columnNumber).Width = 14;
             string path = cpnLogo;
             var logo = Image.FromFile(Server.MapPath(path));
             ws.Row(0 * 5).Height = 39.00D;
@@ -961,11 +963,9 @@ namespace VINASIC.Controllers
             }
 
 
-            ws.Cells[(char)(((int)letter)) + "8"].Value = "Hạng mục";
-            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-            letter = (char)(((int)letter) + 1);
+            
 
-            ws.Cells[(char)(((int)letter)) + "8"].Value = "Diễn giải";
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Dịch Vụ";
             ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
             letter = (char)(((int)letter) + 1);
             if (configUnit == "true")
@@ -994,30 +994,37 @@ namespace VINASIC.Controllers
             ws.Cells[(char)(((int)letter)) + "8"].Value = "Đơn giá (vnd)";
             ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
             letter = (char)(((int)letter) + 1);
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Phí Vận Chuyển (vnd)";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
 
             ws.Cells[(char)(((int)letter)) + "8"].Value = "Thành Tiền (vnd)";
             ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
             char mergerTotalLetter = (char)(((int)letter) - 1);
             letter = (char)(((int)letter) + 1);
 
-            ws.Cells[(char)(((int)letter)) + "8"].Value = "Chi Phí";
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Ghi Chú";
             ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
             letter = (char)(((int)letter) + 1);
 
-            ws.Cells[(char)(((int)letter)) + "8"].Value = "Tiền Lãi";
-            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-            letter = (char)(((int)letter) + 1);
+            //ws.Cells[(char)(((int)letter)) + "8"].Value = "Chi Phí";
+            //ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            //letter = (char)(((int)letter) + 1);
 
-            ws.Cells[(char)(((int)letter)) + "8"].Value = "ThanhToán Tiền Mặt";
-            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-            letter = (char)(((int)letter) + 1);
+            //ws.Cells[(char)(((int)letter)) + "8"].Value = "Tiền Lãi";
+            //ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            //letter = (char)(((int)letter) + 1);
 
-            ws.Cells[(char)(((int)letter)) + "8"].Value = "Chuyển Khoản(vnd)";
-            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
-            letter = (char)(((int)letter) + 1);
+            //ws.Cells[(char)(((int)letter)) + "8"].Value = "ThanhToán Tiền Mặt";
+            //ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            //letter = (char)(((int)letter) + 1);
 
-            ws.Cells[(char)(((int)letter)) + "8"].Value = "Còn Lại (vnd)";
-            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            //ws.Cells[(char)(((int)letter)) + "8"].Value = "Chuyển Khoản(vnd)";
+            //ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            //letter = (char)(((int)letter) + 1);
+
+            //ws.Cells[(char)(((int)letter)) + "8"].Value = "Còn Lại (vnd)";
+            //ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
             foreach (var c in ws.Cells["A8:" + letter + "8"])
             {
@@ -1040,19 +1047,19 @@ namespace VINASIC.Controllers
             ws.Cells[totalLetter + "9"].Value = "";
             totalLetter++;
 
-            ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells[totalLetter + "9"].Value = "";
-            totalLetter++;
+            //ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
+            //ws.Cells[totalLetter + "9"].Value = "";
+            //totalLetter++;
 
-            ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells[totalLetter + "9"].Value = "";
-            totalLetter++;
+            //ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
+            //ws.Cells[totalLetter + "9"].Value = "";
+            //totalLetter++;
 
-            ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells[totalLetter + "9"].Value = "";
-            totalLetter++;
-            ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
-            ws.Cells[totalLetter + "9"].Value = "";
+            //ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
+            //ws.Cells[totalLetter + "9"].Value = "";
+            //totalLetter++;
+            //ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
+            //ws.Cells[totalLetter + "9"].Value = "";
             foreach (var c in ws.Cells["A9:" + totalLetter + "9"])
             {
                 c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
@@ -1079,8 +1086,7 @@ namespace VINASIC.Controllers
                     column++;
                 }
 
-                ws.Cells[endRow, column].Value = result[i].FileName;
-                column++;
+               
                 ws.Cells[endRow, column].Value = result[i].CommodityName;
                 column++;
                 if (configUnit == "true")
@@ -1108,75 +1114,80 @@ namespace VINASIC.Controllers
                 ws.Cells[endRow, column].Value = result[i].Price;
                 column++;
                 ws.Cells[endRow, column].Style.Numberformat.Format = "#,##0";
+                ws.Cells[endRow, column].Value = result[i].TransportFee;
+                column++;
+                ws.Cells[endRow, column].Style.Numberformat.Format = "#,##0";
                 ws.Cells[endRow, column].Value = result[i].SubTotal;
                 column++;
+                ws.Cells[endRow, column].Value = result[i].FileName;
+                column++;
 
-                try
-                {
-                    if ((result[i].OrderId != result[i - 1].OrderId))
-                    {
-                        var tryColumn = column;
+                //try
+                //{
+                //    if ((result[i].OrderId != result[i - 1].OrderId))
+                //    {
+                //        var tryColumn = column;
 
-                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, tryColumn].Value = result[i].Cost;
-                        tryColumn++;
-                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, tryColumn].Value = result[i].Total1 - result[i].Cost;
-                        tryColumn++;
+                //        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                //        ws.Cells[endRow, tryColumn].Value = result[i].Cost;
+                //        tryColumn++;
+                //        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                //        ws.Cells[endRow, tryColumn].Value = result[i].Total1 - result[i].Cost;
+                //        tryColumn++;
 
-                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, tryColumn].Value = result[i].HasPay;
-                        tryColumn++;
-                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, tryColumn].Value = result[i].HasPayTransfer;
-                        tryColumn++;
-                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, tryColumn].Value = result[i].Total1 - (result[i].HasPay + result[i].HasPayTransfer);
-                        tryColumn++;
-                    }
-                    else
-                    {
-                        var tryColumn = column;
+                //        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                //        ws.Cells[endRow, tryColumn].Value = result[i].HasPay;
+                //        tryColumn++;
+                //        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                //        ws.Cells[endRow, tryColumn].Value = result[i].HasPayTransfer;
+                //        tryColumn++;
+                //        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                //        ws.Cells[endRow, tryColumn].Value = result[i].Total1 - (result[i].HasPay + result[i].HasPayTransfer);
+                //        tryColumn++;
+                //    }
+                //    else
+                //    {
+                //        var tryColumn = column;
 
-                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, tryColumn].Value = "";
-                        tryColumn++;
-                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, tryColumn].Value = "";
-                        tryColumn++;
+                //        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                //        ws.Cells[endRow, tryColumn].Value = "";
+                //        tryColumn++;
+                //        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                //        ws.Cells[endRow, tryColumn].Value = "";
+                //        tryColumn++;
 
-                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, tryColumn].Value = "";
-                        tryColumn++;
-                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, tryColumn].Value = "";
-                        tryColumn++;
-                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        ws.Cells[endRow, tryColumn].Value = "";
-                        tryColumn++;
-                    }
-                }
-                catch (Exception)
-                {
-                    var tryColumn = column;
+                //        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                //        ws.Cells[endRow, tryColumn].Value = "";
+                //        tryColumn++;
+                //        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                //        ws.Cells[endRow, tryColumn].Value = "";
+                //        tryColumn++;
+                //        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                //        ws.Cells[endRow, tryColumn].Value = "";
+                //        tryColumn++;
+                //    }
+                //}
+                //catch (Exception)
+                //{
+                //    var tryColumn = column;
 
-                    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                    ws.Cells[endRow, tryColumn].Value = result[i].Cost;
-                    tryColumn++;
-                    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                    ws.Cells[endRow, tryColumn].Value = result[i].Total1 - result[i].Cost;
-                    tryColumn++;
+                //    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                //    ws.Cells[endRow, tryColumn].Value = result[i].Cost;
+                //    tryColumn++;
+                //    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                //    ws.Cells[endRow, tryColumn].Value = result[i].Total1 - result[i].Cost;
+                //    tryColumn++;
 
-                    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                    ws.Cells[endRow, tryColumn].Value = result[i].HasPay;
-                    tryColumn++;
-                    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                    ws.Cells[endRow, tryColumn].Value = result[i].HasPayTransfer;
-                    tryColumn++;
-                    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                    ws.Cells[endRow, tryColumn].Value = result[i].Total1 - (result[i].HasPay + result[i].HasPayTransfer);
-                    tryColumn++;
-                }
+                //    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                //    ws.Cells[endRow, tryColumn].Value = result[i].HasPay;
+                //    tryColumn++;
+                //    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                //    ws.Cells[endRow, tryColumn].Value = result[i].HasPayTransfer;
+                //    tryColumn++;
+                //    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                //    ws.Cells[endRow, tryColumn].Value = result[i].Total1 - (result[i].HasPay + result[i].HasPayTransfer);
+                //    tryColumn++;
+                //}
                 if (i == numRows - 1)
                     continue;
                 endRow++;
@@ -1211,11 +1222,11 @@ namespace VINASIC.Controllers
             ws.Column(1).Width = 10;
             ws.Column(2).Width = 35;
             ws.Column(3).Width = 35;
-            ws.Column(4).Width = 10;
-            ws.Column(5).Width = 10;
-            ws.Column(6).Width = 10;
-            ws.Column(7).Width = 20;
-            ws.Column(8).Width = 20;
+            ws.Column(4).Width = 30;
+            ws.Column(5).Width = 30;
+            ws.Column(6).Width = 30;
+            ws.Column(7).Width = 30;
+            ws.Column(8).Width = 30;
             ws.Column(9).Width = 30;
             ws.Column(10).Width = 30;
             ws.Column(11).Width = 30;

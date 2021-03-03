@@ -522,24 +522,32 @@
                                             <div id="jtableOrderDetail"></div>
                                             <div class="row">
                                                 <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="dtotal" type="text" class="form-control dsubtotal" placeholder="">
-                                                <strong style="margin-top: 10px; width: 200px; float: right">Tổng Tiền(VND)</strong>
+                                                <strong style="margin-top: 10px; width: 200px; float: right">Tổng Tiền Trước Thuế(VND)</strong>
                                             </div>
-                                            @*<div class="row">
-            <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="ddeposit" value="0" type="text" class="form-control dsubtotal" placeholder="">
-            <strong style="margin-top: 10px; width: 200px; float: right">Đặt Cọc</strong>
-        </div>*@
-                                            <div id="depositgroup">
-                                                <div class="row">
-                                                    <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="ddeposit" value="0" type="text" class="form-control dsubtotal" placeholder="">
-                                                    <strong style="margin-top: 10px; width: 200px; float: right">Đặt Cọc <span><a href="javascript:void(0)">(Xóa)</a></span></strong>
-                                                </div>
-                                            </div>
-
                                             <div class="row">
-                                                <strong style="margin-top: 10px; width: 200px; float: right"><a style="cursor:pointer" href="javascript:void(0)">Thêm đặt cọc</a></strong>
+                                                <input id="dtax" style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" type="checkbox" />
+                                                <strong style="margin-top: 10px; width: 200px; float: right">Bao Gồm thuế 10%</strong>
                                             </div>
-                                            <div style="display:none" class="row">
+                                            <div class="row">
                                                 <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="dtotaltax" type="text" class="form-control dsubtotal" placeholder="">
+                                                <strong style="margin-top: 10px; width: 200px; float: right">Tổng Tiền Sau Thuế(VND)</strong>
+                                            </div>
+                                            <div class="row">
+                                                <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="ddeposit" type="text" class="form-control dsubtotal" placeholder="">
+                                                <strong style="margin-top: 10px; width: 200px; float: right">Đặt Cọc</strong>
+                                            </div>
+                                            @*<div id="depositgroup">
+            <div class="row">
+                <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="ddeposit" value="0" type="text" class="form-control dsubtotal" placeholder="">
+                <strong style="margin-top: 10px; width: 200px; float: right">Đặt Cọc <span><a href="javascript:void(0)">(Xóa)</a></span></strong>
+            </div>
+        </div>*@
+
+                                            @*<div class="row">
+            <strong style="margin-top: 10px; width: 200px; float: right"><a style="cursor:pointer" href="javascript:void(0)">Thêm đặt cọc</a></strong>
+        </div>*@
+                                            <div class="row">
+                                                <input style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="dtotaleft" type="text" class="form-control dsubtotal" placeholder="">
                                                 <strong style="margin-top: 10px; width: 200px; float: right">Còn Lại(VND)</strong>
                                             </div>
                                             <a id="saveOrder" style="margin-left: 20px; margin-top: 20px" title="" class="btn btn-primary btn-sm" href="javascript:void(0)">Lưu Đơn Hàng</a>
@@ -1014,10 +1022,10 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="popup_Custom3" role="dialog">
-    <div class="modal-dialog modal-lg">
+<!--<div class="modal fade" id="popup_Custom3" role="dialog">
+    <div class="modal-dialog modal-lg">-->
         <!-- Modal content-->
-        <div class="modal-content">
+        <!--<div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4><span class="glyphicon glyphicon-pencil"></span>Bảng Giá In Catalogue</h4>
@@ -1076,7 +1084,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 
 <div class="modal fade" id="popup_Cost" role="dialog">
     <div class="modal-dialog">
