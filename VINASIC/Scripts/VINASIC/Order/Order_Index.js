@@ -104,11 +104,13 @@ VINASIC.Order = function () {
         tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Đơn Giá" + "</th>";
         tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Phí Vận Chuyển" + "</th>";
         tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Thành Tiền" + "</th>";
+        tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Ghi Chú" + "</th>";
         tableString += "</tr>";
         for (row = 0; row < Table.length; row += 1) {
             var strPrice = Table[row].Price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
             var strSubTotal = Table[row].SubTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-            var strTransport = Table[row].TransportFee.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            var strTransport = Table[row].TransportFee != null ? Table[row].TransportFee.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") : '';
+            var strDescription = Table[row].Description != null ? Table[row].Description : '';
             tableString += "<tr>";
             if (Table[row].FileName == null) {
                 Table[row].FileName = '';
@@ -131,7 +133,9 @@ VINASIC.Order = function () {
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strPrice + "</td>";
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strTransport + "</td>";
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strSubTotal + "</td>";
+                tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strDescription + "</td>";
             } else {
+                tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
@@ -156,6 +160,7 @@ VINASIC.Order = function () {
                 tableString += "<td>" + "&nbsp;" + "</td>";
                 tableString += "<td>" + "&nbsp;" + "</td>";
                 tableString += "<td>" + "&nbsp;" + "</td>";
+                tableString += "<td>" + "&nbsp;" + "</td>";
                 tableString += "</tr>";
             }
         }
@@ -170,6 +175,7 @@ VINASIC.Order = function () {
                 colspan = 7;
             tableString += "<td colspan=\"" + colspan + "\">Tổng Tiền:</td>";
             tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal2\">" + strSubTotal1 + "</span></td>";
+            tableString += "<td>" + "&nbsp;" + "</td>";
             tableString += "</tr>";
 
             tableString += "<tr>";
@@ -178,6 +184,7 @@ VINASIC.Order = function () {
                 colspan = 7;
             tableString += "<td colspan=\"" + colspan + "\">Đã Thanh Toán(Đặt Cọc):</td>";
             tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal3\">" + strHaspay1 + "</span></td>";
+            tableString += "<td>" + "&nbsp;" + "</td>";
             tableString += "</tr>";
 
         }
@@ -190,6 +197,7 @@ VINASIC.Order = function () {
         tableString += "</tr>";
         tableString += "<tr>";
         tableString += "<td colspan=\"" + (colspan + 1) + "\">Bằng Chữ:<span id=\"strtotal1\">Test </span></td>";
+        tableString += "<td>" + "&nbsp;" + "</td>";
         tableString += "</tr>";
         tableString += "</table>";
         root.innerHTML = tableString;
@@ -2124,9 +2132,9 @@ VINASIC.Order = function () {
                     var customerAddress = $("#caddress").val();
                     var customerTaxCode = $("#ctaxcode").val();
                     var dateDelivery = $("#date").val();
-                    var deposit = $("#ddeposit").val();
+                    var deposit = $("#ddeposit").val().replace(/[^0-9-.]/g, '');
                     var tax = document.getElementById("dtax").checked;
-                    var tax = false;
+                    //var tax = false;
                     var orderTotal = $("#dtotal").val().replace(/[^0-9-.]/g, '');
                     
                     orderTotal = parseFloat(orderTotal);
@@ -2134,7 +2142,7 @@ VINASIC.Order = function () {
                     if (tax) {
                         totalIncludeTax = orderTotal * 0.1 + orderTotal;
                     }
-
+                    debugger;
                     $.ajax({
                         url: global.UrlAction.SaveOrder + "?orderId=" + global.Data.OrderId + "&employeeId=" + employeeId + "&customerId=" + global.Data.CustomerId + "&customerName=" + customerName + "&customerPhone=" + customerPhone + "&customerMail=" + customerMail + "&customerAddress=" + customerAddress + "&customerTaxCode=" + customerTaxCode + "&dateDelivery=" + dateDelivery + "&orderTotal=" + orderTotal + "&tax=" + tax + "&orderTotalTax=" + totalIncludeTax + "&deposit=" + deposit,
                         type: 'post',
