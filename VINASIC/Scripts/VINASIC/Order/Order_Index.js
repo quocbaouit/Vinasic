@@ -3180,7 +3180,7 @@ VINASIC.Order = function () {
                         contentType: 'application/json',
                         success: function (result) {
                             GlobalCommon.CallbackProcess(result, function () {
-                                if (1 < 2) {
+                                if (result.Records != undefined) {
                                     var listCustomer = result.Records;
                                     $('#cname').val(listCustomer.Name);
                                     $('#cphone').val(listCustomer.Mobile);
