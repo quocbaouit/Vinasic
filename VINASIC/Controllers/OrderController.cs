@@ -8,6 +8,7 @@ using System.Threading;
 using System.Web.Http;
 using System.Web.Mvc;
 using Dynamic.Framework.Mvc;
+using Newtonsoft.Json;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using VINASIC.Business.Interface;
@@ -822,10 +823,11 @@ namespace VINASIC.Controllers
 
             return dt;
         }
-        public ActionResult ExportReport([FromUri] DateTime fromDate, [FromUri]DateTime toDate, [FromUri]int employee, [FromUri]string keySearch, int delivery = 0, int paymentStatus = 0, int type = 0)
+        public ActionResult ExportReport([FromUri] DateTime fromDate, [FromUri]DateTime toDate, [FromUri]int employee, [FromUri]string keySearch, int delivery = 0, int paymentStatus = 0, int type = 0,string orderIds=null)
         {
+            var orderids = JsonConvert.DeserializeObject<List<int>>(orderIds);
             var pck = new ExcelPackage();
-            pck = ExportSum(pck, fromDate, toDate, employee, keySearch, delivery, paymentStatus, type);
+            pck = ExportSum(pck, fromDate, toDate, employee, keySearch, delivery, paymentStatus, type, orderids);
             return new ExcelDownload(pck, string.Format("{0}_.xlsx", DateTime.Now.AddHours(14).ToString("d")));
         }
         public ActionResult ExportExcelQuotation(int orderId, string orderName)
@@ -835,7 +837,7 @@ namespace VINASIC.Controllers
             return new ExcelDownload(pck, string.Format("{0}_{1}.xlsx", orderName, DateTime.Now.AddHours(14).ToString("d")));
         }
         //public 
-        public ExcelPackage ExportSum(ExcelPackage package, DateTime fromDate, DateTime toDate, int employee, string keySearch, int delivery, int paymentStatus, int type = 0)
+        public ExcelPackage ExportSum(ExcelPackage package, DateTime fromDate, DateTime toDate, int employee, string keySearch, int delivery, int paymentStatus, int type = 0,List<int> orderIds=null)
         {
             var CompanyInfo = _bllSiteSetting.GetListProduct();
             var cmpShortName = CompanyInfo.Where(x => x.Code == "cmpShortName").FirstOrDefault()?.Value;
@@ -845,7 +847,7 @@ namespace VINASIC.Controllers
             var cpnAddress = CompanyInfo.Where(x => x.Code == "cpnAddress").FirstOrDefault()?.Value;
             var cpnName = CompanyInfo.Where(x => x.Code == "cpnName").FirstOrDefault()?.Value;
 
-            var result = _bllOrder.ExportReport(fromDate, toDate, employee, keySearch, delivery, paymentStatus, type);
+            var result = _bllOrder.ExportReport(fromDate, toDate, employee, keySearch, delivery, paymentStatus, type, orderIds);
 
             var siteSettings = _bllSiteSetting.GetListProduct();
             var configCustomer = siteSettings.Where(x => x.Code == "configCustomer").FirstOrDefault().Value;
@@ -937,7 +939,7 @@ namespace VINASIC.Controllers
             ws.Cells["G4"].Style.Font.Size = 14;
             ws.Cells["G4"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-            ws.Cells["G6"].Value = "THỐNG KÊ HÀNG IN";
+            ws.Cells["G6"].Value = "PHIẾU THU";
             ws.Cells["G6"].Style.Font.Bold = true;
             ws.Cells["G6"].Style.Font.Size = 18;
             ws.Cells["G6"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;

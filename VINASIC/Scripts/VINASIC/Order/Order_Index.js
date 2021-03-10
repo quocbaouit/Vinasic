@@ -1048,7 +1048,19 @@ VINASIC.Order = function () {
                         var employee = $("#cemployee1").val();
                         var delivery = $("#DeliveryType").val();
                         var paymentStatus = $("#PaymentStatus").val();
-                        var url = "/Order/ExportReport?fromDate=" + fromDate + "&toDate=" + toDate + "&employee=" + employee + "&keySearch=" + keySearch + "&delivery=" + delivery + "&paymentStatus=" + paymentStatus + "&type=" + 0;
+                        debugger;
+                        var listOrderid = [];
+                        var $selectedRows = $('#jtableOrder').jtable('selectedRows');
+                        if ($selectedRows.length==0) {
+                            toastr.error("Vui lòng chọn đơn hàng.");
+                            return;
+                        }
+                        $selectedRows.each(function () {
+                            var record = $(this).data('record');
+                            listOrderid.push(record.Id);
+                        });
+                        var orderidsParam = JSON.stringify(listOrderid);
+                        var url = "/Order/ExportReport?fromDate=" + fromDate + "&toDate=" + toDate + "&employee=" + employee + "&keySearch=" + keySearch + "&delivery=" + delivery + "&paymentStatus=" + paymentStatus + "&type=" + 0 + "&orderIds=" + orderidsParam;
                         window.location = url;
                     }
                 }]

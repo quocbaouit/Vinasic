@@ -21,7 +21,7 @@ namespace VINASIC.Business.Interface
         ResponseBase UpdatePrintUser(int detailId, int printId,string description);
         ResponseBase UpdateHaspay(int orderId,string haspay);
         ResponseBase UpdateDesignUser(int detailId, int printId,string description);
-        List<ModelViewDetail> ExportReport(DateTime fromDate, DateTime toDate, int employee, string keyWord, int delivery = 0, int paymentStatus = 0,int type=0);
+        List<ModelViewDetail> ExportReport(DateTime fromDate, DateTime toDate, int employee, string keyWord, int delivery = 0, int paymentStatus = 0,int type=0,List<int> orderIds=null);
         ResponseBase DeleteById(int id, int userId,bool isAdmin);
         ResponseBase UpdateHaspayCustom(int orderId, string haspay, int paymentType);
         List<ModelViewDetail> GetOrderComplex(int orderId);

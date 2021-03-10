@@ -987,14 +987,14 @@ namespace VINASIC.Business
             var listId = order.Select(x => x.Id).ToList();
             return listId;
         }
-        public List<ModelViewDetail> ExportReport(DateTime fromDate, DateTime toDate, int employee, string keyWord, int delivery, int paymentStatus, int type = 0)
+        public List<ModelViewDetail> ExportReport(DateTime fromDate, DateTime toDate, int employee, string keyWord, int delivery, int paymentStatus, int type = 0,List<int>orderIds=null)
         {
             var frDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0, 0);
             var tDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59, 999);
             frDate = TimeZoneInfo.ConvertTimeToUtc(frDate, curentZone);
             tDate = TimeZoneInfo.ConvertTimeToUtc(tDate, curentZone);
             var orders =
-                _repOrderDetail.GetMany(c => !c.IsDeleted && !c.T_Order.IsDeleted && c.T_Order.CreatedDate >= frDate && c.T_Order.CreatedDate <= tDate)
+                _repOrderDetail.GetMany(c => !c.IsDeleted && !c.T_Order.IsDeleted && c.T_Order.CreatedDate >= frDate && c.T_Order.CreatedDate <= tDate && orderIds.Contains(c.T_Order.Id))
                     .Select(c => new ModelViewDetail()
                     {
                         CustomerName = c.T_Order.Name,
