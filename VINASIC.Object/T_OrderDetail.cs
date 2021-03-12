@@ -53,6 +53,7 @@ namespace VINASIC.Object
         public Nullable<double> DetailStatus { get; set; }
         public Nullable<int> AddonUser { get; set; }
         public string AddOnView { get; set; }
+        public Nullable<double> TransportFee { get; set; }
     
         public virtual T_Product T_Product { get; set; }
         public virtual T_User T_User { get; set; }

@@ -20,6 +20,7 @@ namespace VINASIC.Object
             this.T_OrderDetail = new Collection<T_OrderDetail>();
             this.T_Quittance = new Collection<T_Quittance>();
             this.T_ReceiptVoucher = new Collection<T_ReceiptVoucher>();
+            this.T_OrderDeposit = new Collection<T_OrderDeposit>();
         }
     
         public int Id { get; set; }
@@ -57,6 +58,7 @@ namespace VINASIC.Object
         public virtual Collection<T_OrderDetail> T_OrderDetail { get; set; }
         public virtual Collection<T_Quittance> T_Quittance { get; set; }
         public virtual Collection<T_ReceiptVoucher> T_ReceiptVoucher { get; set; }
+        public virtual Collection<T_OrderDeposit> T_OrderDeposit { get; set; }
     }
     
 }
