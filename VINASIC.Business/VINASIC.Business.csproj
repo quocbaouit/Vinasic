@@ -92,6 +92,8 @@
     <Compile Include="BLLProduct.cs" />
     <Compile Include="BLLElementFormular.cs" />
     <Compile Include="BLLFormular.cs" />
+    <Compile Include="BLLOrderStatus.cs" />
+    <Compile Include="BLLProductUnit.cs" />
     <Compile Include="BLLSticker.cs" />
     <Compile Include="BLLSiteSetting.cs" />
     <Compile Include="BLLSysStatus.cs" />

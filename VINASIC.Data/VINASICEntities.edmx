@@ -303,6 +303,7 @@
           <Property Name="Cost" Type="float" />
           <Property Name="CostDetail" Type="nvarchar(max)" />
           <Property Name="Deposit" Type="float" />
+          <Property Name="StatusName" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'miligo.dbo.T_OrderDeposit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2977,6 +2978,7 @@ FROM [dbo].[T_OrderDeposit] AS [T_OrderDeposit]</DefiningQuery>
           <Property Name="CostDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Deposit" Type="Double" />
           <NavigationProperty Name="T_OrderDeposit" Relationship="VINASICModel.FK__T_OrderDe__Order__0880433F" FromRole="T_Order" ToRole="T_OrderDeposit" />
+          <Property Name="StatusName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK__T_Order__Custome__32AB8735">
           <End Type="VINASICModel.T_Customer" Role="T_Customer" Multiplicity="1" />
@@ -4032,6 +4034,7 @@ FROM [dbo].[T_OrderDeposit] AS [T_OrderDeposit]</DefiningQuery>
           <EntitySetMapping Name="T_Order">
             <EntityTypeMapping TypeName="VINASICModel.T_Order">
               <MappingFragment StoreEntitySet="T_Order">
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
                 <ScalarProperty Name="Deposit" ColumnName="Deposit" />
                 <ScalarProperty Name="CostDetail" ColumnName="CostDetail" />
                 <ScalarProperty Name="Cost" ColumnName="Cost" />
