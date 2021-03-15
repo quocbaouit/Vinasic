@@ -53,7 +53,7 @@ namespace VINASIC
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Sticker", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Order", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

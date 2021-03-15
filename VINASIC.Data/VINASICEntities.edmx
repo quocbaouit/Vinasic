@@ -306,6 +306,7 @@
           <Property Name="StatusName" Type="nvarchar" MaxLength="500" />
           <Property Name="Approval" Type="int" />
           <Property Name="ReasonApproval" Type="nvarchar" MaxLength="500" />
+          <Property Name="ColorCode" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'miligo.dbo.T_OrderDeposit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -2985,6 +2986,7 @@ FROM [dbo].[T_OrderDeposit] AS [T_OrderDeposit]</DefiningQuery>
           <Property Name="StatusName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Approval" Type="Int32" />
           <Property Name="ReasonApproval" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ColorCode" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK__T_Order__Custome__32AB8735">
           <End Type="VINASICModel.T_Customer" Role="T_Customer" Multiplicity="1" />
@@ -4041,6 +4043,7 @@ FROM [dbo].[T_OrderDeposit] AS [T_OrderDeposit]</DefiningQuery>
           <EntitySetMapping Name="T_Order">
             <EntityTypeMapping TypeName="VINASICModel.T_Order">
               <MappingFragment StoreEntitySet="T_Order">
+                <ScalarProperty Name="ColorCode" ColumnName="ColorCode" />
                 <ScalarProperty Name="ReasonApproval" ColumnName="ReasonApproval" />
                 <ScalarProperty Name="Approval" ColumnName="Approval" />
                 <ScalarProperty Name="StatusName" ColumnName="StatusName" />
