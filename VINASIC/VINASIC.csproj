@@ -2056,6 +2056,7 @@
     <Content Include="Scripts\VINASIC\MasterPage\MasterPage.js" />
     <Content Include="Scripts\VINASIC\MaterialType\MaterialType_Index.js" />
     <Content Include="Scripts\VINASIC\Material\Material_Index.js" />
+    <Content Include="Scripts\VINASIC\Order\Order_Approval.js" />
     <Content Include="Scripts\VINASIC\Order\Order_Index.js" />
     <Content Include="Scripts\VINASIC\Organization\Organization_Index.js" />
     <Content Include="Scripts\VINASIC\Partner\Partner_Index.js" />
@@ -2153,6 +2154,7 @@
     <Content Include="Views\StickerCms\Index.cshtml" />
     <Content Include="Views\ProductUnit\Index.cshtml" />
     <Content Include="Views\OrderStatus\Index.cshtml" />
+    <Content Include="Views\Order\Approval.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

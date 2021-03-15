@@ -68,13 +68,41 @@ namespace VINASIC.Controllers
 
             return View();
         }
+        public ActionResult Approval()
+        {
+            var employee = _bllEmployee.GetUserById(UserContext.UserID);
+            var showDim = _bllSiteSetting.ChecConfig("configDimension");
+            var CompanyInfo = _bllSiteSetting.GetListProduct();
+            var orderStatus = _bllOrderStatus.GetListOrderStatus();
+            ViewBag.Employee = employee;
+            ViewBag.OrderStatus = orderStatus;
+            ViewBag.ShowDim = showDim;
+            if (showDim)
+            {
+                ViewBag.CssShowDim = "inline";
+            }
+            else
+            {
+                ViewBag.CssShowDim = "none";
+            }
+            //company
+            ViewBag.cmpShortName = CompanyInfo.Where(x => x.Code == "cmpShortName").FirstOrDefault()?.Value;
+            ViewBag.cpnWebsite = CompanyInfo.Where(x => x.Code == "cpnWebsite").FirstOrDefault()?.Value;
+            ViewBag.cpnLogo = CompanyInfo.Where(x => x.Code == "cpnLogo").FirstOrDefault()?.Value;
+            ViewBag.cpnMobile = CompanyInfo.Where(x => x.Code == "cpnMobile").FirstOrDefault()?.Value;
+            ViewBag.cpnAddress = CompanyInfo.Where(x => x.Code == "cpnAddress").FirstOrDefault()?.Value;
+            ViewBag.cpnName = CompanyInfo.Where(x => x.Code == "cpnName").FirstOrDefault()?.Value;
+            //company
+
+            return View();
+        }
 
         public ActionResult OrderReport()
         {
             return View();
         }
         [System.Web.Mvc.HttpPost]
-        public JsonResult GetOrders(int jtStartIndex = 0, int jtPageSize = 10, string jtSorting = "", string keyword = "", int employee = 0, string fromDate = "", string toDate = "", float orderStatus = -1)
+        public JsonResult GetOrders(int jtStartIndex = 0, int jtPageSize = 10, string jtSorting = "", string keyword = "", int employee = 0, string fromDate = "", string toDate = "", float orderStatus = -1,int fromApproval=-1)
         {
             try
             {
@@ -87,7 +115,7 @@ namespace VINASIC.Controllers
                 {
                     employee = UserContext.UserID;
                 }
-                var listOrder = _bllOrder.GetList(UserContext.UserID, jtStartIndex, jtPageSize, jtSorting, fromDate, toDate, employee, keyword, orderStatus);
+                var listOrder = _bllOrder.GetList(UserContext.UserID, jtStartIndex, jtPageSize, jtSorting, fromDate, toDate, employee, keyword, orderStatus, fromApproval);
 
                 JsonDataResult.Records = listOrder;
                 dynamic Sum = new System.Dynamic.ExpandoObject();
@@ -574,6 +602,31 @@ namespace VINASIC.Controllers
                 //    JsonDataResult.Result = "ERROR";
                 //    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
                 //}
+            }
+            catch (Exception ex)
+            {
+                //add error
+                JsonDataResult.Result = "ERROR";
+                JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update", Message = "Lỗi: " + ex.Message });
+            }
+            return Json(JsonDataResult);
+        }
+
+        public JsonResult UpdateOrderApproval(int orderId, int status, bool sendSMS = false, bool sendEmail = false)
+        {
+            try
+            {
+                var IsAdmin = true;
+                //if (IsAuthenticate)
+                //{
+                var responseResult = _bllOrder.UpdateOrderApproval(orderId, status, UserContext.UserID, IsAdmin, sendSMS, sendEmail);
+                if (responseResult.IsSuccess)
+                    JsonDataResult.Result = "OK";
+                else
+                {
+                    JsonDataResult.Result = "ERROR";
+                    JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
+                }
             }
             catch (Exception ex)
             {

@@ -44,7 +44,18 @@ namespace VINASIC.Business
         {
             _unitOfWork.Commit();
         }
-        public PagedList<ModelOrder> GetList(int employee, int startIndexRecord, int pageSize, string sorting, string fromDate, string toDate, int employee1, string keyWord, float orderStatus)
+        private string getApprovalStatus(int? approval)
+        {
+            if (approval == null) return "Yêu cầu sửa/xóa";
+            if (approval == 0) return "Yêu cầu sửa/xóa";
+
+            if (approval == 1) return "Đã yêu cầu sửa";
+            if (approval == 2) return "Đã yêu cầu xóa";
+            if (approval == 3) return "Đã Duyệt";
+            if (approval == 4) return "Từ chối sửa xóa";
+            return "";
+        }
+        public PagedList<ModelOrder> GetList(int employee, int startIndexRecord, int pageSize, string sorting, string fromDate, string toDate, int employee1, string keyWord, float orderStatus,int fromApproval)
         {
             if (string.IsNullOrEmpty(sorting))
             {
@@ -90,12 +101,17 @@ namespace VINASIC.Business
                 Cost=c.Cost,
                 OrderStatus = c.OrderStatus,
                 T_OrderDetail = c.T_OrderDetail,
-                CostDetail=c.CostDetail
+                CostDetail=c.CostDetail,
+                Approval=c.Approval
             }).OrderBy(sorting);
 
 
             if (employee1 != 0)
                 orders = orders.Where(c => c.CreatedForUser == employee1);
+            if (fromApproval==1)
+            {
+                orders = orders.Where(c => c.Approval == 1 || c.Approval==2 || c.Approval == 3 || c.Approval == 4);
+            }
             if (!string.IsNullOrEmpty(keyWord))
             {
                 keyWord = keyWord.Trim();
@@ -134,6 +150,7 @@ namespace VINASIC.Business
                 order.strCost= $"{order.Cost:0,0}";
                 var Income = order.SubTotal - order.Cost;
                 order.strIncome = $"{Income:0,0}";
+                order.ApprovalStatus = getApprovalStatus(order.Approval);
                 order.StrCreatedDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(order.CreatedDate, curentZone):d/M/yyyy HH:mm}";
                 //order.strFileName  = string.Join(", ", order.T_OrderDetail.Select(x => x.FileName).ToArray());
                 order.StrDeliveryDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(deliveryDate, curentZone):d/M/yyyy}";
@@ -156,12 +173,17 @@ namespace VINASIC.Business
         {
             var responResult = new ResponseBase();
             var partner = _repOrder.GetMany(c => !c.IsDeleted && c.Id == id).FirstOrDefault();
-            if (partner.OrderStatus >= 2 && !isAdmin)
+            if (!isAdmin)
             {
-                responResult.IsSuccess = false;
-                responResult.Errors.Add(new Error() { MemberName = "Delete", Message = "Đơn hàng này không thể xóa. Vui lòng liên hệ với quản trị" });
+                if (partner.Approval!=3)
+                {
+                    responResult.IsSuccess = false;
+                    responResult.Errors.Add(new Error() { MemberName = "Delete", Message = "Đơn hàng này không thể xóa. Vui lòng liên hệ với quản trị" });
+                    return responResult;
+                }
+               
             }
-            else if (partner != null)
+            if (partner != null && responResult.IsSuccess)
             {
                 partner.IsDeleted = true;
                 partner.DeletedUser = userId;
@@ -302,7 +324,8 @@ namespace VINASIC.Business
                     CreatedUser = userId,
                     IsDelivery = 1,
                     OrderStatus = 1,
-                    CreatedDate = DateTime.UtcNow
+                    CreatedDate = DateTime.UtcNow,
+                    StatusName="Đang xử lý"
                 };
                 _repOrder.Add(order);
                 SaveChange();
@@ -363,11 +386,14 @@ namespace VINASIC.Business
 
 
                 var order = _repOrder.Get(x => x.Id == obj.OrderId);
-                if (order.OrderStatus >= 2 && !isAdmin)
+                if (!isAdmin)
                 {
-                    result.IsSuccess = false;
-                    result.Errors.Add(new Error() { MemberName = "Delete", Message = "Đơn hàng này không thể cập nhật. Vui lòng liên hệ với quản trị" });
-                    return result;
+                    if (order.Approval != 3)
+                    {
+                        result.IsSuccess = false;
+                        result.Errors.Add(new Error() { MemberName = "Delete", Message = "Đơn hàng này không thể cập nhật. Vui lòng liên hệ với quản trị" });
+                        return result;
+                    }                  
                 }
                 order.Name = obj.CustomerName;
                 order.HasTax = obj.Tax;
@@ -551,6 +577,29 @@ namespace VINASIC.Business
                     }
                     
                 }
+            }
+            else
+            {
+                responResult.IsSuccess = false;
+                responResult.Errors.Add(new Error() { MemberName = "Update", Message = "Lỗi" });
+            }
+            return responResult;
+        }
+
+        public ResponseBase UpdateOrderApproval(int orderId, int status, int userId, bool isAdmin, bool sendSMS = false, bool sendEmail = false)
+        {
+            var responResult = new ResponseBase();
+            var customerId = 0;
+            var order = _repOrder.GetMany(c => !c.IsDeleted && c.Id == orderId).FirstOrDefault();
+            if (order != null)
+            {
+                order.Approval = status;
+                order.UpdatedUser = userId;
+                order.UpatedDate = DateTime.UtcNow;
+                customerId = order.CustomerId;
+                _repOrder.Update(order);
+                SaveChange();
+                responResult.IsSuccess = true;
             }
             else
             {

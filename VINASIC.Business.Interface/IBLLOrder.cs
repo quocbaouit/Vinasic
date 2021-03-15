@@ -8,7 +8,7 @@ namespace VINASIC.Business.Interface
 {
     public interface IBllOrder
     {
-        PagedList<ModelOrder> GetList(int listEmployee, int startIndexRecord, int pageSize, string sorting, string fromDate, string toDate, int employee,string keyword, float orderStatus = -1);
+        PagedList<ModelOrder> GetList(int listEmployee, int startIndexRecord, int pageSize, string sorting, string fromDate, string toDate, int employee,string keyword, float orderStatus = -1, int fromApproval=-1);
 
         PagedList<ModelViewDetail> GetListViewDetail(string keyWord, int startIndexRecord, int pageSize, string sorting, int orderId);
         List<ModelOrderDetail> GetListOrderDetailByOrderId(int orderId);
@@ -32,6 +32,7 @@ namespace VINASIC.Business.Interface
         ResponseBase DesignUpdateOrderDetail(int orderId, string fileName, string description);
         //ResponseBase UpdateOrderStatus(int orderId, float status, int userId, bool isAdmin);
         ResponseBase UpdateOrderStatus(int orderId, int status, int userId, bool isAdmin, bool sendSMS = false, bool sendEmail = false);
+        ResponseBase UpdateOrderApproval(int orderId, int status, int userId, bool isAdmin, bool sendSMS = false, bool sendEmail = false);
         ResponseBase GetJobDescriptionForEmployee(int detailId, int status, int employeeId, string content);
         //ResponseBase UpdateOrderStatus(int orderId, float status, int userId, bool isAdmin);
         ResponseBase UpdateCost(List<CostObj> costObj, int orderId, float haspay);

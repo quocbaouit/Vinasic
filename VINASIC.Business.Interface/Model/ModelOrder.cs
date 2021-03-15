@@ -31,6 +31,8 @@ namespace VINASIC.Business.Interface.Model
         public string strCost { get; set; }
         public string strIncome { get; set; }
 
+        public string ApprovalStatus { get; set; }
+
         public List<CostObj> CostObj { get; set; }
     }
     public class BusinessOrder {
