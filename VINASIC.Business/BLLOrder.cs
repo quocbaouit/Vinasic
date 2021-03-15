@@ -183,7 +183,7 @@ namespace VINASIC.Business
                 }
                
             }
-            if (partner != null && responResult.IsSuccess)
+            if (partner != null)
             {
                 partner.IsDeleted = true;
                 partner.DeletedUser = userId;
