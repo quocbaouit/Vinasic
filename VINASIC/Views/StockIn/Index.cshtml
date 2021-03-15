@@ -5,10 +5,22 @@
 <script src="~/Scripts/VINASIC/StockIn/StockIn_Index.js"></script>
 
 <div class="row">
+    <div class="dropdown">
+    <a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật trạng thái đơn hàng.\">' + strStatus + '</a>
+    </span>
+    </button>
+    <ul class="dropdown-menu">
+        <li><a class="orderstatus5" href="javascript:void(0)">Đã duyệt</a></li>
+        <li><a class="orderstatus4" href="javascript:void(0)">Đã thanh toán</a></li>
+        <li><a class="orderstatus3" href="javascript:void(0)">Đã giao hàng</a></li>
+        <li><a class="orderstatus2" href="javascript:void(0)">Chưa giao hàng</a></li>
+        <li><a class="orderstatus1" href="javascript:void(0)">Đang Xử Lý</a></li>
+        </ul>
+    </div>
     <div class="col-lg-12">
         @*<h3 style="background-color: #faf9f8" class="page-header">
-            <img style="width: 200px" src="~/Files/logo.png" />
-        </h3>*@
+                <img style="width: 200px" src="~/Files/logo.png" />
+            </h3>*@
         <ol class="breadcrumb">
             <li><i class="fa fa-home"></i><a href="/Dashboard/index">Trang Chủ</a></li>
             <li><i class="icon_documents_alt"></i>nhập hàng</li>
@@ -48,7 +60,7 @@
                                     <label for="dateto">Đến Ngày</label>
                                     <input type="date" class="form-control" name="dateto" value="" id="dateto" />
                                 </div>
-                                
+
                                 <div class="col-md-2 col-sm-4 col-xs-12">
                                     <label for="keyword">Từ Khóa</label>
                                     <input type="text" class="form-control" id="keyword" placeholder="">
@@ -99,7 +111,7 @@
                                         <div class="panel-body">
                                             <form role="form">
                                                 <div class="form-group">
-                                                    <label  for="cmail">Email</label>
+                                                    <label for="cmail">Email</label>
                                                     <input disabled="disabled" type="text" class="form-control" id="cmail" placeholder="">
                                                 </div>
                                                 <div class="form-group">
@@ -163,8 +175,8 @@
                                                 <div class="col-lg-6">
                                                     <h4>Tổng Tiền Hàng:</h4>
                                                 </div>
-                                                    <input style="text-align: right;margin-top: 10px; margin-right: 12px; width: 500px; float: right" id="dtotal" type="text" class="form-control dsubtotal" placeholder="">
-                                                   <strong style="margin-top: 10px; width: 50px; float: right">VND</strong>
+                                                <input style="text-align: right;margin-top: 10px; margin-right: 12px; width: 500px; float: right" id="dtotal" type="text" class="form-control dsubtotal" placeholder="">
+                                                <strong style="margin-top: 10px; width: 50px; float: right">VND</strong>
                                             </div>
                                             <a id="saveStockIn" style="margin-left: 20px; margin-top: 20px" title="" class="btn btn-primary btn-sm" href="javascript:void(0)">Lưu nhập hàng</a>
                                             <a id="resetStockIn" style="margin-top: 20px" title="" class="btn btn-warning btn-sm" href="javascript:void(0)">Reset</a>

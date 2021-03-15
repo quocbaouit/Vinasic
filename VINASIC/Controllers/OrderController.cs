@@ -27,8 +27,9 @@ namespace VINASIC.Controllers
         private readonly IBllCustomer _bllCustomer;
         private readonly IBllSiteSetting _bllSiteSetting;
         private readonly IBllContent _bllContent;
+        private readonly IBllOrderStatus _bllOrderStatus;
 
-        public OrderController(IBllOrder bllOrder, IBllContent bllContent, IBllSiteSetting bllSiteSetting, IBllEmployee bllEmployee, IBllCustomer bllCustomer, IBllProductType bllProductType, IBllProduct bllProduct)
+        public OrderController(IBllOrder bllOrder, IBllContent bllContent, IBllSiteSetting bllSiteSetting, IBllEmployee bllEmployee, IBllCustomer bllCustomer, IBllProductType bllProductType, IBllProduct bllProduct, IBllOrderStatus bllOrderStatus)
         {
             _bllOrder = bllOrder;
             _bllSiteSetting = bllSiteSetting;
@@ -37,14 +38,16 @@ namespace VINASIC.Controllers
             _bllProductType = bllProductType;
             _bllProduct = bllProduct;
             _bllContent = bllContent;
-
+            _bllOrderStatus = bllOrderStatus;
         }
         public ActionResult Index()
         {
             var employee = _bllEmployee.GetUserById(UserContext.UserID);
             var showDim = _bllSiteSetting.ChecConfig("configDimension");
             var CompanyInfo = _bllSiteSetting.GetListProduct();
+            var orderStatus = _bllOrderStatus.GetListOrderStatus();
             ViewBag.Employee = employee;
+            ViewBag.OrderStatus = orderStatus;
             ViewBag.ShowDim = showDim;
             if (showDim)
             {
@@ -550,7 +553,7 @@ namespace VINASIC.Controllers
             }
             return Json(JsonDataResult);
         }
-        public JsonResult UpdateOrderStatus(int orderId, float status, bool sendSMS = false, bool sendEmail = false)
+        public JsonResult UpdateOrderStatus(int orderId, int status, bool sendSMS = false, bool sendEmail = false)
         {
             try
             {

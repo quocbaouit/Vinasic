@@ -213,6 +213,7 @@ VINASIC.Order = function () {
         return false;
     }
     function reloadListOrder() {
+        debugger;
         var keySearch = $("#keyword").val();
         //var fromDate = $("#datefrom").val();
         //var toDate = $("#dateto").val();
@@ -238,6 +239,7 @@ VINASIC.Order = function () {
         $("#" + global.Element.JtableDesign).jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'employee': employee });
     }
     function reloadListOrder(orderStatus) {
+        debugger;
         if (orderStatus == undefined) {
             orderStatus = -1;
         }
@@ -1603,8 +1605,8 @@ VINASIC.Order = function () {
                     width: "12%",
                     display: function (data) {
                         var text = "";
-                        var strStatus = getOrderStatus(data.record.OrderStatus);
-                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật trạng thái đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu"><li><a class="orderstatus5" href="javascript:void(0)">Đã duyệt</a></li><li><a class="orderstatus4" href="javascript:void(0)">Đã thanh toán</a></li><li><a class="orderstatus3" href="javascript:void(0)">Đã giao hàng</a></li><li><a class="orderstatus2" href="javascript:void(0)">Chưa giao hàng</a></li><li><a class="orderstatus1" href="javascript:void(0)">Đang Xử Lý</a></li></ul></div>');
+                        var strStatus = data.record.StatusName;
+                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật trạng thái đơn hàng.\">' + strStatus + '</a>' + resultStatusList+'</div>');
                         text.click(function (e) {
                             global.Data.IdOrderStatus = data.record.Id;
                         });
@@ -3392,17 +3394,10 @@ VINASIC.Order = function () {
         $("#inprogess").click(function () {
             reloadListOrder(1);
         });
-        $("#noDelivery").click(function () {
-            reloadListOrder(2);
-        });
-        $("#deliveried").click(function () {
-            reloadListOrder(3);
-        });
-        $("#paid").click(function () {
-            reloadListOrder(4);
-        });
-        $("#approval").click(function () {
-            reloadListOrder(5);
+        $("body").delegate(".searchStatus", "click", function (event) {
+            var statusId = $(this).attr("data-id");
+            event.preventDefault();
+            reloadListOrder(statusId);
         });
         $("#vsearch").click(function () {
             reloadViewDetail();
@@ -3436,26 +3431,10 @@ VINASIC.Order = function () {
             }
             reloadListOrderDetail();
         });
-        $("body").delegate(".orderstatus1", "click", function (event) {
+        $("body").delegate(".orderstatus", "click", function (event) {
+            var statusId = $(this).attr("data-id");
             event.preventDefault();
-            updateOrderStatus(global.Data.IdOrderStatus, 1);
-        });
-        $("body").delegate(".orderstatus2", "click", function (event) {
-            event.preventDefault();
-            showPopupNotification();
-            //updateOrderStatus(global.Data.IdOrderStatus, 2);
-        });
-        $("body").delegate(".orderstatus3", "click", function (event) {
-            event.preventDefault();
-            updateOrderStatus(global.Data.IdOrderStatus, 3);
-        });
-        $("body").delegate(".orderstatus4", "click", function (event) {
-            event.preventDefault();
-            updateOrderStatus(global.Data.IdOrderStatus, 4);
-        });
-        $("body").delegate(".orderstatus5", "click", function (event) {
-            event.preventDefault();
-            updateOrderStatus(global.Data.IdOrderStatus, 5);
+            updateOrderStatus(global.Data.IdOrderStatus, statusId);
         });
 
         $("body").delegate(".detailstatus1", "click", function (event) {

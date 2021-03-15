@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Content/Common.css" rel="stylesheet" />
-<script src="~/Scripts/VINASIC/Order/Order_Index.js?v=1.8"></script>
+@*<script src="~/Scripts/VINASIC/Order/Order_Index.js?v=1.8"></script>*@
 <style>
     .alert {
         padding: 20px;
@@ -196,11 +196,15 @@
                         <div style="margin-left: 5px;margin-bottom: 10px;" class="row">
                             <button id="search" class="btn button button1">Tìm Kiếm</button>
                             @*<a id="search" class="btn btn-primary" href="javascript:void(0)" title="Bootstrap 3 themes generator"><span class="icon_lightbulb_alt"></span>Tìm Kiếm</a>*@
-                            <button id="inprogess" class="btn button button0">Đang Xử Lý</button>
-                            <button id="noDelivery" class="btn button button2">Chưa Giao Hàng</button>
+                            @*<button id="inprogess" class="btn button button0">Đang Xử Lý</button>*@
+                            @*<button id="noDelivery" class="btn button button2">Chưa Giao Hàng</button>
                             <button id="deliveried" class="btn button button3">Đã Giao Hàng</button>
                             <button id="paid" class="btn button button4">Đã Thanh Toán</button>
-                            <button id="approval" class="btn button button5">Đã Duyệt Đơn</button>
+                            <button id="approval" class="btn button button5">Đã Duyệt Đơn</button>*@
+                            @foreach (var status in ViewBag.OrderStatus)
+                            {
+                                <button data-id="@status.Value" id="approval" class="btn button searchStatus">@status.Name</button>
+                            }
                         </div>
                         <div class="=rows" id="jtableOrder"></div>
                         <div class="=rows" id="jtableSum">
@@ -1364,3 +1368,17 @@
     </div>
 </div>
 <!-- page end-->
+<script>
+    $(document).ready(function () {
+        debugger;
+        orderStatusList = @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.OrderStatus)));     
+        var statusDropdown = "<ul class=\"dropdown-menu\">";      
+        for (var i = 0; i < orderStatusList.length; i++) {
+            var detail = "<li><a class=\"orderstatus\" data-id=\"" + orderStatusList[i].Value + "\" href=\"javascript:void(0)\">" + orderStatusList[i].Name + "</a></li>";
+            statusDropdown = statusDropdown + detail;
+        }
+        statusDropdown = statusDropdown + "</ul>";
+        resultStatusList = statusDropdown;
+});
+</script>
+<script src="~/Scripts/VINASIC/Order/Order_Index.js?v=1.8"></script>

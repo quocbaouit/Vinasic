@@ -140,7 +140,7 @@ namespace VINASIC.Business
         {
             List<ModelSelectItem> listModelSelect = new List<ModelSelectItem>
             {
-                new ModelSelectItem() {Value = 0, Name = "---Loại Dịch Vụ----"}
+                //new ModelSelectItem() {Value = 0, Name = "-------"}
             };
             listModelSelect.AddRange(_repOrderStatus.GetMany(x => !x.IsDeleted).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.StatusName }));
             return listModelSelect;
@@ -151,7 +151,7 @@ namespace VINASIC.Business
             {
                 sorting = "CreatedDate DESC";
             }
-            var orderStatuss = _repOrderStatus.GetMany(c => !c.IsDeleted).Select(c => new ModelOrderStatus()
+            var orderStatuss = _repOrderStatus.GetMany(c => !c.IsDeleted && c.Id!=1).Select(c => new ModelOrderStatus()
             {
                 Id = c.Id,
                 StatusName = c.StatusName,

@@ -26,8 +26,9 @@ namespace VINASIC.Business
         private readonly IT_ContentRepository _repContent;
         private readonly IT_OrderDetailRepository _repOrderDetail;
         private readonly IUnitOfWork<VINASICEntities> _unitOfWork;
+        private readonly IT_OrderStatusRepository _repOrderStatus;
         private readonly TimeZoneInfo curentZone = TimeZoneInfo.FindSystemTimeZoneById(ConfigurationManager.AppSettings["WEBSITE_TIME_ZONE"]);
-        public BllOrder(IUnitOfWork<VINASICEntities> unitOfWork, IT_PaymentVoucherRepository repPaymentVoucher, IT_OrderRepository repOrder, IT_ContentRepository repContent, IT_OrderDetailRepository repOrderDetail, IT_CustomerRepository repCus, IT_UserRepository repUserRepository, IT_SiteSettingRepository repSite)
+        public BllOrder(IUnitOfWork<VINASICEntities> unitOfWork, IT_PaymentVoucherRepository repPaymentVoucher, IT_OrderRepository repOrder, IT_ContentRepository repContent, IT_OrderDetailRepository repOrderDetail, IT_CustomerRepository repCus, IT_UserRepository repUserRepository, IT_SiteSettingRepository repSite, IT_OrderStatusRepository repOrderStatus)
         {
             _unitOfWork = unitOfWork;
             _repOrder = repOrder;
@@ -37,6 +38,7 @@ namespace VINASIC.Business
             _repContent = repContent;
             _repSite = repSite;
             _repCus = repCus;
+            _repOrderStatus = repOrderStatus;
         }
         private void SaveChange()
         {
@@ -80,6 +82,7 @@ namespace VINASIC.Business
                 StrPaymentType = c.PaymentMethol == 0 ? "Chưa xác Định" : (c.PaymentMethol == 1 ? "Tiền Mặt" : "Chuyển Khoản"),
                 CreatedUser = c.CreatedUser,
                 CreateUserName = c.T_User.Name,
+                StatusName=c.StatusName,
                 CreatedDate = c.CreatedDate,
                 HasPay = c.HasPay ?? 0,
                 Deposit=c.Deposit??0,
@@ -504,8 +507,9 @@ namespace VINASIC.Business
 
             return responResult;
         }
-        public ResponseBase UpdateOrderStatus(int orderId, float status, int userId, bool isAdmin,bool sendSMS=false,bool sendEmail=false)
+        public ResponseBase UpdateOrderStatus(int orderId, int status, int userId, bool isAdmin,bool sendSMS=false,bool sendEmail=false)
         {
+            var statusObj = _repOrderStatus.GetById(status);
             var responResult = new ResponseBase();
             var customerId = 0;
             var order = _repOrder.GetMany(c => !c.IsDeleted && c.Id == orderId).FirstOrDefault();
@@ -521,6 +525,7 @@ namespace VINASIC.Business
                 order.OrderStatus = status;
                 order.UpdatedUser = userId;
                 order.UpatedDate = DateTime.UtcNow;
+                order.StatusName = statusObj.StatusName;
                 customerId = order.CustomerId;
                 _repOrder.Update(order);
                 SaveChange();
