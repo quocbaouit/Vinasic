@@ -1037,7 +1037,7 @@ VINASIC.Order = function () {
             toolbar: {
                 items: [{
                     tooltip: 'Click here to export this table to excel',
-                    text: 'Xuất Excel Các Đơn Hàng Chưa Thanh Toán Hết',
+                    text: 'Xuất Excel Các Đơn Hàng Đã Chọn',
                     click: function () {
                         var keySearch = $("#keyword").val();
                         var fromDate = $("#datefrom").val();
@@ -1045,7 +1045,18 @@ VINASIC.Order = function () {
                         var employee = $("#cemployee1").val();
                         var delivery = $("#DeliveryType").val();
                         var paymentStatus = $("#PaymentStatus").val();
-                        var url = "/Order/ExportReport?fromDate=" + fromDate + "&toDate=" + toDate + "&employee=" + employee + "&keySearch=" + keySearch + "&delivery=" + delivery + "&paymentStatus=" + paymentStatus + "&type=" + 1;
+                        var listOrderid = [];
+                        var $selectedRows = $('#jtableOrder').jtable('selectedRows');
+                        if ($selectedRows.length == 0) {
+                            toastr.error("Vui lòng chọn đơn hàng.");
+                            return;
+                        }
+                        $selectedRows.each(function () {
+                            var record = $(this).data('record');
+                            listOrderid.push(record.Id);
+                        });
+                        var orderidsParam = JSON.stringify(listOrderid);
+                        var url = "/Order/ExportReport?fromDate=" + fromDate + "&toDate=" + toDate + "&employee=" + employee + "&keySearch=" + keySearch + "&delivery=" + delivery + "&paymentStatus=" + paymentStatus + "&type=" + 0 + "&orderIds=" + orderidsParam;
                         window.location = url;
                     }
                 },
@@ -1635,7 +1646,7 @@ VINASIC.Order = function () {
                     title: "NV Kinh Doanh",
                     width: "10%"
                 },
-                Delete: {
+                ApprovalStatus: {
                     title: 'Duyệt Sửa/Xóa ',
                     width: "10%",
                     sorting: false,
@@ -1655,6 +1666,21 @@ VINASIC.Order = function () {
                         //    }, function () { }, 'Đồng ý', 'Hủy bỏ', 'Thông báo');
                         //});
                         //return text;
+
+                    }
+                },
+                Delete: {
+                    title: 'Xóa ',
+                    width: "10%",
+                    sorting: false,
+                    display: function (data) {                      
+                        var text = $('<button title="Xóa" class="jtable-command-button jtable-delete-command-button"><span>Xóa</span></button>');
+                        text.click(function () {
+                            GlobalCommon.ShowConfirmDialog('Bạn có chắc chắn muốn xóa?', function () {
+                                deleteRow(data.record.Id);
+                            }, function () { }, 'Đồng ý', 'Hủy bỏ', 'Thông báo');
+                        });
+                        return text;
 
                     }
                 }

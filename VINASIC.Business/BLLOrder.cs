@@ -1036,7 +1036,7 @@ namespace VINASIC.Business
             var listId = order.Select(x => x.Id).ToList();
             return listId;
         }
-        public List<ModelViewDetail> ExportReport(DateTime fromDate, DateTime toDate, int employee, string keyWord, int delivery, int paymentStatus, int type = 0)
+        public List<ModelViewDetail> ExportReport(DateTime fromDate, DateTime toDate, int employee, string keyWord, int delivery, int paymentStatus, int type = 0,List<int> orderids=null)
         {
             var frDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0, 0);
             var tDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59, 999);
@@ -1089,6 +1089,10 @@ namespace VINASIC.Business
             if (type == 1)
             {
                 orders = orders.Where(x => x.Total1 - (x.HasPay+x.HasPayTransfer)> 0).ToList();
+            }
+            if (orderids!=null && orderids.Count>0)
+            {
+                orders = orders.Where(c=>orderids.Contains(c.OrderId)).ToList();
             }
             if (employee != 0 && type!=1)
             {
