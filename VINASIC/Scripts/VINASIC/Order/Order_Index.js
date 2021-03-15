@@ -212,7 +212,7 @@ VINASIC.Order = function () {
         return false;
     }
     function reloadListOrder() {
-        debugger;
+        
         var keySearch = $("#keyword").val();
         //var fromDate = $("#datefrom").val();
         //var toDate = $("#dateto").val();
@@ -238,7 +238,7 @@ VINASIC.Order = function () {
         $("#" + global.Element.JtableDesign).jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'employee': employee });
     }
     function reloadListOrder(orderStatus) {
-        debugger;
+        
         if (orderStatus == undefined) {
             orderStatus = -1;
         }
@@ -1929,8 +1929,12 @@ VINASIC.Order = function () {
             $("#dproduct").empty();
             if (datas.length > 0) {
                 for (var i = 0; i < datas.length; i++) {
+                    
+                    if (datas[i].Selected == null || datas[i].Selected == undefined) {
+                        datas[i].Selected = true;
+                    }
                     global.Data.listproductName.push(datas[i].Text);
-                    $("#dproduct").append('<option value="' + datas[i].Value + '">' + datas[i].Text + "</option>");
+                    $("#dproduct").append('<option data-id="' + datas[i].Selected+'" value="' + datas[i].Value + '">' + datas[i].Text + "</option>");
                 }
                 $("#dproduct").val(productId);
             }
@@ -2248,7 +2252,7 @@ VINASIC.Order = function () {
     function initProductPrice() {
         var url = "/Order/GetProductPrice?type=2";
         $.getJSON(url, function (datas) {
-            debugger;
+            
             global.Data.ProductPrice = JSON.parse(datas.Content);
         });
     }
@@ -2774,6 +2778,8 @@ VINASIC.Order = function () {
             saveOrder();
         });
         $("#dproduct").change(function () {
+            
+            var isShowDim = $("#dproduct option:selected").attr("data-id") == 'true' ? true : false;
             //var resultObject = searchById($(this).val(), global.Data.listproduct);
             //if (resultObject.Code == 'ingiay') {
             //    showPopupCustom();
@@ -2787,37 +2793,37 @@ VINASIC.Order = function () {
             //if (resultObject.Code == 'catalogue') {
             //    showPopupCustom3();
             //} 
-            $.ajax({
-                url: "/Order/GetPriceForCustomerAndProduct?customerId=" + global.Data.CustomerId + "&productId=" + $(this).val(),
-                type: 'post',
-                contentType: 'application/json',
-                success: function (result) {
-                    GlobalCommon.CallbackProcess(result, function () {
-                        if (result.Records != 0) {
-                            var temp = result.Records.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                            $('#dprice').val(temp);
-                            calculatorPrice();
-                        } else {
-                            $('#dprice').val('');
-                        }
+            //$.ajax({
+            //    url: "/Order/GetPriceForCustomerAndProduct?customerId=" + global.Data.CustomerId + "&productId=" + $(this).val(),
+            //    type: 'post',
+            //    contentType: 'application/json',
+            //    success: function (result) {
+            //        GlobalCommon.CallbackProcess(result, function () {
+            //            if (result.Records != 0) {
+            //                var temp = result.Records.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            //                $('#dprice').val(temp);
+            //                calculatorPrice();
+            //            } else {
+            //                $('#dprice').val('');
+            //            }
 
-                    }, false, global.Element.PopupOrder, true, true, function () {
-                    });
-                }
-            });
-            //$("#dfilename").val("");
-            //$("#dnote").val("");
-            //$("#dwidth").val("");
-            //$("#dheignt").val("");
-            //$("#dsquare").val("");
-            //$("#dquantity").val("");
-            //$("#dprice").val("");
-            //$("#dsubtotal").val("");
-            //if (productTypeId !== "1") {
-            //    $(".forPrint").css({ "display": "none" });
-            //} else {
-            //    $(".forPrint").css({ "display": "inline" });
-            //}
+            //        }, false, global.Element.PopupOrder, true, true, function () {
+            //        });
+            //    }
+            //});
+            $("#dfilename").val("");
+            $("#dnote").val("");
+            $("#dwidth").val("");
+            $("#dheignt").val("");
+            $("#dsquare").val("");
+            $("#dquantity").val("");
+            $("#dprice").val("");
+            $("#dsubtotal").val("");
+            if (!isShowDim) {
+                $(".forPrint").css({ "display": "none" });
+            } else {
+                $(".forPrint").css({ "display": "inline" });
+            }
         });
         //$("[save]").click(function () {
         //    saveOrder();
@@ -3125,7 +3131,7 @@ VINASIC.Order = function () {
         });
 
         $("#ddeposit").keydown(function (e) {
-            debugger;
+            
             var subtotal = $("#dtotal").val().replace(/[^0-9-.]/g, '');
             var deposit = $("#ddeposit").val().replace(/[^0-9-.]/g, '');
 
@@ -3367,7 +3373,7 @@ VINASIC.Order = function () {
                 GlobalCommon.CallbackProcess(result, function () {
                     if (1 < 2) {
                         global.Data.ListCustomerName = result.Records;
-                        debugger;
+                        
                         mappingAutoComplete();
                     }
 

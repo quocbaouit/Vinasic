@@ -212,7 +212,7 @@ VINASIC.Order = function () {
         return false;
     }
     function reloadListOrder() {
-        debugger;
+        
         var keySearch = $("#keyword").val();
         //var fromDate = $("#datefrom").val();
         //var toDate = $("#dateto").val();
@@ -238,7 +238,7 @@ VINASIC.Order = function () {
         $("#" + global.Element.JtableDesign).jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'employee': employee });
     }
     function reloadListOrder(orderStatus) {
-        debugger;
+        
         if (orderStatus == undefined) {
             orderStatus = -1;
         }
@@ -2249,7 +2249,7 @@ VINASIC.Order = function () {
     function initProductPrice() {
         var url = "/Order/GetProductPrice?type=2";
         $.getJSON(url, function (datas) {
-            debugger;
+            
             global.Data.ProductPrice = JSON.parse(datas.Content);
         });
     }
@@ -3127,7 +3127,7 @@ VINASIC.Order = function () {
         });
 
         $("#ddeposit").keydown(function (e) {
-            debugger;
+            
             var subtotal = $("#dtotal").val().replace(/[^0-9-.]/g, '');
             var deposit = $("#ddeposit").val().replace(/[^0-9-.]/g, '');
 
@@ -3369,7 +3369,7 @@ VINASIC.Order = function () {
                 GlobalCommon.CallbackProcess(result, function () {
                     if (1 < 2) {
                         global.Data.ListCustomerName = result.Records;
-                        debugger;
+                        
                         mappingAutoComplete();
                     }
 

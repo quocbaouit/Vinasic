@@ -422,6 +422,7 @@ namespace VINASIC.Controllers
                         Text = c.Name,
                         Type = c.Type,
                         Code = c.Code,
+                        Selected=c.IsDefault==false?false:true
                     }).ToList();
                 }
                 return Json(listValues, JsonRequestBehavior.AllowGet);

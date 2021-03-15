@@ -146,6 +146,8 @@ namespace VINASIC.Business
             listModelSelect.AddRange(_repProductType.GetMany(x => !x.IsDeleted).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
             return listModelSelect;
         }
+
+   
         public PagedList<ModelProductType> GetList(string keyWord, int startIndexRecord, int pageSize, string sorting)
         {
             if (string.IsNullOrEmpty(sorting))

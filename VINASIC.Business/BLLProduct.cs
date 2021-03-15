@@ -17,11 +17,13 @@ namespace VINASIC.Business
     public class BllProduct : IBllProduct
     {
         private readonly IT_ProductRepository _repProduct;
+        private readonly IT_UnitRepository _repUnit;
         private readonly IUnitOfWork<VINASICEntities> _unitOfWork;
-        public BllProduct(IUnitOfWork<VINASICEntities> unitOfWork, IT_ProductRepository repProduct)
+        public BllProduct(IUnitOfWork<VINASICEntities> unitOfWork, IT_ProductRepository repProduct, IT_UnitRepository repUnit)
         {
             _unitOfWork = unitOfWork;
             _repProduct = repProduct;
+            _repUnit = repUnit;
         }
         private void SaveChange()
         {
@@ -111,6 +113,9 @@ namespace VINASIC.Business
                         product.Description = obj.Description;
                         product.UpdatedDate = DateTime.Now.AddHours(14);
                         product.UpdatedUser = obj.UpdatedUser;
+                        product.ProductPrice = obj.ProductPrice;
+                        product.IsShowDim = obj.IsShowDim!=null? obj.IsShowDim:false;
+                        product.Unit = obj.Unit;
                         _repProduct.Update(product);
                         SaveChange();
                         result.IsSuccess = true;
@@ -167,11 +172,11 @@ namespace VINASIC.Business
             {
                 if (productTypeId==0)
                 {
-                    listModelSelect.AddRange(_repProduct.GetMany(x => !x.IsDeleted).OrderBy(c=>c.OrderIndex).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name,Type=x.ProductTypeId,Code=x.Code }));
+                    listModelSelect.AddRange(_repProduct.GetMany(x => !x.IsDeleted).OrderBy(c=>c.OrderIndex).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name,Type=x.ProductTypeId,IsDefault= x.IsShowDim }));
                 }
                 else
                 {
-                    listModelSelect.AddRange(_repProduct.GetMany(x => !x.IsDeleted && x.ProductTypeId == productTypeId).OrderBy(c => c.OrderIndex).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
+                    listModelSelect.AddRange(_repProduct.GetMany(x => !x.IsDeleted && x.ProductTypeId == productTypeId).OrderBy(c => c.OrderIndex).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name, IsDefault = x.IsShowDim != null ? x.IsShowDim : true }));
                 }
                
             }
@@ -179,6 +184,16 @@ namespace VINASIC.Business
             {
                 throw ex;
             }
+            return listModelSelect;
+        }
+
+        public List<ModelSelectItem> GetListUnit()
+        {
+            List<ModelSelectItem> listModelSelect = new List<ModelSelectItem>
+            {
+                //new ModelSelectItem() {Value = 0, Name = "---Đơn Vị----"}
+            };
+            listModelSelect.AddRange(_repUnit.GetMany(x => !x.IsDeleted).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
             return listModelSelect;
         }
         public PagedList<ModelProduct> GetList(string keyWord, int startIndexRecord, int pageSize, string sorting)
@@ -198,7 +213,10 @@ namespace VINASIC.Business
                     Description = c.Description,
                     ProductTypeName=c.T_ProductType.Name,
                     ProductTypeId = c.ProductTypeId,
-                    CreatedDate = c.CreatedDate
+                    CreatedDate = c.CreatedDate,
+                    ProductPrice=c.ProductPrice,
+                    IsShowDim=c.IsShowDim,
+                    Unit=c.Unit
                 }).OrderBy(sorting);
                 var pageNumber = (startIndexRecord / pageSize) + 1;
                 return new PagedList<ModelProduct>(products, pageNumber, pageSize);

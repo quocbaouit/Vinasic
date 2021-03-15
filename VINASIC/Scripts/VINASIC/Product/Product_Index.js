@@ -48,7 +48,9 @@ VINASIC.Product = function () {
             Code: "",
             Name: "",
             Description: "",
-            OrderIndex:0,
+            OrderIndex: 0,
+            ProductPrice: 0,
+
         };
         if (product != null) {
             productViewModel = {
@@ -56,7 +58,8 @@ VINASIC.Product = function () {
                 Code: ko.observable(product.Code),
                 Name: ko.observable(product.Name),
                 Description: ko.observable(product.Description),
-                OrderIndex: ko.observable(product.OrderIndex)
+                OrderIndex: ko.observable(product.OrderIndex),
+                ProductPrice: ko.observable(product.ProductPrice)
             };
         }
         return productViewModel;
@@ -109,6 +112,20 @@ VINASIC.Product = function () {
             }
         });
     }
+    function initComboBoxProductUnit() {
+        var url = "/Product/GetProductUnit";
+        $.getJSON(url, function (datas) {
+            $('#productUnit').empty();
+            if (datas.length > 0) {
+                for (var i = 0; i < datas.length; i++) {
+                    $('#productUnit').append('<option value="' + datas[i].Text + '">' + datas[i].Text + '</option>');
+                }
+            }
+            else {
+                $('#productUnit').append('<option value="0">Không Có Dữ Liệu </option>');
+            }
+        });
+    }
     /*function Init List Using Jtable */
     function initListProduct() {
         $("#" + global.Element.JtableProduct).jtable({
@@ -147,7 +164,11 @@ VINASIC.Product = function () {
                     display: function (data) {
                         var text = $("<a href=\"#\" class=\"clickable\" title=\"Chỉnh sửa thông tin.\">" + data.record.Name + "</a>");
                         text.click(function () {
+                            debugger;
                             $('#productType').val(data.record.ProductTypeId);
+                            $('#productUnit').val(data.record.Unit);
+                            var isShowDimCheck = data.record.Unit;
+                            $('#IsShowDim').prop('checked', isShowDimCheck);
                             bindData(data.record);
                             showPopupProduct();
                         });
@@ -155,16 +176,34 @@ VINASIC.Product = function () {
                     }
                 },
                 ProductTypeName: {
-                    title: "Tên Loại Dịch Vụ",
+                    title: "Tên Danh Mục",
                     width: "25%"
+                },
+               
+                ProductPrice: {
+                    title: "Đơn Giá",
+                    width: "15%"
+                },
+                Unit: {
+                    title: "Đơn Vị Tính",
+                    width: "15%"
                 },
                 Description: {
                     title: "Mô Tả",
-                    width: "25%"
+                    width: "20%"
                 },
-                OrderIndex: {
-                    title: "Thứ Tự",
-                    width: "10%"
+
+                IsShowDim: {
+                    title: "Hiển Thị Kích Thước",
+                    width: "20%",
+                    display: function (data) {
+                        var elementDisplay = "";
+                        if (data.record.IsShowDim) { elementDisplay = "<p>có</p>"; }
+                        else {
+                            elementDisplay = "<p>không</p>";
+                        }
+                        return elementDisplay;
+                    }
                 },
                 Delete: {
                     title: "Xóa",
@@ -201,7 +240,10 @@ VINASIC.Product = function () {
 
     /*function Save */
     function saveProduct() {
+        debugger;
         global.Data.ModelProduct.ProductTypeId = $('#productType').val();
+        global.Data.ModelProduct.Unit = $('#productUnit').val();
+        global.Data.ModelProduct.IsShowDim = $('#IsShowDim').val() == 'on' ? true : false;
         $.ajax({
             url: global.UrlAction.SaveProduct,
             type: 'post',
@@ -263,6 +305,7 @@ VINASIC.Product = function () {
     this.Init = function () {
         registerEvent();
         initComboBoxProductType();
+        initComboBoxProductUnit();
         initListProduct();
         reloadListProduct();
         initPopupProduct();

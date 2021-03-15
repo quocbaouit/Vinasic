@@ -137,5 +137,29 @@ namespace VINASIC.Controllers
             return Json(JsonDataResult);
         }
 
+        public JsonResult GetProductUnit()
+        {
+            try
+            {
+                List<SelectListItem> listValues = new List<SelectListItem>();
+                var listProductType = _bllProduct.GetListUnit();
+                if (listProductType != null)
+                {
+                    listValues = listProductType.Select(c => new SelectListItem()
+                    {
+                        Value = c.Value.ToString(),
+                        Text = c.Name
+                    }).ToList();
+                }
+                return Json(listValues, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                JsonDataResult.Result = "ERROR";
+                JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Get List ObjectType", Message = "Lỗi: " + ex.Message });
+            }
+            return Json(JsonDataResult);
+        }
+
     }
 }

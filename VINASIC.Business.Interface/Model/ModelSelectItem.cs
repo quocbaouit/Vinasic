@@ -12,7 +12,7 @@ namespace VINASIC.Business.Interface.Model
         public string Name { get; set; }
         public int Data { get; set; }
         public string Code { get; set; }
-        public bool IsDefault { get; set; }
+        public bool? IsDefault { get; set; }
         public int Type { get; set; }
     }
 }

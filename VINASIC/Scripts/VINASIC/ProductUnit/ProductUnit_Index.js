@@ -52,7 +52,7 @@ VINASIC.ProductUnit = function () {
         if (productUnit != null) {
             productUnitViewModel = {
                 Id: ko.observable(productUnit.Id),
-                IsShowDim: ko.observable(productUnit.IsShowDim),
+                IsShowDim: false,
                 Name: ko.observable(productUnit.Name),
                 Description: ko.observable(productUnit.Description)
             };
@@ -139,18 +139,18 @@ VINASIC.ProductUnit = function () {
                     title: "Mô Tả",
                     width: "25%"
                 },
-                IsShowDim: {
-                    title: "Hiển Thị Kích Thước",
-                    width: "5%",
-                    display: function (data) {
-                        var elementDisplay = "";
-                        if (data.record.IsShowDim) { elementDisplay = "<p>có</p>"; }
-                        else {
-                            elementDisplay = "<p>không</p>";
-                        }
-                        return elementDisplay;
-                    }
-                },
+                //IsShowDim: {
+                //    title: "Hiển Thị Kích Thước",
+                //    width: "5%",
+                //    display: function (data) {
+                //        var elementDisplay = "";
+                //        if (data.record.IsShowDim) { elementDisplay = "<p>có</p>"; }
+                //        else {
+                //            elementDisplay = "<p>không</p>";
+                //        }
+                //        return elementDisplay;
+                //    }
+                //},
                 Delete: {
                     title: "Xóa",
                     width: "5%",

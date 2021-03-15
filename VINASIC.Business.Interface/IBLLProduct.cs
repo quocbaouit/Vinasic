@@ -10,6 +10,7 @@ namespace VINASIC.Business.Interface
         ResponseBase Update(ModelProduct obj);
         ResponseBase DeleteById(int id, int userId);
         PagedList<ModelProduct> GetList(string keyWord, int startIndexRecord, int pageSize, string sorting);
+        List<ModelSelectItem> GetListUnit();
         List<ModelSelectItem> GetListProduct(int productTypeId);
     }
 }
