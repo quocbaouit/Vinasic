@@ -101,6 +101,7 @@ namespace VINASIC.Business
                 if (productUnit != null)
                 {
                     //productUnit.Code = obj.Code;
+                    productUnit.IsShowDim = obj.IsShowDim;
                     productUnit.Name = obj.Name;
                     productUnit.Description = obj.Description;
                     productUnit.UpdatedDate = DateTime.Now.AddHours(14);
@@ -155,7 +156,7 @@ namespace VINASIC.Business
             var productUnits = _repProductUnit.GetMany(c => !c.IsDeleted).Select(c => new ModelProductUnit()
             {
                 Id = c.Id,
-                //Code = c.Code,
+                IsShowDim=c.IsShowDim,
                 Name = c.Name,
                 Description = c.Description,
                 CreatedDate = c.CreatedDate,

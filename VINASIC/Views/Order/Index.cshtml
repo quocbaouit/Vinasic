@@ -141,24 +141,31 @@
                             Xử Lý Đơn Hàng
                         </a>
                     </li>
+                    <li class="">
+                        <a data-toggle="tab" href="#ViewSubDetail">
+                            <i class="icon-envelope"></i>
+                            Đơn Hàng Chờ Duyệt Sửa/Xóa.
+                        </a>
+                    </li>
                     @*<li class="">
-                            <a data-toggle="tab" href="#ViewDetail">
-                                <i class="icon-envelope"></i>
-                                Xem Chi Tiết
-                            </a>
-                        </li>
-                        <li class="">
-                            <a data-toggle="tab" href="#ViewSubDetail">
-                                <i class="icon-envelope"></i>
-                                Chi Tiết Thiết Kế/In Ấn
-                            </a>
-                        </li>*@
+            <a data-toggle="tab" href="#ViewDetail">
+                <i class="icon-envelope"></i>
+                Xem Chi Tiết
+            </a>
+        </li>
+        <li class="">
+            <a data-toggle="tab" href="#ViewSubDetail">
+                <i class="icon-envelope"></i>
+                Chi Tiết Thiết Kế/In Ấn
+            </a>
+        </li>*@
                     <li id="CreateOrder" class="">
                         <a data-toggle="tab" href="#edit-profile">
                             <i class="icon-envelope"></i>
                             Tạo Mới/Chỉnh Sửa Đơn Hàng
                         </a>
                     </li>
+
                 </ul>
             </header>
             <div style="border-style: none" class="panel-body pannel-order">
@@ -303,12 +310,13 @@
                         <div style="margin-left: 5px;margin-bottom: 10px;" class="row">
                             <button id="subsearch" class="btn button button1">Tìm Kiếm</button>
                             @*<button id="subinprogess" class="btn button button0">Thiết Kế</button>
-                                <button id="subnoDelivery" class="btn button button2">In Ấn</button>
-                                <button id="subdeliveried" class="btn button button3">Gia Công</button>*@
+            <button id="subnoDelivery" class="btn button button2">In Ấn</button>
+            <button id="subdeliveried" class="btn button button3">Gia Công</button>*@
                             @*<button id="subpaid" class="btn button button4">Đã Thanh Toán</button>*@
                             @*<button id="subapproval" class="btn button button5">Đã Xong</button>*@
                         </div>
-                        <div class="=rows" id="jtableSubOrder"></div>
+                        @*<div class="=rows" id="jtableSubOrder"></div>*@
+                        <div class="=rows" id="jtableOrderApproval"></div>
                     </div>
 
                     <div id="edit-profile" class="tab-pane">

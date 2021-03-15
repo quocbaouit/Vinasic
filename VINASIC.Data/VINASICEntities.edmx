@@ -304,6 +304,8 @@
           <Property Name="CostDetail" Type="nvarchar(max)" />
           <Property Name="Deposit" Type="float" />
           <Property Name="StatusName" Type="nvarchar" MaxLength="500" />
+          <Property Name="Approval" Type="int" />
+          <Property Name="ReasonApproval" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'miligo.dbo.T_OrderDeposit' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -578,6 +580,7 @@ warning 6002: The table/view 'miligo.dbo.T_OrderDeposit' does not have a primary
           <Property Name="OrderIndex" Type="int" />
           <Property Name="Unit" Type="nvarchar" MaxLength="200" />
           <Property Name="ProductPrice" Type="float" />
+          <Property Name="IsShowDim" Type="bit" />
         </EntityType>
         <EntityType Name="T_ProductType">
           <Key>
@@ -2195,6 +2198,7 @@ FROM [dbo].[T_OrderDeposit] AS [T_OrderDeposit]</DefiningQuery>
           <Property Name="OrderIndex" Type="Int32" />
           <Property Name="Unit" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="ProductPrice" Type="Double" />
+          <Property Name="IsShowDim" Type="Boolean" />
         </EntityType>
         <EntityType Name="T_ProductType">
           <Key>
@@ -2979,6 +2983,8 @@ FROM [dbo].[T_OrderDeposit] AS [T_OrderDeposit]</DefiningQuery>
           <Property Name="Deposit" Type="Double" />
           <NavigationProperty Name="T_OrderDeposit" Relationship="VINASICModel.FK__T_OrderDe__Order__0880433F" FromRole="T_Order" ToRole="T_OrderDeposit" />
           <Property Name="StatusName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Approval" Type="Int32" />
+          <Property Name="ReasonApproval" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK__T_Order__Custome__32AB8735">
           <End Type="VINASICModel.T_Customer" Role="T_Customer" Multiplicity="1" />
@@ -3598,6 +3604,7 @@ FROM [dbo].[T_OrderDeposit] AS [T_OrderDeposit]</DefiningQuery>
           <EntitySetMapping Name="T_Product">
             <EntityTypeMapping TypeName="VINASICModel.T_Product">
               <MappingFragment StoreEntitySet="T_Product">
+                <ScalarProperty Name="IsShowDim" ColumnName="IsShowDim" />
                 <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
                 <ScalarProperty Name="Unit" ColumnName="Unit" />
                 <ScalarProperty Name="OrderIndex" ColumnName="OrderIndex" />
@@ -4034,6 +4041,8 @@ FROM [dbo].[T_OrderDeposit] AS [T_OrderDeposit]</DefiningQuery>
           <EntitySetMapping Name="T_Order">
             <EntityTypeMapping TypeName="VINASICModel.T_Order">
               <MappingFragment StoreEntitySet="T_Order">
+                <ScalarProperty Name="ReasonApproval" ColumnName="ReasonApproval" />
+                <ScalarProperty Name="Approval" ColumnName="Approval" />
                 <ScalarProperty Name="StatusName" ColumnName="StatusName" />
                 <ScalarProperty Name="Deposit" ColumnName="Deposit" />
                 <ScalarProperty Name="CostDetail" ColumnName="CostDetail" />

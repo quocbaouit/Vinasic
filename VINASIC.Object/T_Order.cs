@@ -53,6 +53,8 @@ namespace VINASIC.Object
         public string CostDetail { get; set; }
         public Nullable<double> Deposit { get; set; }
         public string StatusName { get; set; }
+        public Nullable<int> Approval { get; set; }
+        public string ReasonApproval { get; set; }
     
         public virtual T_Customer T_Customer { get; set; }
         public virtual T_User T_User { get; set; }

@@ -121,18 +121,7 @@ VINASIC.ProductUnit = function () {
                     edit: false,
                     list: false
                 },
-                IsShowDim: {
-                    title: "Hiển Thị Kích Thước",
-                    width: "5%",
-                    display: function (data) {
-                        var elementDisplay = "";
-                        if (data.record.IsShowDim) { elementDisplay = "<input  type='checkbox' checked='checked' disabled/>"; }
-                        else {
-                            elementDisplay = "<input  type='checkbox' disabled />";
-                        }
-                        return elementDisplay;
-                    }
-                },
+                
                 Name: {
                     visibility: "fixed",
                     title: "Tên",
@@ -149,6 +138,18 @@ VINASIC.ProductUnit = function () {
                 Description: {
                     title: "Mô Tả",
                     width: "25%"
+                },
+                IsShowDim: {
+                    title: "Hiển Thị Kích Thước",
+                    width: "5%",
+                    display: function (data) {
+                        var elementDisplay = "";
+                        if (data.record.IsShowDim) { elementDisplay = "<p>có</p>"; }
+                        else {
+                            elementDisplay = "<p>không</p>";
+                        }
+                        return elementDisplay;
+                    }
                 },
                 Delete: {
                     title: "Xóa",
