@@ -103,6 +103,9 @@
     <Compile Include="Repositories\T_OrderDetailRepository.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\T_OrderDetailStatusRepository.cs">
+      <DependentUpon>Repositories.tt</DependentUpon>
+    </Compile>
     <Compile Include="Repositories\T_OrderRepository.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>

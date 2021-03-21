@@ -91,6 +91,9 @@
     <Compile Include="T_OrderDetail.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="T_OrderDetailStatus.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="T_OrderStatus.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>

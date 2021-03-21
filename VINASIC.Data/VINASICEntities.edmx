@@ -375,6 +375,22 @@ warning 6002: The table/view 'miligo.dbo.T_OrderDeposit' does not have a primary
           <Property Name="AddonUser" Type="int" />
           <Property Name="AddOnView" Type="nvarchar" MaxLength="200" />
           <Property Name="TransportFee" Type="float" />
+          <Property Name="DetailStatusName" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="T_OrderDetailStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="CreatedUser" Type="int" Nullable="false" />
+          <Property Name="DeletedUser" Type="int" />
+          <Property Name="UpdatedUser" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="DeletedDate" Type="datetime" />
+          <Property Name="UpdatedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="T_OrderStatus">
           <Key>
@@ -1467,6 +1483,7 @@ warning 6002: The table/view 'miligo.dbo.T_OrderDeposit' does not have a primary
           <EntitySet Name="T_Notification" EntityType="Self.T_Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_Order" EntityType="Self.T_Order" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_OrderDetail" EntityType="Self.T_OrderDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="T_OrderDetailStatus" EntityType="Self.T_OrderDetailStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_OrderStatus" EntityType="Self.T_OrderStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_Organization" EntityType="Self.T_Organization" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="T_Partner" EntityType="Self.T_Partner" Schema="dbo" store:Type="Tables" />
@@ -1863,6 +1880,7 @@ FROM [dbo].[T_OrderDeposit] AS [T_OrderDeposit]</DefiningQuery>
             <End Role="T_Order" EntitySet="T_Order" />
             <End Role="T_OrderDeposit" EntitySet="T_OrderDeposit" />
           </AssociationSet>
+          <EntitySet Name="T_OrderDetailStatus" EntityType="VINASICModel.T_OrderDetailStatus" />
         </EntityContainer>
         <EntityType Name="T__Remind">
           <Key>
@@ -2727,6 +2745,7 @@ FROM [dbo].[T_OrderDeposit] AS [T_OrderDeposit]</DefiningQuery>
           <Property Name="AddOnView" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="T_Order" Relationship="VINASICModel.FK__T_OrderDe__Order__3587F3E0" FromRole="T_OrderDetail" ToRole="T_Order" />
           <Property Name="TransportFee" Type="Double" />
+          <Property Name="DetailStatusName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK__T_OrderDe__Commo__17F790F9">
           <End Type="VINASICModel.T_Product" Role="T_Product" Multiplicity="1" />
@@ -3290,6 +3309,21 @@ FROM [dbo].[T_OrderDeposit] AS [T_OrderDeposit]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="T_OrderDetailStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedUser" Type="Int32" Nullable="false" />
+          <Property Name="DeletedUser" Type="Int32" />
+          <Property Name="UpdatedUser" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -3893,6 +3927,7 @@ FROM [dbo].[T_OrderDeposit] AS [T_OrderDeposit]</DefiningQuery>
           <EntitySetMapping Name="T_OrderDetail">
             <EntityTypeMapping TypeName="VINASICModel.T_OrderDetail">
               <MappingFragment StoreEntitySet="T_OrderDetail">
+                <ScalarProperty Name="DetailStatusName" ColumnName="DetailStatusName" />
                 <ScalarProperty Name="TransportFee" ColumnName="TransportFee" />
                 <ScalarProperty Name="AddOnView" ColumnName="AddOnView" />
                 <ScalarProperty Name="AddonUser" ColumnName="AddonUser" />
@@ -4283,6 +4318,22 @@ FROM [dbo].[T_OrderDeposit] AS [T_OrderDeposit]</DefiningQuery>
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="DepositDate" ColumnName="DepositDate" />
                 <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_OrderDetailStatus">
+            <EntityTypeMapping TypeName="VINASICModel.T_OrderDetailStatus">
+              <MappingFragment StoreEntitySet="T_OrderDetailStatus">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedUser" ColumnName="UpdatedUser" />
+                <ScalarProperty Name="DeletedUser" ColumnName="DeletedUser" />
+                <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

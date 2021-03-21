@@ -29,8 +29,9 @@ namespace VINASIC.Controllers
         private readonly IBllSiteSetting _bllSiteSetting;
         private readonly IBllContent _bllContent;
         private readonly IBllOrderStatus _bllOrderStatus;
+        private readonly IBllOrderDetailStatus _bllOrderDetailStatus;
 
-        public OrderController(IBllOrder bllOrder, IBllContent bllContent, IBllSiteSetting bllSiteSetting, IBllEmployee bllEmployee, IBllCustomer bllCustomer, IBllProductType bllProductType, IBllProduct bllProduct, IBllOrderStatus bllOrderStatus)
+        public OrderController(IBllOrder bllOrder, IBllContent bllContent, IBllSiteSetting bllSiteSetting, IBllEmployee bllEmployee, IBllCustomer bllCustomer, IBllProductType bllProductType, IBllProduct bllProduct, IBllOrderStatus bllOrderStatus, IBllOrderDetailStatus bllOrderDetailStatus)
         {
             _bllOrder = bllOrder;
             _bllSiteSetting = bllSiteSetting;
@@ -40,6 +41,7 @@ namespace VINASIC.Controllers
             _bllProduct = bllProduct;
             _bllContent = bllContent;
             _bllOrderStatus = bllOrderStatus;
+            _bllOrderDetailStatus = bllOrderDetailStatus;
         }
         public ActionResult Index()
         {
@@ -47,8 +49,10 @@ namespace VINASIC.Controllers
             var showDim = _bllSiteSetting.ChecConfig("configDimension");
             var CompanyInfo = _bllSiteSetting.GetListProduct();
             var orderStatus = _bllOrderStatus.GetListOrderStatus();
+            var orderDetailStatus = _bllOrderDetailStatus.GetListOrderDetailStatus();
             ViewBag.Employee = employee;
             ViewBag.OrderStatus = orderStatus;
+            ViewBag.OrderDetailStatus = orderDetailStatus;
             ViewBag.ShowDim = showDim;
             if (showDim)
             {
