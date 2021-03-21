@@ -17,6 +17,7 @@ namespace VINASIC.Business.Interface
         List<int> GetUserRolesIdByUserId(int userId);
         ResponseBase AddListUserRole(List<int> listRoleId, int UserId, int acctionUserId);
         ResponseBase DeleteByListRoleId(List<int> listId, int userId,  int acctionUserId);
-        
+        List<int> GetListUserByRoleId(int roleId);
+
     }
 }

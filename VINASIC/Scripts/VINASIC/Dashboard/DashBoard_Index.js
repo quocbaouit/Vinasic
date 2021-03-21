@@ -21,9 +21,11 @@ VINASIC.DashBoard = function () {
         UrlAction: {
             GetListDashBoard: "/DashBoard/GetDashBoards",
             SaveDashBoard: "/DashBoard/SaveDashBoard",
-            DeleteDashBoard: "/DashBoard/DeleteDashBoard"
+            DeleteDashBoard: "/DashBoard/DeleteDashBoard",
+            GetListEmployee: "/Employee/GetListEmployeeDashBoard",
         },
         Element: {
+            JtableEmployeeDashBoard: "jtableEmployeeDashBoard",
             JtableDashBoard: "jtableDashBoard",
             PopupDashBoard: "popup_DashBoard",
             PopupSearch: "popup_SearchDashBoard"
@@ -43,6 +45,13 @@ VINASIC.DashBoard = function () {
     function reloadListDashBoard() {
         var keySearch = $("#txtSearch").val();
         $("#" + global.Element.JtableDashBoard).jtable("load", { 'keyword': keySearch });
+    }
+    function reloadListEmployee() {
+        moment.utc($("#datefrom").val()).toJSON().slice(0, 10);
+        moment.utc($("#dateto").val()).toJSON().slice(0, 10);
+        var fromDate = $("#datefrom").val();
+        var toDate = $("#dateto").val();
+        $("#" + global.Element.JtableEmployeeDashBoard).jtable("load", { 'keyword': '', 'fromDate': fromDate, 'toDate': toDate });
     }
     /*function init model using knockout Js*/
     function initViewModel(dashBoard) {
@@ -180,7 +189,57 @@ VINASIC.DashBoard = function () {
         getDashBoardData();
     }
     /*End init */
-
+    /*function Init List Using Jtable */
+    function initListEmployee() {
+        $("#" + global.Element.JtableEmployeeDashBoard).jtable({
+            title: "Doanh số nhân viên kinh doanh",
+            paging: false,
+            pageSize: 50,
+            pageSizeChangeEmployee: true,
+            sorting: true,
+            selectShow: true,
+            actions: {
+                listAction: global.UrlAction.GetListEmployee,
+            },
+            messages: {
+                addNewRecord: "Thêm mới",
+                searchRecord: "Tìm kiếm"
+            },
+            fields: {
+                Id: {
+                    key: true,
+                    create: false,
+                    edit: false,
+                    list: false
+                },
+                Name: {
+                    visibility: "fixed",
+                    title: "Tên Nhân Viên",
+                    width: "20%",
+                    display: function (data) {
+                        var text = $("<a href=\"#\" class=\"clickable\" title=\"Chỉnh sửa thông tin.\">" + data.record.Name + "</a>");
+                        return text;
+                    }
+                },
+                TotalOrder: {
+                    title: "Tổng Đơn Hàng",
+                    width: "5%"
+                },
+                strSubTotal: {
+                    title: "Tổng Doanh Số (VND)",
+                    width: "10%"
+                },
+                strHaspay: {
+                    title: "Tổng Thanh Toán Tiền Mặt (VND)",
+                    width: "10%"
+                },
+                strHaspayTransfer: {
+                    title: "Tổng Thanh Toán Chuyển Khoản (VND)",
+                    width: "10%"
+                }
+            }
+        });
+    }
 
     /*function Check Validate */
     function checkValidate() {
@@ -272,10 +331,12 @@ VINASIC.DashBoard = function () {
             bindData(null);
         });
         $("[search]").click(function () {
-            getDashBoardData();           
+            getDashBoardData();
+            reloadListEmployee();
         });
     };
     this.Init = function () {
+       
         registerEvent();
         document.getElementById("datefrom").defaultValue = new Date(new Date() - 24 * 90 * 60 * 60 * 1000).toISOString().substring(0, 10);
         var dateTo = new Date();
@@ -285,6 +346,8 @@ VINASIC.DashBoard = function () {
         reloadListDashBoard();
         initPopupDashBoard();
         bindData(null);
+        initListEmployee();
+        reloadListEmployee();
     };
 };
 /*End Region*/

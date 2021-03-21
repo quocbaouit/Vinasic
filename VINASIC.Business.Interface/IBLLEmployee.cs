@@ -30,5 +30,6 @@ namespace VINASIC.Business.Interface
         ResponseBase UpdateLock(int userId, bool isLock, int contextUser);
         ModelSimpleEmployee GetSimpleEmployee();
          PagedList<ModelForDesign> GetListDetailForBusiness(string keyWord, int startIndexRecord, int pageSize, string sorting, int userId, string fromDate, string toDate, bool auth, int emp);
+        PagedList<ModelUser> GetListEmployeeDashBoard(string keyWord, int startIndexRecord, int pageSize, string sorting, string fromDate, string toDate);
     }
 }

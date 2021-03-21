@@ -67,6 +67,27 @@ namespace VINASIC.Controllers
             }
             return Json(JsonDataResult);
         }
+        
+        [HttpPost]
+        public JsonResult GetListEmployeeDashBoard(string keyword, string jtSorting, string fromDate, string toDate)
+        {
+            try
+            {
+
+                var listEmployee = _bllEmployee.GetListEmployeeDashBoard(keyword, 0, 100, jtSorting,fromDate,toDate);
+                JsonDataResult.Records = listEmployee;
+                JsonDataResult.Result = "OK";
+                JsonDataResult.TotalRecordCount = listEmployee.TotalItemCount;
+
+            }
+            catch (Exception ex)
+            {
+                JsonDataResult.Result = "ERROR";
+                JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Get List ObjectType", Message = "Lỗi: " + ex.Message });
+
+            }
+            return Json(JsonDataResult);
+        }
 
         [HttpPost]
         public JsonResult GetJobForDesign(string keyword, int jtStartIndex, int jtPageSize, string jtSorting, string fromDate = "", string toDate = "", int employee=0)

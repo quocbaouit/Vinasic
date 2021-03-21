@@ -13,4 +13,9 @@
         LockTimeAccount = 9,
         RequirePassword = 10
     }
+
+    public enum SystemRole
+    {
+        BussinessRole = 2,
+    }
 }
