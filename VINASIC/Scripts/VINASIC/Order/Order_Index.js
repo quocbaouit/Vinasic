@@ -2788,11 +2788,11 @@ VINASIC.Order = function () {
             $("#dquantity").val("");
             $("#dprice").val("");
             $("#dsubtotal").val("");
-            if (!isShowDim) {
-                $(".forPrint").css({ "display": "none" });
-            } else {
-                $(".forPrint").css({ "display": "inline" });
-            }
+            //if (!isShowDim) {
+            //    $(".forPrint").css({ "display": "none" });
+            //} else {
+            //    $(".forPrint").css({ "display": "inline" });
+            //}
         });
         //$("[save]").click(function () {
         //    saveOrder();
