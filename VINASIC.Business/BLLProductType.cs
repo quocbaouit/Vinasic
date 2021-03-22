@@ -141,7 +141,7 @@ namespace VINASIC.Business
         {
             List<ModelSelectItem> listModelSelect = new List<ModelSelectItem>
             {
-                new ModelSelectItem() {Value = 0, Name = "---Loại Dịch Vụ----"}
+                new ModelSelectItem() {Value = 0, Name = "---Danh Mục----"}
             };
             listModelSelect.AddRange(_repProductType.GetMany(x => !x.IsDeleted).Select(x => new ModelSelectItem() { Value = x.Id, Name = x.Name }));
             return listModelSelect;

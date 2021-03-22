@@ -166,7 +166,7 @@ namespace VINASIC.Business
         {
             List<ModelSelectItem> listModelSelect = new List<ModelSelectItem>
             {
-                new ModelSelectItem() {Value = 0, Name = "---Dịch Vụ----"}
+                new ModelSelectItem() {Value = 0, Name = "---Sản Phẩm----"}
             };
             try
             {
