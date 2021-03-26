@@ -2793,24 +2793,24 @@ VINASIC.Order = function () {
             //if (resultObject.Code == 'catalogue') {
             //    showPopupCustom3();
             //} 
-            //$.ajax({
-            //    url: "/Order/GetPriceForCustomerAndProduct?customerId=" + global.Data.CustomerId + "&productId=" + $(this).val(),
-            //    type: 'post',
-            //    contentType: 'application/json',
-            //    success: function (result) {
-            //        GlobalCommon.CallbackProcess(result, function () {
-            //            if (result.Records != 0) {
-            //                var temp = result.Records.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-            //                $('#dprice').val(temp);
-            //                calculatorPrice();
-            //            } else {
-            //                $('#dprice').val('');
-            //            }
+            $.ajax({
+                url: "/Order/GetPriceForCustomerAndProduct?customerId=" + global.Data.CustomerId + "&productId=" + $(this).val(),
+                type: 'post',
+                contentType: 'application/json',
+                success: function (result) {
+                    GlobalCommon.CallbackProcess(result, function () {
+                        if (result.Records != 0) {
+                            var temp = result.Records.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                            $('#dprice').val(temp);
+                            calculatorPrice();
+                        } else {
+                            $('#dprice').val('');
+                        }
 
-            //        }, false, global.Element.PopupOrder, true, true, function () {
-            //        });
-            //    }
-            //});
+                    }, false, global.Element.PopupOrder, true, true, function () {
+                    });
+                }
+            });
             $("#dfilename").val("");
             $("#dnote").val("");
             $("#dwidth").val("");
@@ -2819,11 +2819,11 @@ VINASIC.Order = function () {
             $("#dquantity").val("");
             $("#dprice").val("");
             $("#dsubtotal").val("");
-            if (!isShowDim) {
-                $(".forPrint").css({ "display": "none" });
-            } else {
-                $(".forPrint").css({ "display": "inline" });
-            }
+            //if (!isShowDim) {
+            //    $(".forPrint").css({ "display": "none" });
+            //} else {
+            //    $(".forPrint").css({ "display": "inline" });
+            //}
         });
         //$("[save]").click(function () {
         //    saveOrder();
