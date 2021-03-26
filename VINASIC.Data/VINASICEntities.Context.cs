@@ -76,5 +76,6 @@ namespace VINASIC.Data
         public DbSet<T_Status> T_Status { get; set; }
         public DbSet<T_Unit> T_Unit { get; set; }
         public DbSet<T_OrderDeposit> T_OrderDeposit { get; set; }
+        public DbSet<T_OrderDetailStatus> T_OrderDetailStatus { get; set; }
     }
 }

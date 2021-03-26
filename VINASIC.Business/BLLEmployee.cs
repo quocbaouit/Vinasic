@@ -13,6 +13,8 @@ using VINASIC.Data;
 using VINASIC.Data.Repositories;
 using VINASIC.Object;
 using Newtonsoft.Json;
+using VINASIC.Business.Interface.Enum;
+using System.Configuration;
 
 namespace VINASIC.Business
 {
@@ -28,6 +30,7 @@ namespace VINASIC.Business
         private readonly IBllTiming _bllTiming;
         private readonly IUnitOfWork<VINASICEntities> _unitOfWork;
         private readonly IBLLRole bllRole;
+        private readonly TimeZoneInfo curentZone = TimeZoneInfo.FindSystemTimeZoneById(ConfigurationManager.AppSettings["WEBSITE_TIME_ZONE"]);
         public BllEmployee(IUnitOfWork<VINASICEntities> unitOfWork, IBllTiming bllTiming, IT_OrderRepository repOder, IT_UserRepository repUser, IT_OrderDetailRepository repOrderDetailRepository, IT_PositionRepository repPositionRepository, IT_ProductRepository repProduct, IBLLRole _bllRole, IT_UserProductRepository repUserProduct, IBLLUserRole _bllUserRole)
         {
             this.bllUserRole = _bllUserRole;
@@ -857,6 +860,72 @@ namespace VINASIC.Business
             {
                 return false;
             }
+        }
+
+        public PagedList<ModelUser> GetListEmployeeDashBoard(string keyWord, int startIndexRecord, int pageSize, string sorting, string fromDate, string toDate)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(sorting))
+                {
+                    sorting = "CreatedDate DESC";
+                }
+                var realfromDate = DateTime.Parse(fromDate);
+                var realtoDate = DateTime.Parse(toDate);
+
+                var frDate = new DateTime(realfromDate.Year, realfromDate.Month, realfromDate.Day, 0, 0, 0, 0);
+                frDate = TimeZoneInfo.ConvertTimeToUtc(frDate, curentZone);
+                var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
+                tDate = TimeZoneInfo.ConvertTimeToUtc(tDate, curentZone);
+                var listBusinessRole = bllUserRole.GetListUserByRoleId((int)SystemRole.BussinessRole);
+                var employees = _repUser.GetMany(c => !c.IsDeleted && listBusinessRole.Contains(c.Id)).Select(c => new ModelUser()
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Address = c.Address,
+                    Mobile = c.Mobile,
+                    Salary = c.Salary,
+                    Email = c.Email,
+                    UserName = c.UserName,
+                    IsLock = c.IsLock,
+                    PassWord = c.PassWord,
+                    PositionId = c.PositionId,
+                    PositionName = c.T_Position.Name,
+                    CreatedDate = c.CreatedDate,
+                }).ToList();
+
+                foreach (var employ in employees)
+                {
+                    var totalOrder = GetOrderAmount(frDate, tDate, 0, employ.Id);
+                    var orderHasPay = totalOrder>0? GetOrderAmount(frDate, tDate, 1, employ.Id):0;
+                    var orderHaspayTransfer = totalOrder > 0 ? GetOrderAmount(frDate, tDate, 2, employ.Id):0;
+                    var orderSubTotal = totalOrder > 0 ? GetOrderAmount(frDate, tDate, 3, employ.Id):0;
+                    employ.TotalOrder = totalOrder;
+                    employ.strHaspay = $"{orderHasPay:0,0}";
+                    employ.strHaspayTransfer = $"{orderHaspayTransfer:0,0}";
+                    employ.strSubTotal = $"{orderSubTotal:0,0}";
+                }
+                employees = employees.OrderByDescending(o=>o.TotalOrder).ToList();
+                var pageNumber = (startIndexRecord / pageSize) + 1;
+                return new PagedList<ModelUser>(employees, pageNumber, pageSize);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private double GetOrderAmount(DateTime fromDate, DateTime toDate,int type,int employeeId)
+        {
+            if (type==0)
+            return  _repOrderRepository.GetMany(c => !c.IsDeleted &&c.CreatedForUser== employeeId && c.CreatedDate >= fromDate && c.CreatedDate <= toDate).Count();
+            if (type == 1)
+                return _repOrderRepository.GetMany(c => !c.IsDeleted && c.CreatedForUser == employeeId && c.CreatedDate >= fromDate && c.CreatedDate <= toDate).Sum(x => x.HasPay)??0;
+            if (type == 2)
+                return _repOrderRepository.GetMany(c => !c.IsDeleted && c.CreatedForUser == employeeId && c.CreatedDate >= fromDate && c.CreatedDate <= toDate).Sum(x => x.HaspayTransfer) ?? 0;
+            if (type == 3)
+                return _repOrderRepository.GetMany(c => !c.IsDeleted && c.CreatedForUser == employeeId && c.CreatedDate >= fromDate && c.CreatedDate <= toDate).Sum(x => x.SubTotal);
+            return 0;
         }
     }
 }

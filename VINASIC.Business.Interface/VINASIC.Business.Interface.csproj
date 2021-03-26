@@ -58,6 +58,7 @@
     <Compile Include="IBLLContent.cs" />
     <Compile Include="IBLLDashBoard.cs" />
     <Compile Include="IBLLNotification.cs" />
+    <Compile Include="IBLLOrderDetailStatus.cs" />
     <Compile Include="IBLLPermission.cs" />
     <Compile Include="IBLLPosition.cs" />
     <Compile Include="IBLLPaymentVoucher.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Model\ModelContent.cs" />
     <Compile Include="Model\ModelFormular.cs" />
     <Compile Include="Model\ModelDashBoard.cs" />
+    <Compile Include="Model\ModelOrderDetailStatus.cs" />
     <Compile Include="Model\ModelOrderStatus.cs" />
     <Compile Include="Model\ModelProductUnit.cs" />
     <Compile Include="Model\ModelSticker.cs" />

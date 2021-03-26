@@ -27,8 +27,9 @@ namespace VINASIC.Business
         private readonly IT_OrderDetailRepository _repOrderDetail;
         private readonly IUnitOfWork<VINASICEntities> _unitOfWork;
         private readonly IT_OrderStatusRepository _repOrderStatus;
+        private readonly IT_OrderDetailStatusRepository _repOrderDetailStatus;
         private readonly TimeZoneInfo curentZone = TimeZoneInfo.FindSystemTimeZoneById(ConfigurationManager.AppSettings["WEBSITE_TIME_ZONE"]);
-        public BllOrder(IUnitOfWork<VINASICEntities> unitOfWork, IT_PaymentVoucherRepository repPaymentVoucher, IT_OrderRepository repOrder, IT_ContentRepository repContent, IT_OrderDetailRepository repOrderDetail, IT_CustomerRepository repCus, IT_UserRepository repUserRepository, IT_SiteSettingRepository repSite, IT_OrderStatusRepository repOrderStatus)
+        public BllOrder(IUnitOfWork<VINASICEntities> unitOfWork, IT_PaymentVoucherRepository repPaymentVoucher, IT_OrderRepository repOrder, IT_ContentRepository repContent, IT_OrderDetailRepository repOrderDetail, IT_CustomerRepository repCus, IT_UserRepository repUserRepository, IT_SiteSettingRepository repSite, IT_OrderStatusRepository repOrderStatus, IT_OrderDetailStatusRepository repOrderDetailStatus)
         {
             _unitOfWork = unitOfWork;
             _repOrder = repOrder;
@@ -39,6 +40,7 @@ namespace VINASIC.Business
             _repSite = repSite;
             _repCus = repCus;
             _repOrderStatus = repOrderStatus;
+            _repOrderDetailStatus = repOrderDetailStatus;
         }
         private void SaveChange()
         {
@@ -235,6 +237,7 @@ namespace VINASIC.Business
                 PrintView = o.PrintView ?? "",
                 AddOnView = o.AddOnView ?? "",
                 DetailStatus = o.DetailStatus,
+                DetailStatusName=o.DetailStatusName!=null? o.DetailStatusName:"Đang xử lý"
 
             }).ToList();
             foreach (var order in ordeDetails)
@@ -351,7 +354,8 @@ namespace VINASIC.Business
                         DetailStatus = 0,
                         CreatedUser = userId,
                         CreatedDate = DateTime.UtcNow,
-                        FileName = detail.FileName
+                        FileName = detail.FileName,
+                        DetailStatusName = "Đang xử lý"
                     };
                     _repOrderDetail.Add(orderDetail);
                     SaveChange();
@@ -800,69 +804,45 @@ namespace VINASIC.Business
         public ResponseBase UpdateDetailStatus(int detailId, int status, int employeeId,string content)
         {
             var responResult = new ResponseBase();
+            var statusObj = _repOrderDetailStatus.GetById(status);
             var orderDetail = _repOrderDetail.GetMany(c => !c.IsDeleted && c.Id == detailId).FirstOrDefault();
             if (orderDetail != null)
             {
                 orderDetail.DetailStatus = status;
-                if (employeeId == 0)
-                {
-                    orderDetail.PrintUser = null;
-                    orderDetail.AddonUser = null;
-                }
-                else
-                {
-                    var employe = _repUser.GetById(employeeId);
-                    if (status == 1)
-                    {
-                        orderDetail.DesignUser = employe.Id;
-                        orderDetail.DesignView = employe.FisrtName;
-                        orderDetail.DesignDescription = content;
-                    }
-                    if (status == 3)
-                    {
-                        orderDetail.PrintUser = employe.Id;
-                        orderDetail.PrintView = employe.FisrtName;
-                        orderDetail.PrintDescription = content;
-                    }
-                    if (status == 5)
-                    {
-                        orderDetail.AddonUser = employe.Id;
-                        orderDetail.AddOnView = employe.FisrtName;
-                    }
-                }
+                orderDetail.DetailStatusName = statusObj.StatusName;
                 orderDetail.UpatedDate = DateTime.UtcNow;
                 _repOrderDetail.Update(orderDetail);
                 SaveChange();
-                var order = _repOrder.GetById(orderDetail.OrderId);
-                string notificationContent ="Khách Hàng:"+ order.Name + ",Dịch Vụ:" + orderDetail.CommodityName+",Số Lượng: "+ orderDetail.Quantity;
-                var isComplete = _repOrderDetail.GetMany(x => x.OrderId == order.Id && x.DetailStatus != 0 && x.DetailStatus != 7).ToList();
-                if (isComplete.Count == 0)
-                {
-                    order.OrderStatus = 2;
-                }
-                else
-                {
-                    order.OrderStatus = 1;
-                }
-                _repOrder.Update(order);
-                SaveChange();
-                List<Notification> listSubcription = new List<Notification>();
-                var userGetPush = _repUser.GetById(employeeId);
-                if (!string.IsNullOrEmpty(userGetPush.Subscription))
-                {
-                    listSubcription = JsonConvert.DeserializeObject<List<Notification>>(userGetPush.Subscription);
-                    var endPoint = listSubcription.Select(x => new Dynamic.Framework.Subscription()
-                    {
-                        Id = x.Guid,
-                        BrowserName = x.BrowserName,
-                        BrowserVersion = x.BrowserVersion,
-                        endpoint = x.Endpoint,
-                        OsName = x.OsName,
-                        OsVersion = x.OsVersion,
-                        keys = x.Keys,
-                    }).ToList();
-                    PushNotificationHelper.SendNotification(endPoint, "Thông Báo Cho: "+ userGetPush.FisrtName, notificationContent, "/", 2);
-                }
+                //var order = _repOrder.GetById(orderDetail.OrderId);
+                //string notificationContent ="Khách Hàng:"+ order.Name + ",Dịch Vụ:" + orderDetail.CommodityName+",Số Lượng: "+ orderDetail.Quantity;
+                //var isComplete = _repOrderDetail.GetMany(x => x.OrderId == order.Id && x.DetailStatus != 0 && x.DetailStatus != 7).ToList();
+                //if (isComplete.Count == 0)
+                //{
+                //    order.OrderStatus = 2;
+                //}
+                //else
+                //{
+                //    order.OrderStatus = 1;
+                //}
+                //_repOrder.Update(order);
+                //SaveChange();
+                //List<Notification> listSubcription = new List<Notification>();
+                //var userGetPush = _repUser.GetById(employeeId);
+                //if (!string.IsNullOrEmpty(userGetPush.Subscription))
+                //{
+                //    listSubcription = JsonConvert.DeserializeObject<List<Notification>>(userGetPush.Subscription);
+                //    var endPoint = listSubcription.Select(x => new Dynamic.Framework.Subscription()
+                //    {
+                //        Id = x.Guid,
+                //        BrowserName = x.BrowserName,
+                //        BrowserVersion = x.BrowserVersion,
+                //        endpoint = x.Endpoint,
+                //        OsName = x.OsName,
+                //        OsVersion = x.OsVersion,
+                //        keys = x.Keys,
+                //    }).ToList();
+                //    PushNotificationHelper.SendNotification(endPoint, "Thông Báo Cho: "+ userGetPush.FisrtName, notificationContent, "/", 2);
+                //}
                 responResult.IsSuccess = true;
             }
             else

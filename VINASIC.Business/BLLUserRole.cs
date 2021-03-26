@@ -18,6 +18,7 @@ namespace SystemAccount.Bussiness
     {
         private readonly IT_UserRoleRepository repUserRole;
         private readonly IT_RoLeRepository repRole;
+
         private readonly IUnitOfWork<VINASICEntities> unitOfWork;
         public BLLUserRole(IUnitOfWork<VINASICEntities> _unitOfWork, IT_UserRoleRepository _repUserRole, IT_RoLeRepository _repRole)
         {
@@ -226,6 +227,11 @@ namespace SystemAccount.Bussiness
 
 
             return result;
+        }
+
+        public List<int> GetListUserByRoleId(int roleId)
+        {
+            return repUserRole.GetMany(x => !x.IsDeleted && x.RoleId == roleId).Select(y => y.UserId).ToList();
         }
     }
 }

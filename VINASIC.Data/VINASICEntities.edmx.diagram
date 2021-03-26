@@ -85,6 +85,7 @@
         <EntityTypeShape EntityType="VINASICModel.T_Unit" Width="1.5" PointX="23.375" PointY="10.75" />
         <EntityTypeShape EntityType="VINASICModel.T_OrderDeposit" Width="1.5" PointX="5.25" PointY="0.75" />
         <AssociationConnector Association="VINASICModel.FK__T_OrderDe__Order__0880433F" />
+        <EntityTypeShape EntityType="VINASICModel.T_OrderDetailStatus" Width="1.5" PointX="23.375" PointY="14.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

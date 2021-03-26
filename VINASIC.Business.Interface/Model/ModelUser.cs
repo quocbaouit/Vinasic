@@ -21,6 +21,12 @@ namespace VINASIC.Business.Interface.Model
         public List<SalaryObj> SalaryObj { get; set; }
 
         public string Note { get; set; }
+
+        public double TotalOrder { get; set; }
+        public int TotalProcessingOrder { get; set; }
+        public string strHaspay { get; set; }
+        public string strHaspayTransfer { get; set; }
+        public string strSubTotal { get; set; }
     }
     public class Subscription
     {

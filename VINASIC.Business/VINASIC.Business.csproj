@@ -84,6 +84,7 @@
     <Compile Include="BLLFeature.cs" />
     <Compile Include="BLLMenu.cs" />
     <Compile Include="BLLMenuCategory.cs" />
+    <Compile Include="BLLOrderDetailStatus.cs" />
     <Compile Include="BLLOrganization.cs" />
     <Compile Include="BLLPartner.cs" />
     <Compile Include="BLLPaymentVoucher.cs" />
