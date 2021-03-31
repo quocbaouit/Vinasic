@@ -1547,6 +1547,7 @@ VINASIC.Order = function () {
                             showPopupPaymentProcess();
                             data.record.StrDeliveryDate = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd");
                             var a = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd'T'HH:MM:ss");
+                            $('#phieuthulabel').html('PHIẾU THU');
                         });
                         return text;
                     }
@@ -1593,6 +1594,7 @@ VINASIC.Order = function () {
                             showPopupPaymentProcess();
                             data.record.StrDeliveryDate = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd");
                             var a = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd'T'HH:MM:ss");
+                            $('#phieuthulabel').html('PHIẾU ĐẶT HÀNG');
                         });
                         return text;
                     }
