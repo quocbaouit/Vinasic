@@ -1563,7 +1563,7 @@ VINASIC.Order = function () {
                             text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"In Phiếu.\">Phiếu SX </a>");
                         }
                         text.click(function () {
-                            global.Data.ForView = 1;
+                            global.Data.ForView = 0;
                             global.Data.IdOrderStatus = data.record.Id;
                             global.Data.NumberDetail = data.record.T_OrderDetail.length;
                             $("#type2").prop("checked", true);
@@ -1582,10 +1582,11 @@ VINASIC.Order = function () {
                             global.Data.PcustomerName = data.record.Name;
                             global.Data.PcustomePhone = data.record.CustomerPhone;
                             global.Data.PcustomerAddress = data.record.CustomerAddress;
+                            global.Data.PBusinessName = data.record.CreateUserName;
                             global.Data.Pproduct = "";
                             calculatorProduct(data.record.T_OrderDetail);
                             //rendertable                                                    
-                            renderTable(data.record.T_OrderDetail, data.record.SubTotal, data.record.HasPay + data.record.HaspayTransfer,1);
+                            renderTable(data.record.T_OrderDetail, data.record.SubTotal, data.record.HasPay + data.record.HaspayTransfer, 0);
                             if (data.record.HasTax) {
                                 $('#hastaxnote').css("display", "inline");
                             } else {
