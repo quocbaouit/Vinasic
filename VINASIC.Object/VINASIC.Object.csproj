@@ -88,6 +88,15 @@
     <Compile Include="T_OrderDetail.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="T_OrderDetailStatus.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_OrderDetailStatusPrint.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_OrderStatus.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="T_Organization.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>
@@ -139,6 +148,9 @@
     <Compile Include="T_StandardSale.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="T_Status.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="T_StockIn.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>
@@ -146,6 +158,9 @@
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>
     <Compile Include="T_Timing.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T_Unit.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>
     <Compile Include="T_User.cs">
@@ -158,6 +173,9 @@
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>
     <Compile Include="T_UserRole.cs">
+      <DependentUpon>VINASIC.Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T__Notification.cs">
       <DependentUpon>VINASIC.Model.tt</DependentUpon>
     </Compile>
     <Compile Include="T__Remind.cs">

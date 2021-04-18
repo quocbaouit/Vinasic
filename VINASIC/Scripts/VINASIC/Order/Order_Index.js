@@ -88,7 +88,7 @@ VINASIC.Order = function () {
     this.GetGlobal = function () {
         return global;
     };
-    function renderTable(Table, subTotal, haspay, type) {
+    function renderTable(Table, subTotal, haspay, type,taxfee) {
         var tableString = "<table id=\"renderTable\" border=\"1\" style=\"width:100%\" cellspacing=\"0\" cellpadding=\"0\">";
         var root = document.getElementById('Block4');
         document.getElementById("Block4").innerHTML = "";
@@ -165,6 +165,14 @@ VINASIC.Order = function () {
             }
         }
         var strThanhToan = "Tổng Tiền";
+        if (taxfee > 0) {
+            var strtaxfee = taxfee.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            tableString += "<tr>";
+            tableString += "<td colspan=\"" + 5 + "\">" + 'Tiền Thuế(10%)' + ":</td>";
+            tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal12\">" + strtaxfee + "</span></td>";
+            tableString += "<td>" + "&nbsp;" + "</td>";
+            tableString += "</tr>";
+        }
         if (haspay > 0) {
             strThanhToan = "Còn Lại";
             var strSubTotal1 = subTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
@@ -178,22 +186,43 @@ VINASIC.Order = function () {
             tableString += "<td>" + "&nbsp;" + "</td>";
             tableString += "</tr>";
 
-            tableString += "<tr>";
             var colspan = 5;
             if (document.getElementById('show-dim').checked)
                 colspan = 7;
+
+            //if (taxfee > 0) {
+            //    var strtaxfee = taxfee.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            //    tableString += "<tr>";
+            //    tableString += "<td colspan=\"" + colspan + "\">" + 'Tiền Thuế(10%)' + ":</td>";
+            //    tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal12\">" + strtaxfee + "</span></td>";
+            //    tableString += "<td>" + "&nbsp;" + "</td>";
+            //    tableString += "</tr>";
+            //}
+
+            tableString += "<tr>";           
             tableString += "<td colspan=\"" + colspan + "\">Đã Thanh Toán(Đặt Cọc):</td>";
             tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal3\">" + strHaspay1 + "</span></td>";
             tableString += "<td>" + "&nbsp;" + "</td>";
             tableString += "</tr>";
 
         }
-        tableString += "<tr>";
+      
         var colspan = 5;
         if (document.getElementById('show-dim').checked)
             colspan = 7;
+        
+        //if (taxfee > 0) {
+        //    var strtaxfee = taxfee.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        //    tableString += "<tr>";
+        //    tableString += "<td colspan=\"" + colspan + "\">" + 'Tiền Thuế(10%)' + ":</td>";
+        //    tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal12\">" + strtaxfee + "</span></td>";
+        //    tableString += "<td>" + "&nbsp;" + "</td>";
+        //    tableString += "</tr>";
+        //}
+        tableString += "<tr>";
         tableString += "<td colspan=\"" + colspan + "\">" + strThanhToan + ":</td>";
         tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal1\">55577854</span></td>";
+        tableString += "<td>" + "&nbsp;" + "</td>";
         tableString += "</tr>";
         tableString += "<tr>";
         tableString += "<td colspan=\"" + (colspan + 1) + "\">Bằng Chữ:<span id=\"strtotal1\">Test </span></td>";
@@ -660,14 +689,16 @@ VINASIC.Order = function () {
     function updateDetailStatus(detailId, status, employeeUpdateId, content) {
 
         $.ajax({
-            url: "/Order/UpdateDetailStatus?detailId=" + detailId + "&status=" + status + "&employeeId=" + employeeUpdateId + "&content=" + content,
+            url: "/Order/UpdateDetailStatus?detailId=" + detailId + "&status=" + status + "&employeeId=" + employeeUpdateId + "&content=" + 'sss',
             type: 'post',
+            data: JSON.stringify({ content1: content}),
             contentType: 'application/json',
             success: function (result) {
                 $('#loading').hide();
                 GlobalCommon.CallbackProcess(result, function () {
                     if (result.Result === "OK") {
                         $('#jtableOrder').jtable('getRowByKey', global.Data.OrderId).find("a#newdetail").trigger('click');
+                        reloadListOrder();
                         toastr.success("Thành Công");
                     }
                 }, false, global.Element.PopupOrder, true, true, function () {
@@ -687,7 +718,7 @@ VINASIC.Order = function () {
                 $('#loading').hide();
                 GlobalCommon.CallbackProcess(result, function () {
                     if (result.Result === "OK") {
-
+                        $('#summernote').summernote('code', result.Data);
                         $("#dDescription").val(result.Data);
                         showPopupDesignProcess();
                     }
@@ -1124,7 +1155,6 @@ VINASIC.Order = function () {
                                         var textNVTK = '';
                                         var textNVIN = '';
                                         var textNVGC = '';
-
                                         var strStatus = getOrderDetailStatus(data.record.DetailStatus);
                                         for (var i = 0; i < arrayNVTK.length; i++) {
                                             textNVTK = textNVTK + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVTK[i].Id + ' class="detailstatus1" href="#">' + arrayNVTK[i].Name + '</a></li>';
@@ -1135,7 +1165,7 @@ VINASIC.Order = function () {
                                         for (var i = 0; i < arrayNVGC.length; i++) {
                                             textNVGC = textNVGC + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVGC[i].Id + ' class="detailstatus5" href="#">' + arrayNVGC[i].Name + '</a></li>'
                                         };
-                                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho thiết kế</a><ul class="dropdown-menu">' + textNVTK + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu">' + textNVIN + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">chuyển cho gia công</a><ul class="dropdown-menu">' + textNVGC + '</ul></li><li class="dropdown"><a tabindex="-1" href="#" class=" detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
+                                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + data.record.DetailStatusName + '</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho thiết kế</a><ul class="dropdown-menu">' + textNVTK + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu">' + textNVIN + '</ul></li></ul></div>');
                                         text.click(function () {
                                             global.Data.OrderId = orderDetailData.record.Id;
                                             global.Data.IdDetailStatus = data.record.Id;
@@ -1236,7 +1266,7 @@ VINASIC.Order = function () {
                                         for (var i = 0; i < arrayNVGC.length; i++) {
                                             textNVGC = textNVGC + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVGC[i].Id + ' class="detailstatus5" href="#">' + arrayNVGC[i].Name + '</a></li>'
                                         };
-                                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho thiết kế</a><ul class="dropdown-menu">' + textNVTK + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu">' + textNVIN + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">chuyển cho gia công</a><ul class="dropdown-menu">' + textNVGC + '</ul></li><li class="dropdown"><a tabindex="-1" href="#" class=" detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
+                                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + data.record.DetailStatusName + '</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho thiết kế</a><ul class="dropdown-menu">' + textNVTK + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu">' + textNVIN + '</ul></li></ul></div>');
                                         text.click(function () {
                                             global.Data.OrderId = orderDetailData.record.Id;
                                             global.Data.IdDetailStatus = data.record.Id;
@@ -1294,7 +1324,7 @@ VINASIC.Order = function () {
                                         for (var i = 0; i < arrayNVGC.length; i++) {
                                             textNVGC = textNVGC + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVGC[i].Id + ' class="detailstatus5" href="#">' + arrayNVGC[i].Name + '</a></li>'
                                         };
-                                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho thiết kế</a><ul class="dropdown-menu">' + textNVTK + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu">' + textNVIN + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">chuyển cho gia công</a><ul class="dropdown-menu">' + textNVGC + '</ul></li><li class="dropdown"><a tabindex="-1" href="#" class=" detailstatus7" href="javascript:void(0)">Đã xong</a></li></ul></div>');
+                                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + data.record.DetailStatusName + '</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho thiết kế</a><ul class="dropdown-menu">' + textNVTK + '</ul></li><li class="dropdown-submenu"><a tabindex="-1" href="javascript:void(0)">Chuyển cho in ấn</a><ul class="dropdown-menu">' + textNVIN + '</ul></li></ul></div>');
                                         text.click(function () {
                                             global.Data.OrderId = orderDetailData.record.Id;
                                             global.Data.IdDetailStatus = data.record.Id;
@@ -1560,8 +1590,10 @@ VINASIC.Order = function () {
                             global.Data.PcustomerAddress = data.record.CustomerAddress;
                             global.Data.Pproduct = "";
                             calculatorProduct(data.record.T_OrderDetail);
-                            //rendertable                                                    
-                            renderTable(data.record.T_OrderDetail, data.record.SubTotal, data.record.HasPay + data.record.HaspayTransfer, 0);
+                            //rendertable 
+                            debugger;
+                            var taxFee = data.record.SubTotal - data.record.SubTotalExcludeTax;
+                            renderTable(data.record.T_OrderDetail, data.record.SubTotal, data.record.HasPay + data.record.HaspayTransfer, 0, taxFee);
                             if (data.record.HasTax) {
                                 $('#hastaxnote').css("display", "inline");
                             } else {
@@ -1620,13 +1652,41 @@ VINASIC.Order = function () {
                 //        return text;
                 //    }
                 //},
+                //strOrderStatus: {
+                //    title: "Trạng thái Đơn Hàng",
+                //    width: "12%",
+                //    display: function (data) {
+                //        var text = "";
+                //        var strStatus = getOrderStatus(data.record.OrderStatus);
+                //        var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật trạng thái đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu"><li><a class="orderstatus5" href="javascript:void(0)">Đã duyệt</a></li><li><a class="orderstatus4" href="javascript:void(0)">Đã thanh toán</a></li><li><a class="orderstatus3" href="javascript:void(0)">Đã giao hàng</a></li><li><a class="orderstatus2" href="javascript:void(0)">Chưa giao hàng</a></li><li><a class="orderstatus1" href="javascript:void(0)">Đang Xử Lý</a></li></ul></div>');
+                //        text.click(function (e) {
+                //            global.Data.IdOrderStatus = data.record.Id;
+                //        });
+                //        return text;
+                //    }
+                //},
+                strDetailStatusName: {
+                    title: "Trạng Thái Chi Tiết",
+                    width: "10%",
+                    display: function (data) {
+
+                        var text = '';
+                        if (data.record.DetailStatusName != 'Đang xử lý') {
+                            text = $('<a  href="javascript:void(0)" style="color:red;"  class="clickable"  data-target="#popup_Order" title="chi tiế.">' + data.record.DetailStatusName + '</a>');
+
+                        } else {
+                            text = $('<a  href="javascript:void(0)" style="color:#89798d;"  class="clickable"  data-target="#popup_Order" title="chi tiết.">' + data.record.DetailStatusName + '</a>');
+                        }
+                        return text;
+                    }
+                },
                 strOrderStatus: {
-                    title: "Trạng thái Đơn Hàng",
+                    title: "Trạng Thái Đơn Hàng",
                     width: "12%",
                     display: function (data) {
                         var text = "";
-                        var strStatus = getOrderStatus(data.record.OrderStatus);
-                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật trạng thái đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu"><li><a class="orderstatus5" href="javascript:void(0)">Đã duyệt</a></li><li><a class="orderstatus4" href="javascript:void(0)">Đã thanh toán</a></li><li><a class="orderstatus3" href="javascript:void(0)">Đã giao hàng</a></li><li><a class="orderstatus2" href="javascript:void(0)">Chưa giao hàng</a></li><li><a class="orderstatus1" href="javascript:void(0)">Đang Xử Lý</a></li></ul></div>');
+                        var strStatus = data.record.StatusName;
+                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật trạng thái đơn hàng.\">' + strStatus + '</a>' + resultStatusList + '</div>');
                         text.click(function (e) {
                             global.Data.IdOrderStatus = data.record.Id;
                         });
@@ -2271,7 +2331,7 @@ VINASIC.Order = function () {
         $("#" + global.Element.PopupDesignProcess + " button[save]").click(function () {
 
             var designId = $("#dDesignName").val();
-            var description = $("#dDescription").val();
+            var description = $('#summernote').summernote('code')
             updateDetailStatus(global.Data.IdDetailStatus, global.Data.DetailStatus, employeeUpdateId, description);
             //updateDesignUser(global.Data.DetailId, designId, description);
             global.Data.ClientId = document.getElementById("ClientName").innerHTML;
@@ -2883,27 +2943,37 @@ VINASIC.Order = function () {
             }
             reloadListOrderDetail();
         });
-        $("body").delegate(".orderstatus1", "click", function (event) {
+        $("body").delegate(".searchStatus", "click", function (event) {
+            var statusId = $(this).attr("data-id");
             event.preventDefault();
-            updateOrderStatus(global.Data.IdOrderStatus, 1);
+            reloadListOrder(statusId);
         });
-        $("body").delegate(".orderstatus2", "click", function (event) {
+        $("body").delegate(".orderstatus", "click", function (event) {
+            var statusId = $(this).attr("data-id");
             event.preventDefault();
-            showPopupNotification();
-            //updateOrderStatus(global.Data.IdOrderStatus, 2);
+            updateOrderStatus(global.Data.IdOrderStatus, statusId);
         });
-        $("body").delegate(".orderstatus3", "click", function (event) {
-            event.preventDefault();
-            updateOrderStatus(global.Data.IdOrderStatus, 3);
-        });
-        $("body").delegate(".orderstatus4", "click", function (event) {
-            event.preventDefault();
-            updateOrderStatus(global.Data.IdOrderStatus, 4);
-        });
-        $("body").delegate(".orderstatus5", "click", function (event) {
-            event.preventDefault();
-            updateOrderStatus(global.Data.IdOrderStatus, 5);
-        });
+        //$("body").delegate(".orderstatus1", "click", function (event) {
+        //    event.preventDefault();
+        //    updateOrderStatus(global.Data.IdOrderStatus, 1);
+        //});
+        //$("body").delegate(".orderstatus2", "click", function (event) {
+        //    event.preventDefault();
+        //    showPopupNotification();
+        //    //updateOrderStatus(global.Data.IdOrderStatus, 2);
+        //});
+        //$("body").delegate(".orderstatus3", "click", function (event) {
+        //    event.preventDefault();
+        //    updateOrderStatus(global.Data.IdOrderStatus, 3);
+        //});
+        //$("body").delegate(".orderstatus4", "click", function (event) {
+        //    event.preventDefault();
+        //    updateOrderStatus(global.Data.IdOrderStatus, 4);
+        //});
+        //$("body").delegate(".orderstatus5", "click", function (event) {
+        //    event.preventDefault();
+        //    updateOrderStatus(global.Data.IdOrderStatus, 5);
+        //});
 
         $("body").delegate(".detailstatus1", "click", function (event) {
             event.preventDefault();

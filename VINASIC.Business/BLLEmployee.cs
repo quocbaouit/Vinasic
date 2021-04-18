@@ -492,7 +492,7 @@ namespace VINASIC.Business
                 var frDate = new DateTime(realfromDate.Year, realfromDate.Month, realfromDate.Day, 0, 0, 0, 0);
                 var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
                 var listDesignProcess =
-                    _repOrderDetailRepository.GetMany(c => !c.IsDeleted && !c.T_Order.IsDeleted && (c.DetailStatus == 1 || c.DetailStatus == 2 || !string.IsNullOrEmpty(c.DesignView)) && c.CreatedDate >= frDate && c.CreatedDate <= tDate)
+                    _repOrderDetailRepository.GetMany(c => !c.IsDeleted && !c.T_Order.IsDeleted && (c.DesignUser!=null) && c.CreatedDate >= frDate && c.CreatedDate <= tDate)
                         .Select(c => new ModelForDesign()
                         {
                             T_Order = c.T_Order,
@@ -524,6 +524,7 @@ namespace VINASIC.Business
                                         ? "Đang Thiết Kế"
                                         : (c.DetailStatus == 3 ? "Đã Xong" : "Bộ phận khác đang xử lý.")),
                             CreatedDate = c.CreatedDate,
+                            DetailStatusName=c.DetailStatusName
                         }).OrderBy(sorting).ToList();
                 if (!auth)
                 {
@@ -625,7 +626,7 @@ namespace VINASIC.Business
                 var frDate = new DateTime(realfromDate.Year, realfromDate.Month, realfromDate.Day, 0, 0, 0, 0);
                 var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
                 var listPrintProcess =
-                    _repOrderDetailRepository.GetMany(c => !c.IsDeleted && !c.T_Order.IsDeleted && c.CreatedDate >= frDate && (c.DetailStatus == 3 || !string.IsNullOrEmpty(c.PrintView)) && c.CreatedDate <= tDate)
+                    _repOrderDetailRepository.GetMany(c => !c.IsDeleted && !c.T_Order.IsDeleted && c.CreatedDate >= frDate && (c.PrintUser != null) && c.CreatedDate <= tDate)
                         .Select(c => new ModelForPrint()
                         {
                             T_Order = c.T_Order,
@@ -648,6 +649,7 @@ namespace VINASIC.Business
                             PrintTo = c.PrintTo,
                             DetailStatus = c.DetailStatus,
                             CreatedDate = c.CreatedDate,
+                            DetailStatusName=c.DetailStatusName,
                             StrPrintStatus = c.DetailStatus == 3 ? "Chưa In" : (c.DetailStatus == 4 ? "Đang In" :
                             (c.DetailStatus == 5 ? "Đã Xong" : (c.DetailStatus == 6 ? "Đang gia công" : "Đã gia công xong"))),
                         }).OrderBy(sorting);

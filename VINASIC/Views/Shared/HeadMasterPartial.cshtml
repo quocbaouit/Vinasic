@@ -245,6 +245,21 @@
 <div id="sound"></div>
 <script type="text/javascript">
     $(document).ready(function () {
+        function realTimeReloadJtableOrder() {
+            if (orderStatus == undefined) {
+                orderStatus = 1;
+            }
+            var keySearch = $("#keyword").val();
+            //var fromDate = $("#datefrom").val();
+            //var toDate = $("#dateto").val();
+            moment.utc($("#datefrom").val()).toJSON().slice(0, 10);
+            moment.utc($("#dateto").val()).toJSON().slice(0, 10);
+            var fromDate = $("#datefrom").val();
+            var toDate = $("#dateto").val();
+            var employee = $("#cemployee1").val();
+            var delivery = $("#DeliveryType").val();
+            $("#" + 'jtableOrder').jtable("load", { 'keyword': keySearch, 'employee': employee, 'fromDate': fromDate, 'toDate': toDate, 'orderStatus': orderStatus });
+        }
         var notificationCount = document.getElementById("bellBar").innerHTML = $(".notification li").length;
         if (notificationCount > 0) {
             $("#bellBar").css({ "display": "inline" });
@@ -263,12 +278,32 @@
         //};
         realTimeHub.client.GetUpdateEvent = function (jtableName, user, message) {
             if (myClientName !== user) {
+
                 if (jtableName != 'jtableOrder')
                 {
-                    $("#" + jtableName).jtable("load", { 'keyword': "" });
-                    $("#" + jtableName).jtable("load", { 'keyword': "" });
-                    $("#" + jtableName).jtable("load", { 'keyword': "" });
-                }          
+                    //$("#" + jtableName).jtable("load", { 'keyword': "" });
+                    //$("#" + jtableName).jtable("load", { 'keyword': "" });
+                    //$("#" + jtableName).jtable("load", { 'keyword': "" });$('#popup_Design').modal('show')
+                    if (jtableName == 'jtableDesign') {
+                        var keySearch = $("#keyword").val();
+                        var fromDate = $("#datefrom").val();
+                        var toDate = $("#dateto").val();
+                        var employee = $("#cemployee1").val();
+                        $("#" + 'jtableDesign').jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'employee': employee });
+                        $("#" + 'jtablePrint').jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'employee': employee });
+                        $('#popup_Design_Notification').modal('show');
+                    }
+                    if (jtableName == 'jtablePrint') {
+                        var keySearch = $("#keyword").val();
+                        var fromDate = $("#datefrom").val();
+                        var toDate = $("#dateto").val();
+                        var employee = $("#cemployee1").val();
+                        $("#" + 'jtablePrint').jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'employee': employee });
+                        $("#" + 'jtableDesign').jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'employee': employee });
+                        $('#popup_Print_Notification').modal('show');
+                    }
+                }
+                
                 writeEvent1('<b>' + user + '</b> : ' + message, 'event-message');
                 document.getElementById("bellBar").innerHTML = $(".notification li").length;
                 $("#bellBar").css({ "display": "inline" });

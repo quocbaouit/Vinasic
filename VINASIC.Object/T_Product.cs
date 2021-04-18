@@ -36,6 +36,9 @@ namespace VINASIC.Object
         public Nullable<int> Inventory { get; set; }
         public Nullable<int> ProcessId { get; set; }
         public Nullable<int> OrderIndex { get; set; }
+        public string Unit { get; set; }
+        public Nullable<double> ProductPrice { get; set; }
+        public Nullable<bool> IsShowDim { get; set; }
     
         public virtual T_ProductType T_ProductType { get; set; }
         public virtual Collection<T_OrderDetail> T_OrderDetail { get; set; }

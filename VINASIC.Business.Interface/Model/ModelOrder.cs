@@ -65,6 +65,7 @@ namespace VINASIC.Business.Interface.Model
         public string Unit { get; set; }
 
         public double Total { get; set; }
+        public double TotalExcludeTax { get; set; }
         public double Total1 { get; set; }
         public double Cost { get; set; }
         public double HasPay { get; set; }

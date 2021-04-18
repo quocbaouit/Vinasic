@@ -21,12 +21,14 @@ namespace VINASIC.Controllers
         private readonly IBLLRole _bllRole;
         private readonly IBllPosition _bllPosition;
         private readonly IBllSiteSetting _bllSiteSetting;
-        public EmployeeController(IBllEmployee bllEmployee, IBllSiteSetting bllSiteSetting, IBllPosition bllPosition, IBLLRole bllRole)
+        private readonly IBllOrderDetailStatus _bllOrderDetailStatus;
+        public EmployeeController(IBllEmployee bllEmployee, IBllSiteSetting bllSiteSetting, IBllPosition bllPosition, IBLLRole bllRole, IBllOrderDetailStatus bllOrderDetailStatus)
         {
             _bllEmployee = bllEmployee;
             _bllRole = bllRole;
             _bllPosition = bllPosition;
             _bllSiteSetting = bllSiteSetting;
+            _bllOrderDetailStatus = bllOrderDetailStatus;
         }
         public ActionResult Index()
         {
@@ -40,11 +42,15 @@ namespace VINASIC.Controllers
         }
         public ActionResult DesignIndex()
         {
+            var orderDetailStatus = _bllOrderDetailStatus.GetListOrderDetailStatus();
+            ViewBag.OrderDetailStatus = orderDetailStatus;
             return View();
         }
 
         public ActionResult PrintIndex()
         {
+            var orderDetailStatus = _bllOrderDetailStatus.GetListOrderDetailStatusPrint();
+            ViewBag.OrderDetailStatus = orderDetailStatus;
             return View();
         }
         [HttpPost]

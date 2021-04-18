@@ -249,6 +249,9 @@
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\MaterialTypeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\OrderDetailStatusPrintController.cs" />
+    <Compile Include="Controllers\OrderDetailStatusController.cs" />
+    <Compile Include="Controllers\OrderStatusController.cs" />
     <Compile Include="Controllers\PaymentVoucherController.cs" />
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Controllers\ElementFormularController .cs" />
@@ -2033,6 +2036,9 @@
     <Content Include="Scripts\VINASIC\MasterPage\MasterPage.js" />
     <Content Include="Scripts\VINASIC\MaterialType\MaterialType_Index.js" />
     <Content Include="Scripts\VINASIC\Material\Material_Index.js" />
+    <Content Include="Scripts\VINASIC\OrderDetailStatus\OrderDetailStatusPrint_Index.js" />
+    <Content Include="Scripts\VINASIC\OrderDetailStatus\OrderDetailStatus_Index.js" />
+    <Content Include="Scripts\VINASIC\OrderStatus\OrderStatus_Index.js" />
     <Content Include="Scripts\VINASIC\Order\Order_Index.js" />
     <Content Include="Scripts\VINASIC\Organization\Organization_Index.js" />
     <Content Include="Scripts\VINASIC\Partner\Partner_Index.js" />
@@ -2116,6 +2122,9 @@
     <Content Include="Views\ContentPage\Index.cshtml" />
     <Content Include="Views\ContentPage\IndexView.cshtml" />
     <Content Include="Views\SiteSetting\Index.cshtml" />
+    <Content Include="Views\OrderDetailStatus\Index.cshtml" />
+    <Content Include="Views\OrderStatus\Index.cshtml" />
+    <Content Include="Views\OrderDetailStatusPrint\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

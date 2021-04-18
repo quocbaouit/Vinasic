@@ -3,10 +3,6 @@
 }
 <script src="~/Scripts/VINASIC/Employee/Design_Index.js"></script>
 <style>
-    .dropdown-submenu {
-    position: relative;
-}
-
 .dropdown-submenu>.dropdown-menu {
     top: 0;
     left: 100%;
@@ -89,7 +85,7 @@
 </div>
 <div id="jtableDesign"></div>
 <div class="modal fade" id="popup_Design" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -99,8 +95,10 @@
             <div class="modal-body" style="padding: 40px 50px;">
                 <form role="form">
                     <div class="form-group">
-                        <label for="caddress">Mô Tả Công Việc</label>
-                        <textarea name="" id="dDescription" class="form-control" cols="30" rows="8"></textarea>
+                        @*<label for="caddress">Mô Tả Công Việc</label>*@
+                        <div id="view-content">
+                        </div>
+                        @*<textarea name="" id="dDescription" class="form-control" cols="30" rows="8"></textarea>*@
                     </div>
                     @*<input type="hidden" data-bind="value: Id" />
         <div class="form-group">
@@ -127,3 +125,41 @@
 
     </div>
 </div>
+
+<div class="modal fade" id="popup_Design_Notification" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4><span class="glyphicon glyphicon-pencil"></span>Thông Báo Công Việc</h4>
+            </div>
+            <div class="modal-body" style="padding: 40px 50px;">
+                <h1 style="color:red">Bạn nhận được yêu cầu thiết kế mới.Vui lòng kiểm tra</h1>
+            </div>
+            <div class="modal-footer">
+                <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
+                    <div class="button-image image-close"></div>
+                    Đóng
+                </button>
+                @*<button save class="btn btn-primary">
+                        <div class="button-image image-save"></div>
+                        Lưu
+                    </button>*@
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        orderDetailStatusList = @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.OrderDetailStatus)));
+        var statusDetailDropdown = "<ul class=\"dropdown-menu\">";
+        for (var i = 0; i < orderDetailStatusList.length; i++) {
+            var detail = "<li><a class=\"orderDetailstatus\" data-id=\"" + orderDetailStatusList[i].Value + "\" href=\"javascript:void(0)\">" + orderDetailStatusList[i].Name + "</a></li>";
+            statusDetailDropdown = statusDetailDropdown + detail;
+        }
+        statusDetailDropdown = statusDetailDropdown + "</ul>";
+        resultDetailStatusList = statusDetailDropdown;
+});
+</script>

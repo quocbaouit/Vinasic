@@ -20,7 +20,7 @@ VINASIC.Print = function () {
     var global = {
         UrlAction: {
             GetListPrint: "/Employee/GetJobForPrint",
-            SavePrint: "/Employee/SavePrint",
+            SaveOrderDetail: "/Order/PrintUpdateOrderDetail",
             DeletePrint: "/Employee/DeletePrint"
         },
         Element: {
@@ -30,7 +30,14 @@ VINASIC.Print = function () {
         Data: {
             ModelPrint: {},
             ModelConfig: {},
-            ClientId: ""
+            ListEmployeePrint: [],
+            ListEmployeePrint: [],
+            ListEmployeeAddon: [],
+            ClientId: "",
+            returnString: "",
+            OrderId: 0,
+            IdDetailStatus: 0
+
         }
     };
     this.GetGlobal = function () {
@@ -43,11 +50,54 @@ VINASIC.Print = function () {
         var employee = $("#cemployee1").val();
         $("#" + global.Element.JtablePrint).jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'employee': employee });
     }
+    /*function init model using knockout Js*/
+    function initViewModel(print) {
+        var printViewModel = {
+            Id: 0,
+            FileName: "",
+            PrintDescription: ""
+        };
+        if (print != null) {
+            printViewModel = {
+                Id: ko.observable(print.Id),
+                FileName: ko.observable(print.FileName),
+                PrintDescription: ko.observable(print.PrintDescription)
+            };
+        }
+        return printViewModel;
+    }
+    function bindData(print) {
+        global.Data.ModelPrint = initViewModel(print);
+        ko.applyBindings(global.Data.ModelPrint);
+    }
+    /*end function*/
     /*function show Popup*/
     function showPopupPrint() {
         $("#" + global.Element.PopupPrint).modal("show");
     }
-    /*End*/
+    function updateDetailStatus(detailId, status, employeeUpdateId) {
+        $.ajax({
+            url: "/Order/EmployeeUpdateDetailStatus?detailId=" + detailId + "&status=" + status + "&employeeId=" + employeeUpdateId + "&updateType=" + 2,
+            type: 'post',
+            contentType: 'application/json',
+            success: function (result) {
+                $('#loading').hide();
+                GlobalCommon.CallbackProcess(result, function () {
+                    if (result.Result === "OK") {
+                        reloadListPrint();
+                        global.Data.ClientId = document.getElementById("ClientName").innerHTML;
+                        var realTimeHub = $.connection.realTimeJTableDemoHub;
+                        realTimeHub.server.sendUpdateEvent("jtablePrint", global.Data.ClientId, "Cập nhật in ấn: " + global.Data.returnString + "");
+                        $.connection.hub.start();
+                        toastr.success("Thành Công");
+                    }
+                }, false, global.Element.PopupOrder, true, true, function () {
+
+                    toastr.error(result.Message);
+                });
+            }
+        });
+    }
     function updateStatus(id, status, returnString) {
         $.ajax({
             url: "/Employee/PrintUpdateOrderDeatail?id=" + id + "&status=" + status,
@@ -61,18 +111,20 @@ VINASIC.Print = function () {
                         reloadListPrint();
                         global.Data.ClientId = document.getElementById("ClientName").innerHTML;
                         var realTimeHub = $.connection.realTimeJTableDemoHub;
-                        realTimeHub.server.sendUpdateEvent("jtableOrder", global.Data.ClientId, "Cập nhật in: " + returnString + "");
+                        realTimeHub.server.sendUpdateEvent("jtableOrder", global.Data.ClientId, "Cập nhật thiết kế: " + returnString + "");
                         $.connection.hub.start();
                         toastr.success("Cập nhật Thành Công");
                     } else {
-                        toastr.warning("Đã In Xong");
+                        toastr.warning("Đã Thiết Kế Xong");
                     }
                 }, false, global.Element.PopupOrder, true, true, function () {
+
                     toastr.error(result.Message);
                 });
             }
         });
     }
+    /*End*/
 
     /*function Delete */
     function deleteRow(id) {
@@ -100,9 +152,9 @@ VINASIC.Print = function () {
     /*function Init List Using Jtable */
     function initListPrint() {
         $("#" + global.Element.JtablePrint).jtable({
-            title: "Danh sách file in ấn/gia công",
+            title: "Danh sách file thiết kế",
             paging: true,
-            pageSize: 50,
+            pageSize: 10,
             pageSizeChangePrint: true,
             sorting: true,
             selectShow: true,
@@ -115,20 +167,30 @@ VINASIC.Print = function () {
             },
             fields: {
                 Id: {
+                    title: 'Key',
+                    width: "5%",
                     key: true,
                     create: false,
                     edit: false,
-                    list: false
+                    list: true
                 },
                 CreatedDate: {
                     title: 'Ngày Tạo',
-                    width: "10%",
+                    width: "5%",
                     type: 'date',
                     displayFormat: 'dd-mm-yy'
                 },
                 CustomerName: {
                     title: "Tên Khách Hàng",
-                    width: "5%"
+                    width: "15%",
+                    display: function (data) {
+                        var text = $("<a href=\"#\" class=\"clickable\" title=\"Chỉnh sửa thông tin.\">" + data.record.CustomerName + "</a>");
+                        text.click(function () {
+                            bindData(data.record);
+                            showPopupPrint();
+                        });
+                        return text;
+                    }
                 },
                 CommodityName: {
                     title: "Dịch Vụ",
@@ -141,21 +203,21 @@ VINASIC.Print = function () {
                 Width: {
                     visibility: "fixed",
                     title: "Chiều dài",
-                    width: "5%"
+                    width: "2%"
                 },
                 Height: {
                     visibility: "fixed",
                     title: "Chiều Rộng",
-                    width: "5%"
+                    width: "2%"
                 },
                 Quantity: {
                     visibility: "fixed",
                     title: "số Lượng",
-                    width: "5%"
+                    width: "2%"
                 },
                 //Description: {
                 //    title: "Mô Tả",
-                //    width: "10%"
+                //    width: "15%"
                 //},
                 strJob: {
                     visibility: 'fixed',
@@ -164,30 +226,75 @@ VINASIC.Print = function () {
                     display: function (data) {
                         var text = $('<a href="javascript:void(0)" class="clickable"  data-target="#popup_Print" title="">' + "Chi Tiết" + '</a>');
                         text.click(function () {
-                            $("#dDescription").val(data.record.PrintDescription);
+                            $("#view-content").empty();
+                            $("#view-content").append(data.record.PrintDescription);
                             showPopupPrint();
+                        });
+                        return text;
+                    }
+                },
+                //                StrprintStatus: {
+                //                    visibility: "fixed",
+                //                    title: "Xử Lý",
+                //                    width: "20%",
+                //                    display: function (data) {
+                //                        //var text = $("<a href=\"#\" class=\"clickable\" title=\"Cập nhật Trạng Thái.\">" + data.record.StrprintStatus + "</a>");
+                //                        //text.click(function () {
+                //                        //    returnString = '<span data-id="'+data.record.OrderId+'" class="viewUpdateDetail">' + data.record.OrderId + '</br>' + data.record.CustomerName + ':' + data.record.Width + '*' + data.record.Height + '-NVKD:' + data.record.EmployeeName;
+                //                        //    updateStatus(data.record.Id, data.record.DetailStatus, returnString);
+                //                        //});
+                //                        var text = "";
+                //                        var arrayNVIN = global.Data.ListEmployeePrint;
+                //                        var arrayNVGC = global.Data.ListEmployeeAddon;
+                //                        var textNVTK = '';
+                //                        var textNVIN = '';
+                //                        var textNVGC = '';
+                //                        var strStatus = '';
+                //                        strStatus = getOrderDetailStatus(data.record.DetailStatus);
+                //                        if (data.record.DetailStatus == 3) {
+                //                            if (data.record.PrintUser == null) { strStatus = 'Đã Thiết Kế Xong'; }
+                //                            else {
+                //                                strStatus = 'Đã Thiết Kế Xong';
+                //                                /*strStatus = 'Đã Chuyển Cho In Ấn:' + data.record.PrintView;*/
+                //}
+                //                        }
+                //                        if (data.record.DetailStatus == 5) { strStatus = 'Đã Chuyển Cho Gia Công:' + data.record.AddOnView; }
+                //                        for (var i = 0; i < arrayNVIN.length; i++) {
+                //                            textNVIN = textNVIN + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVIN[i].Id + ' class="detailstatus3" href="#">' + arrayNVIN[i].Name + '</a></li>'
+                //                        };
+                //                        for (var i = 0; i < arrayNVGC.length; i++) {
+                //                            textNVGC = textNVGC + '<li><a onclick="GetdataId(this)" data-id=' + arrayNVGC[i].Id + ' class="detailstatus5" href="#">' + arrayNVGC[i].Name + '</a></li>'
+                //                        };
+                //                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" data-target="#" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Chi tiết đơn hàng.\">' + strStatus + '</a></span></button><ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu"><li class="dropdown"><a tabindex="-1" href="#" class="detailstatus1" href="javascript:void(0)">Đang thiết kế</a></li><li class="dropdown"><a tabindex="-1" href="#" class=" detailstatus2" href="javascript:void(0)">Đã thiết kế xong</a></li></ul></div>');
+                //                        text.click(function () {
+                //                            global.Data.returnString = '<span data-id="' + data.record.OrderId + '" class="viewUpdateDetail">' + data.record.OrderId + '</br>' + data.record.CustomerName + ':' + data.record.Width + '*' + data.record.Height + '-NVKD:' + data.record.EmployeeName;
+                //                            global.Data.OrderId = data.record.OrderId;
+                //                            global.Data.IdDetailStatus = data.record.Id;
+                //                        });
+
+                //                        return text;
+                //                    }
+                //                },
+                strDetailStatus: {
+                    visibility: 'fixed',
+                    title: "Xử Lý",
+                    width: "10%",
+                    display: function (data) {
+
+                        var text = "";
+                        var strStatus = data.record.DetailStatusName;
+                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật trạng thái đơn hàng.\">' + strStatus + '</a>' + resultDetailStatusList + '</div>');
+                        text.click(function (e) {
+                            global.Data.OrderId = data.record.Id;
+                            global.Data.IdDetailStatus = data.record.Id;
                         });
                         return text;
                     }
                 },
                 EmployeeName: {
                     title: "Nhân Viên Kinh Doanh",
-                    width: "10%"
+                    width: "20%"
                 },
-                StrPrintStatus: {
-                    visibility: "fixed",
-                    title: "Xử Lý",
-                    width: "15%",
-                    display: function (data) {
-                        var text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật Trạng Thái.\">" + data.record.StrPrintStatus + "</a>");
-                        text.click(function () {
-                            returnString = '<span data-id="' + data.record.OrderId + '" class="viewUpdateDetail">' + data.record.OrderId + '</br>' + data.record.CustomerName + ':' + data.record.Width + '*' + data.record.Height + '-NVKD:' + data.record.EmployeeName;
-                            updateStatus(data.record.Id, data.record.DetailStatus, returnString);
-
-                        });
-                        return text;
-                    }
-                }
             }
         });
     }
@@ -207,7 +314,7 @@ VINASIC.Print = function () {
     /*function Save */
     function savePrint() {
         $.ajax({
-            url: global.UrlAction.SavePrint,
+            url: global.UrlAction.SaveOrderDetail,
             type: 'post',
             data: ko.toJSON(global.Data.ModelPrint),
             contentType: 'application/json',
@@ -215,12 +322,13 @@ VINASIC.Print = function () {
                 $('#loading').hide();
                 GlobalCommon.CallbackProcess(result, function () {
                     if (result.Result === "OK") {
-                        toastr.success("Cập nhật Thành Công");
-                    } else {
-                        toastr.warning("Đã In Xong");
+                        $("#" + global.Element.PopupPrint).modal("hide");
+                        reloadListPrint();
+                        toastr.success("Thành Công");
                     }
                 }, false, global.Element.PopupPrint, true, true, function () {
-                    toastr.error("Đã có lỗi xảy ra trong quá trình sử lý.");
+                    var msg = GlobalCommon.GetErrorMessage(result);
+                    GlobalCommon.ShowMessageDialog(msg, function () { }, "Đã có lỗi xảy ra trong quá trình sử lý.");
                 });
             }
         });
@@ -242,6 +350,7 @@ VINASIC.Print = function () {
             }
         });
     }
+
     /* Region Register and init bootrap Popup*/
     function initPopupPrint() {
         $("#" + global.Element.PopupPrint).modal({
@@ -250,9 +359,6 @@ VINASIC.Print = function () {
         });
         $("#" + global.Element.PopupPrint + " button[save]").click(function () {
             savePrint();
-            var realTimeHub = $.connection.realTimeJTableDemoHub;
-            realTimeHub.server.sendUpdateEvent("jtablePrint", global.Data.ClientId, "Cập nhật loại dịch vụ");
-            $.connection.hub.start();
         });
         $("#" + global.Element.PopupPrint + " button[cancel]").click(function () {
             $("#" + global.Element.PopupPrint).modal("hide");
@@ -264,26 +370,80 @@ VINASIC.Print = function () {
         reloadListPrint();
     };
     var registerEvent = function () {
+        $("[search]").click(function () {
+            reloadListPrint();
+        });
         $("#search").click(function () {
             reloadListPrint();
         });
-        $("[cancel]").click(function () {
-            bindData(null);
+        $("body").delegate(".detailstatus1", "click", function (event) {
+            event.preventDefault();
+            updateDetailStatus(global.Data.IdDetailStatus, 2, 0);
         });
+        $("body").delegate(".detailstatus2", "click", function (event) {
+            event.preventDefault();
+            updateDetailStatus(global.Data.IdDetailStatus, 3, 0);
+        });
+        $("body").delegate(".detailstatus3", "click", function (event) {
+            event.preventDefault();
+            updateDetailStatus(global.Data.IdDetailStatus, 3, employeeUpdateId);
+        });
+        $("body").delegate(".detailstatus5", "click", function (event) {
+            event.preventDefault();
+            updateDetailStatus(global.Data.IdDetailStatus, 5, employeeUpdateId);
+        });
+        $("body").delegate(".orderDetailstatus", "click", function (event) {
+            var statusId = $(this).attr("data-id");
+            event.preventDefault();
+            updateDetailStatus(global.Data.IdDetailStatus, statusId, 1);
+        });
+
     };
     this.Init = function () {
-        initComboBoxBusiness1();
-        global.Data.ClientId = document.getElementById("ClientName").innerHTML;
-        document.getElementById("datefrom").defaultValue = new Date(new Date() - 24 * 60 * 60 * 1000).toISOString().substring(0, 10);
-        document.getElementById("dateto").defaultValue = new Date().toISOString().substring(0, 10);
-        registerEvent();
-        initListPrint();
-        reloadListPrint();
-        initPopupPrint();
+        $.ajax({
+            url: "/Employee/GetSimpleEmployee",
+            type: 'post',
+            contentType: 'application/json',
+            success: function (result) {
+                GlobalCommon.CallbackProcess(result, function () {
+                    if (result.Result == 'OK') {
+                        global.Data.ListEmployeePrint = result.Records.printUser;
+                        global.Data.ListEmployeePrint = result.Records.printingUser;
+                        global.Data.ListEmployeeAddon = result.Records.addOnUser;
+                    }
+
+                }, false, global.Element.PopupOrder, true, true, function () {
+                    var msg = GlobalCommon.GetErrorMessage(result);
+                    GlobalCommon.ShowMessageDialog(msg, function () { }, "Đã có lỗi xảy ra trong quá trình sử lý.");
+                });
+            }
+        });
+        setTimeout(function () {
+            initComboBoxBusiness1();
+            global.Data.ClientId = document.getElementById("ClientName").innerHTML;
+            document.getElementById("datefrom").defaultValue = new Date(new Date() - 24 * 60 * 60 * 1000).toISOString().substring(0, 10);
+            document.getElementById("dateto").defaultValue = new Date().toISOString().substring(0, 10);
+            registerEvent();
+            initListPrint();
+            reloadListPrint();
+            initPopupPrint();
+        });
     };
+};
+this.initViewModel = function (print) {
+    initViewModel(print);
+};
+this.bindData = function (print) {
+    bindData(print);
+};
+var registerEvent = function () {
+    $("[cancel]").click(function () {
+        bindData(null);
+    });
 };
 /*End Region*/
 $(document).ready(function () {
+    var employeeUpdateId = 0;
     var print = new VINASIC.Print();
     print.Init();
 });
@@ -291,7 +451,9 @@ function isNumberKey(evt) {
     var charCode = (evt.which) ? evt.which : event.keyCode;
     if (charCode === 59 || charCode === 46)
         return true;
-    if (charCode > 31 && (charCode < 48 || charCode > 57))
-    { GlobalCommon.ShowMessageDialog("Vui lòng nhập số.", function () { }, "Lỗi Nhập liệu"); }
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) { GlobalCommon.ShowMessageDialog("Vui lòng nhập số.", function () { }, "Lỗi Nhập liệu"); }
     return true;
+}
+function GetdataId(obj) {
+    employeeUpdateId = $(obj).data("id");
 }
