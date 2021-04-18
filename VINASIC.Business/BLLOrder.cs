@@ -343,7 +343,8 @@ namespace VINASIC.Business
                         DetailStatus = 0,
                         CreatedUser = userId,
                         CreatedDate = DateTime.UtcNow,
-                        FileName = detail.FileName
+                        FileName = detail.FileName,
+                        DetailStatusName = "Đang xử lý"
                     };
                     _repOrderDetail.Add(orderDetail);
                     SaveChange();
