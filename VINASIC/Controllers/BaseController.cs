@@ -38,7 +38,7 @@ namespace VINASIC.Controllers
             }
             else
             {
-                if (controllerName.Equals("Authenticate") && actionName.Equals("Login"))
+                if ((controllerName.Equals("Authenticate") && actionName.Equals("Login")) || (controllerName.Equals("ContentPage")))
                 {
                     base.Initialize(requestContext);
                 }
