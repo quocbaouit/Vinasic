@@ -17,9 +17,10 @@ namespace VINASIC.Controllers
         {         
             return View();
         }
-        public ActionResult IndexView(int code)
+        public ActionResult IndexView(int? code=null)
         {
-            ViewBag.Type = code;
+            int requestCode = code ?? 1;
+            ViewBag.Type = requestCode;
             return View();
         }
         [HttpPost]

@@ -17,7 +17,7 @@ namespace VINASIC
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "ContentPage", action = "IndexView?code=1", id = UrlParameter.Optional }
+                defaults: new { controller = "ContentPage", action = "IndexView", id = UrlParameter.Optional }
             );
         }
     }
