@@ -885,7 +885,7 @@ namespace VINASIC.Controllers
             //}
 
            
-            ws.Column(columnNumber).Width = 30;
+            ws.Column(columnNumber).Width = 32;
             columnNumber++;
             if (configUnit == "true")
             {
@@ -903,15 +903,15 @@ namespace VINASIC.Controllers
                 columnNumber++;
             }
 
-            ws.Column(columnNumber).Width = 30;
+            ws.Column(columnNumber).Width = 32;
             columnNumber++;
-            ws.Column(columnNumber).Width = 30;
+            ws.Column(columnNumber).Width = 32;
             columnNumber++;
-            ws.Column(columnNumber).Width = 30;
+            ws.Column(columnNumber).Width = 32;
             columnNumber++;
-            ws.Column(columnNumber).Width = 30;
+            ws.Column(columnNumber).Width = 32;
             columnNumber++;
-            ws.Column(columnNumber).Width = 30;
+            ws.Column(columnNumber).Width = 32;
             columnNumber++;
             //ws.Column(columnNumber).Width = 14;
             //columnNumber++;
@@ -978,23 +978,23 @@ namespace VINASIC.Controllers
 
 
             ws.Cells["A15"].Value = "Giám đốc(Ký, họ tên)";
-            ws.Cells["A15"].Style.Font.Size = 10;
+            ws.Cells["A15"].Style.Font.Size = 14;
             ws.Cells["A15"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
             ws.Cells["B15"].Value = "Kế toán trưởng(Ký, họ tên)";
-            ws.Cells["B15"].Style.Font.Size = 10;
+            ws.Cells["B15"].Style.Font.Size = 14;
             ws.Cells["B15"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
             ws.Cells["C15"].Value = "Người nộp tiền(Ký, họ tên)";
-            ws.Cells["C15"].Style.Font.Size = 10;
+            ws.Cells["C15"].Style.Font.Size = 14;
             ws.Cells["C15"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
             ws.Cells["D15"].Value = "Người lập phiếu(Ký, họ tên)";
-            ws.Cells["D15"].Style.Font.Size = 10;
+            ws.Cells["D15"].Style.Font.Size = 14;
             ws.Cells["D15"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
             ws.Cells["E15"].Value = "Thủ quỹ(Ký, họ tên)";
-            ws.Cells["E15"].Style.Font.Size = 10;
+            ws.Cells["E15"].Style.Font.Size = 14;
             ws.Cells["E15"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
             char letter = 'a';
