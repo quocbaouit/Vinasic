@@ -825,10 +825,6 @@ namespace VINASIC.Business
                 }
                 _repOrder.Update(order);
                 SaveChange();
-                T_Notification noti = new T_Notification();
-                var currentTime= TimeZoneInfo.ConvertTimeToUtc(DateTime.UtcNow, curentZone);
-                noti.CreatedDate = currentTime;
-                noti.CreatedUser = employeeId;
                 List<Notification> listSubcription = new List<Notification>();
                 var userGetPush = _repUser.GetById(employeeId);
                 if (!string.IsNullOrEmpty(userGetPush.Subscription))
