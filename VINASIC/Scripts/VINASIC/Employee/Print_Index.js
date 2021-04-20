@@ -87,7 +87,7 @@ VINASIC.Print = function () {
                         reloadListPrint();
                         global.Data.ClientId = document.getElementById("ClientName").innerHTML;
                         var realTimeHub = $.connection.realTimeJTableDemoHub;
-                        realTimeHub.server.sendUpdateEvent("jtablePrint", global.Data.ClientId, "Cập nhật in ấn: " + global.Data.returnString + "");
+                        realTimeHub.server.sendUpdateEvent("jtableOrder", global.Data.ClientId, "Cập nhật in ấn: " + global.Data.returnString + "");
                         $.connection.hub.start();
                         toastr.success("Thành Công");
                     }
@@ -111,7 +111,7 @@ VINASIC.Print = function () {
                         reloadListPrint();
                         global.Data.ClientId = document.getElementById("ClientName").innerHTML;
                         var realTimeHub = $.connection.realTimeJTableDemoHub;
-                        realTimeHub.server.sendUpdateEvent("jtableOrder", global.Data.ClientId, "Cập nhật thiết kế: " + returnString + "");
+                        realTimeHub.server.sendUpdateEvent("jtableOrder", global.Data.ClientId, "Cập nhật in ấn: " + returnString + "");
                         $.connection.hub.start();
                         toastr.success("Cập nhật Thành Công");
                     } else {

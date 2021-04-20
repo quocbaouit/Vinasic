@@ -246,9 +246,10 @@
 <script type="text/javascript">
     $(document).ready(function () {
         function realTimeReloadJtableOrder() {
-            if (orderStatus == undefined) {
-                orderStatus = 1;
-            }
+            //if (orderStatus == undefined) {
+            //    orderStatus = 1;
+            //}
+            var orderStatus = 1; 
             var keySearch = $("#keyword").val();
             //var fromDate = $("#datefrom").val();
             //var toDate = $("#dateto").val();
@@ -278,7 +279,9 @@
         //};
         realTimeHub.client.GetUpdateEvent = function (jtableName, user, message) {
             if (myClientName !== user) {
-
+                if (jtableName == 'jtableOrder') {
+                    realTimeReloadJtableOrder();
+                }
                 if (jtableName != 'jtableOrder')
                 {
                     //$("#" + jtableName).jtable("load", { 'keyword': "" });
@@ -292,6 +295,8 @@
                         $("#" + 'jtableDesign').jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'employee': employee });
                         $("#" + 'jtablePrint').jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'employee': employee });
                         $('#popup_Design_Notification').modal('show');
+                        $("#" + 'jtableDesign').jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'employee': employee });
+                        $("#" + 'jtablePrint').jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'employee': employee });
                     }
                     if (jtableName == 'jtablePrint') {
                         var keySearch = $("#keyword").val();
@@ -300,7 +305,10 @@
                         var employee = $("#cemployee1").val();
                         $("#" + 'jtablePrint').jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'employee': employee });
                         $("#" + 'jtableDesign').jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'employee': employee });
+
                         $('#popup_Print_Notification').modal('show');
+                        $("#" + 'jtablePrint').jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'employee': employee });
+                        $("#" + 'jtableDesign').jtable("load", { 'keyword': keySearch, 'fromDate': fromDate, 'toDate': toDate, 'employee': employee });
                     }
                 }
                 

@@ -1079,7 +1079,6 @@ VINASIC.Order = function () {
                         var employee = $("#cemployee1").val();
                         var delivery = $("#DeliveryType").val();
                         var paymentStatus = $("#PaymentStatus").val();
-                        debugger;
                         var listOrderid = [];
                         var $selectedRows = $('#jtableOrder').jtable('selectedRows');
                         if ($selectedRows.length==0) {
@@ -1591,7 +1590,6 @@ VINASIC.Order = function () {
                             global.Data.Pproduct = "";
                             calculatorProduct(data.record.T_OrderDetail);
                             //rendertable 
-                            debugger;
                             var taxFee = data.record.SubTotal - data.record.SubTotalExcludeTax;
                             renderTable(data.record.T_OrderDetail, data.record.SubTotal, data.record.HasPay + data.record.HaspayTransfer, 0, taxFee);
                             if (data.record.HasTax) {
@@ -2214,7 +2212,6 @@ VINASIC.Order = function () {
                     if (tax) {
                         totalIncludeTax = orderTotal * 0.1 + orderTotal;
                     }
-                    debugger;
                     $.ajax({
                         url: global.UrlAction.SaveOrder + "?orderId=" + global.Data.OrderId + "&employeeId=" + employeeId + "&customerId=" + global.Data.CustomerId + "&customerName=" + customerName + "&customerPhone=" + customerPhone + "&customerMail=" + customerMail + "&customerAddress=" + customerAddress + "&customerTaxCode=" + customerTaxCode + "&dateDelivery=" + dateDelivery + "&orderTotal=" + orderTotal + "&tax=" + tax + "&orderTotalTax=" + totalIncludeTax + "&deposit=" + deposit,
                         type: 'post',
@@ -2268,7 +2265,6 @@ VINASIC.Order = function () {
     function initProductPrice() {
         var url = "/Order/GetProductPrice?type=2";
         $.getJSON(url, function (datas) {
-            debugger;
             global.Data.ProductPrice = JSON.parse(datas.Content);
         });
     }
@@ -2336,7 +2332,12 @@ VINASIC.Order = function () {
             //updateDesignUser(global.Data.DetailId, designId, description);
             global.Data.ClientId = document.getElementById("ClientName").innerHTML;
             var realTimeHub = $.connection.realTimeJTableDemoHub;
-            realTimeHub.server.sendUpdateEvent("jtableDesign", global.Data.ClientId, "Cập nhật");
+            if (global.Data.DetailStatus==1) {
+                realTimeHub.server.sendUpdateEvent("jtableDesign", global.Data.ClientId, "Cập nhật");
+            }
+            if (global.Data.DetailStatus ==3) {
+                realTimeHub.server.sendUpdateEvent("jtablePrint", global.Data.ClientId, "Cập nhật");
+            }          
             $.connection.hub.start();
             $("#" + global.Element.PopupDesignProcess).modal("hide");
             reloadListOrder();
@@ -3401,9 +3402,9 @@ VINASIC.Order = function () {
                 });
             }
         });
-        var Counter = setInterval(function () {
-            reloadListOrder(1);
-        }, 10000);
+        //var Counter = setInterval(function () {
+        //    reloadListOrder(1);
+        //}, 10000);
         //initProductPrice();
         //initProductPrice1();
     };
