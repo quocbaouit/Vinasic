@@ -3401,6 +3401,9 @@ VINASIC.Order = function () {
                 });
             }
         });
+        var Counter = setInterval(function () {
+            reloadListOrder(1);
+        }, 10000);
         //initProductPrice();
         //initProductPrice1();
     };
