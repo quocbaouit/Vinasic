@@ -12,5 +12,6 @@ namespace VINASIC.Business.Interface.Model
         public string CustomerName { get; set; }
         public string EmployeeName { get; set; }
         public string StrPrintStatus { get; set; }
+        public string StrCreatedDate { get; set; }
     }
 }

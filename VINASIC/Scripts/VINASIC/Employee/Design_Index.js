@@ -174,11 +174,9 @@ VINASIC.Design = function () {
                     edit: false,
                     list: true
                 },
-                CreatedDate: {
+                StrCreatedDate: {
                     title: 'Ngày Tạo',
-                    width: "5%",
-                    type: 'date',
-                    displayFormat: 'dd-mm-yy'
+                    width: "5%"
                 },
                 CustomerName: {
                     title: "Tên Khách Hàng",

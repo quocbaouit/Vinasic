@@ -13,6 +13,7 @@ using VINASIC.Data;
 using VINASIC.Data.Repositories;
 using VINASIC.Object;
 using Newtonsoft.Json;
+using System.Configuration;
 
 namespace VINASIC.Business
 {
@@ -28,6 +29,7 @@ namespace VINASIC.Business
         private readonly IBllTiming _bllTiming;
         private readonly IUnitOfWork<VINASICEntities> _unitOfWork;
         private readonly IBLLRole bllRole;
+        private readonly TimeZoneInfo curentZone = TimeZoneInfo.FindSystemTimeZoneById(ConfigurationManager.AppSettings["WEBSITE_TIME_ZONE"]);
         public BllEmployee(IUnitOfWork<VINASICEntities> unitOfWork, IBllTiming bllTiming, IT_OrderRepository repOder, IT_UserRepository repUser, IT_OrderDetailRepository repOrderDetailRepository, IT_PositionRepository repPositionRepository, IT_ProductRepository repProduct, IBLLRole _bllRole, IT_UserProductRepository repUserProduct, IBLLUserRole _bllUserRole)
         {
             this.bllUserRole = _bllUserRole;
@@ -526,6 +528,10 @@ namespace VINASIC.Business
                             CreatedDate = c.CreatedDate,
                             DetailStatusName=c.DetailStatusName
                         }).OrderBy(sorting).ToList();
+                foreach (var item in listDesignProcess)
+                {
+                    item.StrCreatedDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(item.CreatedDate, curentZone):d/M/yyyy HH:mm}";
+                }
                 if (!auth)
                 {
                     listDesignProcess = listDesignProcess.Where(x => x.DesignUser == userId).ToList();
@@ -652,19 +658,22 @@ namespace VINASIC.Business
                             DetailStatusName=c.DetailStatusName,
                             StrPrintStatus = c.DetailStatus == 3 ? "Chưa In" : (c.DetailStatus == 4 ? "Đang In" :
                             (c.DetailStatus == 5 ? "Đã Xong" : (c.DetailStatus == 6 ? "Đang gia công" : "Đã gia công xong"))),
-                        }).OrderBy(sorting);
-
+                        }).OrderBy(sorting).ToList();
+                foreach (var item in listPrintProcess)
+                {
+                    item.StrCreatedDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(item.CreatedDate, curentZone):d/M/yyyy HH:mm}";
+                }
                 if (!string.IsNullOrEmpty(keyWord))
                 {
-                    listPrintProcess = listPrintProcess.Where(x => x.CustomerName.Contains(keyWord));
+                    listPrintProcess = listPrintProcess.Where(x => x.CustomerName.Contains(keyWord)).ToList();
                 }
                 if (!auth)
                 {
-                    listPrintProcess = listPrintProcess.Where(x => x.PrintUser == userId);
+                    listPrintProcess = listPrintProcess.Where(x => x.PrintUser == userId).ToList();
                 }
                 if (emp != 0)
                 {
-                    listPrintProcess = listPrintProcess.Where(x => x.T_Order.CreatedForUser == emp);
+                    listPrintProcess = listPrintProcess.Where(x => x.T_Order.CreatedForUser == emp).ToList();
                 }
                 var pageNumber = (startIndexRecord / pageSize) + 1;
                 return new PagedList<ModelForPrint>(listPrintProcess, pageNumber, pageSize);

@@ -13,5 +13,6 @@ namespace VINASIC.Business.Interface.Model
         public string EmployeeName { get; set; }
         public string StrdesignStatus { get; set; }
         public int CreateForUser { get; set; }
+        public string StrCreatedDate { get; set; }
     }
 }
