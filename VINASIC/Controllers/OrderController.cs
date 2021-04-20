@@ -933,12 +933,6 @@ namespace VINASIC.Controllers
             ws.Cells["D1"].Style.Font.Size = 16;
             ws.Cells["D1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-            //ws.Cells["G2"].Value = cpnWebsite;
-            //ws.Cells["G2"].Style.Font.Bold = true;
-            //ws.Cells["G2"].Style.Font.Size = 14;
-            //ws.Cells["G2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-            //ws.Cells["G2"].Style.Font.Color.SetColor(Color.RoyalBlue);
-
             ws.Cells["D2"].Value = "Địa chỉ văn phòng: " + cpnAddress;
             ws.Cells["D2"].Style.Font.Bold = true;
             ws.Cells["D2"].Style.Font.Size = 14;
@@ -954,6 +948,21 @@ namespace VINASIC.Controllers
             ws.Cells["D5"].Style.Font.Size = 18;
             ws.Cells["D5"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
+
+            //add new
+            ws.Cells["F1"].Value = "Quyển số: PT 001";
+            ws.Cells["F1"].Style.Font.Size = 14;
+            ws.Cells["F1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+            ws.Cells["F2"].Value = "Số:"+ result[0].OrderId;
+            ws.Cells["F2"].Style.Font.Size = 14;
+            ws.Cells["F2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+
+            ws.Cells["F3"].Value = result[0].CreatedDate.ToString("dd/MM/yyyy");
+            ws.Cells["F3"].Style.Font.Size = 14;
+            ws.Cells["F3"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+            //end
+
             ws.Cells["A7"].Value = "Họ và tên người nôp tiền: "+ customerName;
             //ws.Cells["A7"].Style.Font.Bold = true;
             ws.Cells["A7"].Style.Font.Size = 14;
@@ -968,25 +977,25 @@ namespace VINASIC.Controllers
             ws.Cells["A9"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
 
-            ws.Cells["A14"].Value = "Giám đốc(Ký, họ tên)";
-            ws.Cells["A14"].Style.Font.Size = 10;
-            ws.Cells["A14"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+            ws.Cells["A15"].Value = "Giám đốc(Ký, họ tên)";
+            ws.Cells["A15"].Style.Font.Size = 10;
+            ws.Cells["A15"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-            ws.Cells["B14"].Value = "Kế toán trưởng(Ký, họ tên)";
-            ws.Cells["B14"].Style.Font.Size = 10;
-            ws.Cells["B14"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+            ws.Cells["B15"].Value = "Kế toán trưởng(Ký, họ tên)";
+            ws.Cells["B15"].Style.Font.Size = 10;
+            ws.Cells["B15"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-            ws.Cells["C14"].Value = "Người nộp tiền(Ký, họ tên)";
-            ws.Cells["C14"].Style.Font.Size = 10;
-            ws.Cells["C14"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+            ws.Cells["C15"].Value = "Người nộp tiền(Ký, họ tên)";
+            ws.Cells["C15"].Style.Font.Size = 10;
+            ws.Cells["C15"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-            ws.Cells["D14"].Value = "Người lập phiếu(Ký, họ tên)";
-            ws.Cells["D14"].Style.Font.Size = 10;
-            ws.Cells["D14"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+            ws.Cells["D15"].Value = "Người lập phiếu(Ký, họ tên)";
+            ws.Cells["D15"].Style.Font.Size = 10;
+            ws.Cells["D15"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-            ws.Cells["E14"].Value = "Thủ quỹ(Ký, họ tên)";
-            ws.Cells["E14"].Style.Font.Size = 10;
-            ws.Cells["E14"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+            ws.Cells["E15"].Value = "Thủ quỹ(Ký, họ tên)";
+            ws.Cells["E15"].Style.Font.Size = 10;
+            ws.Cells["E15"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
             char letter = 'a';
 
@@ -1082,7 +1091,16 @@ namespace VINASIC.Controllers
             ws.Cells["A12:" + mergerTotalLetter + "12"].Merge = true;
             ws.Cells["A12:" + mergerTotalLetter + "12"].Value = "Tổng cộng";
             ws.Cells["A12:" + mergerTotalLetter + "12"].Style.Font.Bold = true;
-            ws.Cells["A12:" + mergerTotalLetter + "12"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            ws.Cells["A12:" + mergerTotalLetter + "12"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+
+            //add new
+            char mergerTotalLetterText = (char)(((int)letter) - 2);
+            ws.Cells["A13:" + mergerTotalLetterText + "13"].Merge = true;
+            ws.Cells["A13:" + mergerTotalLetterText + "13"].Value = "Bằng Chữ: " + NumberToText(result[0].Total);
+            ws.Cells["A13:" + mergerTotalLetterText + "13"].Style.Font.Bold = true;
+            ws.Cells["A13:" + mergerTotalLetterText + "13"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+           
+            //end
 
             char totalLetter = (char)(((int)mergerTotalLetter) + 1);
             ws.Cells[totalLetter + "12"].Style.Numberformat.Format = "#,##0";
@@ -1091,6 +1109,9 @@ namespace VINASIC.Controllers
 
             ws.Cells[totalLetter + "12"].Style.Numberformat.Format = "#,##0";
             ws.Cells[totalLetter + "12"].Value = "";
+
+            ws.Cells[totalLetter + "13"].Style.Numberformat.Format = "#,##0";
+            ws.Cells[totalLetter + "13"].Value = "";
             totalLetter++;
 
 
@@ -1109,6 +1130,13 @@ namespace VINASIC.Controllers
             //ws.Cells[totalLetter + "12"].Style.Numberformat.Format = "#,##0";
             //ws.Cells[totalLetter + "12"].Value = "";
             foreach (var c in ws.Cells["A12:" + totalLetter + "12"])
+            {
+                c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                c.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                c.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                c.Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            }
+            foreach (var c in ws.Cells["A13:" + totalLetter + "13"])
             {
                 c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 c.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
@@ -1167,7 +1195,7 @@ namespace VINASIC.Controllers
                 ws.Cells[endRow, column].Style.Numberformat.Format = "#,##0";
                 ws.Cells[endRow, column].Value = result[i].SubTotal;
                 column++;
-                ws.Cells[endRow, column].Value = result[i].FileName;
+                ws.Cells[endRow, column].Value = result[i].Description;
                 column++;
 
                 try
@@ -1470,6 +1498,93 @@ namespace VINASIC.Controllers
                 JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update", Message = "Lỗi: " + ex.Message });
             }
             return Json(JsonDataResult);
+        }
+        public static string NumberToText(double inputNumber, bool suffix = true)
+        {
+            string[] unitNumbers = new string[] { "không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín" };
+            string[] placeValues = new string[] { "", "nghìn", "triệu", "tỷ" };
+            bool isNegative = false;
+
+            // -12345678.3445435 => "-12345678"
+            string sNumber = inputNumber.ToString("#");
+            double number = Convert.ToDouble(sNumber);
+            if (number < 0)
+            {
+                number = -number;
+                sNumber = number.ToString();
+                isNegative = true;
+            }
+
+
+            int ones, tens, hundreds;
+
+            int positionDigit = sNumber.Length;   // last -> first
+
+            string result = " ";
+
+
+            if (positionDigit == 0)
+                result = unitNumbers[0] + result;
+            else
+            {
+                // 0:       ###
+                // 1: nghìn ###,###
+                // 2: triệu ###,###,###
+                // 3: tỷ    ###,###,###,###
+                int placeValue = 0;
+
+                while (positionDigit > 0)
+                {
+                    // Check last 3 digits remain ### (hundreds tens ones)
+                    tens = hundreds = -1;
+                    ones = Convert.ToInt32(sNumber.Substring(positionDigit - 1, 1));
+                    positionDigit--;
+                    if (positionDigit > 0)
+                    {
+                        tens = Convert.ToInt32(sNumber.Substring(positionDigit - 1, 1));
+                        positionDigit--;
+                        if (positionDigit > 0)
+                        {
+                            hundreds = Convert.ToInt32(sNumber.Substring(positionDigit - 1, 1));
+                            positionDigit--;
+                        }
+                    }
+
+                    if ((ones > 0) || (tens > 0) || (hundreds > 0) || (placeValue == 3))
+                        result = placeValues[placeValue] + result;
+
+                    placeValue++;
+                    if (placeValue > 3) placeValue = 1;
+
+                    if ((ones == 1) && (tens > 1))
+                        result = "một " + result;
+                    else
+                    {
+                        if ((ones == 5) && (tens > 0))
+                            result = "lăm " + result;
+                        else if (ones > 0)
+                            result = unitNumbers[ones] + " " + result;
+                    }
+                    if (tens < 0)
+                        break;
+                    else
+                    {
+                        if ((tens == 0) && (ones > 0)) result = "lẻ " + result;
+                        if (tens == 1) result = "mười " + result;
+                        if (tens > 1) result = unitNumbers[tens] + " mươi " + result;
+                    }
+                    if (hundreds < 0) break;
+                    else
+                    {
+                        if ((hundreds > 0) || (tens > 0) || (ones > 0))
+                            result = unitNumbers[hundreds] + " trăm " + result;
+                    }
+                    result = " " + result;
+                }
+            }
+            result = result.Trim();
+            if (isNegative) result = "Âm " + result;
+            return result + (suffix ? " đồng" : "");
         }
 
     }
