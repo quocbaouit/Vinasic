@@ -222,7 +222,12 @@ VINASIC.Print = function () {
                     title: "Công Việc",
                     width: "10%",
                     display: function (data) {
-                        var text = $('<a href="javascript:void(0)" class="clickable"  data-target="#popup_Print" title="">' + "Chi Tiết" + '</a>');
+                        if (data.record.PrintDescription!='') {
+                            var text = $('<a style="color:red;" href="javascript:void(0)" class="clickable"  data-target="#popup_Print" title="">' + "Chi Tiết" + '</a>');
+                        } else {
+                            var text = $('<a href="javascript:void(0)" class="clickable"  data-target="#popup_Print" title="">' + "Chi Tiết" + '</a>');
+                        }
+                        
                         text.click(function () {
                             $("#view-content").empty();
                             $("#view-content").append(data.record.PrintDescription);
