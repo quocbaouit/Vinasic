@@ -198,16 +198,16 @@ VINASIC.Design = function () {
                     title: "Tên File",
                     width: "15%"
                 },
-                Width: {
-                    visibility: "fixed",
-                    title: "Chiều dài",
-                    width: "2%"
-                },
-                Height: {
-                    visibility: "fixed",
-                    title: "Chiều Rộng",
-                    width: "2%"
-                },
+                //Width: {
+                //    visibility: "fixed",
+                //    title: "Chiều dài",
+                //    width: "2%"
+                //},
+                //Height: {
+                //    visibility: "fixed",
+                //    title: "Chiều Rộng",
+                //    width: "2%"
+                //},
                 Quantity: {
                     visibility: "fixed",
                     title: "số Lượng",

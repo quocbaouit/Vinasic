@@ -198,16 +198,16 @@ VINASIC.Print = function () {
                     title: "Tên File",
                     width: "15%"
                 },
-                Width: {
-                    visibility: "fixed",
-                    title: "Chiều dài",
-                    width: "2%"
-                },
-                Height: {
-                    visibility: "fixed",
-                    title: "Chiều Rộng",
-                    width: "2%"
-                },
+                //Width: {
+                //    visibility: "fixed",
+                //    title: "Chiều dài",
+                //    width: "2%"
+                //},
+                //Height: {
+                //    visibility: "fixed",
+                //    title: "Chiều Rộng",
+                //    width: "2%"
+                //},
                 Quantity: {
                     visibility: "fixed",
                     title: "số Lượng",
@@ -281,13 +281,29 @@ VINASIC.Print = function () {
 
                         var text = "";
                         var strStatus = data.record.DetailStatusName;
-                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật trạng thái đơn hàng.\">' + strStatus + '</a>' + resultDetailStatusList + '</div>');
+                        if (strStatus == 'in xong' || strStatus == 'Đã in xong') {
+                            var text = $(' <div class="dropdown"><a style="color:red;" class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật trạng thái đơn hàng.\">' + strStatus + '</a>' + resultDetailStatusList + '</div>');
+                        } else {
+                            var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật trạng thái đơn hàng.\">' + strStatus + '</a>' + resultDetailStatusList + '</div>');
+                        }
+
                         text.click(function (e) {
                             global.Data.OrderId = data.record.Id;
                             global.Data.IdDetailStatus = data.record.Id;
                         });
                         return text;
                     }
+                    //display: function (data) {
+
+                    //    var text = "";
+                    //    var strStatus = data.record.DetailStatusName;
+                    //    var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật trạng thái đơn hàng.\">' + strStatus + '</a>' + resultDetailStatusList + '</div>');
+                    //    text.click(function (e) {
+                    //        global.Data.OrderId = data.record.Id;
+                    //        global.Data.IdDetailStatus = data.record.Id;
+                    //    });
+                    //    return text;
+                    //}
                 },
                 EmployeeName: {
                     title: "Nhân Viên Kinh Doanh",

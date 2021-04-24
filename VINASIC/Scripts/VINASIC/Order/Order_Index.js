@@ -686,10 +686,10 @@ VINASIC.Order = function () {
             }
         });
     }
-    function updateDetailStatus(detailId, status, employeeUpdateId, content) {
+    function updateDetailStatus(detailId, status, employeeUpdateId, content,jobtype) {
 
         $.ajax({
-            url: "/Order/UpdateDetailStatus?detailId=" + detailId + "&status=" + status + "&employeeId=" + employeeUpdateId + "&content=" + 'sss',
+            url: "/Order/UpdateDetailStatus?detailId=" + detailId + "&status=" + status + "&employeeId=" + employeeUpdateId + "&content=" + 'sss' + "&jobtype=" + jobtype,
             type: 'post',
             data: JSON.stringify({ content1: content}),
             contentType: 'application/json',
@@ -2327,8 +2327,9 @@ VINASIC.Order = function () {
         $("#" + global.Element.PopupDesignProcess + " button[save]").click(function () {
 
             var designId = $("#dDesignName").val();
-            var description = $('#summernote').summernote('code')
-            updateDetailStatus(global.Data.IdDetailStatus, global.Data.DetailStatus, employeeUpdateId, description);
+            var description = $('#summernote').summernote('code');
+            var jobtype = $('#jobtype').val();
+            updateDetailStatus(global.Data.IdDetailStatus, global.Data.DetailStatus, employeeUpdateId, description, jobtype);
             //updateDesignUser(global.Data.DetailId, designId, description);
             global.Data.ClientId = document.getElementById("ClientName").innerHTML;
             var realTimeHub = $.connection.realTimeJTableDemoHub;

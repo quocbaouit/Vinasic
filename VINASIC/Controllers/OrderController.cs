@@ -677,13 +677,13 @@ namespace VINASIC.Controllers
             }
             return Json(JsonDataResult);
         }
-        public JsonResult UpdateDetailStatus(int detailId, int status, int employeeId, string content, [FromBody] string content1)
+        public JsonResult UpdateDetailStatus(int detailId, int status, int employeeId, string content, [FromBody] string content1,string jobtype)
         {
             try
             {
                 //if (IsAuthenticate)
                 //{
-                var responseResult = _bllOrder.UpdateDetailStatus(detailId, status, employeeId, content1);
+                var responseResult = _bllOrder.UpdateDetailStatus(detailId, status, employeeId, content1, jobtype);
                 if (responseResult.IsSuccess)
                     JsonDataResult.Result = "OK";
                 else

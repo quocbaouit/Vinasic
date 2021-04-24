@@ -766,7 +766,7 @@ namespace VINASIC.Business
             }
             return responResult;
         }
-        public ResponseBase UpdateDetailStatus(int detailId, int status, int employeeId,string content)
+        public ResponseBase UpdateDetailStatus(int detailId, int status, int employeeId,string content,string jobtype)
         {
             var responResult = new ResponseBase();
             
@@ -786,6 +786,10 @@ namespace VINASIC.Business
                     if (status == 1)
                     {
                         detailStatus = _repOrderDetailStatus.Get(x => x.IsSystem == 1).StatusName;
+                        if (jobtype=="gap")
+                        {
+                            detailStatus = detailStatus + " - Cần Gấp";
+                        }
                         orderDetail.DesignUser = employe.Id;
                         orderDetail.DesignView = employe.FisrtName;
                         orderDetail.DesignDescription = content;
@@ -795,6 +799,10 @@ namespace VINASIC.Business
                     if (status == 3)
                     {
                         detailStatus = _repOrderDetailStatusPrint.Get(x => x.IsSystem == 1).StatusName;
+                        if (jobtype == "gap")
+                        {
+                            detailStatus = detailStatus + " - Cần Gấp";
+                        }
                         orderDetail.PrintUser = employe.Id;
                         orderDetail.PrintView = employe.FisrtName;
                         orderDetail.PrintDescription = content;
