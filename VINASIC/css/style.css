@@ -513,9 +513,10 @@ ul.sidebar-menu li.active a i {
     background: rgba(255,255,255,0.9);
     border-bottom: 1px solid #f1f2f7;
 }
-.dark-bg {    
-    background: rgba(54,66,74,1);
+.dark-bg {
+    background: #005a89 !important;
     border-bottom: 1px solid #f1f2f7;
+    background-color: #005a89 !important;
 }
 .panel-content{
     padding: 10px;
@@ -1043,9 +1044,9 @@ div[data-role="editor-toolbar"] {
   background-color : #e4e9eb;
 }
 .dark-bg {
-  color : #fff;
-  background : #1a2732;
-  background-color : #1a2732;
+    color: #fff;
+    background: #005a89 !important;
+    background-color: #005a89 !important;
 }
 .facebook-bg {
   color: #fff;

@@ -3270,8 +3270,27 @@ VINASIC.Order = function () {
                     //    showPopupCustom3();
                     //} 
                     if (resultObject != undefined) {
+                        debugger;
                         $('#dproductType').val(resultObject.Type);
                         initComboBoxProduct(0, resultObject.Value);
+                        $.ajax({
+                            url: "/Order/GetPriceForCustomerAndProduct?customerId=" + global.Data.CustomerId + "&productId=" + resultObject.Value,
+                            type: 'post',
+                            contentType: 'application/json',
+                            success: function (result) {
+                                GlobalCommon.CallbackProcess(result, function () {
+                                    if (result.Records != 0) {
+                                        var temp = result.Records.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                                        $('#dprice').val(temp);
+                                        calculatorPrice();
+                                    } else {
+                                        $('#dprice').val('');
+                                    }
+
+                                }, false, global.Element.PopupOrder, true, true, function () {
+                                });
+                            }
+                        });
                     }
                 }
             });
