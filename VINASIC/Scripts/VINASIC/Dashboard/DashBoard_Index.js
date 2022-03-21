@@ -240,14 +240,25 @@ VINASIC.DashBoard = function () {
         var toDate = $("#dateto").val();
         var url = "/Dashboard/GetData?from=" + fromDate + "&to=" + toDate + "";
         $.getJSON(url, function (datas) {
+            debugger;
             global.Data.OrderChart.data.datasets[0].data[0] = datas.ModelDashBoardOrder.Value1;
             global.Data.OrderChart.data.datasets[0].data[1] = datas.ModelDashBoardOrder.Value2;
             global.Data.OrderChart.data.datasets[0].data[2] = datas.ModelDashBoardOrder.Value3;
             global.Data.OrderChart.update();
+            var stra1 = datas.ModelDashBoardOrder.Value1.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            $('#a1').html(stra1);
+            var stra2 = datas.ModelDashBoardOrder.Value2.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            $('#a2').html(stra2);
+            var stra3 = datas.ModelDashBoardOrder.Value3.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            $('#a3').html(stra3);
 
             global.Data.PaymentChart.data.datasets[0].data[0] = datas.ModelDashBoardPayment.Value1;
             global.Data.PaymentChart.data.datasets[0].data[1] = datas.ModelDashBoardPayment.Value2;
             global.Data.PaymentChart.update();
+            var strb1 = datas.ModelDashBoardPayment.Value1.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            $('#b1').html(strb1);
+            var strb2 = datas.ModelDashBoardPayment.Value2.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            $('#b2').html(strb2);
 
             global.Data.SumChart.data.datasets[0].data[0] = datas.ModelDashBoardSum.Value1;
             global.Data.SumChart.data.datasets[0].data[1] = datas.ModelDashBoardSum.Value2;

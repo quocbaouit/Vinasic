@@ -93,6 +93,10 @@ namespace VINASIC.Controllers
                 {
                     employee = UserContext.UserID;
                 }
+                //if (orderStatus==3 || orderStatus==4)
+                //{
+                //    jtSorting = "UpatedDate DESC";
+                //}
                 var listOrder = _bllOrder.GetList(UserContext.UserID, jtStartIndex, jtPageSize, jtSorting, fromDate, toDate, employee, keyword, orderStatus);
 
                 JsonDataResult.Records = listOrder;
@@ -560,14 +564,14 @@ namespace VINASIC.Controllers
             }
             return Json(JsonDataResult);
         }
-        public JsonResult UpdateOrderStatus(int orderId, int status, bool sendSMS = false, bool sendEmail = false)
+        public JsonResult UpdateOrderStatus(int orderId, int status, List<int> listIds, bool sendSMS = false, bool sendEmail = false)
         {
             try
             {
                 var IsAdmin = true;
                 //if (IsAuthenticate)
                 //{
-                var responseResult = _bllOrder.UpdateOrderStatus(orderId, status, UserContext.UserID, IsAdmin, sendSMS, sendEmail);
+                var responseResult = _bllOrder.UpdateOrderStatus(orderId, status, listIds, UserContext.UserID, IsAdmin, sendSMS, sendEmail);
                 if (responseResult.IsSuccess)
                     JsonDataResult.Result = "OK";
                 else

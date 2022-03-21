@@ -83,12 +83,14 @@ VINASIC.Order = function () {
             ProductPrice: [],
             ProductPrice1: [],
             ForView: 0,
+            statusId: 1,
+            SelectedRowIds:[]
         }
     };
     this.GetGlobal = function () {
         return global;
     };
-    function renderTable(Table, subTotal, haspay, type,taxfee) {
+    function renderTable(Table, subTotal, haspay, type, taxfee) {
         var tableString = "<table id=\"renderTable\" border=\"1\" style=\"width:100%\" cellspacing=\"0\" cellpadding=\"0\">";
         var root = document.getElementById('Block4');
         document.getElementById("Block4").innerHTML = "";
@@ -176,7 +178,12 @@ VINASIC.Order = function () {
         if (haspay > 0) {
             strThanhToan = "Còn Lại";
             var strSubTotal1 = subTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+           
             var strHaspay1 = haspay.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            if (type == 1) {
+                strSubTotal1 = '';
+                strHaspay1 = '';
+            }
             tableString += "<tr>";
             var colspan = 5;
             if (document.getElementById('show-dim').checked)
@@ -648,16 +655,17 @@ VINASIC.Order = function () {
         });
     }
 
-    function updateOrderStatus(orderId, status) {
+    function updateOrderStatus(orderId, status, previewStatus) {
         $.ajax({
             url: "/Order/UpdateOrderStatus?orderId=" + orderId + "&status=" + status,
             type: 'post',
+            data: JSON.stringify({ 'listIds': global.Data.SelectedRowIds }),
             contentType: 'application/json',
             success: function (result) {
                 $('#loading').hide();
                 GlobalCommon.CallbackProcess(result, function () {
                     if (result.Result === "OK") {
-                        reloadListOrder();
+                        reloadListOrder(previewStatus);
                         toastr.success("Cập nhật trạng thái đơn hàng thành công");
                     }
                 }, false, global.Element.PopupOrder, true, true, function () {
@@ -1528,7 +1536,7 @@ VINASIC.Order = function () {
                         return text;
                     }
                 },
-
+                
                 StrHas: {
                     title: "Còn Lại",
                     width: "7%",
@@ -1536,6 +1544,10 @@ VINASIC.Order = function () {
                         var text = $('<a  href="javascript:void(0)" style="color:#89798d;"  class="clickable"  data-target="#popup_Order" title="Chỉnh sửa thông tin.">' + (data.record.SubTotal - (data.record.HasPay + data.record.HaspayTransfer)).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '</a>');
                         return text;
                     }
+                },
+                StrUpdatedDate: {
+                    title: 'Ngày Cập Nhật',
+                    width: "7%"
                 },
                 //StrPaymentType: {
                 //    visibility: "fixed",
@@ -1604,52 +1616,52 @@ VINASIC.Order = function () {
                         return text;
                     }
                 },
-                //CustomPrint: {
-                //    visibility: 'fixed',
-                //    title: "Sản Xuất",
-                //    width: "7%",
-                //    display: function (data) {
-                //        var text = "";
-                //        if (data.record.PaymentMethol == 3) { text = $("<a href=\"javascript:void(0)\"   class=\"clickable\" title=\"Cập nhật thanh toán.\">" + "Công Nợ" + "</a>"); }
-                //        else {
-                //            text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"In Phiếu.\">Phiếu SX </a>");
-                //        }
-                //        text.click(function () {
-                //            global.Data.ForView = 1;
-                //            global.Data.IdOrderStatus = data.record.Id;
-                //            global.Data.NumberDetail = data.record.T_OrderDetail.length;
-                //            $("#type2").prop("checked", true);
-                //            $("#ppay").val("");
-                //            $("#prest").val("");
-                //            $("#ptotal").val(data.record.strSubTotal);
-                //            $("#transferId").val(data.record.Description);
-                //            $("#phaspay").val((data.record.HasPay + data.record.HaspayTransfer).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                //            var a1 = data.record.SubTotal - (data.record.HasPay + data.record.HaspayTransfer);
-                //            var b = a1.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                //            var deposit = data.record.Deposit.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                //            $("#hasDeposit").val(deposit);
-                //            $("#ppayment").val(b);
-                //            $("#prealpay").val(b);
-                //            global.Data.OrderId = data.record.Id;
-                //            global.Data.PcustomerName = data.record.Name;
-                //            global.Data.PcustomePhone = data.record.CustomerPhone;
-                //            global.Data.PcustomerAddress = data.record.CustomerAddress;
-                //            global.Data.Pproduct = "";
-                //            calculatorProduct(data.record.T_OrderDetail);
-                //            //rendertable                                                    
-                //            renderTable(data.record.T_OrderDetail, data.record.SubTotal, data.record.HasPay + data.record.HaspayTransfer,1);
-                //            if (data.record.HasTax) {
-                //                $('#hastaxnote').css("display", "inline");
-                //            } else {
-                //                $('#hastaxnote').css("display", "none")
-                //            }
-                //            showPopupPaymentProcess();
-                //            data.record.StrDeliveryDate = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd");
-                //            var a = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd'T'HH:MM:ss");
-                //        });
-                //        return text;
-                //    }
-                //},
+                CustomPrint: {
+                    visibility: 'fixed',
+                    title: "Sản Xuất",
+                    width: "7%",
+                    display: function (data) {
+                        var text = "";
+                        if (data.record.PaymentMethol == 3) { text = $("<a href=\"javascript:void(0)\"   class=\"clickable\" title=\"Cập nhật thanh toán.\">" + "Công Nợ" + "</a>"); }
+                        else {
+                            text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"In Phiếu.\">Phiếu SX </a>");
+                        }
+                        text.click(function () {
+                            global.Data.ForView = 1;
+                            global.Data.IdOrderStatus = data.record.Id;
+                            global.Data.NumberDetail = data.record.T_OrderDetail.length;
+                            $("#type2").prop("checked", true);
+                            $("#ppay").val("");
+                            $("#prest").val("");
+                            $("#ptotal").val(data.record.strSubTotal);
+                            $("#transferId").val(data.record.Description);
+                            $("#phaspay").val((data.record.HasPay + data.record.HaspayTransfer).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                            var a1 = data.record.SubTotal - (data.record.HasPay + data.record.HaspayTransfer);
+                            var b = a1.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                            var deposit = data.record.Deposit.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                            $("#hasDeposit").val(deposit);
+                            $("#ppayment").val(b);
+                            $("#prealpay").val(b);
+                            global.Data.OrderId = data.record.Id;
+                            global.Data.PcustomerName = data.record.Name;
+                            global.Data.PcustomePhone = data.record.CustomerPhone;
+                            global.Data.PcustomerAddress = data.record.CustomerAddress;
+                            global.Data.Pproduct = "";
+                            calculatorProduct(data.record.T_OrderDetail);
+                            //rendertable                                                    
+                            renderTable(data.record.T_OrderDetail, data.record.SubTotal, data.record.HasPay + data.record.HaspayTransfer,1);
+                            if (data.record.HasTax) {
+                                $('#hastaxnote').css("display", "inline");
+                            } else {
+                                $('#hastaxnote').css("display", "none")
+                            }
+                            showPopupPaymentProcess();
+                            data.record.StrDeliveryDate = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd");
+                            var a = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd'T'HH:MM:ss");
+                        });
+                        return text;
+                    }
+                },
                 //strOrderStatus: {
                 //    title: "Trạng thái Đơn Hàng",
                 //    width: "12%",
@@ -1712,13 +1724,15 @@ VINASIC.Order = function () {
                 }
             },
             selectionChanged: function () {
-                var $selectedRows = $('#jtableOrder').jtable('selectedRows');
+                var $selectedRows = $('#jtableOrder').jtable('selectedRows');               
+                global.Data.SelectedRowIds = [];
                 if ($selectedRows.length > 0) {
                     var sum = 0;
                     var haspay = 0;
                     var hasexit = 0;
                     $selectedRows.each(function () {
                         var record = $(this).data('record');
+                        global.Data.SelectedRowIds.push(record.Id);
                         sum = sum + record.SubTotal;
                         haspay = haspay + record.HasPay;
                         var current = record.SubTotal - record.HasPay;
@@ -2947,13 +2961,14 @@ VINASIC.Order = function () {
         });
         $("body").delegate(".searchStatus", "click", function (event) {
             var statusId = $(this).attr("data-id");
+            global.Data.statusId = statusId;
             event.preventDefault();
             reloadListOrder(statusId);
         });
         $("body").delegate(".orderstatus", "click", function (event) {
             var statusId = $(this).attr("data-id");
             event.preventDefault();
-            updateOrderStatus(global.Data.IdOrderStatus, statusId);
+            updateOrderStatus(global.Data.IdOrderStatus, statusId, global.Data.statusId);
         });
         //$("body").delegate(".orderstatus1", "click", function (event) {
         //    event.preventDefault();
@@ -3375,7 +3390,6 @@ VINASIC.Order = function () {
                 GlobalCommon.CallbackProcess(result, function () {
                     if (1 < 2) {
                         global.Data.ListCustomerName = result.Records;
-                        debugger;
                         mappingAutoComplete();
                     }
 

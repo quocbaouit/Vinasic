@@ -455,7 +455,8 @@
                                                     </div>
                                                     <div class="col-md-2">
                                                         <label for="dtransport">Phí Vận Chuyển(vnd)</label>
-                                                        <select class="form-control detail caculator caculatorTotal" id="dtransport">
+                                                        <input class="form-control detail caculator caculatorTotal" id="dtransport" type="text" list="transport" onkeypress=" return isNumberKey(event) " />
+                                                        <datalist id="transport">
                                                             <option value="0">0</option>
                                                             <option value="30000">30.000</option>
                                                             <option value="40000">40.000</option>
@@ -485,8 +486,7 @@
                                                             <option value="280000">280000</option>
                                                             <option value="290000">290.000</option>
                                                             <option value="300000">300.000</option>
-                                                        </select>
-                                                        @*<input id="dtransport" type="text" class="form-control detail caculator caculatorTotal" placeholder="" onkeypress=" return isNumberKey(event) ">*@
+                                                        </datalist>
                                                     </div>
 
                                                     <div class="col-md-2">
@@ -747,7 +747,7 @@
             </div>
             <div class="modal-footer">
                 <input id="type2" type="checkbox">Phiếu thu loại bảng kê.
-                <a print class="btn btn-danger" href="javascript:void(0)" title="Bootstrap 3 themes generator"><span class="icon_target"></span>In Phiếu Thu</a>
+                <a print data-id="1" class="btn btn-danger" href="javascript:void(0)" title="Bootstrap 3 themes generator">In Phiếu</a>
                 <button cancel aria-hidden="true" data-dismiss="modal" class="btn">
                     <div class="button-image image-close"></div>
                     Đóng

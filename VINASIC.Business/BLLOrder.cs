@@ -90,15 +90,16 @@ namespace VINASIC.Business
                 CreateUserName = c.T_User.Name,
                 StatusName = c.StatusName,
                 CreatedDate = c.CreatedDate,
+                UpatedDate = c.UpatedDate,
                 HasPay = c.HasPay ?? 0,
-                Deposit=c.Deposit??0,
+                Deposit = c.Deposit ?? 0,
                 HaspayTransfer = c.HaspayTransfer ?? 0,
-                Cost=c.Cost,
+                Cost = c.Cost,
                 OrderStatus = c.OrderStatus,
                 T_OrderDetail = c.T_OrderDetail,
-                CostDetail=c.CostDetail,
-                DetailStatusName=c.DetailStatusName==null ? "Đang xử lý" : c.DetailStatusName,
-                SubTotalExcludeTax=c.SubTotalExcludeTax??0
+                CostDetail = c.CostDetail,
+                DetailStatusName = c.DetailStatusName == null ? "Đang xử lý" : c.DetailStatusName,
+                SubTotalExcludeTax = c.SubTotalExcludeTax ?? 0
             }).OrderBy(sorting);
 
 
@@ -120,7 +121,7 @@ namespace VINASIC.Business
             }
             if (!string.IsNullOrEmpty(fromDate) && !string.IsNullOrEmpty(toDate))
             {
-                orders = orders.Where(c => c.CreatedDate >= frDate && c.CreatedDate <= tDate);
+                orders = orders.Where(c => (c.CreatedDate >= frDate && c.CreatedDate <= tDate)|| (c.UpatedDate >= frDate && c.UpatedDate <= tDate));
             }
             if (orderStatus != -1)
             {
@@ -131,7 +132,7 @@ namespace VINASIC.Business
             var result = new PagedList<ModelOrder>(orders, pageNumber, pageSize);
             foreach (var order in result)
             {
-                if (order.Cost==null)
+                if (order.Cost == null)
                 {
                     order.Cost = 0;
                 }
@@ -139,22 +140,32 @@ namespace VINASIC.Business
                 order.strHaspay = $"{order.HasPay ?? 0:0,0}";
                 order.strHaspayTransfer = $"{order.HaspayTransfer ?? 0:0,0}";
                 order.strSubTotal = $"{order.SubTotal:0,0}";
-                order.strCost= $"{order.Cost:0,0}";
+                order.strCost = $"{order.Cost:0,0}";
                 var Income = order.SubTotal - order.Cost;
                 order.strIncome = $"{Income:0,0}";
                 order.StrCreatedDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(order.CreatedDate, curentZone):d/M/yyyy HH:mm}";
+                if (order.UpatedDate != null)
+                {
+                    DateTime updatedDate = order.UpatedDate ?? DateTime.Now;
+                    order.StrUpdatedDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(updatedDate, curentZone):d/M/yyyy HH:mm}";
+                }
+                else
+                {
+                    order.StrUpdatedDate = "";
+                }
+
                 //order.strFileName  = string.Join(", ", order.T_OrderDetail.Select(x => x.FileName).ToArray());
                 order.StrDeliveryDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(deliveryDate, curentZone):d/M/yyyy}";
-                order.strFileName  = string.Join(", ", order.T_OrderDetail.Select(x => x.FileName).ToArray());
-                if (order.CostDetail!=null)
+                order.strFileName = string.Join(", ", order.T_OrderDetail.Select(x => x.FileName).ToArray());
+                if (order.CostDetail != null)
                 {
                     order.CostObj = JsonConvert.DeserializeObject<List<CostObj>>(order.CostDetail);
                 }
                 else
                 {
-                    order.CostObj =new List<CostObj>();
+                    order.CostObj = new List<CostObj>();
                 }
-              
+
             }
             var sum = result.Sum(x => x.SubTotal);
             result.ToList().Add(new ModelOrder() { Name = "Tổng Cộng", SubTotal = sum });
@@ -215,15 +226,15 @@ namespace VINASIC.Business
                 DesignFrom = o.DesignFrom,
                 DesignTo = o.DesignTo,
                 SubTotal = o.SubTotal,
-                TransportFee=o.TransportFee,
+                TransportFee = o.TransportFee,
                 IsCompleted = o.IsCompleted,
                 CreatedDate = o.CreatedDate,
                 DesignView = o.DesignView ?? "",
                 PrintView = o.PrintView ?? "",
                 AddOnView = o.AddOnView ?? "",
                 DetailStatus = o.DetailStatus,
-                DetailStatusName=o.DetailStatusName,
-                
+                DetailStatusName = o.DetailStatusName,
+
 
             }).ToList();
             foreach (var order in ordeDetails)
@@ -253,7 +264,7 @@ namespace VINASIC.Business
                 {
                     order.UserProcess = "Chưa có nhân viên phụ trách";
                 }
-                order.strSubTotal = $"{order.SubTotal:0,0}"; 
+                order.strSubTotal = $"{order.SubTotal:0,0}";
                 order.strPrice = $"{order.Price:0,0}";
                 order.strTransport = $"{order.TransportFee:0,0}";
             }
@@ -307,10 +318,10 @@ namespace VINASIC.Business
                     IsApproval = false,
                     IsDeleted = false,
                     CreatedForUser = obj.EmployeeId,
-                    SubTotalExcludeTax=obj.OrderTotalExcludeTax,
-                    Deposit=obj.Deposit,
-                    HasPay=obj.Deposit,
-                    HasTax=obj.Tax,
+                    SubTotalExcludeTax = obj.OrderTotalExcludeTax,
+                    Deposit = obj.Deposit,
+                    HasPay = obj.Deposit,
+                    HasTax = obj.Tax,
                     CreatedUser = userId,
                     IsDelivery = 1,
                     OrderStatus = 1,
@@ -335,7 +346,7 @@ namespace VINASIC.Business
                         Quantity = detail.Quantity,
                         SumSquare = detail.SumSquare,
                         Price = detail.Price,
-                        TransportFee=detail.TransportFee,
+                        TransportFee = detail.TransportFee,
                         SubTotal = detail.Subtotal,
                         Description = detail.Description,
                         IsCompleted = false,
@@ -405,7 +416,7 @@ namespace VINASIC.Business
                 _repOrder.Update(order);
                 SaveChange();
                 var baseOrderDetail = _repOrderDetail.GetMany(x => x.OrderId == order.Id).ToList();
-                var deleteDetail = baseOrderDetail.Where(x =>!obj.Detail.Select(y => y.Id).Contains(x.Id)).ToList();
+                var deleteDetail = baseOrderDetail.Where(x => !obj.Detail.Select(y => y.Id).Contains(x.Id)).ToList();
                 foreach (var detail in deleteDetail)
                 {
                     _repOrderDetail.Delete(detail);
@@ -415,27 +426,27 @@ namespace VINASIC.Business
                 {
                     var detailUpdate = baseOrderDetail.Where(x => x.Id == detail.Id).FirstOrDefault();
                     if (detailUpdate != null && detail.Id != 0 && detailUpdate.CommodityId == int.Parse(detail.CommodityId))
-                    {        
-                            detailUpdate.OrderId = order.Id;
-                            detailUpdate.Index = detail.Index;
-                            detailUpdate.CommodityId = int.Parse(detail.CommodityId);
-                            detailUpdate.CommodityName = detail.CommodityName;
-                            detailUpdate.Height = detail.Height;
-                            detailUpdate.Width = detail.Width;
-                            detailUpdate.Square = detail.Square;
-                            detailUpdate.SumSquare = detail.SumSquare;
-                            detailUpdate.Quantity = detail.Quantity;
-                            detailUpdate.Price = detail.Price;
-                            detailUpdate.TransportFee = detail.TransportFee;
-                            detailUpdate.SubTotal = detail.Subtotal;
-                            detailUpdate.Description = detail.Description;
-                            detailUpdate.IsCompleted = false;
-                            detailUpdate.IsDeleted = false;
-                            detailUpdate.CreatedUser = userId;
-                            detailUpdate.CreatedDate = order.CreatedDate;
-                            detailUpdate.FileName = detail.FileName;
-                            _repOrderDetail.Update(detailUpdate);
-                            SaveChange();
+                    {
+                        detailUpdate.OrderId = order.Id;
+                        detailUpdate.Index = detail.Index;
+                        detailUpdate.CommodityId = int.Parse(detail.CommodityId);
+                        detailUpdate.CommodityName = detail.CommodityName;
+                        detailUpdate.Height = detail.Height;
+                        detailUpdate.Width = detail.Width;
+                        detailUpdate.Square = detail.Square;
+                        detailUpdate.SumSquare = detail.SumSquare;
+                        detailUpdate.Quantity = detail.Quantity;
+                        detailUpdate.Price = detail.Price;
+                        detailUpdate.TransportFee = detail.TransportFee;
+                        detailUpdate.SubTotal = detail.Subtotal;
+                        detailUpdate.Description = detail.Description;
+                        detailUpdate.IsCompleted = false;
+                        detailUpdate.IsDeleted = false;
+                        detailUpdate.CreatedUser = userId;
+                        detailUpdate.CreatedDate = order.CreatedDate;
+                        detailUpdate.FileName = detail.FileName;
+                        _repOrderDetail.Update(detailUpdate);
+                        SaveChange();
                     }
                     else
                     {
@@ -443,7 +454,7 @@ namespace VINASIC.Business
                         {
                             _repOrderDetail.Delete(detailUpdate);
                             SaveChange();
-                        }                       
+                        }
                         var orderDetail = new T_OrderDetail
                         {
                             OrderId = order.Id,
@@ -456,7 +467,7 @@ namespace VINASIC.Business
                             SumSquare = detail.SumSquare,
                             Quantity = detail.Quantity,
                             Price = detail.Price,
-                            TransportFee=detail.TransportFee,
+                            TransportFee = detail.TransportFee,
                             SubTotal = detail.Subtotal,
                             Description = detail.Description,
                             IsCompleted = false,
@@ -468,7 +479,7 @@ namespace VINASIC.Business
                         };
                         _repOrderDetail.Add(orderDetail);
                         SaveChange();
-                    }                  
+                    }
                 }
                 result.IsSuccess = true;
 
@@ -525,59 +536,52 @@ namespace VINASIC.Business
 
             return responResult;
         }
-        public ResponseBase UpdateOrderStatus(int orderId, int status, int userId, bool isAdmin,bool sendSMS=false,bool sendEmail=false)
+        public ResponseBase UpdateOrderStatus(int orderId, int status, List<int> listIds, int userId, bool isAdmin, bool sendSMS = false, bool sendEmail = false)
         {
             var responResult = new ResponseBase();
             var statusObj = _repOrderStatus.GetById(status);
             var customerId = 0;
-            var order = _repOrder.GetMany(c => !c.IsDeleted && c.Id == orderId).FirstOrDefault();
-            //if (order.OrderStatus >= 3 && !isAdmin && status < order.OrderStatus)
-            //{
-            //    responResult.IsSuccess = false;
-            //    responResult.Errors.Add(new Error() { MemberName = "Tài khoản không có quyền thay đổi đơn hàng sau khi giao hàng", Message = "Lỗi" });
-            //    return responResult;
-
-            //}
-            if (order != null)
+            var orders = new List<T_Order>();
+            if (listIds != null && listIds.Count > 0)
             {
-                order.OrderStatus = status;
-                order.UpdatedUser = userId;
-                order.UpatedDate = DateTime.UtcNow;
-                order.StatusName = statusObj.StatusName;
-                customerId = order.CustomerId;
-                _repOrder.Update(order);
+                orders = _repOrder.GetMany(c => !c.IsDeleted && listIds.Contains(c.Id)).ToList();
+
+            }
+            else
+            {
+                orders.Add(_repOrder.GetMany(c => !c.IsDeleted && c.Id == orderId).FirstOrDefault());
+            }
+            if (orders.Count>0)
+            {
+                foreach (var order in orders)
+                {
+                    if (order != null)
+                    {
+                        if (status==4)
+                        {
+                            order.HaspayTransfer = order.SubTotal;
+                        }
+                        order.OrderStatus = status;
+                        order.UpdatedUser = userId;
+                        order.UpatedDate = DateTime.UtcNow;
+                        order.StatusName = statusObj.StatusName;
+                        customerId = order.CustomerId;
+                        _repOrder.Update(order);
+                    }
+
+                }
                 SaveChange();
                 responResult.IsSuccess = true;
-                if (status == 2)
-                {
-                    var customer = _repCus.GetById(customerId);
-                    if (customer != null)
-                    {
-                        var phone = customer.Mobile;
-                        var mailTo = customer.Email;
-                        var mailContent = _repContent.GetById(2).Content;
-                        string mess = _repSite.GetById(1).Value;
-                        if (!String.IsNullOrEmpty(phone) && sendSMS)
-                        {
-                            //Task.Run(() => SendSMS(phone,mess));
-                        }
-                        if (!String.IsNullOrEmpty(mailTo) && sendEmail)
-                        {
-                            //Task.Run(() => SendEmail(mailTo, mailContent));
-                        }
-
-                    }
-                    
-                }
             }
             else
             {
                 responResult.IsSuccess = false;
                 responResult.Errors.Add(new Error() { MemberName = "Update", Message = "Lỗi" });
             }
+           
             return responResult;
         }
-        public void SendSMS(string phone,string mess)
+        public void SendSMS(string phone, string mess)
         {
             //SendSMS
             SpeedSMSAPI api = new SpeedSMSAPI("zg0WCSR_yUIjz3z7iWARLvEp3IEXhnKg");
@@ -634,7 +638,7 @@ namespace VINASIC.Business
                     {
                         order.HasPay = order.SubTotal;
                     }
-                   
+
                     order.HasPay = total;
                     if (payment == 0)
                     {
@@ -652,7 +656,7 @@ namespace VINASIC.Business
                     {
                         order.HaspayTransfer = order.SubTotal;
                     }
-                    
+
                     order.HaspayTransfer = total;
                     if (payment == 0)
                     {
@@ -727,8 +731,8 @@ namespace VINASIC.Business
             }
             return responResult;
         }
-        
-           public ResponseBase GetJobDescriptionForEmployee(int detailId, int status, int employeeId, string content)
+
+        public ResponseBase GetJobDescriptionForEmployee(int detailId, int status, int employeeId, string content)
         {
             var responResult = new ResponseBase();
             var orderDetail = _repOrderDetail.GetMany(c => !c.IsDeleted && c.Id == detailId).FirstOrDefault();
@@ -754,7 +758,7 @@ namespace VINASIC.Business
                     }
                     if (status == 5)
                     {
-                            responResult.Data = orderDetail.AddOnView;
+                        responResult.Data = orderDetail.AddOnView;
                     }
                 }
                 responResult.IsSuccess = true;
@@ -766,10 +770,10 @@ namespace VINASIC.Business
             }
             return responResult;
         }
-        public ResponseBase UpdateDetailStatus(int detailId, int status, int employeeId,string content,string jobtype)
+        public ResponseBase UpdateDetailStatus(int detailId, int status, int employeeId, string content, string jobtype)
         {
             var responResult = new ResponseBase();
-            
+
             var orderDetail = _repOrderDetail.GetMany(c => !c.IsDeleted && c.Id == detailId).FirstOrDefault();
             if (orderDetail != null)
             {
@@ -786,7 +790,7 @@ namespace VINASIC.Business
                     if (status == 1)
                     {
                         detailStatus = _repOrderDetailStatus.Get(x => x.IsSystem == 1).StatusName;
-                        if (jobtype=="gap")
+                        if (jobtype == "gap")
                         {
                             detailStatus = detailStatus + " - Cần Gấp";
                         }
@@ -821,7 +825,7 @@ namespace VINASIC.Business
                 SaveChange();
                 var order = _repOrder.GetById(orderDetail.OrderId);
                 order.DetailStatusName = detailStatus;
-                string notificationContent ="Khách Hàng:"+ order.Name + ",Dịch Vụ:" + orderDetail.CommodityName+",Số Lượng: "+ orderDetail.Quantity;
+                string notificationContent = "Khách Hàng:" + order.Name + ",Dịch Vụ:" + orderDetail.CommodityName + ",Số Lượng: " + orderDetail.Quantity;
                 var isComplete = _repOrderDetail.GetMany(x => x.OrderId == order.Id && x.DetailStatus != 0 && x.DetailStatus != 7).ToList();
                 if (isComplete.Count == 0)
                 {
@@ -848,7 +852,7 @@ namespace VINASIC.Business
                         OsVersion = x.OsVersion,
                         keys = x.Keys,
                     }).ToList();
-                    PushNotificationHelper.SendNotification(endPoint, "Thông Báo Cho: "+ userGetPush.FisrtName, notificationContent, "/", 2);
+                    PushNotificationHelper.SendNotification(endPoint, "Thông Báo Cho: " + userGetPush.FisrtName, notificationContent, "/", 2);
                 }
                 responResult.IsSuccess = true;
             }
@@ -859,7 +863,7 @@ namespace VINASIC.Business
             }
             return responResult;
         }
-        public ResponseBase EmployeeUpdateDetailStatus(int detailId, int status, int employeeId,int updateType)
+        public ResponseBase EmployeeUpdateDetailStatus(int detailId, int status, int employeeId, int updateType)
         {
             var responResult = new ResponseBase();
             var detailStatus = "";
@@ -868,7 +872,7 @@ namespace VINASIC.Business
             if (orderDetail != null)
             {
                 orderDetail.DetailStatus = status;
-           
+
                 if (employeeId == 0)
                 {
                     orderDetail.PrintUser = null;
@@ -879,7 +883,7 @@ namespace VINASIC.Business
                     var employe = _repUser.GetById(employeeId);
                     if (updateType == 1)
                     {
-                         detailStatus = _repOrderDetailStatus.Get(x => x.Id == status).StatusName;
+                        detailStatus = _repOrderDetailStatus.Get(x => x.Id == status).StatusName;
                         orderDetail.DetailStatusName = detailStatus;
                         orderDetail.DesignUser = employe.Id;
                         orderDetail.DesignView = employe.FisrtName;
@@ -890,7 +894,7 @@ namespace VINASIC.Business
                     }
                     if (updateType == 2)
                     {
-                         detailStatus = _repOrderDetailStatusPrint.Get(x => x.Id == status).StatusName;
+                        detailStatus = _repOrderDetailStatusPrint.Get(x => x.Id == status).StatusName;
                         orderDetail.DetailStatusName = detailStatus;
                         orderDetail.PrintUser = employe.Id;
                         orderDetail.PrintView = employe.FisrtName;
@@ -1038,7 +1042,7 @@ namespace VINASIC.Business
             var listId = order.Select(x => x.Id).ToList();
             return listId;
         }
-        public List<ModelViewDetail> ExportReport(DateTime fromDate, DateTime toDate, int employee, string keyWord, int delivery, int paymentStatus, int type = 0,List<int>orderIds=null)
+        public List<ModelViewDetail> ExportReport(DateTime fromDate, DateTime toDate, int employee, string keyWord, int delivery, int paymentStatus, int type = 0, List<int> orderIds = null)
         {
             var frDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0, 0);
             var tDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59, 999);
@@ -1057,7 +1061,7 @@ namespace VINASIC.Business
                         CommodityId = c.CommodityId,
                         CommodityName = c.CommodityName,
                         CustomerPhone = c.T_Order.T_Customer.Mobile,
-                        CustomerAddress=c.T_Order.T_Customer.Address,
+                        CustomerAddress = c.T_Order.T_Customer.Address,
                         PrintDescription = c.PrintDescription,
                         DesignDescription = c.DesignDescription,
                         Description = c.Description,
@@ -1079,22 +1083,22 @@ namespace VINASIC.Business
                         SubTotal = c.SubTotal,
                         Total1 = c.T_Order.SubTotal,
                         HasPay = c.T_Order.HasPay ?? 0,
-                        Cost=c.T_Order.Cost??0,                    
+                        Cost = c.T_Order.Cost ?? 0,
                         HasPayTransfer = c.T_Order.HaspayTransfer ?? 0,
                         IsCompleted = c.IsCompleted,
                         HasPayTotal = 0,
                         HasExistTotal = 0,
                         HasPayTransferTotal = 0,
-                        TransportFee=c.TransportFee,
+                        TransportFee = c.TransportFee,
                         strIsComplete = c.IsCompleted ? "Đã Xong" : "Chưa Xong",
                         strDesignStatus = c.DesignStatus == null ? "Chưa Làm" : (c.DesignStatus == 1 ? "Đang Làm" : (c.DesignStatus == 2 ? "Đã Xong" : "Chưa Làm")),
                         strPrinStatus = c.PrintStatus == null ? "Chưa Làm" : (c.PrintStatus == 1 ? "Đang Làm" : (c.PrintStatus == 2 ? "Đã Xong" : "Chưa Làm"))
                     }).OrderBy("CreatedDate DESC").ToList();
             if (type == 1)
             {
-                orders = orders.Where(x => x.Total1 - (x.HasPay+x.HasPayTransfer)> 0).ToList();
+                orders = orders.Where(x => x.Total1 - (x.HasPay + x.HasPayTransfer) > 0).ToList();
             }
-            if (employee != 0 && type!=1)
+            if (employee != 0 && type != 1)
             {
                 orders = orders.Where(c => c.CreatedForUser == employee).ToList();
             }
