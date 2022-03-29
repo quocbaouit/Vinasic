@@ -21,7 +21,7 @@
         <section class="panel">
             <header class="panel-heading tab-bg-info">
                 <ul class="nav nav-tabs">
-                    <li id="ProcessOrder" class="active" >
+                    <li id="ProcessOrder" class="active">
                         <a data-toggle="tab" href="#recent-activity">
                             <i class="icon-home"></i>
                             Phiếu Chi Thường
@@ -33,10 +33,16 @@
                             Tạo Mới/Chỉnh Phiếu Chi
                         </a>
                     </li>
-                    <li id="ProcessOrder1" >
+                    <li id="ProcessOrder1">
                         <a data-toggle="tab" href="#recent-activity1">
                             <i class="icon-home"></i>
                             Phiếu Chi Nhập Hàng
+                        </a>
+                    </li>
+                    <li id="ProcessOrder1">
+                        <a data-toggle="tab" href="#recent-activity12">
+                            <i class="icon-home"></i>
+                            Phiếu Chi Nhập Hàng Đã Thanh Toán
                         </a>
                     </li>
                     <li id="CreateOrderImport" class="">
@@ -72,6 +78,60 @@
                         </div>
 
                         <div class="=rows" id="jtablePaymentVoucher"></div>
+                        <div class="=rows" id="jtableSum1">
+                            <div class="jtable-main-container">
+                                <div class="jtable-busy-panel-background jtable-busy-panel-background-invisible" style="display: none; width: 1680px; height: 48px;"></div>
+                                <div class="jtable-busy-message" style="display: none;"></div>
+                                <table class="jtable">
+                                    <thead>
+                                        <tr>
+                                            <th class="jtable-column-header jtable-column-header-sortable" style="width: 40.0238%;">
+                                                <div class="jtable-column-header-container">
+                                                    <span class="jtable-column-header-text">Báo Cáo Chi</span>
+                                                    <div class="jtable-column-resize-handler"></div>
+                                                </div>
+                                            </th>
+                                            @*<th class="jtable-column-header jtable-column-header-sortable" style="width: 20.0119%;">
+                                                <div class="jtable-column-header-container">
+                                                    <span class="jtable-column-header-text">Tổng Đã Thanh Toán(VND)</span>
+                                                    <div class="jtable-column-resize-handler"></div>
+                                                </div>
+                                            </th>*@
+                                            <th class="jtable-column-header jtable-column-header-sortable" style="width: 19.9524%;">
+                                                <div class="jtable-column-header-container"><span class="jtable-column-header-text">Số Tiền Đã Chi</span></div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="jtable-data-row jtable-row-even" data-record-key="1">
+                                            <td>Tổng Kết</td>
+                                            @*<td id="sum11">0</td>*@
+                                            <td id="sum12">0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="jtable-column-resize-bar" style="display: none;"></div>
+                                <div id="selectHideShowColumn" class="jtable-column-selection-container" style="left: 562px; top: 16.375px; min-width: 100px; display: none;">
+                                    <ul class="jtable-column-select-list">
+                                        <li>
+                                            <label for="Name">
+                                                <input type="checkbox" name="Name" checked="checked"><span>Tổng Báo Cáo Chi</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label for="sum1">
+                                                <input type="checkbox" name="sum1" checked="checked"><span>Tổng Đã thanh Toán(VND)</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label for="sum3">
+                                                <input type="checkbox" name="sum2" checked="checked"><span>Tổng Còn Nợ(VND)</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div id="recent-activity1" class="tab-pane">
@@ -125,6 +185,83 @@
                                             <td>Tổng Kết</td>
                                             <td id="sum01">0</td>
                                             <td id="sum02">0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="jtable-column-resize-bar" style="display: none;"></div>
+                                <div id="selectHideShowColumn" class="jtable-column-selection-container" style="left: 562px; top: 16.375px; min-width: 100px; display: none;">
+                                    <ul class="jtable-column-select-list">
+                                        <li>
+                                            <label for="Name">
+                                                <input type="checkbox" name="Name" checked="checked"><span>Tổng Báo Cáo Chi</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label for="sum1">
+                                                <input type="checkbox" name="sum1" checked="checked"><span>Tổng Đã thanh Toán(VND)</span>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label for="sum3">
+                                                <input type="checkbox" name="sum2" checked="checked"><span>Tổng Còn Nợ(VND)</span>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="recent-activity12" class="tab-pane">
+                        <div style="margin-bottom: 15px;" class="row">
+                            <div class="form-group">
+                                <div class="col-md-3 col-sm-4 col-xs-12">
+                                    <label for="datefrom12">Từ Ngày</label>
+                                    <input type="date" class="form-control" name="datefrom12" value="" id="datefrom12" />
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-12">
+                                    <label for="dateto12">Đến Ngày</label>
+                                    <input type="date" class="form-control" name="dateto12" value="" id="dateto12" />
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-12">
+                                    <label for="keyword12">Từ Khóa</label>
+                                    <input type="text" class="form-control" id="keyword12" placeholder="">
+                                </div>
+                                <div style="margin-top:25px" class="col-md-3 col-sm-4 col-xs-12">
+                                    <button id="search12" class="btn button btn-primary">Tìm Kiếm</button>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="=rows" id="jtablePaymentVoucher12"></div>
+                        <div class="=rows" id="jtableSum2">
+                            <div class="jtable-main-container">
+                                <div class="jtable-busy-panel-background jtable-busy-panel-background-invisible" style="display: none; width: 1680px; height: 48px;"></div>
+                                <div class="jtable-busy-message" style="display: none;"></div>
+                                <table class="jtable">
+                                    <thead>
+                                        <tr>
+                                            <th class="jtable-column-header jtable-column-header-sortable" style="width: 40.0238%;">
+                                                <div class="jtable-column-header-container">
+                                                    <span class="jtable-column-header-text">Báo Cáo Chi</span>
+                                                    <div class="jtable-column-resize-handler"></div>
+                                                </div>
+                                            </th>
+                                            <th class="jtable-column-header jtable-column-header-sortable" style="width: 20.0119%;">
+                                                <div class="jtable-column-header-container">
+                                                    <span class="jtable-column-header-text">Tổng Đã Thanh Toán(VND)</span>
+                                                    <div class="jtable-column-resize-handler"></div>
+                                                </div>
+                                            </th>
+                                            <th class="jtable-column-header jtable-column-header-sortable" style="width: 19.9524%;">
+                                                <div class="jtable-column-header-container"><span class="jtable-column-header-text">Tổng Còn Nợ(VND)</span></div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="jtable-data-row jtable-row-even" data-record-key="1">
+                                            <td>Tổng Kết</td>
+                                            <td id="sum21">0</td>
+                                            <td id="sum22">0</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -276,7 +413,7 @@
                                                 <strong style="margin-top: 10px; width: 200px; float: right">Tổng Tiền (VND)</strong>
                                             </div>
                                             <div class="row">
-                                                <input onkeypress="return isNumberKey(event)"  style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="dhaspay" type="text" min="0" class="form-control dsubtotal" placeholder="">
+                                                <input onkeypress="return isNumberKey(event)" style="text-align: right; margin-top: 10px; margin-right: 12px; width: 200px; float: right" id="dhaspay" type="text" min="0" class="form-control dsubtotal" placeholder="">
                                                 <strong style="margin-top: 10px; width: 200px; float: right">Đã Trả (VND)</strong>
                                             </div>
                                             @*<a id="saveOrder" style="margin-left: 20px; margin-top: 20px" title="" class="btn btn-primary btn-sm" href="javascript:void(0)">Lưu Đơn Hàng</a>*@

@@ -121,7 +121,8 @@ namespace VINASIC.Business
             }
             if (!string.IsNullOrEmpty(fromDate) && !string.IsNullOrEmpty(toDate))
             {
-                orders = orders.Where(c => (c.CreatedDate >= frDate && c.CreatedDate <= tDate)|| (c.UpatedDate >= frDate && c.UpatedDate <= tDate));
+                orders = orders.Where(c => (c.CreatedDate >= frDate && c.CreatedDate <= tDate));
+                //|| (c.UpatedDate >= frDate && c.UpatedDate <= tDate)
             }
             if (orderStatus != -1)
             {

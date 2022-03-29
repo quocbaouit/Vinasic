@@ -396,8 +396,9 @@ namespace VINASIC.Business
             frDate = TimeZoneInfo.ConvertTimeToUtc(frDate, curentZone);
             var tDate = new DateTime(realtoDate.Year, realtoDate.Month, realtoDate.Day, 23, 59, 59, 999);
             tDate = TimeZoneInfo.ConvertTimeToUtc(tDate, curentZone);
+         
 
-            var paymentVouchers = _repPaymentVoucher.GetMany(c => !c.IsDeleted &&c.PaymentType==type).Select(c => new ModelPaymentVoucher()
+            var paymentVouchers = _repPaymentVoucher.GetMany(c => !c.IsDeleted).Select(c => new ModelPaymentVoucher()
             {
                 Id = c.Id,
                 Content = c.Content,
@@ -408,10 +409,22 @@ namespace VINASIC.Business
                 PaymentDate = c.PaymentDate,
                 CreatedDate = c.CreatedDate,
                 ReceiptPhone=c.ReceiptPhone,
-                HasPay=c.HasPay,
+                HasPay=c.HasPay??0,
                 PaymentType=c.PaymentType,
                 T_PaymentVoucherDetail=c.T_PaymentVoucherDetail,
             }).OrderBy(sorting);
+            if (type==0)
+            {
+                paymentVouchers = paymentVouchers.Where(c => c.PaymentType == 0);
+            }
+            if (type == 1)
+            {
+                paymentVouchers = paymentVouchers.Where(c => c.PaymentType == 1 && c.HasPay!=c.Money);
+            }
+            if (type == 2)
+            {
+                paymentVouchers = paymentVouchers.Where(c => c.PaymentType == 1 && c.HasPay ==c.Money);
+            }
             if (!string.IsNullOrEmpty(keyWord))
             {
 
