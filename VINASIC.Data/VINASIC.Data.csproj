@@ -190,9 +190,6 @@
     <Compile Include="Repositories\T_UserRoleRepository.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>
-    <Compile Include="Repositories\T__NotificationRepository.cs">
-      <DependentUpon>Repositories.tt</DependentUpon>
-    </Compile>
     <Compile Include="Repositories\T__RemindRepository.cs">
       <DependentUpon>Repositories.tt</DependentUpon>
     </Compile>

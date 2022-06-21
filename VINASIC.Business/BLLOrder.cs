@@ -560,7 +560,7 @@ namespace VINASIC.Business
                     {
                         if (status==4)
                         {
-                            order.HaspayTransfer = order.SubTotal;
+                            order.HaspayTransfer = order.SubTotal- order.HasPay??0;
                         }
                         order.OrderStatus = status;
                         order.UpdatedUser = userId;

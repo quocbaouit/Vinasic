@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4d098994e098477c8df977aee657c4d5" Name="Diagram1" ZoomLevel="53">
+      <Diagram DiagramId="4d098994e098477c8df977aee657c4d5" Name="Diagram1" ZoomLevel="89">
         <EntityTypeShape EntityType="VINASICModel.T__Remind" Width="1.5" PointX="14.75" PointY="13.125" />
         <EntityTypeShape EntityType="VINASICModel.T_CommodityDictionary" Width="1.5" PointX="16.75" PointY="13.125" />
         <EntityTypeShape EntityType="VINASICModel.T_Customer" Width="1.5" PointX="0.75" PointY="8.875" />
@@ -80,12 +80,11 @@
         <AssociationConnector Association="VINASICModel.FK__T_Payment__Payme__477199F1" />
         <EntityTypeShape EntityType="VINASICModel.T_OrderDeposit" Width="1.5" PointX="5.25" PointY="0.75" />
         <AssociationConnector Association="VINASICModel.FK__T_OrderDe__Order__2F9A1060" />
-        <EntityTypeShape EntityType="VINASICModel.T_OrderDetailStatus" Width="1.5" PointX="15.375" PointY="21.75" />
         <EntityTypeShape EntityType="VINASICModel.T_OrderStatus" Width="1.5" PointX="17.375" PointY="21.75" />
         <EntityTypeShape EntityType="VINASICModel.T_Status" Width="1.5" PointX="22.375" PointY="0.75" />
         <EntityTypeShape EntityType="VINASICModel.T_Unit" Width="1.5" PointX="22.375" PointY="5.75" />
-        <EntityTypeShape EntityType="VINASICModel.T__Notification" Width="1.5" PointX="23.375" PointY="9.75" />
-        <EntityTypeShape EntityType="VINASICModel.T_OrderDetailStatusPrint" Width="1.5" PointX="23.375" PointY="14.75" />
+        <EntityTypeShape EntityType="VINASICModel.T_OrderDetailStatusPrint" Width="1.5" PointX="23.375" PointY="9.75" />
+        <EntityTypeShape EntityType="VINASICModel.T_OrderDetailStatus" Width="1.5" PointX="23.375" PointY="14.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
