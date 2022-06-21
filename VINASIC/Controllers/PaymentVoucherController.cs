@@ -119,6 +119,20 @@ namespace VINASIC.Controllers
                 return Json(new { Result = "ERROR", ex.Message });
             }
         }
+        [System.Web.Mvc.HttpPost]
+        public JsonResult GetAllCustomer()
+        {
+            try
+            {
+                Thread.Sleep(200);
+                var customers = _bllPaymentVoucher.GetAllCustomerName();
+                return Json(new { Result = "OK", Records = customers });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "ERROR", ex.Message });
+            }
+        }
 
         [HttpPost]
         public JsonResult DeletePaymentVoucher(int id)

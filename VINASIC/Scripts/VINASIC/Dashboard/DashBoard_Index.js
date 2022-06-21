@@ -168,6 +168,16 @@ VINASIC.DashBoard = function () {
                 ]
             },
             options: {
+                tooltips: {
+                    callbacks: {
+                        label: function (t, d) {
+                            debugger;
+                            var xLabel = d.datasets[t.datasetIndex].label;
+                            var yLabel = t.yLabel >= 1000 ? 'VND ' + t.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 'VND ' + t.yLabel;
+                            return xLabel + ': ' + yLabel;
+                        }
+                    }
+                },
                 scales: {
                     yAxes: [{
                         ticks: {

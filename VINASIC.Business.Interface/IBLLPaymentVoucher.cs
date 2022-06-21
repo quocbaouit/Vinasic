@@ -14,5 +14,6 @@ namespace VINASIC.Business.Interface
         List<ModelSelectItem> GetListPaymentVoucher();
         List<ModelPaymentVoucher> GetListProduct();
         List<ModelOrderDetail> GetListOrderDetailByOrderId(int orderId);
+        List<string> GetAllCustomerName();
     }
 }

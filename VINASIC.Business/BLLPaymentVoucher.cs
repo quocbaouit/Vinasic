@@ -445,6 +445,12 @@ namespace VINASIC.Business
             }
             return result;
         }
+
+        public List<string> GetAllCustomerName()
+        {
+            List<string> strCustomer = _repPaymentVoucher.GetMany(x => !x.IsDeleted).Select(x => x.ReceiptName).Distinct().ToList();
+            return strCustomer;
+        }
     }
 }
 

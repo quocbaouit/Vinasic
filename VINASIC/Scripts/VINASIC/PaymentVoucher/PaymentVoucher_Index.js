@@ -41,7 +41,8 @@ VINASIC.PaymentVoucher = function () {
             OrderTotal: 0,
             CustomerId: 0,
             ModelConfig: {},
-            ClientId: ""
+            ClientId: "",
+            ListCustomerName:[]
         }
     };
     this.GetGlobal = function () {
@@ -1642,6 +1643,56 @@ VINASIC.PaymentVoucher = function () {
         });
 
     };
+    function mappingAutoComplete() {
+        $(function () {
+            $("#keyword1").autocomplete({
+                source: global.Data.ListCustomerName,
+                select: function (a, b) {
+                    var cusName = b.item.value;
+                    $('#keyword1').val(cusName);
+                    reloadListPaymentVoucher1();
+                    //$.ajax({
+                    //    url: "/Order/GetCustomerByName?customerName=" + cusName,
+                    //    type: 'post',
+                    //    contentType: 'application/json',
+                    //    success: function (result) {
+                    //        GlobalCommon.CallbackProcess(result, function () {
+                    //            var listCustomer = result.Records;
+                    //            $('#keyword').val(listCustomer.Name);
+                    //            reloadListOrder();
+                    //        }, false, global.Element.PopupOrder, true, true, function () {
+                    //            var msg = GlobalCommon.GetErrorMessage(result);
+                    //            GlobalCommon.ShowMessageDialog(msg, function () { }, "Đã có lỗi xảy ra trong quá trình sử lý.");
+                    //        });
+                    //    }
+                    //});
+                }
+            });
+            $("#keyword12").autocomplete({
+                source: global.Data.ListCustomerName,
+                select: function (a, b) {
+                    var cusName = b.item.value;
+                    $('#keyword12').val(cusName);
+                    reloadListPaymentVoucher12();
+                    //$.ajax({
+                    //    url: "/Order/GetCustomerByName?customerName=" + cusName,
+                    //    type: 'post',
+                    //    contentType: 'application/json',
+                    //    success: function (result) {
+                    //        GlobalCommon.CallbackProcess(result, function () {
+                    //            var listCustomer = result.Records;
+                    //            $('#keyword').val(listCustomer.Name);
+                    //            reloadListOrder();
+                    //        }, false, global.Element.PopupOrder, true, true, function () {
+                    //            var msg = GlobalCommon.GetErrorMessage(result);
+                    //            GlobalCommon.ShowMessageDialog(msg, function () { }, "Đã có lỗi xảy ra trong quá trình sử lý.");
+                    //        });
+                    //    }
+                    //});
+                }
+            });
+        });
+    }
     this.Init = function () {
         document.getElementById("datefrom").defaultValue = new Date(new Date() - 24 * 30 * 60 * 60 * 1000).toISOString().substring(0, 10);
         document.getElementById("datefrom1").defaultValue = new Date(new Date() - 24 * 30 * 60 * 60 * 1000).toISOString().substring(0, 10);
@@ -1661,6 +1712,23 @@ VINASIC.PaymentVoucher = function () {
         initPopupPaymentVoucher();
         initListOrderDetail();
         bindData(null);
+        $.ajax({
+            url: "/PaymentVoucher/GetAllCustomer",
+            type: 'post',
+            contentType: 'application/json',
+            success: function (result) {
+                GlobalCommon.CallbackProcess(result, function () {
+                    debugger;
+                        global.Data.ListCustomerName = result.Records;
+                        mappingAutoComplete();
+
+
+                }, false, global.Element.PopupOrder, true, true, function () {
+                    var msg = GlobalCommon.GetErrorMessage(result);
+                    GlobalCommon.ShowMessageDialog(msg, function () { }, "Đã có lỗi xảy ra trong quá trình sử lý.");
+                });
+            }
+        });
     };
 };
 /*End Region*/
