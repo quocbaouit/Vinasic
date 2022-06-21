@@ -1545,10 +1545,10 @@ VINASIC.Order = function () {
                         return text;
                     }
                 },
-                StrUpdatedDate: {
-                    title: 'Ngày Cập Nhật',
-                    width: "7%"
-                },
+                //StrUpdatedDate: {
+                //    title: 'Ngày Cập Nhật',
+                //    width: "7%"
+                //},
                 //StrPaymentType: {
                 //    visibility: "fixed",
                 //    title: "Loại Thanh Toán",
