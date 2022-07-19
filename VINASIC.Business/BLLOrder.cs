@@ -172,6 +172,8 @@ namespace VINASIC.Business
                 //order.strFileName  = string.Join(", ", order.T_OrderDetail.Select(x => x.FileName).ToArray());
                 order.StrDeliveryDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(deliveryDate, curentZone):d/M/yyyy}";
                 order.strFileName = string.Join(", ", order.T_OrderDetail.Select(x => x.FileName).ToArray());
+                var transportFee = order.T_OrderDetail.Sum(x => x.TransportFee);
+                order.strTransport = $"{transportFee:0,0}";
                 if (order.CostDetail != null)
                 {
                     order.CostObj = JsonConvert.DeserializeObject<List<CostObj>>(order.CostDetail);

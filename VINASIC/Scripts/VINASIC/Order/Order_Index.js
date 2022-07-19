@@ -1549,6 +1549,15 @@ VINASIC.Order = function () {
                 //    title: 'Ghi chú',
                 //    width: "7%"
                 //},
+                strTransport: {
+                    title: "Vận Chuyển",
+                    width: "7%",
+                    display: function (data) {
+
+                        var text = $('<a  href="javascript:void(0)" style="color:red;"  class="clickable"   title="Description.">' + data.record.strTransport + '</a>');
+                        return text;
+                    }
+                },
                 Description: {
                     title: "Ghi chú",
                     width: "7%",

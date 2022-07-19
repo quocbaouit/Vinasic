@@ -32,7 +32,7 @@ namespace VINASIC.Business.Interface.Model
         public string strFileName { get; set; }
         public string strCost { get; set; }
         public string strIncome { get; set; }
-
+        public string strTransport { get; set; }
         public List<CostObj> CostObj { get; set; }
     }
     public class BusinessOrder {
