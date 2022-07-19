@@ -1451,20 +1451,20 @@ VINASIC.Order = function () {
                     title: 'Ngày Tạo',
                     width: "8%"
                 },
-                StrDeliveryDate: {
-                    title: 'Ngày Giao Hàng',
+                StrHasPayDate: {
+                    title: 'Ngày Thanh Toán',
                     width: "8%",
-                    display: function (data) {
+                    //display: function (data) {
 
-                        var text = '';
-                        if (new Date(data.record.DeliveryDate.match(/\d+/)[0] * 1).getTime() == new Date(moment(new Date()).format("YYYY/MM/DD")).getTime()) {
-                            text = $('<a  href="javascript:void(0)" style="color:red;"  class="clickable"  data-target="#popup_Order" title="Ngày giao hàng.">' + data.record.StrDeliveryDate + '</a>');
+                    //    var text = '';
+                    //    if (new Date(data.record.DeliveryDate.match(/\d+/)[0] * 1).getTime() == new Date(moment(new Date()).format("YYYY/MM/DD")).getTime()) {
+                    //        text = $('<a  href="javascript:void(0)" style="color:red;"  class="clickable"  data-target="#popup_Order" title="Ngày giao hàng.">' + data.record.StrDeliveryDate + '</a>');
 
-                        } else {
-                            text = $('<a  href="javascript:void(0)" style="color:#89798d;"  class="clickable"  data-target="#popup_Order" title="Ngày giao Hàng.">' + data.record.StrDeliveryDate + '</a>');
-                        }
-                        return text;
-                    }
+                    //    } else {
+                    //        text = $('<a  href="javascript:void(0)" style="color:#89798d;"  class="clickable"  data-target="#popup_Order" title="Ngày giao Hàng.">' + data.record.StrDeliveryDate + '</a>');
+                    //    }
+                    //    return text;
+                    //}
 
                 },
                 //HasTax: {
@@ -1545,9 +1545,18 @@ VINASIC.Order = function () {
                         return text;
                     }
                 },
-                StrUpdatedDate: {
-                    title: 'Ngày Cập Nhật',
-                    width: "7%"
+                //Description: {
+                //    title: 'Ghi chú',
+                //    width: "7%"
+                //},
+                Description: {
+                    title: "Ghi chú",
+                    width: "7%",
+                    display: function (data) {
+
+                        var text = $('<a  href="javascript:void(0)" style="color:red;"  class="clickable"   title="Description.">' + data.record.Description + '</a>');
+                        return text;
+                    }
                 },
                 //StrPaymentType: {
                 //    visibility: "fixed",
@@ -2211,6 +2220,7 @@ VINASIC.Order = function () {
                     //}
                     var employeeId = $("#cemployee").val();
                     var customerName = $("#cname").val();
+                    var description = $("#description").val();
                     var customerPhone = $("#cphone").val();
                     var customerMail = $("#cmail").val();
                     var customerAddress = $("#caddress").val();
@@ -2227,7 +2237,7 @@ VINASIC.Order = function () {
                         totalIncludeTax = orderTotal * 0.1 + orderTotal;
                     }
                     $.ajax({
-                        url: global.UrlAction.SaveOrder + "?orderId=" + global.Data.OrderId + "&employeeId=" + employeeId + "&customerId=" + global.Data.CustomerId + "&customerName=" + customerName + "&customerPhone=" + customerPhone + "&customerMail=" + customerMail + "&customerAddress=" + customerAddress + "&customerTaxCode=" + customerTaxCode + "&dateDelivery=" + dateDelivery + "&orderTotal=" + orderTotal + "&tax=" + tax + "&orderTotalTax=" + totalIncludeTax + "&deposit=" + deposit,
+                        url: global.UrlAction.SaveOrder + "?orderId=" + global.Data.OrderId + "&employeeId=" + employeeId + "&customerId=" + global.Data.CustomerId + "&customerName=" + customerName + "&customerPhone=" + customerPhone + "&customerMail=" + customerMail + "&customerAddress=" + customerAddress + "&customerTaxCode=" + customerTaxCode + "&dateDelivery=" + dateDelivery + "&orderTotal=" + orderTotal + "&tax=" + tax + "&orderTotalTax=" + totalIncludeTax + "&deposit=" + deposit + "&description=" + description,
                         type: 'post',
                         data: JSON.stringify({ 'listDetail': global.Data.ModelOrderDetail }),
                         contentType: 'application/json',

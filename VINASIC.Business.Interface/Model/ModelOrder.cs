@@ -20,6 +20,7 @@ namespace VINASIC.Business.Interface.Model
         public string StrPaymentType { get; set; }
         
         public string StrCreatedDate{ get; set; }
+        public string StrHasPayDate { get; set; }
         public string StrUpdatedDate { get; set; }
         public string StrDeliveryDate { get; set; }
         public double Total { get; set; }

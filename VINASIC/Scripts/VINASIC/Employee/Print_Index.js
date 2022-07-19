@@ -217,6 +217,15 @@ VINASIC.Print = function () {
                 //    title: "Mô Tả",
                 //    width: "15%"
                 //},
+                OrderDescription: {
+                    title: "Ghi chú",
+                    width: "7%",
+                    display: function (data) {
+
+                        var text = $('<a  href="javascript:void(0)" style="color:red;"  class="clickable"   title="Description.">' + data.record.OrderDescription + '</a>');
+                        return text;
+                    }
+                },
                 strJob: {
                     visibility: 'fixed',
                     title: "Công Việc",

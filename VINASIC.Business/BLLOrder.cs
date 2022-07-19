@@ -56,6 +56,10 @@ namespace VINASIC.Business
             {
                 sorting = "CreatedDate DESC";
             }
+            if (orderStatus==4)
+            {
+                sorting = "HasPayDate DESC";
+            }
             var realfromDate = DateTime.Parse(fromDate);
             var realtoDate = DateTime.Parse(toDate);
 
@@ -90,6 +94,7 @@ namespace VINASIC.Business
                 CreateUserName = c.T_User.Name,
                 StatusName = c.StatusName,
                 CreatedDate = c.CreatedDate,
+                HasPayDate = c.HasPayDate,
                 UpatedDate = c.UpatedDate,
                 HasPay = c.HasPay ?? 0,
                 Deposit = c.Deposit ?? 0,
@@ -145,6 +150,15 @@ namespace VINASIC.Business
                 var Income = order.SubTotal - order.Cost;
                 order.strIncome = $"{Income:0,0}";
                 order.StrCreatedDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(order.CreatedDate, curentZone):d/M/yyyy HH:mm}";
+                if (order.HasPayDate != null)
+                {
+                    order.StrHasPayDate = $"{ TimeZoneInfo.ConvertTimeFromUtc(order.HasPayDate??DateTime.UtcNow, curentZone):d/M/yyyy HH:mm}";
+                }
+                else
+                {
+                    order.StrHasPayDate = "";
+                }
+              
                 if (order.UpatedDate != null)
                 {
                     DateTime updatedDate = order.UpatedDate ?? DateTime.Now;
@@ -311,7 +325,7 @@ namespace VINASIC.Business
                 var order = new T_Order
                 {
                     Name = obj.CustomerName,
-                    Description = "",
+                    Description = obj.Description,
                     CustomerId = baseCustomerId,
                     DeliveryDate = obj.DateDelivery,
                     SubTotal = obj.OrderTotal,
@@ -402,7 +416,7 @@ namespace VINASIC.Business
                 order.SubTotalExcludeTax = obj.OrderTotalExcludeTax;
                 order.Deposit = obj.Deposit;
                 order.HasPay = obj.Deposit;
-                order.Description = "";
+                order.Description = obj.Description;
                 order.SubTotal = obj.OrderTotal;
                 order.CustomerId = obj.CustomerId;
                 order.DeliveryDate = obj.DateDelivery;
@@ -561,6 +575,7 @@ namespace VINASIC.Business
                         if (status==4)
                         {
                             order.HaspayTransfer = order.SubTotal- order.HasPay??0;
+                            order.HasPayDate = DateTime.UtcNow;
                         }
                         order.OrderStatus = status;
                         order.UpdatedUser = userId;
@@ -668,6 +683,7 @@ namespace VINASIC.Business
                 order.UpdatedUser = userId;
                 order.PaymentMethol = paymentType;
                 order.UpatedDate = DateTime.UtcNow;
+                order.HasPayDate = DateTime.UtcNow;
                 _repOrder.Update(order);
                 SaveChange();
                 responResult.IsSuccess = true;
@@ -963,6 +979,7 @@ namespace VINASIC.Business
             {
                 order.HasPay = pay;
                 order.UpatedDate = DateTime.UtcNow;
+                order.HasPayDate = DateTime.UtcNow;
                 _repOrder.Update(order);
                 SaveChange();
                 responResult.IsSuccess = true;
@@ -1013,6 +1030,7 @@ namespace VINASIC.Business
                 }
                 order.PaymentMethol = paymentType;
                 order.UpatedDate = DateTime.UtcNow;
+                order.HasPayDate = DateTime.UtcNow;
                 _repOrder.Update(order);
                 SaveChange();
                 responResult.IsSuccess = true;

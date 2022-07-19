@@ -14,5 +14,6 @@ namespace VINASIC.Business.Interface.Model
         public string StrdesignStatus { get; set; }
         public int CreateForUser { get; set; }
         public string StrCreatedDate { get; set; }
+        public string OrderDescription { get; set; }
     }
 }
