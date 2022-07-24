@@ -96,7 +96,7 @@ VINASIC.Order = function () {
         document.getElementById("Block4").innerHTML = "";
         tableString += "<tr>";
         tableString += "<th style=\"padding-left: 5px;text-align: left;\">" + "Dịch Vụ" + "</th>";
-        tableString += "<th style=\"padding-left: 5px;text-align: left;\">" + "Tên File" + "</th>";
+        tableString += "<th style=\"padding-left: 5px;text-align: left;\">" + " Ghi Chú" + "</th>";
         if (document.getElementById('show-dim').checked) {
             tableString += "<th>" + "CNgang" + "</th>";
             tableString += "<th>" + "CCao" + "</th>";
@@ -106,7 +106,7 @@ VINASIC.Order = function () {
         tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Đơn Giá" + "</th>";
         tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Phí Vận Chuyển" + "</th>";
         tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Thành Tiền" + "</th>";
-        tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Ghi Chú" + "</th>";
+        tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Tên File" + "</th>";
         tableString += "</tr>";
         for (row = 0; row < Table.length; row += 1) {
             var strPrice = Table[row].Price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
@@ -124,7 +124,7 @@ VINASIC.Order = function () {
                 Table[row].Width = '';
             }
             tableString += "<td style=\"padding-left: 5px;\">" + Table[row].CommodityName + "</td>";
-            tableString += "<td style=\"padding-left: 5px;\">" + Table[row].FileName + "</td>";
+            tableString += "<td style=\"padding-left: 5px;\">" + strDescription + "</td>";
             if (document.getElementById('show-dim').checked) {
                 tableString += "<td style=\"padding-center: 5px;text-align: center;\">" + Table[row].Width + "</td>";
                 tableString += "<td style=\"padding-center: 5px;text-align: center;\">" + Table[row].Height + "</td>";
@@ -135,7 +135,7 @@ VINASIC.Order = function () {
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strPrice + "</td>";
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strTransport + "</td>";
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strSubTotal + "</td>";
-                tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strDescription + "</td>";
+                tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + Table[row].FileName + "</td>";
             } else {
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
@@ -1614,6 +1614,7 @@ VINASIC.Order = function () {
                             $("#ppayment").val(b);
                             $("#prealpay").val(b);
                             global.Data.OrderId = data.record.Id;
+                            debugger;
                             global.Data.PcustomerName = data.record.Name;
                             global.Data.PcustomePhone = data.record.CustomerPhone;
                             global.Data.PcustomerAddress = data.record.CustomerAddress;
@@ -1634,52 +1635,53 @@ VINASIC.Order = function () {
                         return text;
                     }
                 },
-                CustomPrint: {
-                    visibility: 'fixed',
-                    title: "Sản Xuất",
-                    width: "7%",
-                    display: function (data) {
-                        var text = "";
-                        if (data.record.PaymentMethol == 3) { text = $("<a href=\"javascript:void(0)\"   class=\"clickable\" title=\"Cập nhật thanh toán.\">" + "Công Nợ" + "</a>"); }
-                        else {
-                            text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"In Phiếu.\">Phiếu SX </a>");
-                        }
-                        text.click(function () {
-                            global.Data.ForView = 1;
-                            global.Data.IdOrderStatus = data.record.Id;
-                            global.Data.NumberDetail = data.record.T_OrderDetail.length;
-                            $("#type2").prop("checked", true);
-                            $("#ppay").val("");
-                            $("#prest").val("");
-                            $("#ptotal").val(data.record.strSubTotal);
-                            $("#transferId").val(data.record.Description);
-                            $("#phaspay").val((data.record.HasPay + data.record.HaspayTransfer).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                            var a1 = data.record.SubTotal - (data.record.HasPay + data.record.HaspayTransfer);
-                            var b = a1.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                            var deposit = data.record.Deposit.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-                            $("#hasDeposit").val(deposit);
-                            $("#ppayment").val(b);
-                            $("#prealpay").val(b);
-                            global.Data.OrderId = data.record.Id;
-                            global.Data.PcustomerName = data.record.Name;
-                            global.Data.PcustomePhone = data.record.CustomerPhone;
-                            global.Data.PcustomerAddress = data.record.CustomerAddress;
-                            global.Data.Pproduct = "";
-                            calculatorProduct(data.record.T_OrderDetail);
-                            //rendertable                                                    
-                            renderTable(data.record.T_OrderDetail, data.record.SubTotal, data.record.HasPay + data.record.HaspayTransfer,1);
-                            if (data.record.HasTax) {
-                                $('#hastaxnote').css("display", "inline");
-                            } else {
-                                $('#hastaxnote').css("display", "none")
-                            }
-                            showPopupPaymentProcess();
-                            data.record.StrDeliveryDate = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd");
-                            var a = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd'T'HH:MM:ss");
-                        });
-                        return text;
-                    }
-                },
+                //CustomPrint: {
+                //    visibility: 'fixed',
+                //    title: "Sản Xuất",
+                //    width: "7%",
+                //    display: function (data) {
+                //        var text = "";
+                //        if (data.record.PaymentMethol == 3) { text = $("<a href=\"javascript:void(0)\"   class=\"clickable\" title=\"Cập nhật thanh toán.\">" + "Công Nợ" + "</a>"); }
+                //        else {
+                //            text = $("<a href=\"javascript:void(0)\" class=\"clickable\" title=\"In Phiếu.\">Phiếu SX </a>");
+                //        }
+                //        text.click(function () {
+                //            global.Data.ForView = 1;
+                //            global.Data.IdOrderStatus = data.record.Id;
+                //            global.Data.NumberDetail = data.record.T_OrderDetail.length;
+                //            $("#type2").prop("checked", true);
+                //            $("#ppay").val("");
+                //            $("#prest").val("");
+                //            $("#ptotal").val(data.record.strSubTotal);
+                //            $("#transferId").val(data.record.Description);
+                //            $("#phaspay").val((data.record.HasPay + data.record.HaspayTransfer).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                //            var a1 = data.record.SubTotal - (data.record.HasPay + data.record.HaspayTransfer);
+                //            var b = a1.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                //            var deposit = data.record.Deposit.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+                //            $("#hasDeposit").val(deposit);
+                //            $("#ppayment").val(b);
+                //            $("#prealpay").val(b);
+                //            debugger;
+                //            global.Data.OrderId = data.record.Id;
+                //            global.Data.PcustomerName = data.record.Name;
+                //            global.Data.PcustomePhone = data.record.CustomerPhone;
+                //            global.Data.PcustomerAddress = data.record.CustomerAddress;
+                //            global.Data.Pproduct = "";
+                //            calculatorProduct(data.record.T_OrderDetail);
+                //            //rendertable                                                    
+                //            renderTable(data.record.T_OrderDetail, data.record.SubTotal, data.record.HasPay + data.record.HaspayTransfer,1);
+                //            if (data.record.HasTax) {
+                //                $('#hastaxnote').css("display", "inline");
+                //            } else {
+                //                $('#hastaxnote').css("display", "none")
+                //            }
+                //            showPopupPaymentProcess();
+                //            data.record.StrDeliveryDate = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd");
+                //            var a = FormatDateJsonToString(data.record.DeliveryDate, "yyyy-mm-dd'T'HH:MM:ss");
+                //        });
+                //        return text;
+                //    }
+                ////},
                 //strOrderStatus: {
                 //    title: "Trạng thái Đơn Hàng",
                 //    width: "12%",
