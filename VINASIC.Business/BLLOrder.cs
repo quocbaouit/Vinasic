@@ -797,7 +797,7 @@ namespace VINASIC.Business
             if (orderDetail != null)
             {
                 orderDetail.DetailStatus = status;
-                var detailStatus = "";
+                var detailStatus = _repOrderDetailStatus.Get(x => x.IsSystem == 1 && x.Id== status).StatusName;
                 if (employeeId == 0)
                 {
                     orderDetail.PrintUser = null;
@@ -808,7 +808,7 @@ namespace VINASIC.Business
                     var employe = _repUser.GetById(employeeId);
                     if (status == 1)
                     {
-                        detailStatus = _repOrderDetailStatus.Get(x => x.IsSystem == 1).StatusName;
+                        //detailStatus = _repOrderDetailStatus.Get(x => x.IsSystem == 1).StatusName;
                         if (jobtype == "gap")
                         {
                             detailStatus = detailStatus + " - Cần Gấp";
@@ -821,7 +821,7 @@ namespace VINASIC.Business
                     }
                     if (status == 3)
                     {
-                        detailStatus = _repOrderDetailStatusPrint.Get(x => x.IsSystem == 1).StatusName;
+                        //detailStatus = _repOrderDetailStatusPrint.Get(x => x.IsSystem == 1).StatusName;
                         if (jobtype == "gap")
                         {
                             detailStatus = detailStatus + " - Cần Gấp";
