@@ -171,7 +171,7 @@ VINASIC.Order = function () {
         if (taxfee > 0) {
             var strtaxfee = taxfee.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
             tableString += "<tr>";
-            tableString += "<td colspan=\"" + 5 + "\">" + 'Tiền Thuế(10%)' + ":</td>";
+            tableString += "<td colspan=\"" + 7 + "\">" + 'Tiền Thuế(8%)' + ":</td>";
             tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal12\">" + strtaxfee + "</span></td>";
             //tableString += "<td>" + "&nbsp;" + "</td>";
             tableString += "</tr>";
@@ -2263,7 +2263,7 @@ VINASIC.Order = function () {
                     orderTotal = parseFloat(orderTotal);
                     var totalIncludeTax = orderTotal;
                     if (tax) {
-                        totalIncludeTax = orderTotal * 0.1 + orderTotal;
+                        totalIncludeTax = orderTotal * 0.08 + orderTotal;
                     }
                     $.ajax({
                         url: global.UrlAction.SaveOrder + "?orderId=" + global.Data.OrderId + "&employeeId=" + employeeId + "&customerId=" + global.Data.CustomerId + "&customerName=" + customerName + "&customerPhone=" + customerPhone + "&customerMail=" + customerMail + "&customerAddress=" + customerAddress + "&customerTaxCode=" + customerTaxCode + "&dateDelivery=" + dateDelivery + "&orderTotal=" + orderTotal + "&tax=" + tax + "&orderTotalTax=" + totalIncludeTax + "&deposit=" + deposit + "&description=" + description,
@@ -2569,7 +2569,7 @@ VINASIC.Order = function () {
 
             if (document.getElementById("dtax").checked == true) {
 
-                odertotalincludetax = odertotal * 0.1 + odertotal;
+                odertotalincludetax = odertotal * 0.08 + odertotal;
             }
             $("#dtotaltax").val(odertotalincludetax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
 
