@@ -285,7 +285,7 @@ VINASIC.Order = function () {
     }
     function reloadListOrder(orderStatus) {
         if (orderStatus == undefined) {
-            orderStatus = 1;
+            orderStatus = -1;
         }
         var keySearch = $("#keyword").val();
         //var fromDate = $("#datefrom").val();
@@ -665,7 +665,7 @@ VINASIC.Order = function () {
                 $('#loading').hide();
                 GlobalCommon.CallbackProcess(result, function () {
                     if (result.Result === "OK") {
-                        reloadListOrder(previewStatus);
+                        reloadListOrder();
                         toastr.success("Cập nhật trạng thái đơn hàng thành công");
                     }
                 }, false, global.Element.PopupOrder, true, true, function () {

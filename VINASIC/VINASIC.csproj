@@ -1017,6 +1017,7 @@
     <Content Include="css\widgets.css" />
     <Content Include="css\xcharts.min.css" />
     <Content Include="Files\fileNotification.jpg" />
+    <Content Include="Files\logo.jpg" />
     <Content Include="fonts\ElegantIcons.svg" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
