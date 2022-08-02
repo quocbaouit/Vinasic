@@ -78,6 +78,7 @@ VINASIC.Order = function () {
             Pproduct: "",
             NumberDetail: 0,
             IdOrderStatus: 0,
+            IdOrderDetailStatus: 0,
             IdDetailStatus: 0,
             DetailStatus: 0,
             IdForView: 0,
@@ -654,7 +655,7 @@ VINASIC.Order = function () {
                 });
             }
         });
-    }
+    } 
 
     function updateOrderStatus(orderId, status, previewStatus) {
         $.ajax({
@@ -668,6 +669,26 @@ VINASIC.Order = function () {
                     if (result.Result === "OK") {
                         reloadListOrder();
                         toastr.success("Cập nhật trạng thái đơn hàng thành công");
+                    }
+                }, false, global.Element.PopupOrder, true, true, function () {
+
+                    toastr.error(result.Message);
+                });
+            }
+        });
+    }
+    function updateOrderDetailStatus(orderId, status, previewStatus) {
+        $.ajax({
+            url: "/Order/UpdateOrderDetailStatus?orderId=" + orderId + "&status=" + status,
+            type: 'post',
+            data: JSON.stringify({ 'listIds': global.Data.SelectedRowIds }),
+            contentType: 'application/json',
+            success: function (result) {
+                $('#loading').hide();
+                GlobalCommon.CallbackProcess(result, function () {
+                    if (result.Result === "OK") {
+                        reloadListOrder();
+                        toastr.success("Cập nhật trạng thái chi tiết đơn hàng thành công");
                     }
                 }, false, global.Element.PopupOrder, true, true, function () {
 
@@ -1713,18 +1734,31 @@ VINASIC.Order = function () {
                 //        return text;
                 //    }
                 //},
+                //strDetailStatusName: {
+                //    title: "Trạng Thái Chi Tiết",
+                //    width: "10%",
+                //    display: function (data) {
+
+                //        var text = '';
+                //        if (data.record.DetailStatusName != 'Đang xử lý') {
+                //            text = $('<a  href="javascript:void(0)" style="color:red;"  class="clickable"  data-target="#popup_Order" title="chi tiế.">' + data.record.DetailStatusName + '</a>');
+
+                //        } else {
+                //            text = $('<a  href="javascript:void(0)" style="color:#89798d;"  class="clickable"  data-target="#popup_Order" title="chi tiết.">' + data.record.DetailStatusName + '</a>');
+                //        }
+                //        return text;
+                //    }
+                //},
                 strDetailStatusName: {
                     title: "Trạng Thái Chi Tiết",
                     width: "10%",
                     display: function (data) {
-
-                        var text = '';
-                        if (data.record.DetailStatusName != 'Đang xử lý') {
-                            text = $('<a  href="javascript:void(0)" style="color:red;"  class="clickable"  data-target="#popup_Order" title="chi tiế.">' + data.record.DetailStatusName + '</a>');
-
-                        } else {
-                            text = $('<a  href="javascript:void(0)" style="color:#89798d;"  class="clickable"  data-target="#popup_Order" title="chi tiết.">' + data.record.DetailStatusName + '</a>');
-                        }
+                        var text = "";
+                        var strStatus = data.record.DetailStatusName;
+                        var text = $(' <div class="dropdown"><a class="dropdown-toggle" type="button" data-toggle="dropdown" href=\"javascript:void(0)\" class=\"clickable\" title=\"Cập nhật trạng thái chi tiết đơn hàng.\">' + strStatus + '</a>' + resultDetailStatusList1 + '</div>');
+                        text.click(function (e) {
+                            global.Data.IdOrderStatus = data.record.Id;
+                        });
                         return text;
                     }
                 },
@@ -3010,6 +3044,11 @@ VINASIC.Order = function () {
             var statusId = $(this).attr("data-id");
             event.preventDefault();
             updateOrderStatus(global.Data.IdOrderStatus, statusId, global.Data.statusId);
+        });
+        $("body").delegate(".orderDetailstatus1", "click", function (event) {
+            var statusId = $(this).attr("data-id");
+            event.preventDefault();
+            updateOrderDetailStatus(global.Data.IdOrderStatus, statusId, global.Data.statusId);
         });
         $("body").delegate(".orderDetailstatus", "click", function (event) {
             var statusId = $(this).attr("data-id");

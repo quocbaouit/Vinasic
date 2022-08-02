@@ -595,6 +595,36 @@ namespace VINASIC.Controllers
             }
             return Json(JsonDataResult);
         }
+        public JsonResult UpdateOrderDetailStatus(int orderId, int status, List<int> listIds, bool sendSMS = false, bool sendEmail = false)
+        {
+            try
+            {
+                var IsAdmin = true;
+                //if (IsAuthenticate)
+                //{
+                var responseResult = _bllOrder.UpdateOrderDetailStatus(orderId, status, listIds, UserContext.UserID, IsAdmin, sendSMS, sendEmail);
+                if (responseResult.IsSuccess)
+                    JsonDataResult.Result = "OK";
+                else
+                {
+                    JsonDataResult.Result = "ERROR";
+                    JsonDataResult.ErrorMessages.AddRange(responseResult.Errors);
+                }
+                //}
+                //else
+                //{
+                //    JsonDataResult.Result = "ERROR";
+                //    JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update ", Message = "Tài Khoản của bạn không có quyền này." });
+                //}
+            }
+            catch (Exception ex)
+            {
+                //add error
+                JsonDataResult.Result = "ERROR";
+                JsonDataResult.ErrorMessages.Add(new Error() { MemberName = "Update", Message = "Lỗi: " + ex.Message });
+            }
+            return Json(JsonDataResult);
+        }
         public JsonResult UpdateHaspayCustom(int orderId, string haspay, int paymentType)
         {
             try

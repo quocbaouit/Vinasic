@@ -1450,12 +1450,19 @@
 
         orderDetailStatusList = @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(ViewBag.OrderDetailStatus)));
         var statusDetailDropdown = "<ul class=\"dropdown-menu\">";
+        var statusDetailDropdown1 = "<ul class=\"dropdown-menu\">";
         for (var i = 0; i < orderDetailStatusList.length; i++) {
             var detail = "<li><a class=\"orderDetailstatus\" data-id=\"" + orderDetailStatusList[i].Value + "\" href=\"javascript:void(0)\">" + orderDetailStatusList[i].Name + "</a></li>";
             statusDetailDropdown = statusDetailDropdown + detail;
+
+            var detail1 = "<li><a class=\"orderDetailstatus1\" data-id=\"" + orderDetailStatusList[i].Value + "\" href=\"javascript:void(0)\">" + orderDetailStatusList[i].Name + "</a></li>";
+            statusDetailDropdown1 = statusDetailDropdown1 + detail1;
         }
         statusDetailDropdown = statusDetailDropdown + "</ul>";
         resultDetailStatusList = statusDetailDropdown;
+
+        statusDetailDropdown1 = statusDetailDropdown1 + "</ul>";
+        resultDetailStatusList1 = statusDetailDropdown1;
 });
 </script>
 

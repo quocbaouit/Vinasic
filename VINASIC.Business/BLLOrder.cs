@@ -599,6 +599,44 @@ namespace VINASIC.Business
            
             return responResult;
         }
+        public ResponseBase UpdateOrderDetailStatus(int orderId, int status, List<int> listIds, int userId, bool isAdmin, bool sendSMS = false, bool sendEmail = false)
+        {
+            var responResult = new ResponseBase();
+            var statusObj = _repOrderDetailStatus.GetById(status);
+            var orders = new List<T_Order>();
+            if (listIds != null && listIds.Count > 0)
+            {
+                orders = _repOrder.GetMany(c => !c.IsDeleted && listIds.Contains(c.Id)).ToList();
+
+            }
+            else
+            {
+                orders.Add(_repOrder.GetMany(c => !c.IsDeleted && c.Id == orderId).FirstOrDefault());
+            }
+            if (orders.Count > 0)
+            {
+                foreach (var order in orders)
+                {
+                    if (order != null)
+                    {
+                        order.DetailStatusName = statusObj.StatusName;
+                        order.UpdatedUser = userId;
+                        //order.UpatedDate = DateTime.UtcNow;
+                        _repOrder.Update(order);
+                    }
+
+                }
+                SaveChange();
+                responResult.IsSuccess = true;
+            }
+            else
+            {
+                responResult.IsSuccess = false;
+                responResult.Errors.Add(new Error() { MemberName = "Update", Message = "Lỗi" });
+            }
+
+            return responResult;
+        }
         public void SendSMS(string phone, string mess)
         {
             //SendSMS
