@@ -880,7 +880,7 @@ namespace VINASIC.Controllers
             return new ExcelDownload(pck, string.Format("{0}_{1}.xlsx", orderName, DateTime.Now.AddHours(14).ToString("d")));
         }
         //public 
-        public ExcelPackage ExportSum(ExcelPackage package, DateTime fromDate, DateTime toDate, int employee, string keySearch, int delivery, int paymentStatus, int type = 0,List<int> orderIds=null)
+        public ExcelPackage ExportSum(ExcelPackage package, DateTime fromDate, DateTime toDate, int employee, string keySearch, int delivery, int paymentStatus, int type = 0, List<int> orderids = null)
         {
             var CompanyInfo = _bllSiteSetting.GetListProduct();
             var cmpShortName = CompanyInfo.Where(x => x.Code == "cmpShortName").FirstOrDefault()?.Value;
@@ -890,10 +890,8 @@ namespace VINASIC.Controllers
             var cpnAddress = CompanyInfo.Where(x => x.Code == "cpnAddress").FirstOrDefault()?.Value;
             var cpnName = CompanyInfo.Where(x => x.Code == "cpnName").FirstOrDefault()?.Value;
 
-            var result = _bllOrder.ExportReport(fromDate, toDate, employee, keySearch, delivery, paymentStatus, type, orderIds);
-            var customerName = result[0].CustomerName;
-            var customerAddress = result[0].CustomerAddress;
-            var CustomerPhone = result[0].CustomerPhone;
+            var result = _bllOrder.ExportReport(fromDate, toDate, employee, keySearch, delivery, paymentStatus, type, orderids);
+
             var siteSettings = _bllSiteSetting.GetListProduct();
             var configCustomer = siteSettings.Where(x => x.Code == "configCustomer").FirstOrDefault().Value;
             var configUnit = siteSettings.Where(x => x.Code == "configUnit").FirstOrDefault().Value;
@@ -907,20 +905,21 @@ namespace VINASIC.Controllers
             ws.Cells.Style.Font.Size = 14;
             ws.Cells.Style.Font.Name = "Times New Roman";
             var columnNumber = 1;
-            //ws.Column(columnNumber).Width = 7;
-            //columnNumber++;
-            //ws.Column(columnNumber).Width = 7;
-            //columnNumber++;
-            //ws.Column(columnNumber).Width = 15;
-            //columnNumber++;
-            //if (configCustomer == "true")//customerName
-            //{
-            //    ws.Column(columnNumber).Width = 30;
-            //    columnNumber++;
-            //}
+            ws.Column(columnNumber).Width = 7;
+            columnNumber++;
+            ws.Column(columnNumber).Width = 7;
+            columnNumber++;
+            ws.Column(columnNumber).Width = 15;
+            columnNumber++;
+            if (configCustomer == "true")//customerName
+            {
+                ws.Column(columnNumber).Width = 30;
+                columnNumber++;
+            }
 
-           
-            ws.Column(columnNumber).Width = 32;
+            ws.Column(columnNumber).Width = 30;
+            columnNumber++;
+            ws.Column(columnNumber).Width = 30;
             columnNumber++;
             if (configUnit == "true")
             {
@@ -938,21 +937,19 @@ namespace VINASIC.Controllers
                 columnNumber++;
             }
 
-            ws.Column(columnNumber).Width = 32;
+            ws.Column(columnNumber).Width = 14;
             columnNumber++;
-            ws.Column(columnNumber).Width = 32;
+            ws.Column(columnNumber).Width = 14;
             columnNumber++;
-            ws.Column(columnNumber).Width = 32;
+            ws.Column(columnNumber).Width = 14;
             columnNumber++;
-            ws.Column(columnNumber).Width = 32;
+            ws.Column(columnNumber).Width = 14;
             columnNumber++;
-            ws.Column(columnNumber).Width = 32;
+            ws.Column(columnNumber).Width = 14;
             columnNumber++;
-            //ws.Column(columnNumber).Width = 14;
-            //columnNumber++;
-            //ws.Column(columnNumber).Width = 14;
-            //columnNumber++;
-            //ws.Column(columnNumber).Width = 14;
+            ws.Column(columnNumber).Width = 14;
+            columnNumber++;
+            ws.Column(columnNumber).Width = 14;
             string path = cpnLogo;
             var logo = Image.FromFile(Server.MapPath(path));
             ws.Row(0 * 5).Height = 39.00D;
@@ -963,241 +960,173 @@ namespace VINASIC.Controllers
             picture.To.Row = 0;
             picture.SetSize(200, 104);
 
-            ws.Cells["D1"].Value = cpnName;
-            ws.Cells["D1"].Style.Font.Bold = true;
-            ws.Cells["D1"].Style.Font.Size = 16;
-            ws.Cells["D1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            ws.Cells["G1"].Value = cpnName;
+            ws.Cells["G1"].Style.Font.Bold = true;
+            ws.Cells["G1"].Style.Font.Size = 16;
+            ws.Cells["G1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-            ws.Cells["D2"].Value = "Địa chỉ văn phòng: " + cpnAddress;
-            ws.Cells["D2"].Style.Font.Bold = true;
-            ws.Cells["D2"].Style.Font.Size = 14;
-            ws.Cells["D2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            ws.Cells["G2"].Value = cpnWebsite;
+            ws.Cells["G2"].Style.Font.Bold = true;
+            ws.Cells["G2"].Style.Font.Size = 14;
+            ws.Cells["G2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            ws.Cells["G2"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            ws.Cells["D3"].Value = "Di động: " + cpnMobile;
-            ws.Cells["D3"].Style.Font.Bold = true;
-            ws.Cells["D3"].Style.Font.Size = 14;
-            ws.Cells["D3"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            ws.Cells["G3"].Value = "Địa chỉ văn phòng: " + cpnAddress;
+            ws.Cells["G3"].Style.Font.Bold = true;
+            ws.Cells["G3"].Style.Font.Size = 14;
+            ws.Cells["G3"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-            ws.Cells["D5"].Value = "PHIẾU THU";
-            ws.Cells["D5"].Style.Font.Bold = true;
-            ws.Cells["D5"].Style.Font.Size = 18;
-            ws.Cells["D5"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+            ws.Cells["G4"].Value = "Di động: " + cpnMobile;
+            ws.Cells["G4"].Style.Font.Bold = true;
+            ws.Cells["G4"].Style.Font.Size = 14;
+            ws.Cells["G4"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-
-            //add new
-            ws.Cells["F1"].Value = "Quyển số: PT 001";
-            ws.Cells["F1"].Style.Font.Size = 14;
-            ws.Cells["F1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
-
-            ws.Cells["F2"].Value = "Số:"+ result[0].OrderId;
-            ws.Cells["F2"].Style.Font.Size = 14;
-            ws.Cells["F2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
-
-            ws.Cells["F3"].Value = result[0].CreatedDate.ToString("dd/MM/yyyy");
-            ws.Cells["F3"].Style.Font.Size = 14;
-            ws.Cells["F3"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
-            //end
-
-            ws.Cells["A7"].Value = "Họ và tên người nôp tiền: "+ customerName;
-            //ws.Cells["A7"].Style.Font.Bold = true;
-            ws.Cells["A7"].Style.Font.Size = 14;
-            ws.Cells["A7"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-            ws.Cells["A8"].Value = "Địa chỉ: "+customerAddress;
-            //ws.Cells["A8"].Style.Font.Bold = true;
-            ws.Cells["A8"].Style.Font.Size = 14;
-            ws.Cells["A8"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-            ws.Cells["A9"].Value = "Số đt: "+CustomerPhone;
-            //ws.Cells["A9"].Style.Font.Bold = true;
-            ws.Cells["A9"].Style.Font.Size = 14;
-            ws.Cells["A9"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-
-
-            ws.Cells["A15"].Value = "Giám đốc(Ký, họ tên)";
-            ws.Cells["A15"].Style.Font.Size = 14;
-            ws.Cells["A15"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-
-            ws.Cells["B15"].Value = "Kế toán trưởng(Ký, họ tên)";
-            ws.Cells["B15"].Style.Font.Size = 14;
-            ws.Cells["B15"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-
-            ws.Cells["C15"].Value = "Người nộp tiền(Ký, họ tên)";
-            ws.Cells["C15"].Style.Font.Size = 14;
-            ws.Cells["C15"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-
-            ws.Cells["D15"].Value = "Người lập phiếu(Ký, họ tên)";
-            ws.Cells["D15"].Style.Font.Size = 14;
-            ws.Cells["D15"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-
-            ws.Cells["E15"].Value = "Thủ quỹ(Ký, họ tên)";
-            ws.Cells["E15"].Style.Font.Size = 14;
-            ws.Cells["E15"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+            ws.Cells["G6"].Value = "THỐNG KÊ HÀNG IN";
+            ws.Cells["G6"].Style.Font.Bold = true;
+            ws.Cells["G6"].Style.Font.Size = 18;
+            ws.Cells["G6"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
             char letter = 'a';
 
-            //ws.Cells[letter + "11"].Value = "STT";
-            //ws.Cells[letter + "11"].Style.Font.Color.SetColor(Color.RoyalBlue);
-            //letter = (char)(((int)letter) + 1);
+            ws.Cells[letter + "8"].Value = "STT";
+            ws.Cells[letter + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
 
-            //ws.Cells[(char)(((int)letter)) + "11"].Value = "Mã ĐH";
-            //ws.Cells[(char)(((int)letter)) + "11"].Style.Font.Color.SetColor(Color.RoyalBlue);
-            //letter = (char)(((int)letter) + 1);
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Mã ĐH";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
 
-            //ws.Cells[(char)(((int)letter)) + "11"].Value = "Ngày Tạo";
-            //ws.Cells[(char)(((int)letter)) + "11"].Style.Font.Color.SetColor(Color.RoyalBlue);
-            //letter = (char)(((int)letter) + 1);
-            //if (configCustomer == "true")
-            //{
-            //    ws.Cells[(char)(((int)letter)) + "11"].Value = "Tên Khách Hàng";
-            //    ws.Cells[(char)(((int)letter)) + "11"].Style.Font.Color.SetColor(Color.RoyalBlue);
-            //    letter = (char)(((int)letter) + 1);
-            //}
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Ngày Tạo";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
+            if (configCustomer == "true")
+            {
+                ws.Cells[(char)(((int)letter)) + "8"].Value = "Tên Khách Hàng";
+                ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+                letter = (char)(((int)letter) + 1);
+            }
 
 
-            
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Hạng mục";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
 
-            ws.Cells[(char)(((int)letter)) + "11"].Value = "Dịch Vụ";
-            ws.Cells[(char)(((int)letter)) + "11"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Diễn giải";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
             letter = (char)(((int)letter) + 1);
             if (configUnit == "true")
             {
-                ws.Cells[(char)(((int)letter)) + "11"].Value = "Đơn vị";
-                ws.Cells[(char)(((int)letter)) + "11"].Style.Font.Color.SetColor(Color.RoyalBlue);
+                ws.Cells[(char)(((int)letter)) + "8"].Value = "Đơn vị";
+                ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
                 letter = (char)(((int)letter) + 1);
             }
             if (configDimension == "true")
             {
                 char mergerLetter = (char)(((int)letter));
-                ws.Cells[(char)(((int)mergerLetter)) + "11:" + (char)(((int)mergerLetter) + 1) + "11"].Merge = true;
-                ws.Cells[(char)(((int)letter)) + "11"].Value = "Kích thước (m)";
-                ws.Cells[(char)(((int)letter)) + "11"].Style.Font.Color.SetColor(Color.RoyalBlue);
+                ws.Cells[(char)(((int)mergerLetter)) + "8:" + (char)(((int)mergerLetter) + 1) + "8"].Merge = true;
+                ws.Cells["H8"].Value = "Kích thước (m)";
+                ws.Cells["H8"].Style.Font.Color.SetColor(Color.RoyalBlue);
                 letter = (char)(((int)letter) + 2);
             }
-            ws.Cells[(char)(((int)letter)) + "11"].Value = "Số lượng";
-            ws.Cells[(char)(((int)letter)) + "11"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Số lượng";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
             letter = (char)(((int)letter) + 1);
             if (configDimension == "true")
             {
-                ws.Cells[(char)(((int)letter)) + "11"].Value = "Diện tích";
-                ws.Cells[(char)(((int)letter)) + "11"].Style.Font.Color.SetColor(Color.RoyalBlue);
+                ws.Cells[(char)(((int)letter)) + "8"].Value = "Diện tích";
+                ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
                 letter = (char)(((int)letter) + 1);
             }
-            ws.Cells[(char)(((int)letter)) + "11"].Value = "Đơn giá (vnd)";
-            ws.Cells[(char)(((int)letter)) + "11"].Style.Font.Color.SetColor(Color.RoyalBlue);
-            letter = (char)(((int)letter) + 1);
-            ws.Cells[(char)(((int)letter)) + "11"].Value = "Phí Vận Chuyển (vnd)";
-            ws.Cells[(char)(((int)letter)) + "11"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Đơn giá (vnd)";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
             letter = (char)(((int)letter) + 1);
 
-            ws.Cells[(char)(((int)letter)) + "11"].Value = "Thành Tiền (vnd)";
-            ws.Cells[(char)(((int)letter)) + "11"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Thành Tiền (vnd)";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
             char mergerTotalLetter = (char)(((int)letter) - 1);
             letter = (char)(((int)letter) + 1);
 
-            ws.Cells[(char)(((int)letter)) + "11"].Value = "Ghi Chú";
-            ws.Cells[(char)(((int)letter)) + "11"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Chi Phí";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
             letter = (char)(((int)letter) + 1);
 
-            //ws.Cells[(char)(((int)letter)) + "11"].Value = "Chi Phí";
-            //ws.Cells[(char)(((int)letter)) + "11"].Style.Font.Color.SetColor(Color.RoyalBlue);
-            //letter = (char)(((int)letter) + 1);
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Tiền Lãi";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
 
-            //ws.Cells[(char)(((int)letter)) + "11"].Value = "Tiền Lãi";
-            //ws.Cells[(char)(((int)letter)) + "11"].Style.Font.Color.SetColor(Color.RoyalBlue);
-            //letter = (char)(((int)letter) + 1);
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "ThanhToán Tiền Mặt";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
 
-            //ws.Cells[(char)(((int)letter)) + "11"].Value = "ThanhToán Tiền Mặt";
-            //ws.Cells[(char)(((int)letter)) + "11"].Style.Font.Color.SetColor(Color.RoyalBlue);
-            //letter = (char)(((int)letter) + 1);
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Chuyển Khoản(vnd)";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
+            letter = (char)(((int)letter) + 1);
 
-            //ws.Cells[(char)(((int)letter)) + "11"].Value = "Chuyển Khoản(vnd)";
-            //ws.Cells[(char)(((int)letter)) + "11"].Style.Font.Color.SetColor(Color.RoyalBlue);
-            //letter = (char)(((int)letter) + 1);
+            ws.Cells[(char)(((int)letter)) + "8"].Value = "Còn Lại (vnd)";
+            ws.Cells[(char)(((int)letter)) + "8"].Style.Font.Color.SetColor(Color.RoyalBlue);
 
-            //ws.Cells[(char)(((int)letter)) + "11"].Value = "Còn Lại (vnd)";
-            //ws.Cells[(char)(((int)letter)) + "11"].Style.Font.Color.SetColor(Color.RoyalBlue);
-
-            foreach (var c in ws.Cells["A11:" + letter + "11"])
+            foreach (var c in ws.Cells["A8:" + letter + "8"])
             {
                 c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 c.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                 c.Style.WrapText = true;
                 c.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
             }
-            ws.Cells["A12:" + mergerTotalLetter + "12"].Merge = true;
-            ws.Cells["A12:" + mergerTotalLetter + "12"].Value = "Tổng cộng";
-            ws.Cells["A12:" + mergerTotalLetter + "12"].Style.Font.Bold = true;
-            ws.Cells["A12:" + mergerTotalLetter + "12"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-
-            //add new
-            char mergerTotalLetterText = (char)(((int)letter) - 2);
-            ws.Cells["A13:" + mergerTotalLetterText + "13"].Merge = true;
-            ws.Cells["A13:" + mergerTotalLetterText + "13"].Value = "Bằng Chữ: " + NumberToText(result[0].Total);
-            ws.Cells["A13:" + mergerTotalLetterText + "13"].Style.Font.Bold = true;
-            ws.Cells["A13:" + mergerTotalLetterText + "13"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-           
-            //end
+            ws.Cells["A9:" + mergerTotalLetter + "9"].Merge = true;
+            ws.Cells["A9:" + mergerTotalLetter + "9"].Value = "Tổng cộng";
+            ws.Cells["A9:" + mergerTotalLetter + "9"].Style.Font.Bold = true;
+            ws.Cells["A9:" + mergerTotalLetter + "9"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
             char totalLetter = (char)(((int)mergerTotalLetter) + 1);
-            ws.Cells[totalLetter + "12"].Style.Numberformat.Format = "#,##0";
-            ws.Cells[totalLetter + "12"].Value = result[0].Total;
+            ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
+            ws.Cells[totalLetter + "9"].Value = result[0].Total;
             totalLetter++;
 
-            ws.Cells[totalLetter + "12"].Style.Numberformat.Format = "#,##0";
-            ws.Cells[totalLetter + "12"].Value = "";
-
-            ws.Cells[totalLetter + "13"].Style.Numberformat.Format = "#,##0";
-            ws.Cells[totalLetter + "13"].Value = "";
+            ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
+            ws.Cells[totalLetter + "9"].Value = "";
             totalLetter++;
 
+            ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
+            ws.Cells[totalLetter + "9"].Value = "";
+            totalLetter++;
 
+            ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
+            ws.Cells[totalLetter + "9"].Value = "";
+            totalLetter++;
 
-            //ws.Cells[totalLetter + "12"].Style.Numberformat.Format = "#,##0";
-            //ws.Cells[totalLetter + "12"].Value = "";
-            //totalLetter++;
-
-            //ws.Cells[totalLetter + "12"].Style.Numberformat.Format = "#,##0";
-            //ws.Cells[totalLetter + "12"].Value = "";
-            //totalLetter++;
-
-            //ws.Cells[totalLetter + "12"].Style.Numberformat.Format = "#,##0";
-            //ws.Cells[totalLetter + "12"].Value = "";
-            //totalLetter++;
-            //ws.Cells[totalLetter + "12"].Style.Numberformat.Format = "#,##0";
-            //ws.Cells[totalLetter + "12"].Value = "";
-            foreach (var c in ws.Cells["A12:" + totalLetter + "12"])
+            ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
+            ws.Cells[totalLetter + "9"].Value = "";
+            totalLetter++;
+            ws.Cells[totalLetter + "9"].Style.Numberformat.Format = "#,##0";
+            ws.Cells[totalLetter + "9"].Value = "";
+            foreach (var c in ws.Cells["A9:" + totalLetter + "9"])
             {
                 c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                 c.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
                 c.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
                 c.Style.Border.Top.Style = ExcelBorderStyle.Thin;
             }
-            foreach (var c in ws.Cells["A13:" + totalLetter + "13"])
-            {
-                c.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                c.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                c.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
-                c.Style.Border.Top.Style = ExcelBorderStyle.Thin;
-            }
-            var startRow = int.Parse(ws.Cells["A11"].Address.Substring(1)) + 1;
+            var startRow = int.Parse(ws.Cells["A8"].Address.Substring(1)) + 1;
             var endRow = startRow;
             var numRows = result.Count;
             for (var i = 0; i < numRows; i++)
             {
                 ws.InsertRow(endRow, 1);
                 var column = 1;
-                //ws.Cells[endRow, column].Value = i + 1;
-                //column++;
-                //ws.Cells[endRow, column].Value = result[i].OrderId;
-                //column++;
-                //ws.Cells[endRow, column].Value = result[i].CreatedDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
-                //column++;
-                //if (configCustomer == "true")
-                //{
-                //    ws.Cells[endRow, column].Value = result[i].CustomerName;
-                //    column++;
-                //}
+                ws.Cells[endRow, column].Value = i + 1;
+                column++;
+                ws.Cells[endRow, column].Value = result[i].OrderId;
+                column++;
+                ws.Cells[endRow, column].Value = result[i].CreatedDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
+                column++;
+                if (configCustomer == "true")
+                {
+                    ws.Cells[endRow, column].Value = result[i].CustomerName;
+                    column++;
+                }
 
-               
+                ws.Cells[endRow, column].Value = result[i].FileName;
+                column++;
                 ws.Cells[endRow, column].Value = result[i].CommodityName;
                 column++;
                 if (configUnit == "true")
@@ -1225,12 +1154,7 @@ namespace VINASIC.Controllers
                 ws.Cells[endRow, column].Value = result[i].Price;
                 column++;
                 ws.Cells[endRow, column].Style.Numberformat.Format = "#,##0";
-                ws.Cells[endRow, column].Value = result[i].TransportFee;
-                column++;
-                ws.Cells[endRow, column].Style.Numberformat.Format = "#,##0";
                 ws.Cells[endRow, column].Value = result[i].SubTotal;
-                column++;
-                ws.Cells[endRow, column].Value = result[i].Description;
                 column++;
 
                 try
@@ -1239,65 +1163,65 @@ namespace VINASIC.Controllers
                     {
                         var tryColumn = column;
 
-                        //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        //ws.Cells[endRow, tryColumn].Value = result[i].Cost;
-                        //tryColumn++;
-                        //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        //ws.Cells[endRow, tryColumn].Value = result[i].Total1 - result[i].Cost;
-                        //tryColumn++;
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = result[i].Cost;
+                        tryColumn++;
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = result[i].Total1 - result[i].Cost;
+                        tryColumn++;
 
-                        //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        //ws.Cells[endRow, tryColumn].Value = result[i].HasPay;
-                        //tryColumn++;
-                        //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        //ws.Cells[endRow, tryColumn].Value = result[i].HasPayTransfer;
-                        //tryColumn++;
-                        //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        //ws.Cells[endRow, tryColumn].Value = result[i].Total1 - (result[i].HasPay + result[i].HasPayTransfer);
-                        //tryColumn++;
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = result[i].HasPay;
+                        tryColumn++;
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = result[i].HasPayTransfer;
+                        tryColumn++;
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = result[i].Total1 - (result[i].HasPay + result[i].HasPayTransfer);
+                        tryColumn++;
                     }
                     else
                     {
                         var tryColumn = column;
 
-                        //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        //ws.Cells[endRow, tryColumn].Value = "";
-                        //tryColumn++;
-                        //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        //ws.Cells[endRow, tryColumn].Value = "";
-                        //tryColumn++;
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = "";
+                        tryColumn++;
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = "";
+                        tryColumn++;
 
-                        //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        //ws.Cells[endRow, tryColumn].Value = "";
-                        //tryColumn++;
-                        //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        //ws.Cells[endRow, tryColumn].Value = "";
-                        //tryColumn++;
-                        //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                        //ws.Cells[endRow, tryColumn].Value = "";
-                        //tryColumn++;
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = "";
+                        tryColumn++;
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = "";
+                        tryColumn++;
+                        ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                        ws.Cells[endRow, tryColumn].Value = "";
+                        tryColumn++;
                     }
                 }
                 catch (Exception)
                 {
                     var tryColumn = column;
 
-                    //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                    //ws.Cells[endRow, tryColumn].Value = result[i].Cost;
-                    //tryColumn++;
-                    //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                    //ws.Cells[endRow, tryColumn].Value = result[i].Total1 - result[i].Cost;
-                    //tryColumn++;
+                    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                    ws.Cells[endRow, tryColumn].Value = result[i].Cost;
+                    tryColumn++;
+                    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                    ws.Cells[endRow, tryColumn].Value = result[i].Total1 - result[i].Cost;
+                    tryColumn++;
 
-                    //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                    //ws.Cells[endRow, tryColumn].Value = result[i].HasPay;
-                    //tryColumn++;
-                    //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                    //ws.Cells[endRow, tryColumn].Value = result[i].HasPayTransfer;
-                    //tryColumn++;
-                    //ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
-                    //ws.Cells[endRow, tryColumn].Value = result[i].Total1 - (result[i].HasPay + result[i].HasPayTransfer);
-                    //tryColumn++;
+                    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                    ws.Cells[endRow, tryColumn].Value = result[i].HasPay;
+                    tryColumn++;
+                    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                    ws.Cells[endRow, tryColumn].Value = result[i].HasPayTransfer;
+                    tryColumn++;
+                    ws.Cells[endRow, tryColumn].Style.Numberformat.Format = "#,##0";
+                    ws.Cells[endRow, tryColumn].Value = result[i].Total1 - (result[i].HasPay + result[i].HasPayTransfer);
+                    tryColumn++;
                 }
                 if (i == numRows - 1)
                     continue;

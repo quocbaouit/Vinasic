@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>D:\Vinasic\VINASIC\bin\app.publish\</_PublishTargetUrl>
-    <History>False|2022-07-24T06:03:16.4160030Z;False|2022-07-24T13:02:04.0744286+07:00;False|2022-07-24T13:01:46.7071237+07:00;False|2022-07-24T13:00:29.8919918+07:00;False|2022-07-24T13:00:05.8594590+07:00;False|2022-07-24T12:59:27.8245320+07:00;False|2022-07-24T12:59:09.9507877+07:00;False|2022-07-24T12:58:37.3430932+07:00;False|2022-07-24T12:58:16.6407681+07:00;False|2022-07-24T12:57:58.3803362+07:00;False|2022-07-24T12:57:17.7284982+07:00;False|2022-07-24T12:55:30.3513398+07:00;False|2022-07-24T12:55:13.7397394+07:00;False|2022-07-24T12:54:56.3267800+07:00;False|2022-07-24T12:53:27.2231618+07:00;False|2022-07-24T12:52:21.4945932+07:00;False|2022-07-24T12:51:46.4769946+07:00;False|2022-07-24T12:51:01.9073855+07:00;False|2022-07-24T12:50:18.6154825+07:00;</History>
+    <History>True|2022-08-16T01:52:36.0892921Z;True|2022-08-12T09:28:34.8778769+07:00;False|2022-07-24T13:03:16.4160030+07:00;False|2022-07-24T13:02:04.0744286+07:00;False|2022-07-24T13:01:46.7071237+07:00;False|2022-07-24T13:00:29.8919918+07:00;False|2022-07-24T13:00:05.8594590+07:00;False|2022-07-24T12:59:27.8245320+07:00;False|2022-07-24T12:59:09.9507877+07:00;False|2022-07-24T12:58:37.3430932+07:00;False|2022-07-24T12:58:16.6407681+07:00;False|2022-07-24T12:57:58.3803362+07:00;False|2022-07-24T12:57:17.7284982+07:00;False|2022-07-24T12:55:30.3513398+07:00;False|2022-07-24T12:55:13.7397394+07:00;False|2022-07-24T12:54:56.3267800+07:00;False|2022-07-24T12:53:27.2231618+07:00;False|2022-07-24T12:52:21.4945932+07:00;False|2022-07-24T12:51:46.4769946+07:00;False|2022-07-24T12:51:01.9073855+07:00;False|2022-07-24T12:50:18.6154825+07:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="ApiControllers/OrderApiController.cs">
@@ -1509,43 +1509,43 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/17/2021 15:02:21</publishTime>
     </File>
     <File Include="bin/VINASIC.Business.dll">
-      <publishTime>08/02/2022 15:31:56</publishTime>
+      <publishTime>08/16/2022 08:52:32</publishTime>
     </File>
     <File Include="bin/VINASIC.Business.dll.config">
       <publishTime>04/17/2021 17:12:08</publishTime>
     </File>
     <File Include="bin/VINASIC.Business.Interface.dll">
-      <publishTime>08/02/2022 15:31:55</publishTime>
+      <publishTime>08/16/2022 08:52:31</publishTime>
     </File>
     <File Include="bin/VINASIC.Business.Interface.dll.config">
       <publishTime>04/17/2021 15:02:20</publishTime>
     </File>
     <File Include="bin/VINASIC.Business.Interface.pdb">
-      <publishTime>08/02/2022 15:31:55</publishTime>
+      <publishTime>08/16/2022 08:52:31</publishTime>
     </File>
     <File Include="bin/VINASIC.Business.pdb">
-      <publishTime>08/02/2022 15:31:56</publishTime>
+      <publishTime>08/16/2022 08:52:32</publishTime>
     </File>
     <File Include="bin/VINASIC.Data.dll">
-      <publishTime>08/02/2022 15:31:55</publishTime>
+      <publishTime>08/16/2022 08:52:31</publishTime>
     </File>
     <File Include="bin/VINASIC.Data.dll.config">
-      <publishTime>07/25/2022 05:15:07</publishTime>
+      <publishTime>08/10/2022 17:28:54</publishTime>
     </File>
     <File Include="bin/VINASIC.Data.pdb">
-      <publishTime>08/02/2022 15:31:55</publishTime>
+      <publishTime>08/16/2022 08:52:31</publishTime>
     </File>
     <File Include="bin/VINASIC.dll">
-      <publishTime>08/02/2022 15:31:56</publishTime>
+      <publishTime>08/16/2022 08:52:32</publishTime>
     </File>
     <File Include="bin/VINASIC.Object.dll">
-      <publishTime>07/25/2022 11:44:30</publishTime>
+      <publishTime>08/10/2022 17:32:13</publishTime>
     </File>
     <File Include="bin/VINASIC.Object.pdb">
-      <publishTime>07/25/2022 11:44:30</publishTime>
+      <publishTime>08/10/2022 17:32:13</publishTime>
     </File>
     <File Include="bin/VINASIC.pdb">
-      <publishTime>08/02/2022 15:31:56</publishTime>
+      <publishTime>08/16/2022 08:52:32</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>04/17/2021 15:02:22</publishTime>
@@ -2655,7 +2655,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/17/2021 15:02:20</publishTime>
     </File>
     <File Include="Controllers/OrderController.cs">
-      <publishTime>08/02/2022 15:23:23</publishTime>
+      <publishTime>08/16/2022 08:49:34</publishTime>
     </File>
     <File Include="Controllers/OrderDetailStatusController.cs">
       <publishTime>04/17/2021 17:12:09</publishTime>
@@ -2673,7 +2673,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/17/2021 15:02:20</publishTime>
     </File>
     <File Include="Controllers/PaymentVoucherController.cs">
-      <publishTime>07/25/2022 05:15:07</publishTime>
+      <publishTime>08/10/2022 17:28:54</publishTime>
     </File>
     <File Include="Controllers/PermissionController.cs">
       <publishTime>04/17/2021 15:02:20</publishTime>
@@ -2769,7 +2769,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/17/2021 15:02:20</publishTime>
     </File>
     <File Include="Files/logo.jpg">
-      <publishTime>07/25/2022 09:55:42</publishTime>
+      <publishTime>08/12/2022 06:12:00</publishTime>
     </File>
     <File Include="fonts/ElegantIcons.eot">
       <publishTime>04/17/2021 15:02:20</publishTime>
@@ -5505,7 +5505,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/17/2021 15:02:20</publishTime>
     </File>
     <File Include="Scripts/VINASIC/Dashboard/DashBoard_Index.js">
-      <publishTime>07/25/2022 05:15:07</publishTime>
+      <publishTime>08/10/2022 17:28:54</publishTime>
     </File>
     <File Include="Scripts/VINASIC/date.format.js">
       <publishTime>04/17/2021 15:02:20</publishTime>
@@ -5514,13 +5514,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/17/2021 15:02:20</publishTime>
     </File>
     <File Include="Scripts/VINASIC/Employee/Design_Index.js">
-      <publishTime>07/25/2022 05:15:07</publishTime>
+      <publishTime>08/10/2022 17:28:54</publishTime>
     </File>
     <File Include="Scripts/VINASIC/Employee/Employee_Index.js">
       <publishTime>03/18/2022 10:59:53</publishTime>
     </File>
     <File Include="Scripts/VINASIC/Employee/Print_Index.js">
-      <publishTime>07/25/2022 05:15:07</publishTime>
+      <publishTime>08/10/2022 17:28:54</publishTime>
     </File>
     <File Include="Scripts/VINASIC/Formular/Formular_Index.js">
       <publishTime>04/17/2021 15:02:20</publishTime>
@@ -5538,7 +5538,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/17/2021 15:02:20</publishTime>
     </File>
     <File Include="Scripts/VINASIC/Order/Order_Index.js">
-      <publishTime>08/02/2022 15:29:34</publishTime>
+      <publishTime>08/16/2022 08:40:08</publishTime>
     </File>
     <File Include="Scripts/VINASIC/OrderDetailStatus/OrderDetailStatusPrint_Index.js">
       <publishTime>03/18/2022 10:59:53</publishTime>
@@ -5556,7 +5556,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/17/2021 15:02:20</publishTime>
     </File>
     <File Include="Scripts/VINASIC/PaymentVoucher/PaymentVoucher_Index.js">
-      <publishTime>07/25/2022 05:15:07</publishTime>
+      <publishTime>08/10/2022 17:28:54</publishTime>
     </File>
     <File Include="Scripts/VINASIC/Permission/Permission_Index.js">
       <publishTime>04/17/2021 15:02:20</publishTime>
@@ -5658,7 +5658,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/17/2021 17:12:09</publishTime>
     </File>
     <File Include="Views/Order/Index.cshtml">
-      <publishTime>08/02/2022 15:08:21</publishTime>
+      <publishTime>08/16/2022 08:52:14</publishTime>
     </File>
     <File Include="Views/Order/OrderReport.cshtml">
       <publishTime>04/17/2021 17:12:09</publishTime>
@@ -5709,7 +5709,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/17/2021 15:02:20</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>07/25/2022 05:20:17</publishTime>
+      <publishTime>08/12/2022 06:12:00</publishTime>
     </File>
     <File Include="Views/SiteSetting/Index.cshtml">
       <publishTime>04/17/2021 17:12:09</publishTime>
@@ -5736,13 +5736,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/17/2021 15:02:20</publishTime>
     </File>
     <File Include="VINASIC.csproj">
-      <publishTime>07/25/2022 09:55:51</publishTime>
+      <publishTime>08/12/2022 06:12:00</publishTime>
     </File>
     <File Include="VINASIC.csproj.user">
-      <publishTime>08/02/2022 15:31:54</publishTime>
+      <publishTime>08/16/2022 08:52:30</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>07/25/2022 11:44:34</publishTime>
+      <publishTime>08/12/2022 09:28:26</publishTime>
     </File>
     <File Include="Web.Debug.config">
       <publishTime>04/17/2021 15:02:20</publishTime>

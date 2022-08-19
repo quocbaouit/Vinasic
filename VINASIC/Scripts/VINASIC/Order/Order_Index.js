@@ -1750,7 +1750,7 @@ VINASIC.Order = function () {
                 //    }
                 //},
                 strDetailStatusName: {
-                    title: "Trạng Thái Chi Tiết",
+                    title: "Trạng Thái Đơn Hàng",
                     width: "10%",
                     display: function (data) {
                         var text = "";
@@ -1763,7 +1763,7 @@ VINASIC.Order = function () {
                     }
                 },
                 strOrderStatus: {
-                    title: "Trạng Thái Đơn Hàng",
+                    title: "Trạng Thái Thanh Toán",
                     width: "12%",
                     display: function (data) {
                         var text = "";

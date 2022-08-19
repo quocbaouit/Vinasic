@@ -574,11 +574,11 @@ namespace VINASIC.Business
                 {
                     if (order != null)
                     {
-                        if (status==4)
-                        {
-                            order.HaspayTransfer = order.SubTotal- order.HasPay??0;
-                            order.HasPayDate = DateTime.UtcNow;
-                        }
+                        //if (status==4)
+                        //{
+                        //    order.HaspayTransfer = order.SubTotal- order.HasPay??0;
+                        //    order.HasPayDate = DateTime.UtcNow;
+                        //}
                         order.OrderStatus = status;
                         order.UpdatedUser = userId;
                         order.UpatedDate = DateTime.UtcNow;
@@ -835,82 +835,82 @@ namespace VINASIC.Business
             if (orderDetail != null)
             {
                 orderDetail.DetailStatus = status;
-                var detailStatus = _repOrderDetailStatus.Get(x => x.IsSystem == 1 && x.Id== status).StatusName;
-                if (employeeId == 0)
-                {
-                    orderDetail.PrintUser = null;
-                    orderDetail.AddonUser = null;
-                }
-                else
-                {
-                    var employe = _repUser.GetById(employeeId);
-                    if (status == 1)
-                    {
-                        //detailStatus = _repOrderDetailStatus.Get(x => x.IsSystem == 1).StatusName;
-                        if (jobtype == "gap")
-                        {
-                            detailStatus = detailStatus + " - Cần Gấp";
-                        }
-                        orderDetail.DesignUser = employe.Id;
-                        orderDetail.DesignView = employe.FisrtName;
-                        orderDetail.DesignDescription = content;
+                var detailStatus = _repOrderDetailStatus.Get(x=>x.Id== status).StatusName;
+                //if (employeeId == 0)
+                //{
+                //    orderDetail.PrintUser = null;
+                //    orderDetail.AddonUser = null;
+                //}
+                //else
+                //{
+                //    var employe = _repUser.GetById(employeeId);
+                //    if (status == 1)
+                //    {
+                //        //detailStatus = _repOrderDetailStatus.Get(x => x.IsSystem == 1).StatusName;
+                //        if (jobtype == "gap")
+                //        {
+                //            detailStatus = detailStatus + " - Cần Gấp";
+                //        }
+                //        orderDetail.DesignUser = employe.Id;
+                //        orderDetail.DesignView = employe.FisrtName;
+                //        orderDetail.DesignDescription = content;
 
-                        orderDetail.PrintUser = null;
-                    }
-                    if (status == 3)
-                    {
-                        //detailStatus = _repOrderDetailStatusPrint.Get(x => x.IsSystem == 1).StatusName;
-                        if (jobtype == "gap")
-                        {
-                            detailStatus = detailStatus + " - Cần Gấp";
-                        }
-                        orderDetail.PrintUser = employe.Id;
-                        orderDetail.PrintView = employe.FisrtName;
-                        orderDetail.PrintDescription = content;
+                //        orderDetail.PrintUser = null;
+                //    }
+                //    if (status == 3)
+                //    {
+                //        //detailStatus = _repOrderDetailStatusPrint.Get(x => x.IsSystem == 1).StatusName;
+                //        if (jobtype == "gap")
+                //        {
+                //            detailStatus = detailStatus + " - Cần Gấp";
+                //        }
+                //        orderDetail.PrintUser = employe.Id;
+                //        orderDetail.PrintView = employe.FisrtName;
+                //        orderDetail.PrintDescription = content;
 
-                        orderDetail.DesignUser = null;
-                    }
-                    if (status == 5)
-                    {
-                        orderDetail.AddonUser = employe.Id;
-                        orderDetail.AddOnView = employe.FisrtName;
-                    }
-                }
+                //        orderDetail.DesignUser = null;
+                //    }
+                //    if (status == 5)
+                //    {
+                //        orderDetail.AddonUser = employe.Id;
+                //        orderDetail.AddOnView = employe.FisrtName;
+                //    }
+                //}
                 orderDetail.UpatedDate = DateTime.UtcNow;
                 orderDetail.DetailStatusName = detailStatus;
                 _repOrderDetail.Update(orderDetail);
                 SaveChange();
-                var order = _repOrder.GetById(orderDetail.OrderId);
-                order.DetailStatusName = detailStatus;
-                string notificationContent = "Khách Hàng:" + order.Name + ",Dịch Vụ:" + orderDetail.CommodityName + ",Số Lượng: " + orderDetail.Quantity;
-                var isComplete = _repOrderDetail.GetMany(x => x.OrderId == order.Id && x.DetailStatus != 0 && x.DetailStatus != 7).ToList();
-                if (isComplete.Count == 0)
-                {
-                    order.OrderStatus = 2;
-                }
-                else
-                {
-                    order.OrderStatus = 1;
-                }
-                _repOrder.Update(order);
-                SaveChange();
-                List<Notification> listSubcription = new List<Notification>();
-                var userGetPush = _repUser.GetById(employeeId);
-                if (!string.IsNullOrEmpty(userGetPush.Subscription))
-                {
-                    listSubcription = JsonConvert.DeserializeObject<List<Notification>>(userGetPush.Subscription);
-                    var endPoint = listSubcription.Select(x => new Dynamic.Framework.Subscription()
-                    {
-                        Id = x.Guid,
-                        BrowserName = x.BrowserName,
-                        BrowserVersion = x.BrowserVersion,
-                        endpoint = x.Endpoint,
-                        OsName = x.OsName,
-                        OsVersion = x.OsVersion,
-                        keys = x.Keys,
-                    }).ToList();
-                    PushNotificationHelper.SendNotification(endPoint, "Thông Báo Cho: " + userGetPush.FisrtName, notificationContent, "/", 2);
-                }
+                //var order = _repOrder.GetById(orderDetail.OrderId);
+                //order.DetailStatusName = detailStatus;
+                //string notificationContent = "Khách Hàng:" + order.Name + ",Dịch Vụ:" + orderDetail.CommodityName + ",Số Lượng: " + orderDetail.Quantity;
+                //var isComplete = _repOrderDetail.GetMany(x => x.OrderId == order.Id && x.DetailStatus != 0 && x.DetailStatus != 7).ToList();
+                //if (isComplete.Count == 0)
+                //{
+                //    order.OrderStatus = 2;
+                //}
+                //else
+                //{
+                //    order.OrderStatus = 1;
+                //}
+                //_repOrder.Update(order);
+                //SaveChange();
+                //List<Notification> listSubcription = new List<Notification>();
+                //var userGetPush = _repUser.GetById(employeeId);
+                //if (!string.IsNullOrEmpty(userGetPush.Subscription))
+                //{
+                //    listSubcription = JsonConvert.DeserializeObject<List<Notification>>(userGetPush.Subscription);
+                //    var endPoint = listSubcription.Select(x => new Dynamic.Framework.Subscription()
+                //    {
+                //        Id = x.Guid,
+                //        BrowserName = x.BrowserName,
+                //        BrowserVersion = x.BrowserVersion,
+                //        endpoint = x.Endpoint,
+                //        OsName = x.OsName,
+                //        OsVersion = x.OsVersion,
+                //        keys = x.Keys,
+                //    }).ToList();
+                //    PushNotificationHelper.SendNotification(endPoint, "Thông Báo Cho: " + userGetPush.FisrtName, notificationContent, "/", 2);
+                //}
                 responResult.IsSuccess = true;
             }
             else

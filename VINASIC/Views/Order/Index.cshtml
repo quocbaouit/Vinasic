@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Content/Common.css" rel="stylesheet" />
-<script src="~/Scripts/VINASIC/Order/Order_Index.js?v=1.9"></script>
+<script src="~/Scripts/VINASIC/Order/Order_Index.js?v=2.1"></script>
 <!-- include summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
@@ -1244,14 +1244,14 @@
     </p>
 </div>
 <div style="width: 210mm; height: 148.5mm; color: red; display: none" id="paymentvoucher1">
-    <div class="Block0" style="width:15%;float:left;margin-left:25px;margin-top:-30px">
-        <img style="width:200px" src="~/Files/logo.jpg" />
+    <div class="Block0" style="width:15%;float:left;margin-left:25px">
+        <img style="width:200px" src="~/Files/logo.png" />
     </div>
     <div class="Block1" style="width:55%;float:left;margin-left:25px">
         <p style="margin-bottom:0px;text-align:center">@ViewBag.cpnName </p>
         <p style="margin-bottom: 0px; margin-top: 0px; font-size: smaller; text-align: center ">
             Cơ sở 1: @ViewBag.cpnAddress<br>
-            Xưởng in: 147/15 đường ĐX 43, P. Phú Mỹ, TP. Thủ Dầu Một, Bình Dương.<br>
+            @*Xưởng in: 147/15 đường ĐX 43, P. Phú Mỹ, TP. Thủ Dầu Một, Bình Dương.<br>*@
             Website: @ViewBag.cpnWebsite<br>
             Điện Thoại: @ViewBag.cpnMobile
         </p>
