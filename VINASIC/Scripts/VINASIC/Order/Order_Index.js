@@ -106,7 +106,7 @@ VINASIC.Order = function () {
 
         tableString += "<th>" + "SLượng" + "</th>";
         tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Đơn Giá" + "</th>";
-        tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Phí Vận Chuyển" + "</th>";
+        //tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Phí Vận Chuyển" + "</th>";
         tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Thành Tiền" + "</th>";
         //tableString += "<th style=\"padding-right: 5px;text-align: right;\">" + "Tên File" + "</th>";
         tableString += "</tr>";
@@ -135,12 +135,12 @@ VINASIC.Order = function () {
             tableString += "<td style=\"padding-center: 5px;text-align: center;\">" + Table[row].Quantity + "</td>";
             if (type == 0) {
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strPrice + "</td>";
-                tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strTransport + "</td>";
+                //tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strTransport + "</td>";
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + strSubTotal + "</td>";
                 //tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + Table[row].FileName + "</td>";
             } else {
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
-                tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
+                //tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
                 tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
                 //tableString += "<td style=\"padding-right: 5px;text-align: right;\">" + '' + "</td>";
 
@@ -149,31 +149,31 @@ VINASIC.Order = function () {
             tableString += "</tr>";
         }
 
-        if (Table.length < 8) {
-            var remain = 8 - Table.length;
-            for (i = 0; i < remain; i += 1) {
-                tableString += "<tr>";
-                tableString += "<td>" + "&nbsp;" + "</td>";
-                tableString += "<td>" + "&nbsp;" + "</td>";
+        //if (Table.length < 8) {
+        //    var remain = 8 - Table.length;
+        //    for (i = 0; i < remain; i += 1) {
+        //        tableString += "<tr>";
+        //        tableString += "<td>" + "&nbsp;" + "</td>";
+        //        tableString += "<td>" + "&nbsp;" + "</td>";
 
-                if (document.getElementById('show-dim').checked) {
-                    tableString += "<td>" + "&nbsp;" + "</td>";
-                    tableString += "<td>" + "&nbsp;" + "</td>";
-                }
-                tableString += "<td>" + "&nbsp;" + "</td>";
-                tableString += "<td>" + "&nbsp;" + "</td>";
-                tableString += "<td>" + "&nbsp;" + "</td>";
-                tableString += "<td>" + "&nbsp;" + "</td>";
-                //tableString += "<td>" + "&nbsp;" + "</td>";
-                tableString += "</tr>";
-            }
-        }
+        //        if (document.getElementById('show-dim').checked) {
+        //            tableString += "<td>" + "&nbsp;" + "</td>";
+        //            tableString += "<td>" + "&nbsp;" + "</td>";
+        //        }
+        //        tableString += "<td>" + "&nbsp;" + "</td>";
+        //        tableString += "<td>" + "&nbsp;" + "</td>";
+        //        tableString += "<td>" + "&nbsp;" + "</td>";
+        //        tableString += "<td>" + "&nbsp;" + "</td>";
+        //        //tableString += "<td>" + "&nbsp;" + "</td>";
+        //        tableString += "</tr>";
+        //    }
+        //}
         var strThanhToan = "Tổng Tiền";
         if (taxfee > 0) {
             var strtaxfee = taxfee.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
             tableString += "<tr>";
             tableString += "<td colspan=\"" + 7 + "\">" + 'Tiền Thuế(8%)' + ":</td>";
-            tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal12\">" + strtaxfee + "</span></td>";
+            //tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal12\">" + strtaxfee + "</span></td>";
             //tableString += "<td>" + "&nbsp;" + "</td>";
             tableString += "</tr>";
         }
@@ -187,17 +187,17 @@ VINASIC.Order = function () {
                 strHaspay1 = '';
             }
             tableString += "<tr>";
-            var colspan = 5;
+            var colspan = 4;
             if (document.getElementById('show-dim').checked)
-                colspan = 7;
+                colspan = 6;
             tableString += "<td colspan=\"" + colspan + "\">Tổng Tiền:</td>";
             tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal2\">" + strSubTotal1 + "</span></td>";
             //tableString += "<td>" + "&nbsp;" + "</td>";
             tableString += "</tr>";
 
-            var colspan = 5;
+            var colspan = 4;
             if (document.getElementById('show-dim').checked)
-                colspan = 7;
+                colspan = 6;
 
             //if (taxfee > 0) {
             //    var strtaxfee = taxfee.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
@@ -209,16 +209,16 @@ VINASIC.Order = function () {
             //}
 
             tableString += "<tr>";           
-            tableString += "<td colspan=\"" + colspan + "\">Đã Thanh Toán(Đặt Cọc):</td>";
+            tableString += "<td colspan=\"" + colspan + "\">Đặt Cọc:</td>";
             tableString += "<td style=\"padding-right: 5px;;text-align: right;\"><span id=\"vtotal3\">" + strHaspay1 + "</span></td>";
             //tableString += "<td>" + "&nbsp;" + "</td>";
             tableString += "</tr>";
 
         }
       
-        var colspan = 5;
+        var colspan = 4;
         if (document.getElementById('show-dim').checked)
-            colspan = 7;
+            colspan = 6;
         
         //if (taxfee > 0) {
         //    var strtaxfee = taxfee.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
@@ -1587,15 +1587,15 @@ VINASIC.Order = function () {
                 //    title: 'Ghi chú',
                 //    width: "7%"
                 //},
-                strTransport: {
-                    title: "Vận Chuyển",
-                    width: "7%",
-                    display: function (data) {
+                //strTransport: {
+                //    title: "Vận Chuyển",
+                //    width: "7%",
+                //    display: function (data) {
 
-                        var text = $('<a  href="javascript:void(0)" style="color:red;"  class="clickable"   title="Description.">' + data.record.strTransport + '</a>');
-                        return text;
-                    }
-                },
+                //        var text = $('<a  href="javascript:void(0)" style="color:red;"  class="clickable"   title="Description.">' + data.record.strTransport + '</a>');
+                //        return text;
+                //    }
+                //},
                 Description: {
                     title: "Ghi chú",
                     width: "7%",
@@ -1750,7 +1750,7 @@ VINASIC.Order = function () {
                 //    }
                 //},
                 strDetailStatusName: {
-                    title: "Trạng Thái Đơn Hàng",
+                    title: "TT Đơn Hàng",
                     width: "10%",
                     display: function (data) {
                         var text = "";
@@ -1763,7 +1763,7 @@ VINASIC.Order = function () {
                     }
                 },
                 strOrderStatus: {
-                    title: "Trạng Thái Thanh Toán",
+                    title: "TT Thanh Toán",
                     width: "12%",
                     display: function (data) {
                         var text = "";
@@ -2084,7 +2084,7 @@ VINASIC.Order = function () {
                             $("#dsumsquare").val(decimalAdjust('round', data.record.SumSquare, -6));
                             $("#dquantity").val(data.record.Quantity);
                             $("#dprice").val(data.record.Price);
-                            $("#dtransport").val(data.record.TransportFee);
+                            //$("#dtransport").val(data.record.TransportFee);
                             $("#dsubtotal").val(data.record.SubTotal);
                             global.Data.CurenIndex = data.record.Index;
                             global.Data.OrderDetailId = data.record.Id;
@@ -2181,7 +2181,7 @@ VINASIC.Order = function () {
                             $("#dsumsquare").val(decimalAdjust('round', data.record.SumSquare, -6));
                             $("#dquantity").val(data.record.Quantity);
                             $("#dprice").val(data.record.Price);
-                            $("#dtransport").val(data.record.TransportFee);
+                            //$("#dtransport").val(data.record.TransportFee);
                             $("#dsubtotal").val(data.record.SubTotal);
                             global.Data.CurenIndex = data.record.Index;
                             global.Data.OrderDetailId = data.record.Id;
@@ -2268,7 +2268,7 @@ VINASIC.Order = function () {
         $("#dsquare").val("");
         $("#dquantity").val("");
         $("#dprice").val("");
-        $("#dtransport").val("0");
+        //$("#dtransport").val("0");
         $("#dsubtotal").val("");
         $("#ddeposit").val(0);
     }
@@ -2290,8 +2290,8 @@ VINASIC.Order = function () {
                     var customerTaxCode = $("#ctaxcode").val();
                     var dateDelivery = $("#date").val();
                     var deposit = $("#ddeposit").val().replace(/[^0-9-.]/g, '');
-                    var tax = document.getElementById("dtax").checked;
-                    //var tax = false;
+                    //var tax = document.getElementById("dtax").checked;
+                    var tax = false;
                     var orderTotal = $("#dtotal").val().replace(/[^0-9-.]/g, '');
                     
                     orderTotal = parseFloat(orderTotal);
@@ -2564,8 +2564,8 @@ VINASIC.Order = function () {
         var width = $("#dwidth").val();
         var height = $("#dheignt").val();
         var quantity = $("#dquantity").val();
-        var transport = $("#dtransport").val();
-        transport = parseFloat(transport);
+        //var transport = $("#dtransport").val();
+        //transport = parseFloat(transport);
         var sqare = calculatorSquare(width, height);
         if (!checkNumber(sqare) && sqare !== 0) {
             var roundSquare = decimalAdjust('round', sqare, -6);
@@ -2583,7 +2583,7 @@ VINASIC.Order = function () {
         var price = $("#dprice").val();
         if (!checkNumber(quantity) && quantity !== "" && price !== "") {
             var total = calculatorSubTotal(sqare, quantity, price.replace(/[^0-9-.]/g, ''), isFixed);
-            total = total + transport;
+            //total = total + transport;
             if (!checkNumber(total)) {
                 var roundtotal = decimalAdjust('round', total, 0);
                 $("#dsubtotal").val(roundtotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
@@ -2601,11 +2601,11 @@ VINASIC.Order = function () {
             var odertotalincludetax = odertotal;
             $("#dtotal").val(odertotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
 
-            if (document.getElementById("dtax").checked == true) {
+            //if (document.getElementById("dtax").checked == true) {
 
-                odertotalincludetax = odertotal * 0.08 + odertotal;
-            }
-            $("#dtotaltax").val(odertotalincludetax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            //    odertotalincludetax = odertotal * 0.08 + odertotal;
+            //}
+            //$("#dtotaltax").val(odertotalincludetax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
 
             var ddeposit = $("#ddeposit").val().replace(/[^0-9-.]/g, '');
             ddeposit = parseFloat(ddeposit);
@@ -2750,11 +2750,11 @@ VINASIC.Order = function () {
                 global.Data.OrderTotal += parseFloat(global.Data.ModelOrderDetail[k].SubTotal.replace(/[^0-9-.]/g, ''));
             }
             $("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-            $("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            //$("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
             var ddeposit = $("#ddeposit").val().replace(/[^0-9-.]/g, '');
             ddeposit = parseFloat(ddeposit);
-            var totaltax = global.Data.OrderTotal - ddeposit;
-            $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            //var totaltax = global.Data.OrderTotal - ddeposit;
+            //$("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
 
             global.Data.CurenIndex = 0;
             reloadListOrderDetail();
@@ -2783,11 +2783,11 @@ VINASIC.Order = function () {
                 global.Data.OrderTotal += parseFloat(global.Data.ModelOrderDetail[k].SubTotal.replace(/[^0-9-.]/g, ''));
             }
             $("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-            $("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            //$("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
             var ddeposit = $("#ddeposit").val().replace(/[^0-9-.]/g, '');
             ddeposit = parseFloat(ddeposit);
-            var totaltax = global.Data.OrderTotal - ddeposit;
-            $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            //var totaltax = global.Data.OrderTotal - ddeposit;
+            //$("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
 
             global.Data.CurenIndex = 0;
             reloadListOrderDetail();
@@ -2814,11 +2814,11 @@ VINASIC.Order = function () {
                 global.Data.OrderTotal += parseFloat(global.Data.ModelOrderDetail[k].SubTotal.replace(/[^0-9-.]/g, ''));
             }
             $("#dtotal").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-            $("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            //$("#dtotaltax").val(global.Data.OrderTotal.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
             var ddeposit = $("#ddeposit").val().replace(/[^0-9-.]/g, '');
             ddeposit = parseFloat(ddeposit);
-            var totaltax = global.Data.OrderTotal - ddeposit;
-            $("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+            //var totaltax = global.Data.OrderTotal - ddeposit;
+            //$("#dtotaltax").val(totaltax.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
 
             global.Data.CurenIndex = 0;
             reloadListOrderDetail();
@@ -3168,9 +3168,9 @@ VINASIC.Order = function () {
         $('.caculator').keyup(function () {
             calculatorPrice();
         });
-        $('#dtransport').on('change', function () {
-            calculatorPrice();
-        });
+        //$('#dtransport').on('change', function () {
+        //    calculatorPrice();
+        //});
         $('.customInput').keyup(function () {
             //quantityDiv, code, priceDiv, totalDiv
             calculatorPriceCustom('#quantity1_1', 'ingiay', '#price1_1', '#total1_1');
@@ -3239,7 +3239,7 @@ VINASIC.Order = function () {
                     var objectIndex = global.Data.Index;
                     if (global.Data.CurenIndex !== 0) {
                         objectIndex = global.Data.CurenIndex;
-                        var object = { Id: global.Data.OrderDetailId, Index: objectIndex, CommodityId: $("#dproduct").val(), CommodityName: $("#dproduct option:selected").text(), FileName: $("#dfilename").val(), Description: $("#dnote").val(), Width: $("#dwidth").val(), Height: $("#dheignt").val(), Square: $("#dsquare").val(), Quantity: $("#dquantity").val(), SumSquare: $("#dsumsquare").val(), Price: $("#dprice").val(), SubTotal: $("#dsubtotal").val(), TransportFee: $("#dtransport").val() }
+                        var object = { Id: global.Data.OrderDetailId, Index: objectIndex, CommodityId: $("#dproduct").val(), CommodityName: $("#dproduct option:selected").text(), FileName: $("#dfilename").val(), Description: $("#dnote").val(), Width: $("#dwidth").val(), Height: $("#dheignt").val(), Square: $("#dsquare").val(), Quantity: $("#dquantity").val(), SumSquare: $("#dsumsquare").val(), Price: $("#dprice").val(), SubTotal: $("#dsubtotal").val(), TransportFee:0 }
                         for (var i = 0; i < global.Data.ModelOrderDetail.length; i++) {
                             if (global.Data.ModelOrderDetail[i].Index === global.Data.CurenIndex) {
                                 global.Data.ModelOrderDetail.splice(i, 1, object);
@@ -3248,7 +3248,7 @@ VINASIC.Order = function () {
                         };
 
                     } else {
-                        var object1 = { Id: 0, Index: objectIndex, CommodityId: $("#dproduct").val(), CommodityName: $("#dproduct option:selected").text(), FileName: $("#dfilename").val(), Description: $("#dnote").val(), Width: $("#dwidth").val(), Height: $("#dheignt").val(), Square: $("#dsquare").val(), Quantity: $("#dquantity").val(), SumSquare: $("#dsumsquare").val(), Price: $("#dprice").val(), SubTotal: $("#dsubtotal").val(), TransportFee: $("#dtransport").val() }
+                        var object1 = { Id: 0, Index: objectIndex, CommodityId: $("#dproduct").val(), CommodityName: $("#dproduct option:selected").text(), FileName: $("#dfilename").val(), Description: $("#dnote").val(), Width: $("#dwidth").val(), Height: $("#dheignt").val(), Square: $("#dsquare").val(), Quantity: $("#dquantity").val(), SumSquare: $("#dsumsquare").val(), Price: $("#dprice").val(), SubTotal: $("#dsubtotal").val(), TransportFee: 0 }
                         global.Data.ModelOrderDetail.push(object1);
                         global.Data.Index = global.Data.Index + 1;
                         for (var k = 0; k < global.Data.ModelOrderDetail.length; k++) {
