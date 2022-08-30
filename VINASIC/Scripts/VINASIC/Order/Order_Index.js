@@ -1652,7 +1652,7 @@ VINASIC.Order = function () {
                             $("#ppayment").val(b);
                             $("#prealpay").val(b);
                             global.Data.OrderId = data.record.Id;
-                            debugger;
+                            global.Data.Pdate = convertJsonDateTimeToJs(data.record.CreatedDate);
                             global.Data.PcustomerName = data.record.Name;
                             global.Data.PcustomePhone = data.record.CustomerPhone;
                             global.Data.PcustomerAddress = data.record.CustomerAddress;
@@ -2460,7 +2460,8 @@ VINASIC.Order = function () {
             $("#" + global.Element.PopupPaymentProcess).modal("hide");
         });
         $("#" + global.Element.PopupPaymentProcess + " a[print]").click(function () {
-            var time = new Date().toLocaleDateString('en-GB');
+            /*var time = new Date().toLocaleDateString('en-GB');*/
+            var time = global.Data.Pdate.toLocaleDateString('en-GB');
             $("#no").html("");
             $("#vcustomer").html("");
             $("#vphone").html("");
